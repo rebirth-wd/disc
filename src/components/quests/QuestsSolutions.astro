@@ -1,0 +1,134 @@
+---
+// "Explore our…" accordion-style tabs + media pane (reference: w-tabs .tab-quest.is-adv-26)
+import QuestsMock from './QuestsMock.astro';
+const tabs = [
+  { t: 'AI Assistant', d: 'A chatbot that actually knows your business — your services, your pricing, your FAQs — not a generic bot reading off a script.', mock: 'chat' },
+  { t: 'AI Site Maintenance', d: 'Your site monitors and repairs itself: security patching, uptime alerts, and backups that run without anyone remembering.', mock: 'maintain' },
+  { t: 'AI Content', d: 'Blog posts drafted, published, and pushed to your socials on schedule, with site copy adjusted to what people are searching for.', mock: 'content' },
+  { t: 'AI Lead Capture', d: 'Every enquiry — chat, form, or call-back request — gets read, summarised, and scored before it hits your inbox.', mock: 'leads' },
+] as const;
+---
+<section data-section="quests-solutions" class="q-sec q-sol">
+  <div class="q-pad">
+    <div class="q-sol__head">
+      <h2 class="q-h2">Explore our AI tools</h2>
+      <p class="q-lead q-sol__lead">Whether you need answers after hours, upkeep, or fresh content, our AI integrations keep your site working at scale.</p>
+    </div>
+    <div class="q-sol__tabs" data-tabs>
+      <div class="q-sol__menu" role="tablist" aria-label="AI tools" aria-orientation="vertical">
+        {tabs.map((tab, i) => (
+          <div class:list={['q-sol__tab', i === 0 && 'is-current']} data-tab role="tab" tabindex={i === 0 ? 0 : -1}
+            id={`q-sol-tab-${i}`} aria-controls={`q-sol-pane-${i}`} aria-selected={i === 0 ? 'true' : 'false'}>
+            <div class="q-sol__toggle">
+              <span>{tab.t}</span>
+              <span class="q-sol__icon" aria-hidden="true"><i class="q-sol__minus" data-minus></i><i class="q-sol__plus" data-plus></i></span>
+            </div>
+            <div class="q-sol__content" data-content><p>{tab.d}</p></div>
+          </div>
+        ))}
+      </div>
+      <div class="q-sol__panes">
+        {tabs.map((tab, i) => (
+          <div class:list={['q-sol__pane', i === 0 && 'is-active']} data-pane role="tabpanel" id={`q-sol-pane-${i}`} aria-labelledby={`q-sol-tab-${i}`}>
+            <QuestsMock variant={tab.mock} size="pane" />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .q-sol__head { display: flex; flex-direction: column; align-items: center; margin-bottom: 32px; }
+  .q-sol__lead { max-width: 600px; }
+  .q-sol__tabs { display: flex; flex-direction: column; gap: var(--spacing-16); max-width: 944px; margin: 8px auto 0; }
+  .q-sol__menu { display: flex; flex-direction: column; order: 2; }
+  .q-sol__tab { position: relative; cursor: pointer; color: var(--color-white); }
+  /* 2px divider (reference: border-bottom 2px rgba(255,255,255,.1)) drawn as a rule, not a border */
+  .q-sol__tab::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--color-white-10); }
+  .q-sol__tab:not(:first-child) { margin-top: -2px; }
+  .q-sol__tab:focus-visible { outline: 2px solid var(--color-white); outline-offset: 4px; }
+  .q-sol__toggle { position: relative; padding: 26px 40px 26px 0; font-weight: var(--font-weight-medium); font-size: var(--text-body); line-height: 1.2; text-transform: uppercase; }
+  .q-sol__tab:first-child .q-sol__toggle { padding-top: 0; }
+  .q-sol__icon { position: absolute; right: 0; top: 0; bottom: 0; width: 16px; display: flex; align-items: center; justify-content: center; }
+  .q-sol__tab:first-child .q-sol__icon { bottom: auto; height: 16px; }
+  .q-sol__minus, .q-sol__plus { position: absolute; display: none; width: 16px; height: 16px; }
+  .q-sol__minus::before, .q-sol__plus::before, .q-sol__plus::after { content: ''; position: absolute; left: 0; top: 7px; width: 16px; height: 2px; background: var(--color-white); }
+  .q-sol__plus::after { transform: rotate(90deg); }
+  .q-sol__plus { display: block; }
+  .q-sol__tab.is-current .q-sol__plus { display: none; }
+  .q-sol__tab.is-current .q-sol__minus { display: block; }
+  .q-sol__content { display: none; margin-top: -16px; padding-bottom: 32px; }
+  .q-sol__tab.is-current .q-sol__content { display: block; }
+  .q-sol__content p { margin: 0; font-size: var(--text-body); line-height: 22px; color: var(--color-white-70); }
+  .q-sol__panes { position: relative; order: 1; }
+  .q-sol__pane { position: relative; display: none; aspect-ratio: 343.2 / 263.9; border-radius: 40px; overflow: hidden; }
+  .q-sol__pane.is-active { display: block; }
+  @media (min-width: 480px) {
+    .q-sol__head { margin-bottom: var(--spacing-40); }
+    .q-sol__toggle { font-size: var(--text-body-xl); line-height: 24px; }
+    .q-sol__content p { font-size: var(--text-body-xl); line-height: 26px; }
+  }
+  @media (min-width: 768px) {
+    .q-sol__head { margin-bottom: 0; }
+    .q-sol__tabs { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--spacing-56); align-items: start; margin-top: var(--spacing-40); }
+    .q-sol__menu, .q-sol__panes { order: 0; }
+    .q-sol__toggle { padding: 32px 40px 32px 0; }
+    .q-sol__pane { aspect-ratio: 692 / 388.5; border-radius: 64px; }
+  }
+  @media (min-width: 992px) {
+    .q-sol__tabs { margin-top: var(--spacing-48); }
+    .q-sol__toggle { padding: 40px 40px 40px 0; }
+    .q-sol__tab:first-child .q-sol__icon { margin-top: 4px; }
+    .q-sol__content { padding-bottom: var(--spacing-40); }
+  }
+  @media (min-width: 1440px) {
+    .q-sol__tabs { max-width: 1538px; margin-top: var(--spacing-64); }
+    .q-sol__toggle { padding: 48px 40px 48px 0; }
+    .q-sol__content { padding-bottom: var(--spacing-48); }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { CustomEase } from 'gsap/CustomEase';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(CustomEase, ScrollTrigger);
+  const cssEase = CustomEase.create('qCssEase', '0.25,0.1,0.25,1');
+
+  document.querySelectorAll<HTMLElement>('[data-section="quests-solutions"]').forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLElement>('[data-tab]')];
+    const panes = [...root.querySelectorAll<HTMLElement>('[data-pane]')];
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let current = 0;
+    // reference: w-tabs with duration-in/out 0 (instant swap); IX2 a-762/a-763 fade the
+    // plus icon: -> 0 in 250ms ease when a row opens, -> 1 in 500ms ease when it closes.
+    const select = (i: number, focus = false) => {
+      if (i === current) return;
+      const prev = current;
+      current = i;
+      tabs.forEach((t, k) => {
+        t.classList.toggle('is-current', k === i);
+        t.setAttribute('aria-selected', String(k === i));
+        t.tabIndex = k === i ? 0 : -1;
+      });
+      panes.forEach((p, k) => p.classList.toggle('is-active', k === i));
+      const plusPrev = tabs[prev].querySelector('[data-plus]');
+      const plusNow = tabs[i].querySelector('[data-plus]');
+      if (!reduce) {
+        gsap.fromTo(plusPrev, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: cssEase, overwrite: true });
+        gsap.to(plusNow, { opacity: 0, duration: 0.25, ease: cssEase, overwrite: true });
+      }
+      if (focus) tabs[i].focus();
+      ScrollTrigger.refresh();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => select(i));
+      t.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(i); }
+        if (e.key === 'ArrowDown') { e.preventDefault(); select((i + 1) % tabs.length, true); }
+        if (e.key === 'ArrowUp') { e.preventDefault(); select((i - 1 + tabs.length) % tabs.length, true); }
+      });
+    });
+  });
+</script>

@@ -1,0 +1,377 @@
+---
+/**
+ * Glass Feature Block shell (DESIGN.md › Glass Feature Block / Media Inset / Feature Text Column).
+ *
+ *   <FeatureBlock name="assistant" heading="Line one<br>line two<br>line three" sectionHeight={863} padTop={141} insetFill="fuchsia">
+ *     <MyLoop slot="media" />                      ← fills the 104px-radius inset (727×554 at ≥1440)
+ *     Paragraph copy                                ← default slot
+ *     <div slot="decor" class="fb-obj" …>…</div>    ← floating objects, absolutely positioned against the outer section
+ *   </FeatureBlock>
+ *
+ * Decor helpers (CSS vars available inside the decor slot):
+ *   --fb-cx  left edge of the 1240px container inside the section
+ *   --fb-cy  top edge of the slab inside the section (= current top padding)
+ *   --fb-cyb distance from the section bottom to the slab bottom (= current bottom padding), for bottom-anchored objects
+ *   e.g. style="left:calc(var(--fb-cx) + 80px); top:calc(var(--fb-cy) + 494px)"
+ * Decor children sit BEHIND the slab by default; add `data-decor-front` to put one in front of it.
+ *
+ * Scroll parallax for decor (Webflow "while scrolling in view" equivalent, ≥768px only, like the reference):
+ *   data-fb-parallax='{"from":-170,"to":75,"startOffset":0.8}'
+ *     from/to      translateY in px at the first / last keyframe
+ *     startOffset  fraction of the zone height that must have entered the viewport before progress starts (default 0)
+ *     zoneTop      px from the section top where the trigger zone starts (default 0); negative = measured from the section bottom
+ *     zoneHeight   px height of the trigger zone (default: section height)
+ *     kfStart/kfEnd  keyframe positions 0–1 inside the zone's progress (default 0 / 1)
+ *
+ * Reference behaviour: the slabs themselves have NO entrance animation (transform none / opacity 1 at every scroll
+ * position in the IX2 data and in live sampling), so the shell does not animate slab, inset, heading or paragraph.
+ * The shell only (a) drives decor parallax and (b) tells the media loop when the block is on screen:
+ * it sets data-inview="true|false" on the section and dispatches bubbling `fb:enter` / `fb:leave` CustomEvents on it.
+ */
+interface Props {
+  /** becomes data-section="home-<name>" on the outer section */
+  name: string;
+  /** heading text; may contain <br> for forced line breaks */
+  heading: string;
+  /** media on the right, text on the left */
+  reverse?: boolean;
+  /** total outer section height at ≥1440 (slab is 610). Bottom padding is derived from it. */
+  sectionHeight?: number;
+  /** top padding of the outer section at ≥1440 (reference: 141 for block 1, 95 for the others) */
+  padTop?: number;
+  /** explicit bottom padding at ≥1440; overrides sectionHeight */
+  padBottom?: number;
+  /** [top, bottom] section padding at 992–1439 / 768–991 / <768 */
+  padLg?: [number, number];
+  padMd?: [number, number];
+  padSm?: [number, number];
+  /** media inset fill: preset name or any CSS background value */
+  insetFill?: 'fuchsia' | 'green' | 'indigo' | string;
+  /** right padding of the paragraph inside the 384px text column (reference: 20 / 4 / 11.2) */
+  textPadRight?: number;
+  /** paragraph letter-spacing (reference: 0.32px on block 1, normal on the others at ≥1440) */
+  paragraphTracking?: string;
+  /** backdrop blur of the slab in px (default: DESIGN.md --blur-glass 10px; reference block 2 measures 80px) */
+  glassBlur?: number;
+  class?: string;
+}
+const {
+  name,
+  heading,
+  reverse = false,
+  sectionHeight,
+  padTop = 95,
+  padBottom,
+  padLg = [112, 154],
+  padMd = [115, 130],
+  padSm = [115, 110],
+  insetFill = 'fuchsia',
+  textPadRight = 0,
+  paragraphTracking = 'normal',
+  glassBlur,
+  class: className = '',
+} = Astro.props;
+
+const SLAB_H = 610;
+const pb = padBottom ?? (sectionHeight ? Math.max(0, sectionHeight - SLAB_H - padTop) : 95);
+
+// Vivid inset fills: dark top, saturated glow rising from the bottom edge (as in the reference insets).
+const fills: Record<string, string> = {
+  fuchsia:
+    'radial-gradient(135% 78% at 50% 112%, #ff4fd8 0%, var(--color-fuchsia) 30%, rgba(190,52,128,0.72) 56%, rgba(70,32,56,0) 100%), linear-gradient(180deg, #3b2030 0%, #55263f 100%)',
+  green:
+    'radial-gradient(135% 70% at 50% 114%, var(--color-signal-green) 0%, #2ddf78 34%, rgba(22,128,72,0.7) 60%, rgba(2,38,26,0) 100%), linear-gradient(180deg, #02251b 0%, #053d29 100%)',
+  indigo:
+    'radial-gradient(135% 70% at 50% 116%, var(--color-blurple) 0%, #5560ee 32%, rgba(52,56,170,0.7) 60%, rgba(27,22,88,0) 100%), linear-gradient(180deg, #1c175c 0%, #221d6c 100%)',
+};
+const fill = fills[insetFill] ?? insetFill;
+const vars = [
+  `--fb-pt:${padTop}px`, `--fb-pb:${pb}px`,
+  `--fb-pt-lg:${padLg[0]}px`, `--fb-pb-lg:${padLg[1]}px`,
+  `--fb-pt-md:${padMd[0]}px`, `--fb-pb-md:${padMd[1]}px`,
+  `--fb-pt-sm:${padSm[0]}px`, `--fb-pb-sm:${padSm[1]}px`,
+  ...(glassBlur != null ? [`--fb-blur:${glassBlur}px`] : []),
+  `--fb-fill:${fill}`, `--fb-text-pr:${textPadRight}px`, `--fb-p-ls:${paragraphTracking}`,
+].join(';');
+---
+
+<section data-section={`home-${name}`} data-feature-block data-inview="false" class:list={['fb', className]} style={vars}>
+  <div class="fb-decor" aria-hidden="true">
+    <slot name="decor" />
+  </div>
+  <div class="fb-gutter">
+    <div class="fb-container">
+      <div class:list={['fb-slab rounded-5xl', reverse && 'is-reverse']} data-fb-slab>
+        <div class="fb-media rounded-4xl" data-fb-media>
+          <slot name="media" />
+        </div>
+        <div class="fb-text" data-fb-text>
+          <h2
+            class="fb-heading font-abc-ginto-discord-nord text-heading leading-heading tracking-heading font-extrabold uppercase text-white"
+            data-fb-heading
+            set:html={heading}
+          />
+          <p class="fb-paragraph font-abc-ginto-discord text-body-xl leading-body-xl font-normal text-white" data-fb-paragraph>
+            <slot />
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .fb {
+    --fb-cur-pt: var(--fb-pt);
+    --fb-cx: max(var(--page-gutter), calc((100% - var(--page-max-width)) / 2));
+    --fb-cur-pb: var(--fb-pb);
+    --fb-cy: var(--fb-cur-pt);
+    --fb-cyb: var(--fb-cur-pb);
+    position: relative;
+    isolation: isolate;
+    margin-top: -1px;
+    padding: var(--fb-cur-pt) 0 var(--fb-cur-pb);
+  }
+  .fb-gutter {
+    padding: 0 var(--page-gutter);
+  }
+  .fb-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: var(--page-max-width);
+    margin: 0 auto;
+  }
+
+  /* Decor layer: no z-index of its own, so children stack inside the section's context
+     (1 = behind the slab container, 3 = in front of it). */
+  .fb-decor {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow-x: clip; /* objects may poke past the viewport edge on narrow screens */
+  }
+  .fb-decor > :global(*) {
+    position: absolute;
+    z-index: 1;
+  }
+  .fb-decor > :global([data-decor-front]) {
+    z-index: 3;
+  }
+
+  /* ── Slab ─────────────────────────────────────────────────────────── */
+  .fb-slab {
+    display: flex;
+    align-items: center;
+    column-gap: 49px;
+    min-height: 610px;
+    padding: var(--card-padding) 52px var(--card-padding) var(--card-padding);
+    background-image: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.12) 12%,
+      rgba(255, 255, 255, 0.04) 50%,
+      rgba(255, 255, 255, 0.08) 83%,
+      rgba(255, 255, 255, 0.2)
+    );
+    -webkit-backdrop-filter: blur(var(--fb-blur, var(--blur-glass)));
+    backdrop-filter: blur(var(--fb-blur, var(--blur-glass)));
+  }
+  .fb-slab.is-reverse {
+    flex-direction: row-reverse;
+    column-gap: 42px;
+    padding: var(--card-padding) 37px var(--card-padding) 50px;
+  }
+  .fb-media {
+    position: relative;
+    flex: none;
+    width: 727px;
+    height: 554px;
+    overflow: hidden;
+    background: var(--fb-fill);
+    isolation: isolate;
+  }
+  .fb-media > :global(*) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .fb-text {
+    flex: none;
+    width: 384px;
+    max-width: 384px;
+  }
+  .fb-heading {
+    position: relative;
+    margin: 0 0 10px;
+  }
+  .fb-paragraph {
+    margin: 0;
+    padding-right: var(--fb-text-pr);
+    letter-spacing: var(--fb-p-ls);
+  }
+
+  /* ── 992–1439: 88px slab, 72px inset, 5:4 inset that flexes ────────── */
+  @media (max-width: 1439px) {
+    .fb {
+      --fb-cur-pt: var(--fb-pt-lg);
+      --fb-cur-pb: var(--fb-pb-lg);
+    }
+    .fb-slab {
+      min-height: 0;
+      column-gap: 34.6px;
+      padding: 20px 60px 20px 20px;
+      border-radius: 88px;
+    }
+    .fb-slab.is-reverse {
+      column-gap: 42px;
+      padding: 20px 20px 20px 37px;
+    }
+    .fb-media {
+      flex: 1 1 0;
+      width: auto;
+      max-width: 760px;
+      height: auto;
+      aspect-ratio: 5 / 4;
+      border-radius: 72px;
+    }
+  }
+
+  /* ── 768–991: still two columns, 64px slab, 56px inset, 276px text ─── */
+  @media (max-width: 991px) {
+    .fb {
+      --fb-cur-pt: var(--fb-pt-md);
+      --fb-cur-pb: var(--fb-pb-md);
+    }
+    .fb-slab {
+      padding: 20px;
+      border-radius: 64px;
+    }
+    .fb-media {
+      aspect-ratio: 337.4 / 259.8;
+      border-radius: 56px;
+    }
+    .fb-text {
+      flex: 0 1 276px;
+      width: 276px;
+      max-width: 276px;
+    }
+    .fb-heading {
+      font-size: 27px;
+      letter-spacing: -0.27px;
+    }
+    .fb-paragraph {
+      font-size: 18px;
+      line-height: 24px;
+      letter-spacing: 0.32px;
+      padding-right: 0;
+    }
+  }
+
+  /* ── <768: stacked, text first ───────────────────────────────────── */
+  @media (max-width: 767px) {
+    .fb {
+      --fb-cur-pt: var(--fb-pt-sm);
+      --fb-cur-pb: var(--fb-pb-sm);
+    }
+    .fb-slab,
+    .fb-slab.is-reverse {
+      flex-direction: column-reverse;
+      align-items: center;
+      row-gap: 40px;
+      padding: 28px 18px 18px;
+      border-radius: 56px;
+    }
+    .fb-media {
+      flex: none;
+      width: 100%;
+      max-width: 760px;
+      aspect-ratio: 306 / 233;
+      border-radius: 48px;
+    }
+    .fb-text {
+      flex: none;
+      width: auto;
+      max-width: none;
+      align-self: stretch;
+      margin: 0 15.6px;
+    }
+    .fb-heading {
+      line-height: 0.9;
+    }
+    .fb-paragraph {
+      font-size: 16px;
+      line-height: 20.8px;
+    }
+  }
+  @media (max-width: 479px) {
+    .fb {
+      --fb-cx: 24px;
+    }
+    .fb-gutter {
+      padding: 0 24px;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  type Px = { from: number; to: number; startOffset?: number; zoneTop?: number; zoneHeight?: number; kfStart?: number; kfEnd?: number };
+
+  document.querySelectorAll<HTMLElement>('[data-feature-block]').forEach((section) => {
+    // (b) in-view signal for the media loops — works with reduced motion too (loops decide what to do with it)
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top bottom',
+      end: 'bottom top',
+      onToggle: (self) => {
+        section.dataset.inview = String(self.isActive);
+        section.dispatchEvent(new CustomEvent(self.isActive ? 'fb:enter' : 'fb:leave', { bubbles: true }));
+      },
+    });
+
+    // (a) decor parallax. Reference: IX2 SCROLLING_IN_VIEW, smoothing 80, media queries main + medium (≥768px).
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference) and (min-width: 768px)', () => {
+      section.querySelectorAll<HTMLElement>('[data-fb-parallax]').forEach((el) => {
+        let cfg: Px;
+        try {
+          cfg = JSON.parse(el.dataset.fbParallax || '');
+        } catch {
+          return;
+        }
+        const { from, to, startOffset = 0, kfStart = 0, kfEnd = 1 } = cfg;
+        // Webflow progress p = (scrollY + vh − zoneTop − off) / (zoneH + vh − off), off = startOffset × zoneH
+        const zone = () => {
+          const top = section.getBoundingClientRect().top + window.scrollY;
+          const zt = cfg.zoneTop ?? 0;
+          const zoneTop = zt < 0 ? top + section.offsetHeight + zt : top + zt;
+          const zoneH = cfg.zoneHeight ?? section.offsetHeight;
+          const off = startOffset * zoneH;
+          const p0 = zoneTop + off - window.innerHeight; // scrollY where p = 0
+          const range = zoneH + window.innerHeight - off; // scroll distance for p 0 → 1
+          return { p0, range };
+        };
+        gsap.fromTo(
+          el,
+          { y: from },
+          {
+            y: to,
+            ease: 'none',
+            immediateRender: true,
+            scrollTrigger: {
+              start: () => { const z = zone(); return z.p0 + kfStart * z.range; },
+              end: () => { const z = zone(); return z.p0 + kfEnd * z.range; },
+              scrub: 0.25,
+              invalidateOnRefresh: true,
+            },
+          },
+        );
+      });
+    });
+  });
+</script>

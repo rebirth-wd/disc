@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CareersHero from '../components/careers/CareersHero.astro';
+import CareersValues from '../components/careers/CareersValues.astro';
+import CareersBanner from '../components/careers/CareersBanner.astro';
+import CareersLife from '../components/careers/CareersLife.astro';
+import CareersCards from '../components/careers/CareersCards.astro';
+import CareersParty from '../components/careers/CareersParty.astro';
+import CareersFaq from '../components/careers/CareersFaq.astro';
+import CareersCta from '../components/careers/CareersCta.astro';
+---
+<BaseLayout title="Work with Rebirth — Rebirth Web Design" active="careers">
+  <!-- The reference careers page sits on a black canvas (main-wrapper background rgb(0,0,0)). -->
+  <div data-page="careers" class="bg-black text-white">
+    <CareersHero />
+    <CareersValues />
+    <!-- reference job-listings section ("Don't just imagine the future…") intentionally omitted (DECISIONS #9) -->
+    <CareersBanner />
+    <CareersLife />
+    <CareersCards />
+    <CareersParty />
+    <CareersFaq />
+    <CareersCta />
+  </div>
+</BaseLayout>

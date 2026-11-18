@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NitroBase from '../components/nitro/NitroBase.astro';
+import NitroHero from '../components/nitro/NitroHero.astro';
+import NitroPlans from '../components/nitro/NitroPlans.astro';
+import NitroWhatsNew from '../components/nitro/NitroWhatsNew.astro';
+import NitroExplore from '../components/nitro/NitroExplore.astro';
+import NitroCompare from '../components/nitro/NitroCompare.astro';
+import NitroFaq from '../components/nitro/NitroFaq.astro';
+import NitroCta from '../components/nitro/NitroCta.astro';
+---
+<BaseLayout title="Care Plans — Rebirth Web Design" description="Hosting, backups, security, and updates — managed for you, every month." active="nitro">
+  <NitroBase />
+  <div class="nitro-page">
+    <NitroHero />
+    <NitroPlans />
+    <NitroWhatsNew />
+    <NitroExplore />
+    <NitroCompare />
+    <NitroFaq />
+    <NitroCta />
+  </div>
+</BaseLayout>

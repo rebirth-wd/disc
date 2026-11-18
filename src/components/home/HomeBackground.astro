@@ -1,0 +1,90 @@
+---
+// Page-level background for the home page: sits behind every home section.
+//
+// Reference: `main.main-wrapper._2025` paints ONE blurry bitmap (124×621, `background-size: cover`,
+// `background-position: 50% 0`) under all sections; each section adds a transparent pixel-star tile.
+// No reference file is used here. The colour field was measured from the live page with all content
+// hidden (qa/closing-bg.mjs → qa/closing-tools/fitbg.py) and is rebuilt as CSS gradients:
+// 7 vertical multi-stop linear-gradients (columns at 0, 1/6 … 100% of the width), each one masked with a
+// horizontal ramp so neighbouring columns interpolate linearly. Stops are % of the "cover" box height.
+// Stars: the shared Starfield, one band per ~900px (reference tiles: ≈100 stars / 900px at 1680).
+import Starfield from '../global/Starfield.astro';
+import field from './closing/bg-field.json';
+
+interface Props {
+  /** px to shift the field/starfield up — lets a preview page show a lower slice of the page background */
+  offsetTop?: number;
+  /** skip stars over the first screen (the hero draws its own sky) */
+  heroStars?: boolean;
+  class?: string;
+}
+const { offsetTop = 0, heroStars = false, class: cls = '' } = Astro.props;
+
+const cols = field as [number, string][][];
+const K = cols.length;
+const pct = (k: number) => +((k / (K - 1)) * 100).toFixed(3);
+const layers = cols.map((stops, k) => {
+  const grad = `linear-gradient(to bottom, ${stops.map(([p, c]) => `${c} ${p}%`).join(', ')})`;
+  const mask = k === 0 ? '' : `linear-gradient(to right, transparent ${pct(k - 1)}%, #000 ${pct(k)}%)`;
+  return `background-image:${grad};${mask ? `-webkit-mask-image:${mask};mask-image:${mask};` : ''}`;
+});
+const bands = [21, 34, 55, 89, 144, 233, 377, 610];
+---
+<div data-home-bg class:list={['hb', cls]} style={`--hb-offset:${offsetTop}px`} aria-hidden="true">
+  <div class="hb-field">
+    {layers.map((style) => <i class="hb-col" style={style} />)}
+  </div>
+  <div class:list={['hb-stars', heroStars && 'hb-stars--hero']}>
+    {bands.map((seed) => (
+      <div class="hb-band"><Starfield density={1.3} seed={seed} /></div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .hb {
+    position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+    background: var(--surface-deep-indigo-canvas);
+    /* the reference bitmap also runs under its footer; keep the same zoom */
+    --hb-footer: 964px;
+  }
+  /* "cover" box of the 124:621 bitmap, top-centred (131:768 below 1440, as the reference swaps files) */
+  .hb-field {
+    position: absolute; top: calc(var(--hb-offset) * -1); left: 50%;
+    height: max(calc(100% + var(--hb-offset) + var(--hb-footer)), 586.3vw);
+    aspect-ratio: 131 / 768;
+    transform: translateX(-50%);
+  }
+  .hb-col { position: absolute; inset: 0; display: block; }
+
+  .hb-stars {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    top: calc(896px - var(--hb-offset));
+    display: flex; flex-direction: column;
+  }
+  .hb-stars--hero { top: calc(var(--hb-offset) * -1); }
+  .hb-band { position: relative; flex: 1 1 0; min-height: 0; }
+  /* Reference star tiles (sampled on black, qa/out/closing/ref-texonly-1680.png): 5–8px soft squares,
+     lavender (r:g:b ≈ .73:.63:1), alpha ≈ .12–.42 (mean .22), static; per ~100 squares about 7 thin
+     24–30px plus sparkles. The shared Starfield is restyled from outside to that tone. */
+  .hb-band :global(.rb-starfield__layer) { filter: blur(0.6px); }
+  .hb-band :global(.rb-star) { transform: scale(1.9); animation: none; background: #c4b8f0; opacity: calc(var(--o) * 0.38); }
+  .hb-band :global(.rb-star:nth-child(3n)) { background: #a89cf0; }
+  .hb-band :global(.rb-star:nth-child(7n)) { background: #c58ce0; }
+  .hb-band :global(.rb-plus) {
+    background: #b9b0f0; opacity: calc(var(--o) * 0.32); animation: none;
+    transform: translate(-50%, -50%) scale(1.4);
+    clip-path: polygon(46% 0, 54% 0, 54% 46%, 100% 46%, 100% 54%, 54% 54%, 54% 100%, 46% 100%, 46% 54%, 0 54%, 0 46%, 46% 46%);
+  }
+  .hb-band :global(.rb-plus:nth-child(n + 8)) { display: none; }
+
+  @media (min-width: 480px) { .hb { --hb-footer: 1084px; } }
+  @media (min-width: 992px) { .hb { --hb-footer: 797px; } }
+  @media (min-width: 1440px) {
+    .hb { --hb-footer: 861px; }
+    .hb-field { aspect-ratio: 124 / 621; height: max(calc(100% + var(--hb-offset) + var(--hb-footer)), 500.8vw); }
+  }
+  @media (max-width: 767px) {
+    .hb-band :global(.rb-star:nth-child(2n)), .hb-band :global(.rb-plus:nth-child(2n)) { display: none; }
+  }
+</style>

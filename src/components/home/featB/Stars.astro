@@ -1,0 +1,78 @@
+---
+/**
+ * The ten twinkling stars the reference places in every feature section (img.star-hero-home, blur 1px).
+ * Positions are % of the viewport width / px from the section top, as measured at 1680.
+ * Twinkle = IX2 action lists a-495 / a-496 / a-497 (opacity 0↔1, 500ms easeIn, looped while in view).
+ * Rendered inside FeatureBlock's `decor` slot (which spans the section).
+ */
+// [x at 1680, y from section top, size, action list]
+const stars: [number, number, number, 'a' | 'b' | 'c'][] = [
+  [1199.6, 18.7, 20, 'a'],
+  [319.2, -18.7, 20, 'b'],
+  [845.4, -65.5, 6, 'b'],
+  [173.4, 140.4, 6, 'b'],
+  [475.8, -28.1, 6, 'c'],
+  [1147.8, -84.2, 6, 'b'],
+  [290, 131, 8, 'c'],
+  [1500.6, -56.2, 6, 'a'],
+  [1476.4, 93.6, 4, 'c'],
+  [569.2, 93.6, 4, 'c'],
+];
+---
+<div class="fbx-stars" data-fbx-stars>
+  {stars.map(([x, y, s, k]) => (
+    <i
+      class:list={['fbx-star', s >= 20 && 'is-plus']}
+      data-fbx-star={k}
+      style={`left:${((x / 1680) * 100).toFixed(3)}%;top:${y}px;width:${s}px;height:${s}px;`}
+    />
+  ))}
+</div>
+
+<style>
+  .fbx-stars {
+    inset: 0;
+    pointer-events: none;
+  }
+  .fbx-star {
+    position: absolute;
+    display: block;
+    background: var(--color-white);
+    filter: blur(1px);
+  }
+  .fbx-star.is-plus {
+    clip-path: polygon(44% 0, 56% 0, 60% 40%, 100% 44%, 100% 56%, 60% 60%, 56% 100%, 44% 100%, 40% 60%, 0 56%, 0 44%, 40% 40%);
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  // delays (s) before each 0.5s fade: →1, →0, →1, →0   (IX2 a-495 / a-496 / a-497)
+  const LISTS: Record<string, number[]> = { a: [1, 2, 1, 2], b: [2, 2, 1, 2], c: [1, 1, 1, 2] };
+
+  document.querySelectorAll<HTMLElement>('[data-fbx-stars]').forEach((root) => {
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const tls = gsap.utils.toArray<HTMLElement>('[data-fbx-star]', root).map((el) => {
+        const delays = LISTS[el.dataset.fbxStar || 'a'];
+        const tl = gsap.timeline({ repeat: -1, paused: true });
+        tl.set(el, { opacity: 0 });
+        delays.forEach((d, i) => tl.to(el, { opacity: i % 2 ? 0 : 1, duration: 0.5, ease: 'power1.in' }, `>+${d}`));
+        return tl;
+      });
+      const st = ScrollTrigger.create({
+        trigger: root,
+        start: 'top bottom',
+        end: 'bottom top',
+        onToggle: (self) => tls.forEach((tl) => (self.isActive ? tl.play() : tl.pause())),
+      });
+      return () => {
+        st.kill();
+        tls.forEach((tl) => tl.kill());
+      };
+    });
+  });
+</script>

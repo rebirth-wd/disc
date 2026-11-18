@@ -1,0 +1,32 @@
+---
+// careers-cards — reference: div.careers-section-card (8 benefit cards in a 2-col grid + disclaimer line).
+import CareersGlyph from './CareersGlyph.astro';
+const cards = [
+  { icon: 'rocket', title: 'Built on Astro', text: "The framework behind IKEA, Microsoft, Porsche, Visa, NBC News, and The Guardian. Astro ships zero unnecessary JavaScript, so your site loads in a blink — and scores 90-100 on Google's performance metrics by default." },
+  { icon: 'layers', title: 'Version-controlled', text: "Where 90% of the Fortune 100 safeguard their code, alongside 180+ million developers. Every change to your site is tracked, backed up, and reversible — the same professional workflow that runs the world's biggest software. Nothing ships without a record of it." },
+  { icon: 'gauge', title: 'Engineered to rank', text: 'Google weighs Core Web Vitals and crawlable, semantic HTML in its rankings. Astro outputs both by default — pre-rendered static pages, minimal client JS, clean markup. The SEO groundwork is in the architecture, not bolted on afterward, so it is there on day one.' },
+  { icon: 'shield', title: 'Secure by design', text: "Most website hacks happen through databases and plugins. Your site doesn't use either, so there's simply far less that can be broken into." },
+  { icon: 'bolt', title: 'Under a second', text: "Over half of mobile visitors abandon a site that takes more than three seconds to load. Ours are served as static pages from Cloudflare's edge." },
+  { icon: 'globe', title: 'Edge-delivered', text: "Your site is distributed across Cloudflare's network and served from the node closest to each visitor, with no origin server to fall over under traffic." },
+  { icon: 'heart', title: 'Always current', text: 'Security patches and framework updates are applied deliberately and tested before they ever hit production.' },
+  { icon: 'chat', title: 'AI on your side', text: 'The same tools we build into your site, brought into your business — quoting, admin, correspondence, whatever eats your week. We set it up and stay on the phone.' },
+];
+---
+<section data-section="careers-cards" class="relative">
+  <div class="px-[6vw] md:px-40 xl:px-[80px] [@media(min-width:1440px)]:px-[120px]">
+    <div class="relative z-2 mx-auto max-w-[944px] [@media(min-width:1440px)]:max-w-[1200px]">
+      <ul class="m-0 grid list-none grid-cols-1 gap-20 p-0 md:grid-cols-2">
+        {cards.map((c) => (
+          <li data-card class="flex flex-col items-start rounded-[48px] bg-white-10 p-48 text-left md:rounded-[56px] md:p-56">
+            <div class="mb-48 flex h-[72px] items-center"><CareersGlyph name={c.icon} size={72} /></div>
+            <h3 class="font-abc-ginto-discord text-[20px] leading-[24px] font-medium tracking-normal text-white normal-case xl:text-[24px] xl:leading-[28.8px]">{c.title}</h3>
+            <p class="mt-8 font-abc-ginto-discord text-[14px] leading-[18.2px] text-white opacity-50 md:text-[16px] md:leading-[20.8px] [@media(min-width:1440px)]:leading-[22.4px]">{c.text}</p>
+          </li>
+        ))}
+      </ul>
+      <div class="pt-40 text-center md:pt-[80px]">
+        <p class="font-abc-ginto-discord text-[16px] leading-[20.8px] tracking-[0.02em] text-white opacity-50 md:text-body-xl md:leading-[26px]">Hosting, backups, security, and updates — managed for you, every month. Scope varies by project and plan.</p>
+      </div>
+    </div>
+  </div>
+</section>

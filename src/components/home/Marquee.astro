@@ -1,0 +1,127 @@
+---
+/**
+ * Marquee Band (DESIGN.md › Components › Marquee Band).
+ * Reference: div.line-wr-home — 140px tall, full width, no tilt, four words in the Nord face 700 / 61px
+ * separated by a 36px white mark; track runs right-to-left at 2727.4px / 60s (IX2 a-454: 0 → -50.2% of a
+ * 5433px track in 60 000ms, linear, PAGE_START, loop) with no scroll coupling. Animated on ≥768 only
+ * (IX2 media queries main + medium); the band is display:none below 768.
+ */
+import LogoMark from '../global/LogoMark.astro';
+
+interface Props { words?: string[] }
+const { words = ['Fast', 'Safe', 'Rank', 'Stay live'] } = Astro.props;
+const SETS = 4; // reference renders the word set four times
+---
+
+<div data-section="home-marquee" class="mq relative z-[6] overflow-hidden" aria-hidden="true">
+  <div class="mq-band relative flex h-full items-center">
+    <div class="mq-track flex items-center gap-36" data-mq-track>
+      {Array.from({ length: SETS }).map(() => (
+        <div class="mq-set flex flex-none items-center gap-56" data-mq-set>
+          {words.map((w) => (
+            <>
+              <span class="mq-mark flex flex-none items-center justify-center text-white">
+                <LogoMark size={30} />
+              </span>
+              <span class="mq-word font-abc-ginto-discord-nord text-marquee leading-marquee tracking-marquee font-bold uppercase whitespace-nowrap text-white">
+                {w}
+              </span>
+            </>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .mq {
+    height: 140px;
+  }
+  /* Band surface: measured from the reference band image — periwinkle centre (top #43469c → bottom #5960c2)
+     falling off to deep navy (#272669) at both edges. */
+  .mq-band {
+    background-image:
+      linear-gradient(
+        90deg,
+        rgba(36, 35, 102, 0.96) 0%,
+        rgba(36, 35, 102, 0.75) 6%,
+        rgba(36, 35, 102, 0.4) 18%,
+        rgba(36, 35, 102, 0.13) 30%,
+        rgba(36, 35, 102, 0) 42%,
+        rgba(36, 35, 102, 0) 58%,
+        rgba(36, 35, 102, 0.13) 70%,
+        rgba(36, 35, 102, 0.4) 82%,
+        rgba(36, 35, 102, 0.75) 94%,
+        rgba(36, 35, 102, 0.96) 100%
+      ),
+      linear-gradient(180deg, #43469c 0%, #5960c2 100%);
+  }
+  .mq-track {
+    will-change: transform;
+  }
+  .mq-mark {
+    width: 36px;
+    height: 27.5px;
+  }
+  .mq-word {
+    display: block;
+    height: 25px;
+  }
+  @media (max-width: 991px) {
+    .mq {
+      height: 105px;
+    }
+    .mq-word {
+      font-size: 47px;
+      line-height: 20px;
+      height: 20px;
+      letter-spacing: -0.47px;
+    }
+  }
+  @media (max-width: 767px) {
+    .mq {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  const SPEED = 2727.4 / 60; // px per second, reference IX2 a-454
+
+  document.querySelectorAll<HTMLElement>('[data-section="home-marquee"]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-mq-track]');
+    const sets = root.querySelectorAll<HTMLElement>('[data-mq-set]');
+    if (!track || sets.length < 2) return;
+
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference) and (min-width: 768px)', () => {
+      let tween: gsap.core.Tween | undefined;
+      const build = () => {
+        const progress = tween ? tween.progress() : 0;
+        tween?.kill();
+        // distance between two consecutive sets = one seamless period
+        const period = sets[1].offsetLeft - sets[0].offsetLeft;
+        if (!period) return;
+        tween = gsap.fromTo(
+          track,
+          { x: 0 },
+          { x: -period, duration: period / SPEED, ease: 'none', repeat: -1 },
+        );
+        tween.progress(progress);
+      };
+      build();
+      // fonts change the word widths → rebuild with the same phase
+      document.fonts?.ready.then(build);
+      const ro = new ResizeObserver(build);
+      ro.observe(sets[0]);
+      return () => {
+        ro.disconnect();
+        tween?.kill();
+        gsap.set(track, { clearProps: 'transform' });
+      };
+    });
+  });
+</script>

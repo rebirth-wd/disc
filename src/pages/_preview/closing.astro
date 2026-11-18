@@ -1,0 +1,13 @@
+---
+// Preview: closing banner on the matching slice of the home background (banner starts at y=600 here, 6371 on the page).
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HomeBackground from '../../components/home/HomeBackground.astro';
+import ClosingBanner from '../../components/home/ClosingBanner.astro';
+---
+<BaseLayout title="Preview — closing banner" active="index">
+  <div class="relative">
+    <HomeBackground offsetTop={5771} />
+    <div class="h-[600px]"></div>
+    <ClosingBanner />
+  </div>
+</BaseLayout>

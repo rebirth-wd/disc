@@ -1,0 +1,85 @@
+---
+import NitroDemo from './NitroDemo.astro';
+import NitroObject from './NitroObject.astro';
+const rows = [
+  { kind: 'posts', lines: ['Fresh posts', 'on schedule'], narrow: true, text: 'Blog posts drafted, published and pushed to your socials on schedule, every single month.' },
+  { kind: 'inbox', lines: ['Every enquiry', 'read and scored'], text: 'Chat, form or call-back, each lead is summarised and scored before it hits your inbox.' },
+  { kind: 'chat', lines: ['A chatbot that', 'knows your', 'business'], text: 'It answers after hours and guides visitors to the right page, never reading off a script*.', note: '*Scripts not included, sorry' },
+  { kind: 'speed', lines: ['Loads in under', 'a second'], text: 'Static pages served from the edge, built to turn casual traffic into customers.' },
+] as const;
+---
+<section data-section="nitro-explore" class="ne">
+  <div class="nitro-pad">
+    <div class="nitro-wrap" data-par-trigger="star">
+      <h2 class="nitro-h2">Explore the<br />best of Care</h2>
+      <div class="ne__rows">
+        {rows.map((r, i) => (
+          <div class:list={['ne__row', i % 2 === 1 && 'ne__row--flip']} data-feature={r.kind}>
+            <div class="ne__text">
+              <h3 class:list={['nitro-h3', 'narrow' in r && 'ne__narrow']}>{r.lines.map((l) => <span>{l} </span>)}</h3>
+              <p class="nitro-xl">{r.text}{'note' in r && <em>{r.note}</em>}</p>
+            </div>
+            <div class="ne__media"><NitroDemo kind={r.kind} /></div>
+          </div>
+        ))}
+      </div>
+      <NitroObject name="pulse" par="star" class="ne__pulse" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .ne { position: relative; padding-bottom: 160px; }
+  .ne .nitro-h2 { margin-bottom: var(--spacing-64); }
+  .ne__rows { display: flex; flex-direction: column; gap: 120px; }
+  .ne__row { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 80px; }
+  .ne__row--flip { flex-direction: row-reverse; }
+  .ne__text { flex: 1 1 0; min-width: 0; max-width: 640px; }
+  .ne__text .nitro-h3 { margin-bottom: var(--spacing-24); }
+  .ne__text .nitro-h3 span { display: block; }
+  .ne__narrow { max-width: 336px; }
+  .ne__text em { display: block; margin-top: var(--spacing-16); font-style: italic; }
+  .ne__media { position: relative; flex: none; width: 666px; height: 521px; border-radius: 96px; overflow: hidden; }
+  .ne .nitro-wrap :global(.ne__pulse) { top: 0; left: 0; margin-top: -67px; width: 216px; height: 216px; }
+  @media (max-width: 1439px) {
+    .ne { padding-bottom: 140px; }
+    .ne .nitro-h2 { margin-bottom: var(--spacing-48); }
+    .ne__rows { gap: 100px; }
+    .ne__row { gap: var(--spacing-56); }
+    .ne__text { flex: none; width: 316px; }
+    .ne__text .nitro-h3 span { display: inline; }
+    .ne__media { width: 378px; height: 295px; border-radius: 56px; }
+    .ne .nitro-wrap :global(.ne__pulse) { margin-top: -27px; width: 174px; height: 174px; }
+  }
+  @media (max-width: 991px) {
+    .ne__rows { gap: var(--spacing-56); }
+    .ne__row { gap: 32px; }
+    .ne__media { width: 340px; height: 266px; }
+  }
+  @media (max-width: 767px) {
+    .ne__row, .ne__row--flip { flex-direction: column-reverse; align-items: stretch; gap: 32px; }
+    .ne__text { width: auto; max-width: none; }
+    .ne__media { width: 100%; height: auto; aspect-ratio: 343 / 309; border-radius: 52px; }
+  }
+  @media (max-width: 479px) {
+    .ne { padding-bottom: 100px; }
+    .ne .nitro-h2 { margin-bottom: var(--spacing-40); }
+    .ne__text .nitro-h3 { margin-bottom: var(--spacing-16); }
+    .ne .nitro-wrap :global(.ne__pulse) { left: -21px; margin-top: -104px; width: 90px; height: 90px; }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+  // IX2 a-924 "nitro-parallax-star 2": progress of the section container, 0% -> 25%: y 0 -> -100 (then holds)
+  const root = document.querySelector<HTMLElement>('[data-section="nitro-explore"]');
+  if (root) {
+    gsap.matchMedia().add('(prefers-reduced-motion: no-preference) and (min-width: 768px)', () => {
+      gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: root.querySelector('[data-par-trigger="star"]'), start: 'top bottom', end: 'bottom top', scrub: 0.6 } })
+        .to(root.querySelector('[data-par="star"]'), { y: -100, duration: 0.25 }, 0)
+        .to({}, { duration: 0.75 }, 0.25);
+    });
+  }
+</script>

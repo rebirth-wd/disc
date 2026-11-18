@@ -1,0 +1,123 @@
+---
+// careers-party — reference: div.careers-section.is-update with Swiper "is-jobs" (y 12422–13260 @1680):
+// centred intro + looping, centred card carousel (26 slides) with dynamic progress bullets.
+import CareersGlyph from './CareersGlyph.astro';
+const names = [
+  ['Headers', 'window'], ['Heros', 'star'], ['Features', 'spark'], ['Content', 'layers'], ['Call-to-Action', 'bolt'], ['Pricing', 'tag'],
+  ['Testimonials', 'chat'], ['Contact Forms', 'mail'], ['Footers', 'cube'], ['AI Assistant', 'chat'], ['AI Site Maintenance', 'shield'],
+  ['AI Performance Tuning', 'gauge'], ['AI Content', 'code'], ['AI Lead Capture & Qualification', 'pin'], ['AI in Your Workplace', 'rocket'],
+  ['Astro Builds', 'rocket'], ['GitHub Workflow', 'layers'], ['Cloudflare Hosting', 'globe'], ['Tailwind CSS', 'window'], ['Core Web Vitals', 'gauge'],
+  ['Local SEO', 'pin'], ['Static-first Security', 'shield'], ['Edge Delivery', 'globe'], ['Managed Updates', 'heart'], ['Backups', 'cube'], ['Blog & Socials', 'mail'],
+];
+---
+<section data-section="careers-party" class="relative pt-[100px] md:pt-[120px] [@media(min-width:1440px)]:pt-[160px]">
+  <div class="px-[6vw] md:px-40 xl:px-[80px] [@media(min-width:1440px)]:px-[120px]">
+    <div class="relative z-2 mx-auto max-w-[944px] [@media(min-width:1440px)]:max-w-[1800px]">
+      <div class="relative mx-auto flex max-w-[697px] flex-col items-center [@media(min-width:1440px)]:max-w-[897px]">
+        <h2 class="mb-16 text-center font-abc-ginto-discord-nord text-[8.2vw] leading-none font-bold tracking-[-0.01em] text-white uppercase md:mb-24 md:text-[40px] md:tracking-[-0.02em] [@media(min-width:1440px)]:text-heading-lg">Time to build? Find your stack here</h2>
+        <p class="text-center font-abc-ginto-discord text-[16px] leading-[22px] text-white md:text-body-xl md:leading-[26px]">High-performance, mobile-first components powered by Astro and Tailwind CSS – designed to convert local visitors into customers, and to highlight what makes your business stand out from the crowd.</p>
+      </div>
+      <div class="hidden h-40 md:block xl:h-48"></div>
+    </div>
+  </div>
+  <div data-carousel class="careers-party relative mt-[32px] md:mt-0" role="region" aria-roledescription="carousel" aria-label="What we build">
+    <div data-carousel-viewport class="careers-party__viewport relative w-full overflow-hidden">
+      <i data-carousel-probe class="absolute h-0 w-0" aria-hidden="true"></i>
+      {names.map(([name, icon], i) => (
+        <div data-slide class="careers-party__slide" role="group" aria-roledescription="slide" aria-label={`${i + 1} / ${names.length}`}>
+          <div data-slide-card class="careers-party__card">
+            <div class="careers-party__content">
+              <div data-slide-icon class="careers-party__icon"><CareersGlyph name={icon} badge={i % 6} size={120} class="h-full w-full" /></div>
+              <h3 class="font-abc-ginto-discord text-[20px] leading-[24px] font-medium tracking-normal text-white normal-case md:text-[24px] md:leading-[28.8px]">{name}</h3>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div data-bullets class="absolute inset-x-0 bottom-[-30px] mx-auto flex h-[8px] w-[160px] items-center justify-center gap-8">
+      {names.map((_, i) => (
+        <button type="button" data-bullet class="careers-party__bullet" aria-label={`Go to slide ${i + 1}`}><span data-bullet-progress class="careers-party__progress"></span></button>
+      ))}
+    </div>
+    <div class="pointer-events-none absolute inset-x-[2vw] inset-y-0 z-3 hidden items-center justify-between md:flex">
+      <button type="button" data-carousel-prev class="careers-arrow" aria-label="Previous">
+        <span class="careers-arrow__bg" aria-hidden="true"></span>
+        <svg class="relative" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14.5 6 8.5 12l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </button>
+      <button type="button" data-carousel-next class="careers-arrow" aria-label="Next">
+        <span class="careers-arrow__bg" aria-hidden="true"></span>
+        <svg class="relative" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9.5 6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </button>
+    </div>
+  </div>
+</section>
+<style>
+  /* slot sizes measured on the reference: 342x240 (mobile, max 87.7vw) / 460x280 (tablet) / 540x352 (>=1280) */
+  .careers-party { --slot-w: min(342px, 87.7vw); --slot-h: 240px; --pad: 24px; --inset: 48px; --pull: 0px; }
+  @media (min-width: 569px) { .careers-party { --pull: 48px; } }
+  @media (min-width: 768px) { .careers-party { --slot-w: 460px; --slot-h: 280px; --pad: 36px; } }
+  @media (min-width: 1280px) { .careers-party { --slot-w: 540px; --slot-h: 352px; --pad: 40px; --inset: 64px; } }
+  .careers-party__viewport { height: calc(var(--slot-h) + var(--pad) * 2); touch-action: pan-y; }
+  .careers-party__slide {
+    position: absolute; top: var(--pad); left: 50%; width: var(--slot-w); height: var(--slot-h); margin-left: calc(var(--slot-w) / -2);
+    display: flex; align-items: center; justify-content: center; will-change: transform, opacity;
+  }
+  .careers-party__card { width: 100%; height: 100%; overflow: hidden; border-radius: 48px; background: var(--color-white-10); display: flex; align-items: flex-start; }
+  @media (min-width: 1440px) { .careers-party__card { border-radius: 56px; } }
+  .careers-party__content { margin: var(--inset); display: flex; flex-direction: column; align-items: flex-start; gap: 24px; text-align: left; }
+  .careers-party__icon { width: 96px; height: 96px; transform-origin: 50% 50%; }
+  @media (min-width: 768px) { .careers-party__icon { width: 120px; height: 120px; } }
+  .careers-party__bullet { display: none; flex: none; width: 8px; height: 8px; padding: 0; border: 0; border-radius: 4px; background: rgba(255, 255, 255, 0.1); overflow: hidden; cursor: pointer; }
+  .careers-party__progress { display: block; width: 0; height: 8px; border-radius: 4px; background: var(--color-white); }
+</style>
+<script>
+  import gsap from 'gsap';
+  import { createCarousel, CSS_EASE } from './carousel';
+
+  const root = document.querySelector<HTMLElement>('[data-section="careers-party"] [data-carousel]');
+  if (root) {
+    const bullets = gsap.utils.toArray<HTMLElement>('[data-bullet]', root);
+    let progress: gsap.core.Tween | null = null;
+    const car = createCarousel(root, {
+      // Swiper "is-jobs": slidesPerView auto, spaceBetween 0, speed 600, loop, centred,
+      // autoplay 9000 (disableOnInteraction false, pauseOnMouseEnter true)
+      speed: 0.6,
+      autoplay: 9,
+      disableOnInteraction: false,
+      stateDuration: 0.8, // .swiper-slide opacity .8s / .jobs-slide_content-wr all .8s
+      pull: () => parseFloat(getComputedStyle(root).getPropertyValue('--pull')) || 0,
+      applyState: (slide, a) => {
+        slide.style.opacity = String(0.7 + 0.3 * a);
+        gsap.set(slide.querySelector('[data-slide-card]'), { scale: 0.8 + 0.2 * a });
+      },
+      onChange: (index, count) => {
+        // icon: transform .5s ease (0.8 <-> 1)
+        gsap.utils.toArray<HTMLElement>('[data-slide]', root).forEach((s, i) => {
+          gsap.to(s.querySelector('[data-slide-icon]'), { scale: i === index ? 1 : 0.8, duration: 0.5, ease: CSS_EASE, overwrite: true });
+        });
+        // dynamic bullets (dynamicMainBullets 1): active 32x8, +-1 8x8, +-2 4x4, rest hidden; width transition .3s
+        bullets.forEach((b, i) => {
+          const d = Math.abs(i - index);
+          b.classList.toggle('is-active', d === 0);
+          b.setAttribute('aria-current', d === 0 ? 'true' : 'false');
+          if (d > 2) { b.style.display = 'none'; return; }
+          b.style.display = 'block';
+          gsap.to(b, { width: d === 0 ? 32 : d === 1 ? 8 : 4, height: d === 2 ? 4 : 8, duration: 0.3, ease: CSS_EASE, overwrite: true });
+        });
+        void count;
+      },
+      onAutoplay: (state, delay) => {
+        // @keyframes swiperProgress: width 0 -> 2rem, 9s linear, restarted on every slide change, paused on hover
+        if (state === 'start') {
+          progress?.kill();
+          bullets.forEach((b) => gsap.set(b.firstElementChild, { width: 0 }));
+          const bar = root.querySelector('[data-bullet].is-active [data-bullet-progress]');
+          progress = bar ? gsap.fromTo(bar, { width: 0 }, { width: 32, duration: delay, ease: 'none' }) : null;
+        } else if (state === 'pause') progress?.pause();
+        else if (state === 'resume') progress?.resume();
+      },
+    });
+    gsap.utils.toArray<HTMLElement>('[data-slide-icon]', root).forEach((el, i) => gsap.set(el, { scale: i === 0 ? 1 : 0.8 }));
+    bullets.forEach((b, i) => b.addEventListener('click', () => car.goTo(i)));
+  }
+</script>

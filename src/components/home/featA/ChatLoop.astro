@@ -1,0 +1,210 @@
+---
+// Original looping graphic for Feature 1: an AI assistant chat on a phone that types a question and answers it.
+// Stage is a 727×554 SVG (the inset's desktop size) that scales with the inset.
+---
+<div class="fa-loop" data-fa-loop="chat">
+  <svg viewBox="0 0 727 554" preserveAspectRatio="xMidYMid slice" role="img" aria-label="An AI assistant chat answering a visitor's question on a phone">
+    <defs>
+      <clipPath id="fa-chat-screen"><rect x="403" y="112" width="248" height="470" rx="27" /></clipPath>
+    </defs>
+
+    <!-- pixel sparkles on the fill -->
+    <g fill="#fff" opacity="0.5">
+      <rect x="92" y="96" width="4" height="4" /><rect x="248" y="58" width="3" height="3" /><rect x="318" y="212" width="4" height="4" />
+      <rect x="66" y="300" width="3" height="3" /><rect x="212" y="330" width="3" height="3" /><rect x="690" y="70" width="4" height="4" />
+    </g>
+
+    <!-- floating pill (left) -->
+    <g data-pill>
+      <rect x="125" y="401" width="224" height="63" rx="14" fill="#5865f2" />
+      <g fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M162 420l3.2 8.3 8.3 3.2-8.3 3.2-3.2 8.3-3.2-8.3-8.3-3.2 8.3-3.2z" fill="#fff" stroke="none" />
+        <path d="M176 417v6M173 420h6" stroke-width="2.4" />
+      </g>
+      <text x="192" y="439.5" class="fa-t fa-t20" fill="#fff">Ask anything</text>
+      <circle data-pill-tap cx="262" cy="432" r="22" fill="#fff" opacity="0" />
+    </g>
+
+    <!-- phone -->
+    <g>
+      <rect x="395" y="104" width="264" height="486" rx="35" fill="#16121b" />
+      <rect x="403" y="112" width="248" height="470" rx="27" fill="#f3f1f8" />
+      <g clip-path="url(#fa-chat-screen)">
+        <!-- header -->
+        <rect x="403" y="112" width="248" height="60" fill="#e7e4f0" />
+        <path d="M424 142l-6 6 6 6" fill="none" stroke="#5b5670" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <circle cx="449" cy="148" r="13" fill="#5865f2" />
+        <path d="M449 140l2 5.6 5.6 2.4-5.6 2.4-2 5.6-2-5.6-5.6-2.4 5.6-2.4z" fill="#fff" />
+        <text x="470" y="146" class="fa-t fa-t12 fa-b" fill="#1d1830">Rebirth Assistant</text>
+        <circle cx="473" cy="158" r="3" fill="#23a55a" />
+        <text x="480" y="161.5" class="fa-t fa-t9" fill="#6b6780">Online · replies instantly</text>
+
+        <!-- thread -->
+        <g data-thread>
+          <g data-msg="u1">
+            <rect x="493" y="188" width="146" height="32" rx="14" fill="#5865f2" />
+            <text x="505" y="208.5" class="fa-t fa-t11" fill="#fff">Do you service Bargara?</text>
+          </g>
+          <g data-msg="dots1">
+            <rect x="415" y="230" width="52" height="30" rx="14" fill="#fff" />
+            <circle data-dot cx="431" cy="245" r="3.2" fill="#8d89a3" /><circle data-dot cx="441" cy="245" r="3.2" fill="#8d89a3" /><circle data-dot cx="451" cy="245" r="3.2" fill="#8d89a3" />
+          </g>
+          <g data-msg="b1">
+            <rect x="415" y="230" width="176" height="64" rx="14" fill="#fff" />
+            <text class="fa-t fa-t11" fill="#1d1830">
+              <tspan data-line x="427" y="249">Yes — Bargara, Bundaberg</tspan>
+              <tspan data-line x="427" y="264">and all of Wide Bay.</tspan>
+              <tspan data-line x="427" y="279">Want a quote for a new site?</tspan>
+            </text>
+          </g>
+          <g data-chips>
+            <g data-chip>
+              <rect data-chip-bg x="415" y="304" width="88" height="26" rx="13" fill="#dcd8ee" />
+              <text data-chip-label x="429" y="321" class="fa-t fa-t10 fa-b" fill="#3b3560">Get a quote</text>
+            </g>
+            <g data-chip>
+              <rect x="509" y="304" width="84" height="26" rx="13" fill="#dcd8ee" />
+              <text x="523" y="321" class="fa-t fa-t10 fa-b" fill="#3b3560">See pricing</text>
+            </g>
+            <circle data-chip-tap cx="459" cy="317" r="16" fill="#5865f2" opacity="0" />
+          </g>
+          <g data-msg="u2">
+            <rect x="555" y="342" width="84" height="32" rx="14" fill="#5865f2" />
+            <text x="567" y="362.5" class="fa-t fa-t11" fill="#fff">Get a quote</text>
+          </g>
+          <g data-msg="dots2">
+            <rect x="415" y="384" width="52" height="30" rx="14" fill="#fff" />
+            <circle data-dot cx="431" cy="399" r="3.2" fill="#8d89a3" /><circle data-dot cx="441" cy="399" r="3.2" fill="#8d89a3" /><circle data-dot cx="451" cy="399" r="3.2" fill="#8d89a3" />
+          </g>
+          <g data-msg="b2">
+            <rect x="415" y="384" width="186" height="58" rx="14" fill="#fff" />
+            <circle cx="437" cy="413" r="12" fill="#35ed7e" />
+            <path data-tick d="M431.500 413.300l4 4 7-8" fill="none" stroke="#0b3a22" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            <text x="457" y="409" class="fa-t fa-t11 fa-b" fill="#1d1830">Callback booked</text>
+            <text x="457" y="424" class="fa-t fa-t10" fill="#6b6780">Tomorrow, 9:00 am</text>
+          </g>
+        </g>
+
+        <!-- composer -->
+        <rect x="403" y="478" width="248" height="110" fill="#e7e4f0" />
+        <rect x="415" y="490" width="190" height="36" rx="18" fill="#fff" />
+        <text data-placeholder x="431" y="512.500" class="fa-t fa-t11" fill="#9a96ad">Ask anything…</text>
+        <text data-typed x="431" y="512.500" class="fa-t fa-t11" fill="#1d1830"></text>
+        <rect data-caret x="431" y="500" width="1.6" height="16" fill="#5865f2" opacity="0" />
+        <g data-send>
+          <circle cx="627" cy="508" r="16" fill="#5865f2" />
+          <path d="M620 508h13M628 502.500l5.500 5.500-5.500 5.500" fill="none" stroke="#fff" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+      </g>
+    </g>
+  </svg>
+</div>
+
+<style>
+  .fa-loop { display: block; }
+  .fa-loop svg { display: block; width: 100%; height: 100%; }
+  .fa-t { font-family: var(--font-abc-ginto-discord); font-weight: 400; }
+  .fa-b { font-weight: 500; }
+  .fa-t20 { font-size: 20px; letter-spacing: 0.25px; }
+  .fa-t12 { font-size: 12.5px; }
+  .fa-t11 { font-size: 11px; }
+  .fa-t10 { font-size: 10px; }
+  .fa-t9 { font-size: 9px; }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  const QUESTION = 'Do you service Bargara?';
+
+  document.querySelectorAll<HTMLElement>('[data-fa-loop="chat"]').forEach((root) => {
+    const q = gsap.utils.selector(root);
+    const one = (s: string) => q(s)[0] as SVGElement;
+    const typed = one('[data-typed]');
+    const caret = one('[data-caret]');
+    const placeholder = one('[data-placeholder]');
+    const msg = (k: string) => one(`[data-msg="${k}"]`);
+    const all = ['u1', 'dots1', 'b1', 'u2', 'dots2', 'b2'].map(msg);
+    const chips = q('[data-chip]');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const reset = () => {
+      gsap.set(all, { autoAlpha: 0, y: 0, scale: 1 });
+      gsap.set(chips, { autoAlpha: 0, scale: 1, y: 0 });
+      gsap.set(q('[data-line]'), { autoAlpha: 1 });
+      gsap.set(one('[data-chip-bg]'), { fill: '#dcd8ee' });
+      gsap.set(one('[data-chip-label]'), { fill: '#3b3560' });
+      gsap.set(one('[data-thread]'), { y: 0, autoAlpha: 1 });
+      gsap.set(placeholder, { autoAlpha: 1 });
+      gsap.set(caret, { autoAlpha: 0, x: 0 });
+      typed.textContent = '';
+    };
+    reset();
+
+    if (reduce) {
+      // static, fully answered conversation
+      gsap.set(['u1', 'b1', 'u2', 'b2'].map(msg), { autoAlpha: 1 });
+      gsap.set(chips, { autoAlpha: 1 });
+      return;
+    }
+
+    const dots = (k: string) =>
+      gsap.to(msg(k).querySelectorAll('[data-dot]'), { y: -4, duration: 0.24, ease: 'sine.inOut', yoyo: true, repeat: 3, stagger: 0.12 });
+    const typer = { n: 0 };
+
+    const tl = gsap.timeline({ repeat: -1, paused: true, defaults: { overwrite: false } });
+    tl.addLabel('start', 0.3)
+      // tap the pill
+      .fromTo(one('[data-pill-tap]'), { scale: 0.3, autoAlpha: 0.55, transformOrigin: '50% 50%' }, { scale: 1.5, autoAlpha: 0, duration: 0.55, ease: 'power2.out', immediateRender: false }, 'start')
+      .to(one('[data-pill]'), { scale: 0.96, transformOrigin: '237px 432px', duration: 0.12, yoyo: true, repeat: 1, ease: 'power1.inOut' }, 'start')
+      // type the question in the composer
+      .set(placeholder, { autoAlpha: 0 }, 'start+=0.35')
+      .set(caret, { autoAlpha: 1 }, 'start+=0.35')
+      .to(typer, {
+        n: QUESTION.length, duration: 1.25, ease: `steps(${QUESTION.length})`,
+        onUpdate: () => {
+          typed.textContent = QUESTION.slice(0, Math.round(typer.n));
+          gsap.set(caret, { x: (typed as unknown as SVGTextElement).getComputedTextLength() + 1 });
+        },
+      }, 'start+=0.4')
+      // send
+      .to(one('[data-send]'), { scale: 0.86, transformOrigin: '627px 508px', duration: 0.1, yoyo: true, repeat: 1 }, 'start+=1.85')
+      .add(() => { typed.textContent = ''; typer.n = 0; }, 'start+=1.95')
+      .set(caret, { autoAlpha: 0, x: 0 }, 'start+=1.95')
+      .set(placeholder, { autoAlpha: 1 }, 'start+=1.95')
+      .fromTo(msg('u1'), { autoAlpha: 0, scale: 0.6, transformOrigin: '639px 220px' }, { autoAlpha: 1, scale: 1, duration: 0.36, ease: 'back.out(1.8)' }, 'start+=1.95')
+      // assistant is typing
+      .fromTo(msg('dots1'), { autoAlpha: 0, scale: 0.6, transformOrigin: '415px 260px' }, { autoAlpha: 1, scale: 1, duration: 0.25, ease: 'back.out(1.8)' }, 'start+=2.45')
+      .add(dots('dots1'), 'start+=2.6')
+      .set(msg('dots1'), { autoAlpha: 0 }, 'start+=3.75')
+      // answer
+      .fromTo(msg('b1'), { autoAlpha: 0, scale: 0.7, transformOrigin: '415px 294px' }, { autoAlpha: 1, scale: 1, duration: 0.4, ease: 'back.out(1.6)' }, 'start+=3.75')
+      .fromTo(q('[data-line]'), { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.25, stagger: 0.14, immediateRender: false }, 'start+=3.9')
+      .fromTo(chips, { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.3, stagger: 0.1, ease: 'power2.out' }, 'start+=4.6')
+      // tap the first quick reply
+      .fromTo(one('[data-chip-tap]'), { scale: 0.3, autoAlpha: 0.5, transformOrigin: '50% 50%' }, { scale: 1.7, autoAlpha: 0, duration: 0.5, ease: 'power2.out', immediateRender: false }, 'start+=5.5')
+      .to(one('[data-chip-bg]'), { fill: '#5865f2', duration: 0.15 }, 'start+=5.55')
+      .to(one('[data-chip-label]'), { fill: '#ffffff', duration: 0.15 }, 'start+=5.55')
+      .fromTo(msg('u2'), { autoAlpha: 0, scale: 0.6, transformOrigin: '639px 374px' }, { autoAlpha: 1, scale: 1, duration: 0.36, ease: 'back.out(1.8)' }, 'start+=5.9')
+      .fromTo(msg('dots2'), { autoAlpha: 0, scale: 0.6, transformOrigin: '415px 414px' }, { autoAlpha: 1, scale: 1, duration: 0.25, ease: 'back.out(1.8)' }, 'start+=6.3')
+      .add(dots('dots2'), 'start+=6.4')
+      .set(msg('dots2'), { autoAlpha: 0 }, 'start+=7.3')
+      .fromTo(msg('b2'), { autoAlpha: 0, scale: 0.7, transformOrigin: '415px 442px' }, { autoAlpha: 1, scale: 1, duration: 0.4, ease: 'back.out(1.6)' }, 'start+=7.3')
+      .fromTo(one('[data-tick]'), { strokeDasharray: 18, strokeDashoffset: 18 }, { strokeDashoffset: 0, duration: 0.35, ease: 'power2.out' }, 'start+=7.55')
+      // hold, then clear the thread and loop (end state == start state)
+      .to(one('[data-thread]'), { y: -26, autoAlpha: 0, duration: 0.5, ease: 'power2.in' }, 'start+=9.4')
+      .add(reset, 'start+=9.95')
+      .to({}, { duration: 0.25 });
+
+    // idle bob of the pill, independent of the conversation loop
+    const bob = gsap.to(one('[data-pill]'), { y: -6, duration: 2.2, ease: 'sine.inOut', yoyo: true, repeat: -1, paused: true });
+
+    const section = root.closest<HTMLElement>('[data-feature-block]');
+    const play = () => { tl.play(); bob.play(); };
+    const pause = () => { tl.pause(); bob.pause(); };
+    if (!section) return play();
+    section.addEventListener('fb:enter', play);
+    section.addEventListener('fb:leave', pause);
+    if (section.dataset.inview === 'true') play();
+  });
+</script>
