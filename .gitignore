@@ -1,5 +1,25 @@
+# dependencies
 node_modules/
+
+# build output
 dist/
 .astro/
-.DS_Store
+
+# Cloudflare / Wrangler
+.wrangler/
+.dev.vars*
+!.dev.vars.example
+
+# env and secrets
 .env*
+!.env.example
+
+# logs
+npm-debug.log*
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
