@@ -15,8 +15,8 @@
 }
 @font-face {
   font-family: 'ABC Ginto Discord';
-  src: url('../assets/fonts/dm-sans-latin-wght-normal.woff2') format('woff2-variations');
-  font-weight: 100 1000;
+  src: url('../assets/fonts/inter-latin-wght-normal.woff2') format('woff2-variations');
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
