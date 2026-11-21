@@ -1,7 +1,7 @@
 ---
 // careers-hero: centred headline + CTA,
 // two floating objects with scroll parallax, and the looping photo gallery (Swiper "is-gallery").
-import CareersGlowButton from './CareersGlowButton.astro';
+import Button from '@components/ui/Button.astro';
 import CareersObject from '@components/graphics/objects/CareersObject.astro';
 import CareersPhoto from './CareersPhoto.astro';
 import neonStudio from '@assets/photos/careers-gallery-neon-studio.jpg';
@@ -54,9 +54,9 @@ const slides = [
         <CareersObject kind="orb" class="h-auto w-full" />
       </div>
       <div class="h-24 md:h-40"></div>
-      <CareersGlowButton variant="blurple" href="#careers-values" size="sm">
+      <Button variant="blurple" href="#careers-values" glow>
         How We Work
-      </CareersGlowButton>
+      </Button>
     </div>
   </div>
 

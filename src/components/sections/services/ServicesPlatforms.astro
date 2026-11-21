@@ -2,7 +2,7 @@
 // Four stacked text + gradient-media blocks
 // (desktop / mobile / console / VR), alternating sides. The blocks have no scroll reveals —
 // the only motion is button hover (bg → fog, 0.3s) and the click dropdowns (see ServicesDropdown).
-import ServicesButton from './ServicesButton.astro';
+import Button from '@components/ui/Button.astro';
 import ServicesDropdown from './ServicesDropdown.astro';
 import PlatformMock from '@components/graphics/mocks/PlatformMock.astro';
 ---
@@ -34,7 +34,7 @@ import PlatformMock from '@components/graphics/mocks/PlatformMock.astro';
                 z={4}
                 items={[{ label: 'Landing page' }, { label: 'Marketing site' }]}
               >
-                <svg slot="icon" viewBox="0 0 24 24" fill="currentColor">
+                <svg slot="icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M9 3h6a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H2V9a2 2 0 0 1 2-2h3V5a2 2 0 0 1 2-2Zm0 4h6V5H9v2ZM2 14h8v2h4v-2h8v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5Z" />
                 </svg>
               </ServicesDropdown>
@@ -44,7 +44,7 @@ import PlatformMock from '@components/graphics/mocks/PlatformMock.astro';
                 z={3}
                 items={[{ label: 'Personal brand' }, { label: 'Showcase' }]}
               >
-                <svg slot="icon" viewBox="0 0 24 24" fill="currentColor">
+                <svg slot="icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M3 3h8v8H3V3Zm10 0h8v8h-8V3ZM3 13h8v8H3v-8Zm10 0h8v8h-8v-8Z" />
                 </svg>
               </ServicesDropdown>
@@ -59,7 +59,7 @@ import PlatformMock from '@components/graphics/mocks/PlatformMock.astro';
                   { label: 'Search' },
                 ]}
               >
-                <svg slot="icon" viewBox="0 0 24 24" fill="currentColor">
+                <svg slot="icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M5 2h10l4 4v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm2 8v2h10v-2H7Zm0 4v2h10v-2H7Zm0-8v2h6V6H7Z" />
                 </svg>
               </ServicesDropdown>
@@ -85,18 +85,18 @@ import PlatformMock from '@components/graphics/mocks/PlatformMock.astro';
             </p>
             <div class="services-platforms__spacer"></div>
             <div class="services-platforms__btns">
-              <ServicesButton href="tel:+61488162040">
-                <svg slot="icon" viewBox="0 0 24 24" fill="currentColor">
+              <Button href="tel:+61488162040">
+                <svg slot="icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M6.6 2h3.2l1.6 5-2.3 1.7a12 12 0 0 0 6.2 6.2l1.7-2.3 5 1.6v3.2A2.6 2.6 0 0 1 19.400 20 C10.300 20 4 13.700 4 4.600 A2.6 2.6 0 0 1 6.600 2Z" />
                 </svg>
                 Call Us
-              </ServicesButton>
-              <ServicesButton href="#">
-                <svg slot="icon" viewBox="0 0 24 24" fill="currentColor">
+              </Button>
+              <Button href="#">
+                <svg slot="icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v.4l-10 6.2L2 6.400V6Zm0 2.800V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8.800l-10 6.200-10-6.200Z" />
                 </svg>
                 Email Us
-              </ServicesButton>
+              </Button>
             </div>
           </div>
         </div>
@@ -111,18 +111,18 @@ import PlatformMock from '@components/graphics/mocks/PlatformMock.astro';
           </p>
           <div class="services-platforms__spacer"></div>
           <div class="services-platforms__btns">
-            <ServicesButton href="#" radius={8}>
-              <svg slot="icon" viewBox="0 0 24 24" fill="currentColor">
+            <Button href="#">
+              <svg slot="icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="m12 2 10 5-10 5L2 7l10-5Zm-7.500 8.800L12 14.500l7.500-3.700L22 12l-10 5-10-5 2.500-1.200Zm0 5L12 19.500l7.500-3.700L22 17l-10 5-10-5 2.500-1.200Z" />
               </svg>
               The Stack
-            </ServicesButton>
-            <ServicesButton href="#" radius={8}>
-              <svg slot="icon" viewBox="0 0 24 24" fill="currentColor">
+            </Button>
+            <Button href="#">
+              <svg slot="icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20Zm-1 5v6.400l4.800 2.900 1-1.700-3.800-2.300V7h-2Z" />
               </svg>
               Process
-            </ServicesButton>
+            </Button>
           </div>
         </div>
         <div class="services-platforms__media services-platforms__media--pink services-platforms__media--right">
@@ -141,12 +141,12 @@ import PlatformMock from '@components/graphics/mocks/PlatformMock.astro';
           </p>
           <div class="services-platforms__spacer"></div>
           <div class="services-platforms__btns">
-            <ServicesButton href="#">
-              <svg slot="icon" viewBox="0 0 24 24" fill="currentColor">
+            <Button href="#">
+              <svg slot="icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="m10 2 2.200 5.800L18 10l-5.800 2.200L10 18l-2.200-5.800L2 10l5.800-2.200L10 2Zm8.500 11 1.100 2.900 2.900 1.100-2.900 1.100-1.100 2.900-1.100-2.900-2.900-1.100 2.900-1.100 1.100-2.900Z" />
               </svg>
               Ask Reb
-            </ServicesButton>
+            </Button>
           </div>
         </div>
       </div>

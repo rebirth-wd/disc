@@ -1,7 +1,7 @@
 ---
 // careers-faq: heading left, accordion right,
 // "See All" reveals the remaining questions.
-import CareersGlowButton from './CareersGlowButton.astro';
+import Button from '@components/ui/Button.astro';
 const faqs = [
   [
     'Why choose Rebirth Online for my project? What makes a static-first website different?',
@@ -112,16 +112,7 @@ const rest = faqs.slice(4);
           data-faq-all-wrap
           class="flex justify-center pt-48 md:pt-[64px] [@media(min-width:1440px)]:justify-start"
         >
-          <CareersGlowButton
-            variant="white"
-            href={undefined}
-            size="sm"
-            glow={false}
-            data-faq-all-btn
-            class="md:max-xl:[&_.button]:px-20!"
-          >
-            See All
-          </CareersGlowButton>
+          <Button data-faq-all-btn>See All</Button>
         </div>
       </div>
     </div>

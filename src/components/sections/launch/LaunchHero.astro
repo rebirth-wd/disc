@@ -1,6 +1,6 @@
 ---
 // Hero. Slides up under header + subnav.
-import LaunchButton from './LaunchButton.astro';
+import Button from '@components/ui/Button.astro';
 import LaunchObject from '@components/graphics/objects/LaunchObject.astro';
 const cards = [
   { x: 9, y: 16, w: 250, h: 300, r: -12 },
@@ -45,9 +45,9 @@ const cards = [
       <div class="launch-hero__cta">
         <LaunchObject name="rocket" class="launch-hero__obj" data-float />
         <div class="launch-hero__btn">
-          <LaunchButton variant="blurple" href="#launch-cta" glow>
+          <Button variant="blurple" href="#launch-cta" glow>
             Get Started
-          </LaunchButton>
+          </Button>
         </div>
       </div>
     </div>

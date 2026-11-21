@@ -1,7 +1,7 @@
 ---
 // careers-banner:
 // rounded indigo banner card with heading, copy, CTA and four floating objects (two sharp, two far-field).
-import CareersGlowButton from './CareersGlowButton.astro';
+import Button from '@components/ui/Button.astro';
 import CareersObject from '@components/graphics/objects/CareersObject.astro';
 import Starfield from '@components/layout/Starfield.astro';
 ---
@@ -27,9 +27,9 @@ import Starfield from '@components/layout/Starfield.astro';
           </p>
           <div class="h-[32px] md:h-48"></div>
           <div class="flex flex-col items-center">
-            <CareersGlowButton variant="blurple" href="#" size="lg" class="z-2">
+            <Button variant="blurple" size="lg" href="#" glow class="z-2">
               Learn More
-            </CareersGlowButton>
+            </Button>
           </div>
         </div>
         <CareersObject

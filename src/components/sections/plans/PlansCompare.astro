@@ -73,11 +73,7 @@ const groups: { title: string; link?: boolean; tall?: boolean; rows: Row[] }[] =
               <br />
               <span>Basic</span>
             </h3>
-            <Button
-              variant="white"
-              href="#"
-              class="plans-btn plans-btn--ghost plans-btn--lift plans-compare__btn"
-            >
+            <Button variant="ghost" size="sm" href="#">
               Subscribe
             </Button>
           </div>
@@ -89,7 +85,7 @@ const groups: { title: string; link?: boolean; tall?: boolean; rows: Row[] }[] =
                 -
               </span>
             </h3>
-            <Button variant="white" href="#" class="plans-btn plans-btn--lift plans-compare__btn">
+            <Button size="sm" href="#">
               Subscribe
             </Button>
           </div>
@@ -256,10 +252,6 @@ const groups: { title: string; link?: boolean; tall?: boolean; rows: Row[] }[] =
     display: block;
     font-size: 14px;
     line-height: 18.2px;
-  }
-  .plans-compare__plan :global(.plans-compare__btn) {
-    padding: 13.5px 20.5px;
-    line-height: 16px;
   }
   .plans-compare__group {
     margin-left: -37px;
@@ -477,12 +469,6 @@ const groups: { title: string; link?: boolean; tall?: boolean; rows: Row[] }[] =
     .plans-compare__name span {
       font-size: 9px;
       line-height: 12px;
-    }
-    .plans-compare__plan :global(.plans-compare__btn) {
-      height: 42px;
-      padding: 0 var(--spacing-8);
-      border-radius: var(--radius-lg);
-      font-size: 15px;
     }
     .plans-compare__group {
       margin-left: -11px;

@@ -142,51 +142,6 @@
     }
   }
 
-  /* Compact 48px buttons used on this page (shared Button primitive, re-sized) */
-  .plans-page .button.plans-btn {
-    height: 48px;
-    padding: 13px var(--spacing-24);
-    border-radius: var(--radius-buttons);
-    font-size: var(--text-body);
-    line-height: 21px;
-    font-weight: var(--font-weight-medium);
-    letter-spacing: normal;
-    color: var(--color-black);
-    background-color: var(--color-white);
-    transition:
-      background-color 0.2s,
-      color 0.2s,
-      box-shadow 0.2s;
-    z-index: 1;
-  }
-  .plans-page .button.plans-btn--slow {
-    transition: background-color 0.4s;
-  }
-  .plans-page .button.plans-btn--full {
-    display: flex;
-    width: 100%;
-  }
-  .plans-page .button.plans-btn--ghost {
-    background-color: var(--color-white-10);
-    color: var(--color-white);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-  }
-  @media (hover: hover) {
-    .plans-page .button.plans-btn:hover {
-      background-color: var(--color-fog);
-      color: var(--color-black);
-    }
-    .plans-page .button.plans-btn--lift:hover {
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    }
-  }
-  @media (max-width: 479px) {
-    .plans-page .button.plans-btn--slow {
-      font-size: 14px;
-      line-height: 18px;
-    }
-  }
-
   /* Check-list rows */
   .plans-page .plans-check {
     position: relative;

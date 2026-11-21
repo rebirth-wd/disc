@@ -1,7 +1,7 @@
 ---
 // careers-cta:
 // closing headline + CTA with two objects that drift in opposite directions on scroll.
-import CareersGlowButton from './CareersGlowButton.astro';
+import Button from '@components/ui/Button.astro';
 import CareersObject from '@components/graphics/objects/CareersObject.astro';
 import Starfield from '@components/layout/Starfield.astro';
 ---
@@ -34,9 +34,9 @@ import Starfield from '@components/layout/Starfield.astro';
         >
           <CareersObject kind="cube" class="h-auto w-full" />
         </div>
-        <CareersGlowButton variant="blurple" href="#" size="md">
+        <Button variant="blurple" href="#" glow>
           Learn More
-        </CareersGlowButton>
+        </Button>
       </div>
     </div>
   </div>

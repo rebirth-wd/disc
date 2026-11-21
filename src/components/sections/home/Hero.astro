@@ -94,10 +94,10 @@ const twinkles: [number, number, number, string][] = [
         </div>
       </div>
       <div class="hero-cta" data-hero="cta">
-        <Button variant="white" href="#stack" class="hero-btn hero-btn--white">
+        <Button size="xl" href="#stack" class="mt-24">
           Explore the Stack
         </Button>
-        <Button variant="blurple" href="#how-we-work" class="hero-btn hero-btn--blurple">
+        <Button variant="blurple" size="xl" href="#how-we-work" class="mt-24">
           How We Work
         </Button>
       </div>
@@ -252,45 +252,6 @@ const twinkles: [number, number, number, string][] = [
     justify-content: center;
     gap: 0 var(--spacing-24);
   }
-  .hero-cta :global(.button) {
-    margin-top: var(--spacing-24);
-    height: 56px;
-    font-size: 18px;
-    line-height: 24px;
-    isolation: isolate;
-    overflow: hidden;
-  }
-  .hero-cta :global(.button--white) {
-    min-width: 232px;
-    padding: 15px var(--spacing-24);
-    transition: all 0.3s;
-  }
-  .hero-cta :global(.button--blurple) {
-    min-width: 299px;
-    padding: 16.7px var(--spacing-24);
-    transition: none;
-  }
-  /* blurple hover = dark gradient veil fading in over 0.3s  */
-  .hero-cta :global(.button--blurple)::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s;
-    background: linear-gradient(transparent 0, rgb(31, 29, 93) 130%);
-  }
-  @media (hover: hover) {
-    /* fill → Fog + a 0 8px 15px rgba(0,0,0,.2) hover shadow (not in the style docs' resting sample) */
-    .hero-cta :global(.button--white:hover) {
-      background-color: var(--color-fog);
-      color: var(--color-not-quite-black);
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    }
-    .hero-cta :global(.button--blurple:hover)::after {
-      opacity: 1;
-    }
-  }
 
   /* ---------- ≥1280 ---------- */
   @media (min-width: 1280px) {
@@ -358,19 +319,6 @@ const twinkles: [number, number, number, string][] = [
       top: 320px;
       width: 144px;
       height: 160px;
-    }
-    .hero-cta :global(.button) {
-      height: 65px;
-      font-size: var(--text-body-xl);
-      line-height: 26px;
-    }
-    .hero-cta :global(.button--white) {
-      min-width: 262px;
-      padding: 15px var(--spacing-24);
-    }
-    .hero-cta :global(.button--blurple) {
-      min-width: 320px;
-      padding: 19.5px var(--spacing-24);
     }
   }
   /* ---------- ≤991: stacked, art first ---------- */

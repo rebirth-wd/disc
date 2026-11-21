@@ -11,9 +11,7 @@ import PlansObject from '@components/graphics/objects/PlansObject.astro';
           <h2 class="plans-h1 plans-cta__title">
             <span>Why wait</span> <span>any longer?</span>
           </h2>
-          <Button variant="white" href="#plans" class="plans-btn plans-btn--slow plans-cta__cta">
-            Start now
-          </Button>
+          <Button href="#plans">Start now</Button>
         </div>
         <PlansObject name="rocket" par="flag" class="plans-cta__rocket" />
         <PlansObject name="calendar" par="box" class="plans-cta__cal" />
@@ -48,10 +46,6 @@ import PlansObject from '@components/graphics/objects/PlansObject.astro';
   .plans-cta__title span {
     display: block;
     white-space: nowrap;
-  }
-  .plans-cta__inner :global(.plans-cta__cta) {
-    min-width: 121px;
-    line-height: 16px;
   }
   .plans-cta__block :global(.plans-cta__rocket) {
     top: -198.4px;

@@ -15,9 +15,7 @@ import PlansObject from '@components/graphics/objects/PlansObject.astro';
           Tired of chasing updates, backups and patches? We get it. Join a care plan, and we manage
           the lot for you, every month.
         </p>
-        <Button variant="white" href="#plans" class="plans-btn plans-btn--slow plans-hero__cta">
-          Start now
-        </Button>
+        <Button href="#plans">Start now</Button>
         <PlansObject name="bot" par="astro" class="plans-hero__bot" />
       </div>
     </div>
@@ -82,9 +80,6 @@ import PlansObject from '@components/graphics/objects/PlansObject.astro';
   .plans-hero__lead {
     max-width: 760px;
     margin-bottom: 44px !important;
-  }
-  .plans-hero__block :global(.plans-hero__cta) {
-    min-width: 121px;
   }
   .plans-hero__block :global(.plans-hero__shield) {
     top: -82px;
