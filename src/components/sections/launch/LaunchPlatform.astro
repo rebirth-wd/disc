@@ -1,0 +1,347 @@
+---
+// "Join the platform…" three number blocks with source tooltips + two parallax objects
+//. Figures are placeholders.
+import LaunchObject from '@components/graphics/objects/LaunchObject.astro';
+const stats = [
+  {
+    n: 'XX%',
+    label: 'Performance Score',
+    src: 'Placeholder figure, to be replaced with measured data',
+  },
+  {
+    n: '0.0s',
+    label: 'Median Load Time',
+    src: 'Placeholder figure, to be replaced with measured data',
+  },
+  {
+    n: 'XXX+',
+    label: 'Edge locations worldwide',
+    src: 'Placeholder figure, to be replaced with measured data',
+  },
+];
+---
+
+<section data-section="quests-platform" class="launch-section launch-platform">
+  <div class="launch-pad">
+    <div class="launch-wrap">
+      <div class="launch-platform__head">
+        <h2 class="launch-h2 launch-platform__h2">Launch on the stack the modern web runs on</h2>
+        <p class="launch-lead">
+          Pre-rendered static pages, minimal client JavaScript and clean, semantic markup. The SEO
+          groundwork is in the architecture.
+        </p>
+      </div>
+      <div class="launch-platform__rel">
+        <div class="launch-platform__grid">
+          {stats.map((s, i) => (
+            <div class="launch-platform__block">
+              <div class="launch-platform__num">{s.n}</div>
+              <div>
+                <div class="launch-platform__label">{s.label}</div>
+                <button
+                  type="button"
+                  class="launch-platform__src"
+                  data-source
+                  aria-describedby={`launch-platform-tip-${i}`}
+                  aria-expanded="false"
+                >
+                  <span>Source: ⓘ</span>
+                  <span class="launch-platform__anchor">
+                    <span
+                      class="launch-platform__tip"
+                      data-tip
+                      id={`launch-platform-tip-${i}`}
+                      role="tooltip"
+                      hidden
+                    >
+                      {s.src}
+                      <i></i>
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+        <LaunchObject name="cube" class="launch-platform__cube" data-float="b" />
+        <LaunchObject name="bolt" class="launch-platform__bolt" data-float="a" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .launch-platform__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 752px;
+    margin: 0 auto;
+  }
+  .launch-platform__h2.launch-h2 {
+    margin-bottom: var(--spacing-24);
+  }
+  .launch-platform__rel {
+    position: relative;
+    margin-top: var(--spacing-48);
+  }
+  .launch-platform__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacing-16);
+  }
+  .launch-platform__block {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spacing-24);
+    box-sizing: border-box;
+    min-height: 212px;
+    padding: 32px;
+    border-radius: var(--spacing-48);
+    background-color: rgb(31, 29, 93);
+    background-image: radial-gradient(
+      130% 90% at 50% 118%,
+      #5865f2 0%,
+      #4c57d8 30%,
+      rgba(50, 54, 145, 0.6) 62%,
+      rgba(31, 29, 93, 0) 100%
+    );
+    -webkit-backdrop-filter: blur(120px);
+    backdrop-filter: blur(120px);
+  }
+  .launch-platform__num {
+    font-family: var(--font-abc-ginto-discord-nord);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--text-display);
+    line-height: 0.96;
+    letter-spacing: -0.01em;
+    color: var(--color-white);
+  }
+  .launch-platform__label {
+    max-width: 240px;
+    font-size: 18px;
+    line-height: 24px;
+    color: var(--color-white);
+  }
+  .launch-platform__src {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 8px 0 0;
+    padding: 0 6px 1px 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    font: inherit;
+    font-size: var(--text-body);
+    line-height: 22.4px;
+    color: rgba(255, 255, 255, 0.75);
+  }
+  .launch-platform__src:focus-visible {
+    outline: 2px solid var(--color-white);
+    outline-offset: 2px;
+  }
+  .launch-platform__anchor {
+    position: relative;
+    width: 0;
+    height: 0;
+  }
+  .launch-platform__tip {
+    position: absolute;
+    left: -7px;
+    bottom: 20px;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 225px;
+    padding: 12px 10px;
+    border-radius: 8px;
+    background-color: var(--color-blurple);
+    color: var(--color-white);
+    font-size: 14px;
+    line-height: 18px;
+    text-align: center;
+    z-index: 5;
+  }
+  .launch-platform__tip[hidden] {
+    display: none;
+  }
+  .launch-platform__tip i {
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    width: 12px;
+    height: 12px;
+    margin-left: -6px;
+    background: var(--color-blurple);
+    transform: rotate(45deg);
+    border-radius: 2px;
+  }
+  .launch-platform__cube {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 174.4px;
+    width: 114px;
+    height: 114px;
+  }
+  .launch-platform__bolt {
+    position: absolute;
+    right: -5px;
+    top: -55px;
+    width: 88px;
+    height: 88px;
+  }
+  @media (min-width: 768px) {
+    .launch-platform__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .launch-platform__block {
+      min-height: 224px;
+    }
+    .launch-platform__num {
+      font-size: 40px;
+    }
+    .launch-platform__cube {
+      display: block;
+    }
+    .launch-platform__bolt {
+      right: -27px;
+      top: -64px;
+    }
+  }
+  @media (min-width: 992px) {
+    .launch-platform__head {
+      max-width: 750px;
+    }
+    .launch-platform__rel {
+      margin-top: 80px;
+    }
+    .launch-platform__num {
+      font-size: var(--text-display);
+    }
+    .launch-platform__label {
+      max-width: 180px;
+      line-height: 22.5px;
+    }
+    .launch-platform__bolt {
+      right: -38px;
+      top: -82px;
+      width: 120px;
+      height: 120px;
+    }
+  }
+  @media (min-width: 1440px) {
+    .launch-platform__head {
+      max-width: 1050px;
+    }
+    .launch-platform__block {
+      min-height: 264px;
+      padding: var(--spacing-48);
+      gap: var(--spacing-40);
+      border-radius: 56px;
+    }
+    .launch-platform__num {
+      font-size: 72px;
+      line-height: 69.12px;
+      letter-spacing: -0.72px;
+    }
+    .launch-platform__label {
+      max-width: 330px;
+      font-weight: var(--font-weight-medium);
+      line-height: 32px;
+    }
+    .launch-platform__src {
+      margin-top: 12px;
+    }
+    .launch-platform__cube {
+      top: 209.3px;
+      width: 150px;
+      height: 150px;
+    }
+    .launch-platform__bolt {
+      right: -76px;
+      top: -100px;
+      width: 152px;
+      height: 152px;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { CustomEase } from 'gsap/CustomEase';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(CustomEase, ScrollTrigger);
+  const cssEase = CustomEase.create('launchCssEase', '0.25,0.1,0.25,1');
+
+  document.querySelectorAll<HTMLElement>('[data-section="quests-platform"]').forEach((root) => {
+    // Source tooltips. display flex + opacity 0 -> 1 in 300ms ease
+    // on hover (desktop) or click (all sizes); opacity -> 0 in 300ms ease, then display none.
+    root.querySelectorAll<HTMLButtonElement>('[data-source]').forEach((btn) => {
+      const tip = btn.querySelector<HTMLElement>('[data-tip]')!;
+      let open = false;
+      const set = (v: boolean) => {
+        if (v === open) return;
+        open = v;
+        btn.setAttribute('aria-expanded', String(v));
+        if (v) {
+          tip.hidden = false;
+          gsap.fromTo(
+            tip,
+            { opacity: 0 },
+            { opacity: 1, duration: 0.3, ease: cssEase, overwrite: true },
+          );
+        } else
+          gsap.to(tip, {
+            opacity: 0,
+            duration: 0.3,
+            ease: cssEase,
+            overwrite: true,
+            onComplete: () => {
+              tip.hidden = true;
+            },
+          });
+      };
+      const desktop = window.matchMedia('(min-width: 992px)');
+      btn.addEventListener('pointerenter', (e) => {
+        if (e.pointerType === 'mouse' && desktop.matches) set(true);
+      });
+      btn.addEventListener('pointerleave', (e) => {
+        if (e.pointerType === 'mouse' && desktop.matches) set(false);
+      });
+      btn.addEventListener('click', (e) => {
+        if ((e as PointerEvent).pointerType !== 'mouse' || !desktop.matches) set(!open);
+      });
+      btn.addEventListener('focus', () => {
+        if (btn.matches(':focus-visible')) set(true);
+      });
+      btn.addEventListener('blur', () => set(false));
+      btn.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') set(false);
+      });
+    });
+  });
+
+  const mm = gsap.matchMedia();
+  // Scroll parallax (desktop only, smoothing 80), keyed to the section's in-view progress:
+  // object A y -40 -> 0 over 20% -> 80%; object B y 0 -> 40 over 45% -> 100%.
+  mm.add('(min-width: 992px) and (prefers-reduced-motion: no-preference)', () => {
+    document.querySelectorAll<HTMLElement>('[data-section="quests-platform"]').forEach((root) => {
+      const a = root.querySelector('[data-float="a"]');
+      const b = root.querySelector('[data-float="b"]');
+      const tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: 0.8 },
+      });
+      tl.fromTo(a, { y: -40 }, { y: 0, duration: 60 }, 20)
+        .fromTo(b, { y: 0 }, { y: 40, duration: 55 }, 45)
+        .to({}, { duration: 0 }, 100);
+    });
+  });
+</script>

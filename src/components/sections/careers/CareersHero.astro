@@ -1,0 +1,253 @@
+---
+// careers-hero: centred headline + CTA,
+// two floating objects with scroll parallax, and the looping photo gallery (Swiper "is-gallery").
+import CareersGlowButton from './CareersGlowButton.astro';
+import CareersObject from '@components/graphics/objects/CareersObject.astro';
+import CareersPhoto from './CareersPhoto.astro';
+import neonStudio from '@assets/photos/careers-gallery-neon-studio.jpg';
+import neonDesk from '@assets/photos/careers-gallery-neon-desk.jpg';
+import nightOffice from '@assets/photos/careers-gallery-night-office.jpg';
+import openOffice from '@assets/photos/careers-gallery-open-office.jpg';
+import pairing from '@assets/photos/careers-gallery-pairing.jpg';
+import teamReview from '@assets/photos/careers-gallery-team-review.jpg';
+import laptopDuo from '@assets/photos/careers-gallery-laptop-duo.jpg';
+
+const slides = [
+  { src: teamReview, alt: 'A small team reviewing a design together around one screen' },
+  { src: neonStudio, alt: 'A studio desk lit by violet neon signs' },
+  { src: openOffice, alt: 'People working on laptops in an open-plan office' },
+  { src: neonDesk, alt: 'A workstation glowing with neon light in a dark room' },
+  { src: pairing, alt: 'Two colleagues talking a build through at a laptop' },
+  { src: nightOffice, alt: 'A quiet desk with a laptop and monitor at night' },
+  { src: laptopDuo, alt: 'Two colleagues sharing a laptop by a bright window' },
+];
+---
+
+<section
+  data-section="careers-hero"
+  data-nav-trigger
+  class="careers-hero relative flex flex-col items-center pt-[130px] text-center md:pt-[156px] [@media(min-width:1440px)]:pt-176"
+>
+  <div class="relative w-full max-w-[1320px] px-20 xl:px-40">
+    <div
+      data-hero-copy
+      class="relative mx-auto flex max-w-[624px] flex-col items-center [@media(min-width:1440px)]:max-w-[820px]"
+    >
+      <h1 class="mx-auto mb-16 max-w-[297px] font-abc-ginto-discord-nord text-[9.75vw] leading-none font-bold tracking-[-0.03em] text-white uppercase md:mb-20 md:max-w-none md:text-[56px] [@media(min-width:1440px)]:mb-24 [@media(min-width:1440px)]:text-[72px] [@media(min-width:1440px)]:leading-[0.9]">
+        Work with us
+      </h1>
+      <p class="font-abc-ginto-discord text-[16px] leading-[22px] text-white md:text-body-xl md:leading-[26px]">
+        Rebirth Online builds fast, secure, static-first websites on a modern, production-grade
+        stack. You work with the person writing the code — not an account manager or an offshore
+        team.
+      </p>
+      <div
+        data-careers-float="a"
+        class="pointer-events-none absolute top-[187px] left-[-43px] z-3 w-[128px] md:top-[129px] md:left-[-93px] md:w-[160px] xl:top-[52px] xl:left-[-192px] xl:w-[223px] [@media(min-width:1440px)]:top-[131px] [@media(min-width:1440px)]:left-[-213px] [@media(min-width:1440px)]:w-[240px]"
+      >
+        <CareersObject kind="gem" class="h-auto w-full" />
+      </div>
+      <div
+        data-careers-float="b"
+        class="pointer-events-none absolute top-[-75px] right-[-22px] w-[80px] md:top-[-91px] md:right-[-70px] md:w-[96px] xl:top-[-80px] xl:right-[-175px] xl:w-[136px] [@media(min-width:1440px)]:top-[-107px] [@media(min-width:1440px)]:right-[-197px] [@media(min-width:1440px)]:w-[160px]"
+      >
+        <CareersObject kind="orb" class="h-auto w-full" />
+      </div>
+      <div class="h-24 md:h-40"></div>
+      <CareersGlowButton variant="blurple" href="#careers-values" size="sm">
+        How We Work
+      </CareersGlowButton>
+    </div>
+  </div>
+
+  <div
+    data-carousel
+    class="careers-hero__gallery relative mt-[59px] w-full pb-0 md:mt-[60px] md:pb-[54px] xl:mt-[80px]"
+    role="region"
+    aria-roledescription="carousel"
+    aria-label="Life at Rebirth photo gallery"
+  >
+    <div
+      data-carousel-viewport
+      class="careers-hero__gallery-viewport relative h-[300px] w-full overflow-hidden md:h-[496px]"
+    >
+      <i data-carousel-probe class="absolute h-0 w-0" aria-hidden="true"></i>
+      {slides.map((s, i) => (
+        <div
+          data-slide
+          class="careers-hero__gallery-slide absolute top-0 left-1/2 flex h-full items-center justify-center"
+          role="group"
+          aria-roledescription="slide"
+          aria-label={`${i + 1} / ${slides.length}`}
+        >
+          <div data-slide-media class="careers-hero__gallery-media h-[90%] w-[90%]">
+            <CareersPhoto
+              src={s.src}
+              alt={s.alt}
+              sizes="(min-width: 1280px) 800px, 80vw"
+              loading={i < 2 || i === slides.length - 1 ? 'eager' : 'lazy'}
+              class="h-full w-full rounded-[56px] md:rounded-[96px] [@media(min-width:1440px)]:rounded-[80px]"
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="pointer-events-none absolute inset-x-[2vw] top-0 z-3 hidden h-[496px] items-center justify-between md:flex">
+      <button type="button" data-carousel-prev class="careers-arrow" aria-label="Previous photo">
+        <span class="careers-arrow__bg" aria-hidden="true"></span>
+        <svg
+          class="relative"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M14.5 6 8.5 12l6 6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+      <button type="button" data-carousel-next class="careers-arrow" aria-label="Next photo">
+        <span class="careers-arrow__bg" aria-hidden="true"></span>
+        <svg
+          class="relative"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="m9.5 6 6 6-6 6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* blurple sky fading to the black careers canvas */
+  .careers-hero {
+    background:
+      radial-gradient(120% 46% at 50% 0%, rgba(88, 101, 242, 0.55) 0%, rgba(88, 101, 242, 0) 100%),
+      linear-gradient(
+        180deg,
+        #4752c4 0%,
+        #3b41a8 14%,
+        #272a7c 28%,
+        #141545 40%,
+        #06061a 50%,
+        #000 58%
+      );
+  }
+  .careers-hero__gallery-slide {
+    width: 80vw;
+    margin-left: -40vw;
+    will-change: transform;
+  }
+  @media (min-width: 1280px) {
+    .careers-hero__gallery-slide {
+      width: 800px;
+      margin-left: -400px;
+    }
+  }
+  .careers-hero__gallery-viewport {
+    touch-action: pan-y;
+  }
+  :global(.careers-arrow) {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-nav-controls);
+    background: transparent;
+    color: var(--color-white);
+    cursor: pointer;
+    pointer-events: auto;
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+  }
+  :global(.careers-arrow__bg) {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-nav-controls);
+    background: var(--color-white);
+    opacity: 0.1;
+  }
+  :global(.careers-arrow:focus-visible) {
+    outline: 2px solid var(--color-signal-green);
+    outline-offset: 3px;
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { createCarousel, CSS_EASE } from '@lib/carousel';
+  gsap.registerPlugin(ScrollTrigger);
+
+  const root = document.querySelector<HTMLElement>('[data-section="careers-hero"]');
+  if (root) {
+    // Swiper "is-gallery": slidesPerView auto, centred, loop, speed 600, autoplay 5000 (pauseOnMouseEnter,
+    // disableOnInteraction = Swiper default true). Active photo grows 90% -> 100% (width/height .5s ease).
+    const gallery = root.querySelector<HTMLElement>('[data-carousel]')!;
+    createCarousel(gallery, {
+      speed: 0.6,
+      autoplay: 5,
+      disableOnInteraction: true,
+      stateDuration: 0.5,
+      applyState: (slide, a) => {
+        const m = slide.querySelector<HTMLElement>('[data-slide-media]')!;
+        const v = 90 + 10 * a + '%';
+        m.style.width = v;
+        m.style.height = v;
+      },
+    });
+
+    // arrow hover: .icon_dd_bg opacity .1 -> .3, 300ms ease
+    document.querySelectorAll<HTMLElement>('.careers-arrow').forEach((arrow) => {
+      if (arrow.dataset.hoverBound) return;
+      arrow.dataset.hoverBound = '1';
+      const bg = arrow.querySelector('.careers-arrow__bg');
+      arrow.addEventListener('mouseenter', () =>
+        gsap.to(bg, { opacity: 0.3, duration: 0.3, ease: CSS_EASE, overwrite: true }),
+      );
+      arrow.addEventListener('mouseleave', () =>
+        gsap.to(bg, { opacity: 0.1, duration: 0.3, ease: CSS_EASE, overwrite: true }),
+      );
+    });
+
+    // Scroll parallax on the copy container (smoothing 50):
+    // 60% -> 100% of the element's pass through the viewport: object A y 0 -> 40px, object B y 0 -> 200px.
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: root.querySelector('[data-hero-copy]'),
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.5,
+        },
+      });
+      tl.to({}, { duration: 0.6 })
+        .to(root.querySelector('[data-careers-float="a"]'), { y: 40, duration: 0.4 }, 0.6)
+        .to(root.querySelector('[data-careers-float="b"]'), { y: 200, duration: 0.4 }, 0.6);
+    });
+  }
+</script>

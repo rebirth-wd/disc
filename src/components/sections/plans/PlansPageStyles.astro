@@ -1,0 +1,241 @@
+---
+// Shared (page-scoped) styles for the /plans "Care Plans" page.
+// The style docs sampled the home page only; this page's own canvas (black), italic display
+// headings, 48px compact buttons, hairline borders and card radii are measured values.
+---
+
+<style is:global>
+  .plans-page {
+    position: relative;
+    background: var(--color-black);
+    color: var(--color-white);
+    overflow: clip;
+    --plans-pad: 120px;
+    --plans-wrap: 1200px;
+    --plans-wrap-wide: 1538px;
+    --plans-fog: var(--color-fog);
+  }
+  @media (max-width: 1439px) {
+    .plans-page {
+      --plans-pad: 80px;
+      --plans-wrap: 944px;
+      --plans-wrap-wide: 944px;
+    }
+  }
+  @media (max-width: 991px) {
+    .plans-page {
+      --plans-pad: 40px;
+    }
+  }
+  @media (max-width: 479px) {
+    .plans-page {
+      --plans-pad: 6vw;
+    }
+  }
+
+  .plans-page .plans-pad {
+    padding-inline: var(--plans-pad);
+  }
+  .plans-page .plans-wrap {
+    position: relative;
+    width: 100%;
+    max-width: var(--plans-wrap);
+    margin-inline: auto;
+  }
+  .plans-page .plans-wrap--wide {
+    max-width: var(--plans-wrap-wide);
+    z-index: 2;
+  }
+
+  /* Display type: Nord face, 700, synthesised italic, uppercase (measured on this page) */
+  .plans-page .plans-h1,
+  .plans-page .plans-h2,
+  .plans-page .plans-h3,
+  .plans-page .plans-h4 {
+    font-family: var(--font-abc-ginto-discord-nord);
+    font-weight: var(--font-weight-bold);
+    font-style: italic;
+    text-transform: uppercase;
+    color: var(--color-white);
+    margin: 0;
+  }
+  .plans-page .plans-h1 {
+    font-size: 72px;
+    line-height: 64.8px;
+    letter-spacing: -2.16px;
+    margin-bottom: var(--spacing-24);
+  }
+  .plans-page .plans-h2 {
+    font-size: var(--text-heading-lg);
+    line-height: 48px;
+    letter-spacing: var(--tracking-heading-lg);
+    margin-bottom: var(--spacing-24);
+    text-align: center;
+  }
+  .plans-page .plans-h3 {
+    font-size: var(--text-heading);
+    line-height: 36px;
+    letter-spacing: var(--tracking-heading);
+    margin-bottom: var(--spacing-16);
+  }
+  .plans-page .plans-h4 {
+    font-size: 28px;
+    line-height: 28px;
+    letter-spacing: -0.28px;
+  }
+  .plans-page .plans-xl {
+    font-family: var(--font-abc-ginto-discord);
+    font-size: var(--text-body-xl);
+    line-height: 26px;
+    font-weight: var(--font-weight-regular);
+    margin: 0;
+  }
+  .plans-page .plans-xl--medium {
+    font-weight: var(--font-weight-medium);
+  }
+  @media (max-width: 1439px) {
+    .plans-page .plans-h1 {
+      font-size: var(--text-display);
+      line-height: 56px;
+      letter-spacing: -1.68px;
+    }
+    .plans-page .plans-h2 {
+      font-size: 40px;
+      line-height: 40px;
+      letter-spacing: -0.4px;
+    }
+    .plans-page .plans-h3 {
+      font-size: 32px;
+      line-height: 32px;
+      letter-spacing: -0.32px;
+    }
+    .plans-page .plans-h4 {
+      font-size: 26px;
+      line-height: 26px;
+      letter-spacing: -0.26px;
+    }
+  }
+  @media (max-width: 479px) {
+    .plans-page .plans-h1 {
+      font-size: 9.75vw;
+      line-height: 9.75vw;
+      letter-spacing: -0.03em;
+    }
+    .plans-page .plans-h2 {
+      font-size: 8.2vw;
+      line-height: 8.2vw;
+      letter-spacing: -0.01em;
+    }
+    .plans-page .plans-h3 {
+      font-size: 24px;
+      line-height: 26px;
+      letter-spacing: -0.24px;
+    }
+    .plans-page .plans-h4 {
+      font-size: 3.8vw;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+    .plans-page .plans-xl {
+      font-size: var(--text-body);
+      line-height: 22px;
+    }
+  }
+
+  /* Compact 48px buttons used on this page (shared Button primitive, re-sized) */
+  .plans-page .button.plans-btn {
+    height: 48px;
+    padding: 13px var(--spacing-24);
+    border-radius: var(--radius-buttons);
+    font-size: var(--text-body);
+    line-height: 21px;
+    font-weight: var(--font-weight-medium);
+    letter-spacing: normal;
+    color: var(--color-black);
+    background-color: var(--color-white);
+    transition:
+      background-color 0.2s,
+      color 0.2s,
+      box-shadow 0.2s;
+    z-index: 1;
+  }
+  .plans-page .button.plans-btn--slow {
+    transition: background-color 0.4s;
+  }
+  .plans-page .button.plans-btn--full {
+    display: flex;
+    width: 100%;
+  }
+  .plans-page .button.plans-btn--ghost {
+    background-color: var(--color-white-10);
+    color: var(--color-white);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  @media (hover: hover) {
+    .plans-page .button.plans-btn:hover {
+      background-color: var(--color-fog);
+      color: var(--color-black);
+    }
+    .plans-page .button.plans-btn--lift:hover {
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+  }
+  @media (max-width: 479px) {
+    .plans-page .button.plans-btn--slow {
+      font-size: 14px;
+      line-height: 18px;
+    }
+  }
+
+  /* Check-list rows */
+  .plans-page .plans-check {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    margin: 0 0 var(--spacing-20);
+  }
+  .plans-page .plans-check--last {
+    margin-bottom: 0;
+  }
+  .plans-page .plans-check > svg {
+    flex: none;
+    width: 24px;
+    height: 25px;
+    margin: 0.5px var(--spacing-16) 0.5px 0;
+    position: relative;
+    z-index: 1;
+  }
+  .plans-page .plans-check > span {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Underlined inline link (the underline is a 1px inset line) */
+  .plans-page .plans-link {
+    color: inherit;
+    text-decoration: none;
+    box-shadow: 0 1px 0 0 var(--color-fog);
+    transition:
+      opacity 0.25s,
+      box-shadow 0.25s;
+  }
+  @media (hover: hover) {
+    .plans-page .plans-link:hover {
+      opacity: 0.75;
+      box-shadow: 0 0 0 0 transparent;
+    }
+  }
+
+  /* Floating decor objects */
+  .plans-page .plans-obj {
+    position: absolute;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .plans-page .plans-obj svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+</style>

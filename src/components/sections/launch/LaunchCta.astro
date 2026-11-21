@@ -1,0 +1,180 @@
+---
+// Closing CTA banner
+import LaunchButton from './LaunchButton.astro';
+import LaunchObject from '@components/graphics/objects/LaunchObject.astro';
+---
+
+<div data-section="quests-cta" id="launch-cta" class="launch-cta">
+  <div class="launch-cta__glow" aria-hidden="true"></div>
+  <div class="launch-cta__pad">
+    <div class="launch-cta__wrap">
+      <div class="launch-cta__banner">
+        <LaunchObject name="plane" class="launch-cta__plane" data-float="b" />
+        <LaunchObject name="coin" class="launch-cta__coin" data-float="a" />
+        <div class="launch-cta__body">
+          <h2 class="launch-h2 launch-cta__h2">Launch your site</h2>
+          <p class="launch-lead">
+            Every Rebirth site is planned directly with the developer who writes the code. If you’re
+            ready to start a project, get in touch and we’ll shape the direction together.
+          </p>
+          <div class="launch-cta__btn">
+            <LaunchButton variant="white" href="#">
+              Get Started
+            </LaunchButton>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* <=479px: a 56px spacer precedes before the CTA */
+  .launch-cta {
+    position: relative;
+    z-index: 1;
+    margin-top: 56px;
+    padding: 20px 0 120px;
+  }
+  .launch-cta__glow {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 70%;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(88, 101, 242, 0) 0%, rgba(88, 101, 242, 0.14) 100%);
+  }
+  .launch-cta__pad {
+    padding: 0 24px;
+  }
+  .launch-cta__wrap {
+    position: relative;
+    z-index: 2;
+    max-width: 944px;
+    margin: 0 auto;
+  }
+  .launch-cta__banner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 56px 24px;
+    border-radius: 40px;
+    background-color: rgb(56, 31, 44);
+    background-image:
+      radial-gradient(
+        90% 120% at 50% 112%,
+        #c43fa1 0%,
+        #b63b95 22%,
+        #97357b 45%,
+        rgba(107, 42, 87, 0.6) 72%,
+        rgba(84, 36, 66, 0) 100%
+      ),
+      linear-gradient(180deg, #542442, #6b2a57);
+  }
+  .launch-cta__body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 1200px;
+  }
+  .launch-cta__btn {
+    margin-top: 36px;
+  }
+  .launch-cta__coin {
+    position: absolute;
+    left: -4px;
+    top: -37px;
+    width: 80px;
+    height: 80px;
+  }
+  .launch-cta__plane {
+    position: absolute;
+    right: 16px;
+    bottom: -40px;
+    width: 96px;
+    height: 96px;
+    z-index: 0;
+  }
+  @media (min-width: 480px) {
+    .launch-cta {
+      margin-top: 0;
+      padding: 120px 0;
+    }
+    .launch-cta__pad {
+      padding: 0 var(--spacing-40);
+    }
+    .launch-cta__banner {
+      padding: 100px 48px;
+      border-radius: 64px;
+    }
+    .launch-cta__coin {
+      left: -8.4px;
+      top: -65.8px;
+      width: 150px;
+      height: 150px;
+    }
+    .launch-cta__plane {
+      right: 70px;
+      bottom: -43.2px;
+      width: 150px;
+      height: 150px;
+    }
+  }
+  @media (min-width: 992px) {
+    .launch-cta__coin {
+      left: 12.4px;
+    }
+  }
+  @media (min-width: 1440px) {
+    .launch-cta {
+      padding: 120px 0 160px;
+    }
+    .launch-cta__wrap {
+      max-width: 1200px;
+    }
+    .launch-cta__banner {
+      padding: 120px 80px;
+      border-radius: 72px;
+    }
+    .launch-cta__btn {
+      margin-top: 44px;
+    }
+    .launch-cta__coin {
+      top: -91.4px;
+      width: 192px;
+      height: 192px;
+    }
+    .launch-cta__plane {
+      right: 90px;
+      bottom: -64px;
+      width: 200px;
+      height: 200px;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+  const mm = gsap.matchMedia();
+  // Scroll parallax (desktop only, smoothing 75), keyed to the section's in-view progress:
+  // object A y -40 -> 10 over 0% -> 55%; object B y 0 -> 55 over 22% -> 80%.
+  mm.add('(min-width: 992px) and (prefers-reduced-motion: no-preference)', () => {
+    document.querySelectorAll<HTMLElement>('[data-section="quests-cta"]').forEach((root) => {
+      const a = root.querySelector('[data-float="a"]');
+      const b = root.querySelector('[data-float="b"]');
+      const tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: 0.75 },
+      });
+      tl.fromTo(a, { y: -40 }, { y: 10, duration: 55 }, 0)
+        .fromTo(b, { y: 0 }, { y: 55, duration: 58 }, 22)
+        .to({}, { duration: 0 }, 100);
+    });
+  });
+</script>

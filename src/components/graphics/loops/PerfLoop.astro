@@ -1,0 +1,336 @@
+---
+// Original looping graphic for the speed feature: a site loads in a browser window and its performance scores fill up.
+import { getImage } from 'astro:assets';
+import photo from '@assets/photos/home-speed-purple-setup.jpg';
+const img = await getImage({ src: photo, width: 1200, format: 'webp', quality: 70 });
+const C = 2 * Math.PI * 24; // dial circumference
+---
+
+<div class="perf-loop" data-perf-loop="perf" data-circ={C}>
+  <svg
+    viewBox="0 0 727 554"
+    preserveAspectRatio="xMidYMid slice"
+    role="img"
+    aria-label="A website loading instantly in a browser while its performance scores climb to 100"
+  >
+    <defs>
+      <clipPath id="perf-loop-perf-win">
+        <rect x="61" y="44" width="605" height="341" rx="14" />
+      </clipPath>
+      <linearGradient id="perf-loop-perf-shade" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#0d0b24" stop-opacity="0.88" />
+        <stop offset="0.62" stop-color="#0d0b24" stop-opacity="0.25" />
+        <stop offset="1" stop-color="#0d0b24" stop-opacity="0" />
+      </linearGradient>
+    </defs>
+
+    <!-- browser window -->
+    <g clip-path="url(#perf-loop-perf-win)">
+      <rect x="61" y="44" width="605" height="341" fill="#12142b" />
+      <g data-page>
+        <image href={img.src} x="61" y="-323" width="944" height="708" preserveAspectRatio="none" />
+        <rect x="61" y="78" width="605" height="307" fill="url(#perf-loop-perf-shade)" />
+        <g data-hero>
+          <rect data-h x="89" y="118" width="92" height="18" rx="9" fill="#35ed7e" />
+          <text x="100" y="131" class="perf-loop__t perf-loop__t10 perf-loop__b" fill="#06301c">
+            STATIC-FIRST
+          </text>
+          <rect data-h x="89" y="150" width="250" height="20" rx="4" fill="#fff" />
+          <rect data-h x="89" y="178" width="196" height="20" rx="4" fill="#fff" />
+          <rect data-h x="89" y="214" width="220" height="8" rx="4" fill="#fff" opacity="0.6" />
+          <rect data-h x="89" y="230" width="180" height="8" rx="4" fill="#fff" opacity="0.6" />
+          <g data-h>
+            <rect x="89" y="258" width="112" height="34" rx="8" fill="#fff" />
+            <text x="107" y="280" class="perf-loop__t perf-loop__t12 perf-loop__b" fill="#23272a">
+              Get started
+            </text>
+          </g>
+        </g>
+      </g>
+      <!-- chrome -->
+      <rect x="61" y="44" width="605" height="34" fill="#1c1f3d" />
+      <circle cx="80" cy="61" r="4.500" fill="#eb459e" />
+      <circle cx="95" cy="61" r="4.500" fill="#fee75c" />
+      <circle cx="110" cy="61" r="4.500" fill="#57f287" />
+      <rect x="150" y="51" width="380" height="20" rx="10" fill="#2a2e57" />
+      <text x="166" y="65" class="perf-loop__t perf-loop__t10" fill="#c9ccf5">
+        rebirthwebdesign.com.au
+      </text>
+      <g data-reload>
+        <circle cx="547" cy="61" r="10" fill="#2a2e57" />
+        <path
+          d="M551.500 61a4.500 4.500 0 1 1-1.600-3.400M551.800 55.800v2.800h-2.800"
+          fill="none"
+          stroke="#c9ccf5"
+          stroke-width="1.500"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </g>
+      <rect data-bar x="61" y="76" width="605" height="3" fill="#35ed7e" />
+      <!-- load-time tag (bottom-left of the page) -->
+      <g data-tag>
+        <rect x="75" y="339" width="100" height="32" rx="8" fill="#000" opacity="0.62" />
+        <text x="88" y="360" class="perf-loop__t perf-loop__t12" fill="#fff">
+          Loaded{' '}
+          <tspan class="perf-loop__b" data-ms>
+            0.0s
+          </tspan>
+        </text>
+      </g>
+    </g>
+
+    <!-- score tiles -->
+    <g data-tile>
+      <rect x="61" y="392" width="194" height="108" rx="8" fill="#7d5fe0" />
+      <circle
+        cx="158"
+        cy="437"
+        r="24"
+        fill="none"
+        stroke="#fff"
+        stroke-opacity="0.25"
+        stroke-width="6"
+      />
+      <circle
+        data-dial
+        cx="158"
+        cy="437"
+        r="24"
+        fill="none"
+        stroke="#fff"
+        stroke-width="6"
+        stroke-linecap="round"
+        transform="rotate(-90 158 437)"
+        stroke-dasharray={C}
+        stroke-dashoffset={C}
+      />
+      <text
+        data-num
+        x="158"
+        y="442"
+        text-anchor="middle"
+        class="perf-loop__t perf-loop__t14 perf-loop__b"
+        fill="#fff"
+      >
+        0
+      </text>
+      <rect x="69" y="470" width="86" height="22" rx="6" fill="#0d0b24" opacity="0.35" />
+      <text x="78" y="485" class="perf-loop__t perf-loop__t10" fill="#fff">
+        Performance
+      </text>
+    </g>
+    <g data-tile>
+      <rect x="265" y="392" width="198" height="108" rx="8" fill="#12142b" />
+      <g data-bars fill="#35ed7e">
+        <rect x="287" y="410" width="14" height="50" rx="3" />
+        <rect x="309" y="410" width="14" height="50" rx="3" />
+        <rect x="331" y="410" width="14" height="50" rx="3" />
+        <rect x="353" y="410" width="14" height="50" rx="3" />
+        <rect x="375" y="410" width="14" height="50" rx="3" />
+        <rect x="397" y="410" width="14" height="50" rx="3" />
+        <rect x="419" y="410" width="14" height="50" rx="3" />
+      </g>
+      <g data-live>
+        <rect x="417" y="386" width="40" height="18" rx="6" fill="#ed4245" />
+        <text x="425" y="399" class="perf-loop__t perf-loop__t10 perf-loop__b" fill="#fff">
+          LIVE
+        </text>
+      </g>
+      <rect x="273" y="470" width="92" height="22" rx="6" fill="#fff" opacity="0.14" />
+      <text x="282" y="485" class="perf-loop__t perf-loop__t10" fill="#fff">
+        Core Web Vitals
+      </text>
+    </g>
+    <g data-tile>
+      <rect x="471" y="392" width="195" height="108" rx="8" fill="#b4c0ff" />
+      <circle
+        cx="568"
+        cy="437"
+        r="24"
+        fill="none"
+        stroke="#1a2081"
+        stroke-opacity="0.2"
+        stroke-width="6"
+      />
+      <circle
+        data-dial
+        cx="568"
+        cy="437"
+        r="24"
+        fill="none"
+        stroke="#1a2081"
+        stroke-width="6"
+        stroke-linecap="round"
+        transform="rotate(-90 568 437)"
+        stroke-dasharray={C}
+        stroke-dashoffset={C}
+      />
+      <text
+        data-num
+        x="568"
+        y="442"
+        text-anchor="middle"
+        class="perf-loop__t perf-loop__t14 perf-loop__b"
+        fill="#1a2081"
+      >
+        0
+      </text>
+      <rect x="479" y="470" width="42" height="22" rx="6" fill="#1a2081" opacity="0.5" />
+      <text x="489" y="485" class="perf-loop__t perf-loop__t10" fill="#fff">
+        SEO
+      </text>
+    </g>
+
+    <!-- cursor -->
+    <g data-cursor>
+      <path
+        d="M0 0l22 9-9.500 3.500L9 22z"
+        fill="#fff"
+        stroke="#111"
+        stroke-width="2.200"
+        stroke-linejoin="round"
+      />
+    </g>
+  </svg>
+</div>
+
+<style>
+  .perf-loop svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .perf-loop__t {
+    font-family: var(--font-abc-ginto-discord);
+    font-weight: 400;
+  }
+  .perf-loop__b {
+    font-weight: 500;
+  }
+  .perf-loop__t14 {
+    font-size: 15px;
+  }
+  .perf-loop__t12 {
+    font-size: 12.5px;
+  }
+  .perf-loop__t10 {
+    font-size: 10px;
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  document.querySelectorAll<HTMLElement>('[data-perf-loop="perf"]').forEach((root) => {
+    const q = gsap.utils.selector(root);
+    const one = (s: string) => q<SVGElement>(s)[0];
+    const C = Number(root.dataset.circ);
+    const dials = q('[data-dial]');
+    const nums = q('[data-num]');
+    const bars = q('[data-bars] rect');
+    const heights = [0.9, 0.55, 0.7, 0.4, 0.3, 0.2, 0.14];
+    const ms = one('[data-ms]');
+    const cursor = one('[data-cursor]');
+    const score = { a: 0, b: 0, t: 0 };
+    const paint = () => {
+      nums[0].textContent = String(Math.round(score.a));
+      nums[1].textContent = String(Math.round(score.b));
+      gsap.set(dials[0], { strokeDashoffset: C * (1 - score.a / 100) });
+      gsap.set(dials[1], { strokeDashoffset: C * (1 - score.b / 100) });
+      ms.textContent = score.t.toFixed(1) + 's';
+    };
+    gsap.set(bars, { transformOrigin: '50% 100%' });
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      score.a = score.b = 100;
+      score.t = 0.6;
+      paint();
+      gsap.set(bars, { scaleY: (i) => heights[i] });
+      gsap.set(one('[data-bar]'), { autoAlpha: 0 });
+      gsap.set(cursor, { x: 560, y: 300 });
+      return;
+    }
+
+    const tl = gsap.timeline({ repeat: -1, paused: true });
+    tl.set(cursor, { x: 610, y: 330 })
+      .set(one('[data-page]'), { autoAlpha: 0 })
+      .set(q('[data-h]'), { autoAlpha: 0, y: 10 })
+      .set(one('[data-tag]'), { autoAlpha: 0 })
+      .set(one('[data-bar]'), { scaleX: 0, autoAlpha: 1, transformOrigin: '0% 50%' })
+      .set(bars, { scaleY: 0.06 })
+      .set(one('[data-live]'), { autoAlpha: 0, scale: 0.5, transformOrigin: '437px 395px' })
+      .add(() => {
+        score.a = score.b = score.t = 0;
+        paint();
+      })
+      // cursor goes to reload and clicks
+      .to(cursor, { x: 541, y: 58, duration: 0.8, ease: 'power2.inOut' }, 0.3)
+      .to(
+        cursor,
+        { scale: 0.82, transformOrigin: '0 0', duration: 0.09, yoyo: true, repeat: 1 },
+        1.15,
+      )
+      .to(
+        one('[data-reload]'),
+        { rotation: 360, transformOrigin: '547px 61px', duration: 0.6, ease: 'power2.out' },
+        1.2,
+      )
+      // instant load
+      .to(one('[data-bar]'), { scaleX: 1, duration: 0.55, ease: 'power3.out' }, 1.25)
+      .to(one('[data-page]'), { autoAlpha: 1, duration: 0.3, ease: 'power1.out' }, 1.45)
+      .to(score, { t: 0.6, duration: 0.55, ease: 'none', onUpdate: paint }, 1.25)
+      .to(one('[data-bar]'), { autoAlpha: 0, duration: 0.25 }, 1.85)
+      .to(
+        q('[data-h]'),
+        {
+          autoAlpha: (i) => (i === 3 || i === 4 ? 0.6 : 1),
+          y: 0,
+          duration: 0.4,
+          stagger: 0.07,
+          ease: 'power2.out',
+        },
+        1.6,
+      )
+      .to(one('[data-tag]'), { autoAlpha: 1, duration: 0.3 }, 1.9)
+      // scores fill
+      .to(cursor, { x: 352, y: 452, duration: 1, ease: 'power2.inOut' }, 2.2)
+      .to(score, { a: 100, duration: 1.5, ease: 'power2.out', onUpdate: paint }, 2.5)
+      .to(
+        bars,
+        { scaleY: (i) => heights[i], duration: 0.7, stagger: 0.07, ease: 'back.out(1.6)' },
+        2.8,
+      )
+      .to(one('[data-live]'), { autoAlpha: 1, scale: 1, duration: 0.3, ease: 'back.out(2)' }, 3.3)
+      .to(score, { b: 100, duration: 1.5, ease: 'power2.out', onUpdate: paint }, 3.1)
+      .to(
+        q('[data-tile]'),
+        { y: -5, duration: 0.22, stagger: 0.09, yoyo: true, repeat: 1, ease: 'sine.inOut' },
+        4.7,
+      )
+      .to(
+        one('[data-live]'),
+        { autoAlpha: 0.35, duration: 0.45, yoyo: true, repeat: 5, ease: 'sine.inOut' },
+        3.7,
+      )
+      .to(cursor, { x: 610, y: 330, duration: 1.1, ease: 'power2.inOut' }, 5.6)
+      // fade back to the unloaded state (matches the timeline start)
+      .to(
+        [one('[data-page]'), one('[data-tag]'), one('[data-live]')],
+        { autoAlpha: 0, duration: 0.45, ease: 'power1.in' },
+        7.2,
+      )
+      .to(score, { a: 0, b: 0, duration: 0.45, ease: 'power1.in', onUpdate: paint }, 7.2)
+      .to(bars, { scaleY: 0.06, duration: 0.45, ease: 'power1.in' }, 7.2)
+      .to({}, { duration: 0.3 });
+
+    const section = root.closest<HTMLElement>('[data-feature-block]');
+    if (!section) {
+      tl.play();
+      return;
+    }
+    section.addEventListener('fb:enter', () => tl.play());
+    section.addEventListener('fb:leave', () => tl.pause());
+    if (section.dataset.inview === 'true') tl.play();
+  });
+</script>

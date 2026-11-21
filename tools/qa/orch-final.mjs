@@ -1,6 +1,6 @@
 import { chromium } from 'playwright';
 import fs from 'fs';
-const pages = { home: '/', download: '/download', nitro: '/nitro', careers: '/careers', quests: '/ads/quests' };
+const pages = { home: '/', services: '/services', plans: '/plans', careers: '/careers', launch: '/launch' };
 const b = await chromium.launch();
 const out = {};
 for (const [name, path] of Object.entries(pages)) {

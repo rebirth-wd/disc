@@ -1,0 +1,322 @@
+---
+import { Image } from 'astro:assets';
+import PlansDemo from '@components/graphics/loops/PlansDemo.astro';
+import p1 from '@assets/photos/plans-code-neon.jpg';
+import p2 from '@assets/photos/plans-laptop-glow.jpg';
+import p3 from '@assets/photos/plans-servers-green.jpg';
+import p4 from '@assets/photos/plans-setup-rgb.jpg';
+import p5 from '@assets/photos/plans-keyboard-violet.jpg';
+import p6 from '@assets/photos/plans-fans-datacenter.jpg';
+import p7 from '@assets/photos/plans-rack-green.jpg';
+import p8 from '@assets/photos/plans-studio-desk.jpg';
+import p9 from '@assets/photos/plans-laptop-magenta.jpg';
+const tiles = [p1, p2, p3, p4, p5, p6, p7, p8, p9];
+const points = [
+  'Trained on your services, pricing, suburbs and FAQs',
+  'Answers visitor questions after hours',
+  'Guides every visitor to the right page',
+  'Works from your information, not the internet’s',
+];
+const cards = [
+  {
+    kind: 'repairs',
+    title: 'Site repairs',
+    text: 'Your site monitors and repairs itself, with scanning, patching and uptime alerts.',
+  },
+  {
+    kind: 'faster',
+    title: 'Faster pages',
+    text: 'Audited against Google’s own metrics, with the fixes applied, not just reported.',
+  },
+] as const;
+---
+
+<section data-section="nitro-whatsnew" class="plans-whats-new">
+  <div class="plans-pad">
+    <div class="plans-wrap">
+      <h2 class="plans-h2">What’s new</h2>
+      <div class="plans-whats-new__grid">
+        <div class="plans-whats-new__banner">
+          <div class="plans-whats-new__collage" aria-hidden="true">
+            <div class="plans-whats-new__tiles">
+              {tiles.map((t) => (
+                <Image
+                  src={t}
+                  alt=""
+                  width={420}
+                  height={520}
+                  class="plans-whats-new__tile"
+                  loading="lazy"
+                />
+              ))}
+            </div>
+          </div>
+          <div class="plans-whats-new__body">
+            <div class="plans-whats-new__logo">
+              <svg viewBox="0 0 72 72" fill="none" aria-hidden="true">
+                <circle cx="36" cy="36" r="36" fill="#fff" />
+                <rect x="17" y="22" width="38" height="28" rx="11" fill="#012a20" />
+                <rect x="26" y="30" width="6" height="12" rx="3" fill="#57f287" />
+                <rect x="40" y="30" width="6" height="12" rx="3" fill="#57f287" />
+                <path d="M36 22v-8" stroke="#012a20" stroke-width="4" stroke-linecap="round" />
+                <circle cx="36" cy="12" r="4" fill="#012a20" />
+              </svg>
+              <span>AI Site Assistant</span>
+            </div>
+            {points.map((t, i) => (
+              <div class:list={['plans-check', i === points.length - 1 && 'plans-check--last']}>
+                <svg viewBox="0 0 24 25" fill="none" aria-hidden="true">
+                  <path
+                    d="m5.5 13 4.2 4.2L18.5 8"
+                    stroke="#fff"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <span class="plans-xl">{t}</span>
+              </div>
+            ))}
+            <a href="#faq" class="plans-whats-new__terms">
+              Terms and eligibility rules apply.
+            </a>
+          </div>
+        </div>
+        {cards.map((c) => (
+          <article class="plans-whats-new__card">
+            <div class="plans-whats-new__media">
+              <PlansDemo kind={c.kind} />
+            </div>
+            <div class="plans-whats-new__text">
+              <h3 class="plans-h3">{c.title}</h3>
+              <p class="plans-xl">{c.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .plans-whats-new {
+    position: relative;
+    padding-bottom: 160px;
+  }
+  .plans-whats-new .plans-h2 {
+    margin-bottom: 72px;
+  }
+  .plans-whats-new__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-20);
+  }
+  .plans-whats-new__banner {
+    grid-column: 1 / -1;
+    position: relative;
+    overflow: clip;
+    border-radius: 96px;
+    padding: 190px 120px;
+    background: #012a20;
+  }
+  .plans-whats-new__collage {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .plans-whats-new__tiles {
+    position: absolute;
+    top: 50%;
+    right: -150px;
+    width: 860px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-24);
+    transform: translateY(-50%) rotate(-14deg);
+  }
+  .plans-whats-new__tiles :global(.plans-whats-new__tile) {
+    width: 100%;
+    height: 330px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+  .plans-whats-new__collage::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        #012a20 0%,
+        #012a20 34%,
+        rgba(1, 42, 32, 0.78) 52%,
+        rgba(1, 42, 32, 0.25) 72%,
+        rgba(1, 42, 32, 0) 88%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.25),
+        rgba(0, 0, 0, 0) 30%,
+        rgba(0, 0, 0, 0) 70%,
+        rgba(0, 0, 0, 0.35)
+      );
+  }
+  .plans-whats-new__body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 576px;
+  }
+  .plans-whats-new__logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    height: 71.6px;
+    margin-bottom: var(--spacing-36);
+    font-family: var(--font-abc-ginto-discord);
+    font-weight: var(--font-weight-medium);
+    font-size: 50px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .plans-whats-new__logo svg {
+    width: 72px;
+    height: 72px;
+    flex: none;
+  }
+  .plans-whats-new__terms {
+    margin-top: var(--spacing-40);
+    font-size: var(--text-body);
+    line-height: 24px;
+    color: var(--color-white);
+    text-decoration: underline;
+  }
+  .plans-whats-new__card {
+    background: #1a1a1e;
+    border-radius: 96px;
+    padding: 32px 32px var(--spacing-56);
+    box-shadow: 0 2px 32px 0 rgba(69, 42, 124, 0.1);
+  }
+  .plans-whats-new__media {
+    position: relative;
+    z-index: 1;
+    aspect-ratio: 526 / 459.375;
+    border-radius: 96px;
+    overflow: hidden;
+    margin-bottom: var(--spacing-24);
+  }
+  .plans-whats-new__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-8);
+    padding: 0 var(--spacing-24);
+  }
+  .plans-whats-new__text .plans-h3 {
+    white-space: nowrap;
+  }
+  @media (max-width: 1439px) {
+    .plans-whats-new {
+      padding-bottom: 120px;
+    }
+    .plans-whats-new .plans-h2 {
+      margin-bottom: 60px;
+    }
+    .plans-whats-new__banner {
+      border-radius: 56px;
+      padding: 162px 64px;
+    }
+    .plans-whats-new__tiles {
+      right: -260px;
+    }
+    .plans-whats-new__logo {
+      font-size: 46px;
+      height: 56px;
+    }
+    .plans-whats-new__logo svg {
+      width: 56px;
+      height: 56px;
+    }
+    .plans-whats-new__card {
+      border-radius: 56px;
+      padding: var(--spacing-24) var(--spacing-24) var(--spacing-40);
+    }
+    .plans-whats-new__media {
+      border-radius: 56px;
+    }
+    .plans-whats-new__text {
+      padding: 0 var(--spacing-16);
+    }
+    .plans-whats-new__text .plans-h3 {
+      white-space: normal;
+    }
+  }
+  @media (max-width: 991px) {
+    .plans-whats-new__banner {
+      padding: 162px var(--spacing-56);
+    }
+    .plans-whats-new__tiles {
+      right: -420px;
+      opacity: 0.8;
+    }
+  }
+  @media (max-width: 479px) {
+    .plans-whats-new {
+      padding-bottom: 100px;
+    }
+    .plans-whats-new .plans-h2 {
+      margin-bottom: var(--spacing-56);
+    }
+    .plans-whats-new__grid {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-16);
+    }
+    .plans-whats-new__banner {
+      border-radius: 40px;
+      padding: 190px var(--spacing-24) var(--spacing-24);
+    }
+    .plans-whats-new__tiles {
+      top: 60px;
+      right: -180px;
+      width: 560px;
+      gap: var(--spacing-12);
+    }
+    .plans-whats-new__tiles :global(.plans-whats-new__tile) {
+      height: 200px;
+    }
+    .plans-whats-new__collage::after {
+      background: linear-gradient(
+        180deg,
+        rgba(1, 42, 32, 0) 0%,
+        rgba(1, 42, 32, 0.55) 22%,
+        #012a20 40%
+      );
+    }
+    .plans-whats-new__logo {
+      font-size: 26px;
+      height: 37px;
+      gap: var(--spacing-8);
+      margin-bottom: var(--spacing-24);
+    }
+    .plans-whats-new__logo svg {
+      width: 36px;
+      height: 36px;
+    }
+    .plans-whats-new__terms {
+      margin-top: var(--spacing-24);
+    }
+    .plans-whats-new__card {
+      border-radius: 40px;
+      padding: var(--spacing-16) var(--spacing-16) var(--spacing-24);
+    }
+    .plans-whats-new__media {
+      border-radius: 40px;
+    }
+    .plans-whats-new__text {
+      padding: 0 var(--spacing-8);
+      text-align: center;
+    }
+  }
+</style>

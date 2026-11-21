@@ -1,0 +1,181 @@
+---
+// "Designed for…" + 3 numbered step cards
+import LaunchMock from '@components/graphics/mocks/LaunchMock.astro';
+const steps = [
+  {
+    h: '1. You share your goals',
+    p: 'Clear goals, existing branding, content and reference sites you love.',
+    mock: 'brief',
+  },
+  { h: '2. We build fast', p: 'A focused prototype is ready in just a few days.', mock: 'build' },
+  {
+    h: '3. And launch in weeks',
+    p: 'Full custom sites typically take 2–4 weeks, kickoff to launch.',
+    mock: 'launch',
+  },
+] as const;
+---
+
+<section data-section="quests-steps" class="launch-section launch-steps">
+  <div class="launch-pad">
+    <div class="launch-wrap">
+      <div class="launch-title">
+        <h2 class="launch-h2">Designed for busy owners</h2>
+        <p class="launch-lead launch-steps__lead">
+          A focused prototype can be ready in just a few days. Quick wins early, refinements along
+          the way, so you see progress fast.
+        </p>
+      </div>
+      <div class="launch-steps__grid">
+        {steps.map((s, i) => (
+          <article class:list={['launch-steps__step', i === 1 && 'launch-steps__step--alt']}>
+            <div class="launch-steps__step-media">
+              <LaunchMock variant={s.mock} />
+            </div>
+            <div class="launch-steps__step-text">
+              <div class="launch-steps__step-title">
+                <h3>{s.h}</h3>
+              </div>
+              <p>{s.p}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .launch-steps.launch-steps {
+    padding-top: 0;
+  }
+  .launch-steps__lead {
+    max-width: 400px;
+  }
+  .launch-steps__grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-16);
+  }
+  .launch-steps__step {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-24);
+    align-items: center;
+    padding: 16px 16px 32px;
+    border-radius: 40px;
+    background-color: rgb(56, 31, 44);
+    background-image: linear-gradient(
+      180deg,
+      #3d2030 0%,
+      #4b2239 34%,
+      #8b306f 62%,
+      #d542af 84%,
+      #fc4bd0 100%
+    );
+  }
+  .launch-steps__step-media {
+    position: relative;
+    aspect-ratio: 357.3 / 358.4;
+    border-radius: 32px;
+    overflow: hidden;
+  }
+  .launch-steps__step-text {
+    padding: 0 var(--spacing-16);
+  }
+  .launch-steps__step-title {
+    margin-bottom: var(--spacing-16);
+  }
+  .launch-steps__step h3 {
+    font-weight: var(--font-weight-bold);
+    font-size: 20px;
+    line-height: 22px;
+    letter-spacing: -0.2px;
+    color: var(--color-white);
+  }
+  .launch-steps__step p {
+    margin: 0;
+    font-size: var(--text-body);
+    line-height: 1.278;
+    color: var(--color-white);
+  }
+  @media (min-width: 480px) {
+    .launch-steps__step {
+      padding: var(--spacing-40);
+      gap: 32px;
+      border-radius: 64px;
+    }
+    .launch-steps__step-media {
+      border-radius: 54px;
+    }
+    .launch-steps__step-text {
+      padding: 0 17px;
+    }
+    .launch-steps__step h3 {
+      font-size: 32px;
+      line-height: 32px;
+      letter-spacing: -0.32px;
+    }
+    .launch-steps__step p {
+      font-size: 18px;
+      line-height: 23px;
+    }
+  }
+  @media (min-width: 992px) {
+    .launch-steps__lead {
+      max-width: 620px;
+    }
+    .launch-steps__step {
+      grid-template-columns: 1fr 393px;
+    }
+    .launch-steps__step-media {
+      order: 2;
+    }
+    .launch-steps__step--alt .launch-steps__step-media {
+      order: 0;
+    }
+    .launch-steps__step--alt {
+      grid-template-columns: 1fr 393px;
+    }
+    .launch-steps__step-text {
+      padding: 0;
+    }
+  }
+  @media (min-width: 1440px) {
+    .launch-steps.launch-steps {
+      padding-bottom: 80px;
+    }
+    .launch-steps__lead {
+      max-width: 740px;
+    }
+    .launch-steps__grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .launch-steps__step,
+    .launch-steps__step--alt {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 32px;
+      padding: 16px 16px 40px;
+      border-radius: 56px;
+    }
+    .launch-steps__step-media,
+    .launch-steps__step--alt .launch-steps__step-media {
+      order: 0;
+      border-radius: var(--spacing-48);
+    }
+    .launch-steps__step-text {
+      padding: 0 var(--spacing-16);
+    }
+    .launch-steps__step-title {
+      min-height: 64px;
+    }
+    .launch-steps__step h3 {
+      font-size: 28px;
+      line-height: 28px;
+      letter-spacing: -0.28px;
+    }
+  }
+</style>

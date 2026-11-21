@@ -1,0 +1,639 @@
+---
+// Original looping GSAP graphics that stand in for looping product videos.
+interface Props {
+  kind: 'repairs' | 'faster' | 'posts' | 'inbox' | 'chat' | 'speed';
+  class?: string;
+}
+const { kind, class: cls = '' } = Astro.props;
+const small = kind === 'repairs' || kind === 'faster';
+const vb = small ? '0 0 526 459' : '0 0 666 521';
+const F = 'font-family:var(--font-abc-ginto-discord);font-weight:500';
+---
+
+<div class:list={['nd', `nd--${kind}`, cls]} data-demo={kind}>
+  <svg
+    viewBox={vb}
+    preserveAspectRatio="xMidYMid slice"
+    fill="none"
+    role="img"
+    aria-label={`Animated illustration: ${kind}`}
+  >
+    {kind === 'repairs' && (
+      <g>
+        <rect x="73" y="84" width="380" height="270" rx="26" fill="#17134f" fill-opacity="0.92" />
+        <circle cx="103" cy="110" r="6" fill="#ff5c8a" />
+        <circle cx="123" cy="110" r="6" fill="#fee75c" />
+        <circle cx="143" cy="110" r="6" fill="#57f287" />
+        {[0, 1, 2, 3].map((i) => (
+          <g data-row>
+            <rect
+              x="97"
+              y={138 + i * 50}
+              width="332"
+              height="38"
+              rx="12"
+              fill="#fff"
+              fill-opacity="0.08"
+            />
+            <circle data-dot cx="120" cy={157 + i * 50} r="8" fill="#fee75c" />
+            <rect
+              x="142"
+              y={151 + i * 50}
+              width={[150, 110, 170, 130][i]}
+              height="12"
+              rx="6"
+              fill="#c9ceff"
+              fill-opacity="0.85"
+            />
+            <g data-ok>
+              <rect x="366" y={146 + i * 50} width="48" height="22" rx="11" fill="#57f287" />
+              <path
+                d={`m382 ${157 + i * 50} 6 6 11-12`}
+                stroke="#0b3d24"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+          </g>
+        ))}
+        <rect data-scan x="85" y="130" width="356" height="6" rx="3" fill="#57f287" />
+        <g data-badge>
+          <circle cx="430" cy="352" r="46" fill="#57f287" />
+          <circle cx="430" cy="352" r="46" stroke="#fff" stroke-opacity="0.5" stroke-width="4" />
+          <text x="430" y="361" text-anchor="middle" font-size="26" fill="#0b3d24" style={F}>
+            100%
+          </text>
+        </g>
+      </g>
+    )}
+    {kind === 'faster' && (
+      <g>
+        <circle
+          data-ring
+          cx="263"
+          cy="226"
+          r="150"
+          stroke="#fff"
+          stroke-opacity="0.25"
+          stroke-width="3"
+        />
+        <circle cx="263" cy="226" r="118" fill="#1b1260" fill-opacity="0.85" />
+        <circle cx="263" cy="226" r="96" stroke="#fff" stroke-opacity="0.16" stroke-width="18" />
+        <circle
+          data-arc
+          cx="263"
+          cy="226"
+          r="96"
+          stroke="#57f287"
+          stroke-width="18"
+          stroke-linecap="round"
+          stroke-dasharray="603.2"
+          stroke-dashoffset="603.2"
+          transform="rotate(-90 263 226)"
+        />
+        <text
+          data-num
+          x="263"
+          y="246"
+          text-anchor="middle"
+          font-size="64"
+          fill="#fff"
+          style="font-family:var(--font-abc-ginto-discord-nord);font-weight:700;font-style:italic"
+        >
+          38
+        </text>
+        {[0, 1, 2, 3, 4].map((i) => (
+          <rect
+            data-bar
+            x={173 + i * 40}
+            y={372}
+            width="22"
+            height="56"
+            rx="8"
+            fill="#fff"
+            fill-opacity={0.45 + i * 0.13}
+          />
+        ))}
+        <path data-spark d="M408 96l8 20 20 8-20 8-8 20-8-20-20-8 20-8Z" fill="#fff" />
+        <path data-spark d="M110 318l5 13 13 5-13 5-5 13-5-13-13-5 13-5Z" fill="#fee75c" />
+      </g>
+    )}
+    {kind === 'posts' && (
+      <g>
+        {[0, 1, 2].map((i) => (
+          <g data-fan>
+            <rect
+              x="96"
+              y="96"
+              width="170"
+              height="330"
+              rx="18"
+              fill={['#3b2bb5', '#6f3fe0', '#ffb4a8'][i]}
+            />
+            <rect
+              x="110"
+              y="110"
+              width="142"
+              height="90"
+              rx="12"
+              fill={['#57f287', '#ff8be0', '#7b5cff'][i]}
+            />
+            <circle cx="132" cy="226" r="14" fill="#fff" fill-opacity="0.85" />
+            <rect x="110" y="254" width="142" height="12" rx="6" fill="#fff" fill-opacity="0.6" />
+            <rect x="110" y="278" width="104" height="12" rx="6" fill="#fff" fill-opacity="0.4" />
+          </g>
+        ))}
+        <rect x="318" y="96" width="254" height="330" rx="18" fill="#eef0ff" />
+        <rect x="334" y="112" width="222" height="96" rx="12" fill="#5865f2" />
+        <path d="M334 190l52-44 44 34 40-26 86 54H334Z" fill="#57f287" fill-opacity="0.9" />
+        <circle cx="356" cy="238" r="14" fill="#ff8be0" />
+        <rect x="380" y="228" width="110" height="10" rx="5" fill="#b9bdf5" />
+        <rect x="380" y="244" width="70" height="8" rx="4" fill="#d5d8fa" />
+        <rect data-line x="334" y="272" width="222" height="10" rx="5" fill="#c9ceff" />
+        <rect data-line x="334" y="292" width="190" height="10" rx="5" fill="#c9ceff" />
+        <rect data-line x="334" y="312" width="206" height="10" rx="5" fill="#c9ceff" />
+        {[0, 1, 2, 3, 4].map((i) => (
+          <rect x={334 + i * 46} y="350" width="38" height="52" rx="10" fill="#d5d8fa" />
+        ))}
+        <rect data-day x="334" y="350" width="38" height="52" rx="10" fill="#5865f2" />
+        <g data-tag>
+          <rect x="470" y="78" width="126" height="38" rx="19" fill="#57f287" />
+          <text x="533" y="103" text-anchor="middle" font-size="17" fill="#0b3d24" style={F}>
+            Published
+          </text>
+        </g>
+      </g>
+    )}
+    {kind === 'inbox' && (
+      <g>
+        <rect x="80" y="112" width="506" height="296" rx="18" fill="#f6f1ff" />
+        <rect x="80" y="112" width="60" height="296" rx="18" fill="#e3daff" />
+        {[0, 1, 2, 3].map((i) => (
+          <circle
+            cx="110"
+            cy={150 + i * 44}
+            r="14"
+            fill={['#5865f2', '#ff8be0', '#57f287', '#fee75c'][i]}
+          />
+        ))}
+        {[0, 1, 2, 3].map((i) => (
+          <g data-lead>
+            <rect
+              data-leadbg
+              x="156"
+              y={130 + i * 66}
+              width="414"
+              height="56"
+              rx="14"
+              fill="#fff"
+            />
+            <circle
+              cx="186"
+              cy={158 + i * 66}
+              r="16"
+              fill={['#ffb4a8', '#7b5cff', '#35c8ff', '#ff8be0'][i]}
+            />
+            <rect
+              x="214"
+              y={146 + i * 66}
+              width={[150, 120, 170, 110][i]}
+              height="10"
+              rx="5"
+              fill="#3b2f7a"
+              fill-opacity="0.75"
+            />
+            <rect
+              x="214"
+              y={164 + i * 66}
+              width={[220, 190, 240, 170][i]}
+              height="8"
+              rx="4"
+              fill="#3b2f7a"
+              fill-opacity="0.3"
+            />
+            <rect
+              data-chip
+              x="500"
+              y={144 + i * 66}
+              width="56"
+              height="28"
+              rx="14"
+              fill={['#57f287', '#d5d8fa', '#fee75c', '#d5d8fa'][i]}
+            />
+            <text
+              data-score
+              x="528"
+              y={164 + i * 66}
+              text-anchor="middle"
+              font-size="16"
+              fill="#1a1440"
+              style={F}
+            >
+              0
+            </text>
+          </g>
+        ))}
+      </g>
+    )}
+    {kind === 'chat' && (
+      <g>
+        <g data-avatar>
+          <rect x="446" y="72" width="96" height="78" rx="26" fill="#eef0ff" />
+          <rect x="462" y="90" width="64" height="38" rx="16" fill="#1b1260" />
+          <rect x="476" y="100" width="10" height="18" rx="5" fill="#57f287" />
+          <rect x="502" y="100" width="10" height="18" rx="5" fill="#57f287" />
+          <path d="M494 72V56" stroke="#eef0ff" stroke-width="6" stroke-linecap="round" />
+          <circle cx="494" cy="50" r="8" fill="#57f287" />
+        </g>
+        <g data-bub>
+          <rect x="96" y="150" width="270" height="62" rx="24" fill="#eef0ff" />
+          <rect x="120" y="170" width="170" height="10" rx="5" fill="#3b2f7a" fill-opacity="0.7" />
+          <rect x="120" y="188" width="110" height="8" rx="4" fill="#3b2f7a" fill-opacity="0.35" />
+        </g>
+        <g data-typing>
+          <rect x="430" y="232" width="92" height="48" rx="24" fill="#5865f2" />
+          {[0, 1, 2].map((i) => (
+            <circle data-tdot cx={456 + i * 20} cy="256" r="6" fill="#fff" />
+          ))}
+        </g>
+        <g data-bub>
+          <rect x="250" y="232" width="320" height="84" rx="24" fill="#5865f2" />
+          <rect x="274" y="254" width="230" height="10" rx="5" fill="#fff" fill-opacity="0.9" />
+          <rect x="274" y="272" width="270" height="10" rx="5" fill="#fff" fill-opacity="0.6" />
+          <rect x="274" y="290" width="150" height="10" rx="5" fill="#fff" fill-opacity="0.6" />
+        </g>
+        <g data-bub>
+          <rect x="96" y="338" width="210" height="56" rx="24" fill="#eef0ff" />
+          <rect x="120" y="361" width="140" height="10" rx="5" fill="#3b2f7a" fill-opacity="0.7" />
+        </g>
+        <g data-bub>
+          <rect x="356" y="412" width="214" height="52" rx="26" fill="#57f287" />
+          <path
+            d="m380 438 8 8 14-16"
+            stroke="#0b3d24"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <text x="414" y="444" font-size="17" fill="#0b3d24" style={F}>
+            Booked for 9am
+          </text>
+        </g>
+      </g>
+    )}
+    {kind === 'speed' && (
+      <g>
+        <rect x="70" y="103" width="526" height="316" rx="14" fill="#1a1272" />
+        <rect x="70" y="103" width="526" height="40" rx="14" fill="#2a2196" />
+        <circle cx="94" cy="123" r="6" fill="#ff5c8a" />
+        <circle cx="114" cy="123" r="6" fill="#fee75c" />
+        <circle cx="134" cy="123" r="6" fill="#57f287" />
+        <rect x="160" y="114" width="300" height="18" rx="9" fill="#fff" fill-opacity="0.14" />
+        <rect data-load x="70" y="143" width="526" height="5" fill="#57f287" />
+        <rect data-blk x="94" y="168" width="250" height="112" rx="12" fill="#5865f2" />
+        <rect data-blk x="362" y="168" width="210" height="14" rx="7" fill="#c9ceff" />
+        <rect
+          data-blk
+          x="362"
+          y="194"
+          width="170"
+          height="14"
+          rx="7"
+          fill="#c9ceff"
+          fill-opacity="0.6"
+        />
+        <rect
+          data-blk
+          x="362"
+          y="220"
+          width="190"
+          height="14"
+          rx="7"
+          fill="#c9ceff"
+          fill-opacity="0.6"
+        />
+        <rect data-blk x="362" y="250" width="96" height="30" rx="10" fill="#ff5ae0" />
+        {[0, 1, 2].map((i) => (
+          <rect
+            data-blk
+            x={94 + i * 164}
+            y="300"
+            width="150"
+            height="96"
+            rx="12"
+            fill="#fff"
+            fill-opacity="0.12"
+          />
+        ))}
+        <g data-chip>
+          <rect x="470" y="74" width="150" height="58" rx="29" fill="#eef0ff" />
+          <circle cx="500" cy="103" r="15" stroke="#5865f2" stroke-width="5" />
+          <path d="M500 94v10l7 5" stroke="#5865f2" stroke-width="4" stroke-linecap="round" />
+          <text
+            data-time
+            x="566"
+            y="111"
+            text-anchor="middle"
+            font-size="24"
+            fill="#1a1272"
+            style={F}
+          >
+            0.0s
+          </text>
+        </g>
+        {[0, 1, 2].map((i) => (
+          <circle data-ping cx={[148, 318, 520][i]} cy={[452, 470, 448][i]} r="8" fill="#fff" />
+        ))}
+      </g>
+    )}
+  </svg>
+</div>
+
+<style>
+  .nd {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .nd svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .nd--repairs {
+    background: linear-gradient(180deg, #3a2bb0 0%, #4a47d4 38%, #3fbf9c 78%, #3ee08f 100%);
+  }
+  .nd--faster {
+    background: linear-gradient(180deg, #33269e 0%, #6a45d2 40%, #c94fe0 78%, #f04fd6 100%);
+  }
+  .nd--posts {
+    background: linear-gradient(180deg, #0a5236 0%, #1f9a68 30%, #44cfa4 62%, #62bdf6 100%);
+  }
+  .nd--inbox {
+    background: linear-gradient(180deg, #3d1b44 0%, #8a2f6c 32%, #ee4a86 66%, #ff3d4e 100%);
+  }
+  .nd--chat {
+    background: linear-gradient(180deg, #241e76 0%, #4a3bc0 34%, #a04fe0 68%, #f04fd0 100%);
+  }
+  .nd--speed {
+    background: linear-gradient(180deg, #33228a 0%, #6a3fc0 30%, #7a6ff0 66%, #6ab6ff 100%);
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  const build: Record<string, (q: (s: string) => Element[]) => gsap.core.Timeline> = {
+    repairs(q) {
+      const tl = gsap.timeline({ repeat: -1 });
+      gsap.set(q('[data-ok]'), { scale: 0, transformOrigin: '50% 50%' });
+      gsap.set(q('[data-badge]'), { scale: 0, transformOrigin: '50% 50%' });
+      tl.fromTo(
+        q('[data-scan]'),
+        { y: 0, opacity: 1 },
+        { y: 206, duration: 2.4, ease: 'none' },
+        0.3,
+      );
+      q('[data-row]').forEach((r, i) => {
+        tl.to(r.querySelector('[data-dot]'), { fill: '#57f287', duration: 0.2 }, 0.5 + i * 0.58).to(
+          r.querySelector('[data-ok]'),
+          { scale: 1, duration: 0.35, ease: 'back.out(2.2)' },
+          0.5 + i * 0.58,
+        );
+      });
+      tl.to(q('[data-scan]'), { opacity: 0, duration: 0.25 }, 2.7)
+        .to(q('[data-badge]'), { scale: 1, duration: 0.5, ease: 'back.out(1.8)' }, 2.8)
+        .to(q('[data-badge]'), { scale: 0, duration: 0.3, ease: 'power2.in' }, 4.6)
+        .to(q('[data-ok]'), { scale: 0, duration: 0.3, stagger: 0.05, ease: 'power2.in' }, 4.6)
+        .to(q('[data-dot]'), { fill: '#fee75c', duration: 0.3 }, 4.7)
+        .to({}, { duration: 0.3 });
+      return tl;
+    },
+    faster(q) {
+      const num = q('[data-num]')[0],
+        v = { n: 38 };
+      const tl = gsap.timeline({ repeat: -1 });
+      gsap.set(q('[data-bar]'), { transformOrigin: '50% 100%', scaleY: 0.3 });
+      gsap.set(q('[data-arc]'), { strokeDashoffset: 603.2 * 0.62 });
+      tl.to(q('[data-arc]'), { strokeDashoffset: 0, duration: 1.6, ease: 'power2.out' }, 0.3)
+        .to(
+          v,
+          {
+            n: 100,
+            duration: 1.6,
+            ease: 'power2.out',
+            onUpdate: () => (num.textContent = String(Math.round(v.n))),
+          },
+          0.3,
+        )
+        .to(q('[data-bar]'), { scaleY: 1, duration: 0.6, stagger: 0.1, ease: 'back.out(1.6)' }, 0.5)
+        .fromTo(
+          q('[data-ring]'),
+          { scale: 0.8, opacity: 0.9, transformOrigin: '50% 50%' },
+          { scale: 1.15, opacity: 0, duration: 1, ease: 'power1.out' },
+          1.7,
+        )
+        .fromTo(
+          q('[data-spark]'),
+          { scale: 0, rotation: -40, transformOrigin: '50% 50%' },
+          { scale: 1, rotation: 0, duration: 0.5, stagger: 0.15, ease: 'back.out(2)' },
+          1.7,
+        )
+        .to(q('[data-spark]'), { scale: 0, duration: 0.3 }, 3.3)
+        .to(
+          q('[data-arc]'),
+          { strokeDashoffset: 603.2 * 0.62, duration: 0.8, ease: 'power2.inOut' },
+          3.4,
+        )
+        .to(
+          v,
+          {
+            n: 38,
+            duration: 0.8,
+            ease: 'power2.inOut',
+            onUpdate: () => (num.textContent = String(Math.round(v.n))),
+          },
+          3.4,
+        )
+        .to(
+          q('[data-bar]'),
+          { scaleY: 0.3, duration: 0.5, stagger: 0.05, ease: 'power2.inOut' },
+          3.4,
+        )
+        .to({}, { duration: 0.3 });
+      return tl;
+    },
+    posts(q) {
+      const fan = q('[data-fan]'),
+        pose = [
+          { x: -46, rotation: -9, scale: 0.9 },
+          { x: -22, rotation: -4, scale: 0.95 },
+          { x: 4, rotation: 2, scale: 1 },
+        ];
+      fan.forEach((f, i) => gsap.set(f, { ...pose[i], transformOrigin: '50% 100%' }));
+      gsap.set(q('[data-tag]'), { scale: 0, transformOrigin: '50% 50%' });
+      const tl = gsap.timeline({ repeat: -1 });
+      for (let b = 0; b < 5; b++) {
+        const t = b * 1.3;
+        tl.to(
+          q('[data-day]'),
+          { x: ((b + 1) % 5) * 46, duration: 0.45, ease: 'power3.inOut' },
+          t + 0.6,
+        )
+          .fromTo(
+            q('[data-line]'),
+            { scaleX: 0.2, transformOrigin: '0% 50%' },
+            { scaleX: 1, duration: 0.5, stagger: 0.08, ease: 'power2.out' },
+            t + 0.1,
+          )
+          .to(q('[data-tag]'), { scale: 1, duration: 0.35, ease: 'back.out(2.4)' }, t + 0.55)
+          .to(q('[data-tag]'), { scale: 0, duration: 0.2, ease: 'power2.in' }, t + 1.1);
+        // cycle the fan: every beat each card moves one pose forward, the front one tucks to the back
+        fan.forEach((f, i) => {
+          const to = pose[(i + b + 1) % 3];
+          tl.to(f, { ...to, duration: 0.5, ease: 'power2.inOut' }, t + 0.6);
+        });
+      }
+      // 5 beats leave the fan one step ahead of start; one extra silent step x1 returns it (3 | 6)
+      fan.forEach((f, i) => tl.to(f, { ...pose[i], duration: 0.5, ease: 'power2.inOut' }, 6.5));
+      tl.to({}, { duration: 0.2 });
+      return tl;
+    },
+    inbox(q) {
+      const leads = q('[data-lead]'),
+        scores = [92, 34, 78, 15],
+        order = [0, 2, 1, 3];
+      const tl = gsap.timeline({ repeat: -1 });
+      leads.forEach((l, i) => {
+        const txt = l.querySelector('[data-score]')!,
+          v = { n: 0 };
+        gsap.set(l.querySelector('[data-chip]'), { scale: 0, transformOrigin: '50% 50%' });
+        gsap.set(txt, { opacity: 0 });
+        tl.to(
+          l.querySelector('[data-chip]'),
+          { scale: 1, duration: 0.3, ease: 'back.out(2)' },
+          0.3 + i * 0.25,
+        )
+          .to(txt, { opacity: 1, duration: 0.15 }, 0.35 + i * 0.25)
+          .to(
+            v,
+            {
+              n: scores[i],
+              duration: 0.8,
+              ease: 'power2.out',
+              onUpdate: () => (txt.textContent = String(Math.round(v.n))),
+            },
+            0.35 + i * 0.25,
+          )
+          .to(l, { y: (order.indexOf(i) - i) * 66, duration: 0.6, ease: 'power3.inOut' }, 2.1)
+          .to(l, { y: 0, duration: 0.6, ease: 'power3.inOut' }, 4.6)
+          .to(
+            [l.querySelector('[data-chip]'), txt],
+            { scale: 0, opacity: 0, transformOrigin: '50% 50%', duration: 0.25 },
+            5.1,
+          )
+          .set(v, { n: 0 }, 5.4)
+          .set(txt, { scale: 1, textContent: '0' }, 5.4);
+      });
+      tl.to(leads[0].querySelector('[data-leadbg]'), { fill: '#d9ffe6', duration: 0.3 }, 2.7)
+        .to(
+          leads[0],
+          { scale: 1.03, transformOrigin: '50% 50%', duration: 0.3, yoyo: true, repeat: 1 },
+          2.7,
+        )
+        .to(leads[0].querySelector('[data-leadbg]'), { fill: '#ffffff', duration: 0.3 }, 4.4)
+        .to({}, { duration: 0.4 }, 5.4);
+      return tl;
+    },
+    chat(q) {
+      const b = q('[data-bub]'),
+        typing = q('[data-typing]');
+      gsap.set([...b, ...typing], { scale: 0, opacity: 0 });
+      b.forEach((x, i) => gsap.set(x, { transformOrigin: i % 2 ? '100% 100%' : '0% 100%' }));
+      gsap.set(typing, { transformOrigin: '100% 100%' });
+      const pop = { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(1.7)' };
+      const tl = gsap.timeline({ repeat: -1 });
+      tl.to(b[0], pop, 0.3)
+        .to(typing, { ...pop, duration: 0.25 }, 0.9)
+        .to(
+          q('[data-tdot]'),
+          { y: -7, duration: 0.22, yoyo: true, repeat: 3, stagger: 0.1, ease: 'sine.inOut' },
+          1.0,
+        )
+        .to(typing, { scale: 0, opacity: 0, duration: 0.15 }, 2.0)
+        .to(b[1], pop, 2.1)
+        .to(b[2], pop, 3.0)
+        .to(b[3], pop, 3.7)
+        .to(b, { y: -30, opacity: 0, duration: 0.4, stagger: 0.05, ease: 'power2.in' }, 5.4)
+        .set(b, { y: 0, scale: 0 })
+        .to({}, { duration: 0.2 });
+      gsap.to(q('[data-avatar]'), {
+        y: -10,
+        rotation: 4,
+        transformOrigin: '50% 100%',
+        duration: 1.6,
+        yoyo: true,
+        repeat: -1,
+        ease: 'sine.inOut',
+      });
+      return tl;
+    },
+    speed(q) {
+      const time = q('[data-time]')[0],
+        v = { n: 0 };
+      gsap.set(q('[data-load]'), { scaleX: 0, transformOrigin: '0% 50%' });
+      gsap.set(q('[data-blk]'), { opacity: 0, y: 14 });
+      gsap.set(q('[data-chip]'), { scale: 0, transformOrigin: '50% 50%' });
+      const tl = gsap.timeline({ repeat: -1 });
+      tl.to(q('[data-chip]'), { scale: 1, duration: 0.3, ease: 'back.out(2)' }, 0.2)
+        .to(q('[data-load]'), { scaleX: 1, duration: 0.8, ease: 'power3.out' }, 0.4)
+        .to(
+          v,
+          {
+            n: 0.8,
+            duration: 0.8,
+            ease: 'none',
+            onUpdate: () => (time.textContent = v.n.toFixed(1) + 's'),
+          },
+          0.4,
+        )
+        .to(
+          q('[data-blk]'),
+          { opacity: 1, y: 0, duration: 0.3, stagger: 0.05, ease: 'power2.out' },
+          0.55,
+        )
+        .to(q('[data-load]'), { opacity: 0, duration: 0.2 }, 1.3)
+        .fromTo(
+          q('[data-ping]'),
+          { scale: 0.6, opacity: 1, transformOrigin: '50% 50%' },
+          { scale: 3, opacity: 0, duration: 0.9, stagger: 0.25, repeat: 1, ease: 'power1.out' },
+          1.4,
+        )
+        .to(q('[data-blk]'), { opacity: 0, y: 14, duration: 0.3, stagger: 0.03 }, 4.3)
+        .to(q('[data-chip]'), { scale: 0, duration: 0.25 }, 4.5)
+        .set(q('[data-load]'), { scaleX: 0, opacity: 1 }, 4.8)
+        .set(v, { n: 0 }, 4.8)
+        .set(time, { textContent: '0.0s' }, 4.8)
+        .to({}, { duration: 0.3 }, 4.8);
+      return tl;
+    },
+  };
+
+  gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
+    document.querySelectorAll('.plans-page [data-demo]').forEach((el) => {
+      const q = (s: string) => Array.from(el.querySelectorAll(s));
+      const tl = build[(el as HTMLElement).dataset.demo!](q);
+      tl.pause();
+      // like autoplay loops, but only spend frames while on screen
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top bottom',
+        end: 'bottom top',
+        onToggle: (s) => (s.isActive ? tl.play() : tl.pause()),
+      });
+    });
+  });
+</script>

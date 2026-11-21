@@ -1,0 +1,402 @@
+---
+// Home — closing banner.
+// Centered two-line heading (heading-lg) → one white primary CTA → a row of characters standing on the
+// footer edge (the block is pulled 12px over the footer; the middle character's legs hang below it).
+//
+// Measured at 1680 (section-relative): h2 y0 h115 · button y225 262×65 · stage y420 1024×484 · section h904.
+// 1280: button y209 237×50, stage y389 944×446 · 768: h2 32px, button y162, stage y342 768×363
+// 390: h2 27px (3 lines), button y160 206×50, only the middle character (85% wide), stage y354 h277.
+//
+// Motion:
+//   · heading, button and character block do NOT animate on scroll (opacity 1 / transform none throughout)
+//   · sprout on the middle character sways in a 6.5s loop              → .cast__tuft
+//   · five small stars twinkle                                          → .closing-banner__star[data-tw]
+//   · the small robot is a 6-step click easter egg ending in a smoke puff → the pixel ghost
+// The cast also blinks, bobs on hover and waves.
+import Button from '@components/ui/Button.astro';
+import Cast from '@components/graphics/characters/Cast.astro';
+
+// rel. to section top / horizontal centre at 1680; size px; tw = delay pattern
+const stars = [
+  { x: -18, y: -110, s: 10 },
+  { x: 120, y: 180, s: 20 },
+  { x: 244, y: -215, s: 20 },
+  { x: 215, y: 430, s: 20, tw: 'a' },
+  { x: -407, y: 493, s: 6, tw: 'b' },
+  { x: 186, y: 377, s: 6, tw: 'b' },
+  { x: -337, y: 488, s: 8, tw: 'c' },
+  { x: 401, y: 391, s: 6, tw: 'a' },
+];
+---
+
+<section data-section="home-closing" class="closing-banner relative text-white">
+  <div class="closing-banner__stars" aria-hidden="true">
+    {stars.map((s) => (
+      <i
+        class:list={['closing-banner__star', s.s >= 20 && 'closing-banner__star--plus']}
+        data-tw={s.tw}
+        style={`left:calc(50% + ${s.x}px);top:${s.y}px;width:${s.s}px;height:${s.s}px`}
+      />
+    ))}
+  </div>
+
+  <div class="closing-banner__pad relative z-[2] px-40">
+    <div class="closing-banner__inner mx-auto flex flex-col items-center">
+      <h2 class="closing-banner__title font-abc-ginto-discord-nord text-center font-bold uppercase">
+        Fast websites, engineered
+        <br />
+        and built to last.
+      </h2>
+      <div class="closing-banner__cta">
+        <Button variant="white" href="#">
+          Start Your Project
+        </Button>
+      </div>
+    </div>
+  </div>
+
+  <div class="closing-banner__stage">
+    <Cast />
+  </div>
+</section>
+
+<style>
+  .closing-banner {
+    margin-bottom: -12px;
+    overflow-x: clip;
+  }
+  .closing-banner__pad {
+    padding-left: var(--page-gutter);
+    padding-right: var(--page-gutter);
+  }
+  .closing-banner__inner {
+    max-width: 1200px;
+  }
+  .closing-banner__title {
+    margin: 0;
+    font-size: var(--text-heading-lg);
+    line-height: var(--leading-heading-lg);
+    letter-spacing: -0.01em;
+  }
+  .closing-banner__cta {
+    margin-top: 94px;
+    display: flex;
+  }
+  .closing-banner__cta :global(.button) {
+    height: 50px;
+    min-width: 237px;
+    padding: 12px 24px;
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  /* character block: 59rem wide (64rem ≥1440), 1024:484, centred, 130px under the button */
+  .closing-banner__stage {
+    position: relative;
+    z-index: 100;
+    width: 100%;
+    max-width: 944px;
+    aspect-ratio: 1024 / 484;
+    margin: 130px auto 0;
+  }
+  .closing-banner__stage :global(svg) {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .closing-banner__stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .closing-banner__star {
+    position: absolute;
+    display: block;
+    background: #d9dbff;
+    opacity: 0.9;
+  }
+  .closing-banner__star--plus {
+    clip-path: polygon(
+      45% 0,
+      55% 0,
+      55% 45%,
+      100% 45%,
+      100% 55%,
+      55% 55%,
+      55% 100%,
+      45% 100%,
+      45% 55%,
+      0 55%,
+      0 45%,
+      45% 45%
+    );
+  }
+
+  @media (min-width: 1440px) {
+    .closing-banner__cta {
+      margin-top: 110px;
+    }
+    .closing-banner__cta :global(.button) {
+      height: 65px;
+      min-width: 262px;
+      padding: 19.5px 24px;
+      font-size: var(--text-body-xl);
+      line-height: 26px;
+    }
+    .closing-banner__stage {
+      max-width: 1024px;
+    }
+  }
+  @media (max-width: 1279px) {
+    .closing-banner__title {
+      font-size: 36px;
+    }
+  }
+  @media (max-width: 991px) {
+    .closing-banner__title {
+      font-size: 32px;
+    }
+    .closing-banner__cta {
+      margin-top: 85px;
+    }
+  }
+  @media (max-width: 767px) {
+    /* only the middle character, 85% of the viewport (max 320px) wide, sitting on the footer edge */
+    .closing-banner__stage {
+      --mw: min(85vw, 320px);
+      width: calc(var(--mw) * 1024 / 304);
+      max-width: none;
+      margin: calc(144px - var(--mw) * 224 / 304) 0 0 50%;
+      transform: translateX(-50%);
+    }
+    .closing-banner__star[data-tw] {
+      display: none;
+    }
+  }
+  @media (max-width: 479px) {
+    .closing-banner__pad {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+    .closing-banner__title {
+      font-size: 27px;
+    }
+    .closing-banner__cta {
+      margin-top: 63px;
+    }
+    .closing-banner__cta :global(.button) {
+      min-width: 206px;
+      padding: 10px 16px;
+      font-size: 16px;
+      line-height: 20px;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  document.querySelectorAll<HTMLElement>('[data-section="home-closing"]').forEach((root) => {
+    const q = (s: string) => Array.from(root.querySelectorAll<SVGElement | HTMLElement>(s));
+    const mm = gsap.matchMedia();
+
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const loops: gsap.core.Animation[] = [];
+
+      // — sway of the sprout. Period 6.5s;
+      //   (rest → dip → plateau → peak → 3D tilt-back → peak). Easing ≈ back.inOut.
+      const tuft = q('.cast__tuft');
+      if (tuft.length) {
+        // SVG transforms are 2D: the rotateX(30deg) tilt-back is rendered as scaleY(cos 30°).
+        const peak = { rotation: 8, skewY: 7, scaleX: 1.05, scaleY: 1.05 };
+        loops.push(
+          gsap
+            .timeline({ repeat: -1, defaults: { ease: 'sine.inOut' } })
+            .set(tuft, peak)
+            .to(tuft, { rotation: 3, skewY: 2, scaleX: 1, scaleY: 1, duration: 1.5 })
+            .to(tuft, { rotation: 5, skewY: 3, scaleX: 1.01, scaleY: 1.01, duration: 0.75 })
+            .to(tuft, { ...peak, duration: 1.0 })
+            .to(tuft, {
+              rotation: -1,
+              skewY: 0,
+              scaleX: 1,
+              scaleY: 0.87,
+              duration: 1.25,
+              ease: 'back.inOut(1.4)',
+            })
+            .to(tuft, { ...peak, duration: 2.0, ease: 'back.inOut(1.4)' }),
+        );
+      }
+
+      // — star twinkles: opacity 0 ↔ 1, 500ms easeIn, waits per action list (ms)
+      const waits: Record<string, number[]> = {
+        a: [1, 2, 1, 2],
+        b: [2, 2, 1, 2],
+        c: [1, 1, 1, 2],
+      };
+      q('.closing-banner__star[data-tw]').forEach((el) => {
+        const w = waits[(el as HTMLElement).dataset.tw || 'a'];
+        const tl = gsap.timeline({ repeat: -1 }).set(el, { opacity: 0 });
+        w.forEach((d, i) =>
+          tl.to(el, { opacity: i % 2 ? 0 : 1, duration: 0.5, ease: 'power1.in', delay: d }),
+        );
+        loops.push(tl);
+      });
+
+      // — idle life for the original cast (additions)
+      root.querySelectorAll('[data-char]').forEach((ch, i) => {
+        const eyes = ch.querySelectorAll('.cast__eye');
+        if (!eyes.length) return;
+        const tl = gsap.timeline({
+          repeat: -1,
+          delay: 0.6 + i * 0.47,
+          repeatDelay: 2.6 + (i % 4) * 0.8,
+        });
+        tl.to(eyes, { scaleY: 0.1, duration: 0.07, ease: 'power1.in' }).to(eyes, {
+          scaleY: 1,
+          duration: 0.11,
+          ease: 'power1.out',
+        });
+        if (i % 2)
+          tl.to(eyes, { scaleY: 0.1, duration: 0.07, delay: 0.12 }).to(eyes, {
+            scaleY: 1,
+            duration: 0.11,
+          });
+        loops.push(tl);
+      });
+      loops.push(
+        gsap.to(q('.cast__orbit'), {
+          y: -10,
+          duration: 1.8,
+          ease: 'sine.inOut',
+          yoyo: true,
+          repeat: -1,
+        }),
+      );
+      loops.push(
+        gsap.to(q('.cast__flame'), {
+          scaleY: 0.55,
+          duration: 0.18,
+          ease: 'none',
+          yoyo: true,
+          repeat: -1,
+        }),
+      );
+      loops.push(
+        gsap.to(q('.cast__ghost'), {
+          y: -7,
+          duration: 1.5,
+          ease: 'sine.inOut',
+          yoyo: true,
+          repeat: -1,
+        }),
+      );
+      loops.push(
+        gsap.to(q('.cast__crest'), {
+          rotation: 8,
+          duration: 2.2,
+          ease: 'sine.inOut',
+          yoyo: true,
+          repeat: -1,
+        }),
+      );
+      loops.push(
+        gsap.timeline({ repeat: -1, repeatDelay: 2.4 }).to(q('.cast__wave'), {
+          rotation: -12,
+          duration: 0.35,
+          ease: 'sine.inOut',
+          yoyo: true,
+          repeat: 5,
+        }),
+      );
+      loops.push(
+        gsap.to(q('.cast__led'), {
+          opacity: 0.35,
+          duration: 0.6,
+          ease: 'steps(1)',
+          yoyo: true,
+          repeat: -1,
+          stagger: { each: 0.23, from: 'random' },
+        }),
+      );
+
+      // run loops only while the banner is near the viewport
+      const io = new IntersectionObserver(
+        ([e]) => loops.forEach((l) => (e.isIntersecting ? l.play() : l.pause())),
+        { rootMargin: '300px 0px' },
+      );
+      io.observe(root);
+      return () => io.disconnect();
+    });
+
+    // — click easter egg (6 clicks step through reactions, the last one ends in a puff and
+    //   disables the element). Works without motion preference too, but then only swaps state.
+    const ghost = root.querySelector<SVGGElement>('.cast__ghost-wrap');
+    if (ghost) {
+      const body = ghost.querySelector('.cast__ghost-body');
+      const inner = ghost.querySelector('.cast__ghost');
+      const mouth = ghost.querySelector('.cast__ghost-mouth');
+      const glitch = ghost.querySelectorAll('.cast__glitch');
+      const bits = ghost.querySelectorAll('.cast__poof rect');
+      const tints = ['#57f287', '#fee75c', '#eb459e', '#8a94ff', '#ffffff', '#ffffff'];
+      const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let step = 0;
+      const poke = () => {
+        if (step >= 6) return;
+        const n = step++;
+        gsap.set(body, { fill: tints[n] });
+        gsap.set(mouth, { attr: { height: 8 + n * 2, y: 86 - n } });
+        if (calm) {
+          if (step === 6) {
+            gsap.set(inner, { opacity: 0 });
+            ghost.setAttribute('data-done', '');
+          }
+          return;
+        }
+        gsap
+          .timeline()
+          .to(inner, {
+            y: -22 - n * 3,
+            rotation: n % 2 ? 9 : -9,
+            duration: 0.18,
+            ease: 'power2.out',
+            overwrite: 'auto',
+          })
+          .to(inner, { y: 0, rotation: 0, duration: 0.32, ease: 'bounce.out' });
+        gsap.fromTo(
+          glitch,
+          { opacity: 1, x: -8 },
+          { opacity: 0, x: 8, duration: 0.3, ease: 'steps(3)', stagger: 0.05 },
+        );
+        if (step === 6) {
+          ghost.setAttribute('data-done', '');
+          gsap.to(inner, { scale: 0, opacity: 0, duration: 0.35, delay: 0.5, ease: 'back.in(2)' });
+          bits.forEach((b, i) => {
+            const a = (i / bits.length) * Math.PI * 2;
+            gsap.fromTo(
+              b,
+              { opacity: 1, x: 0, y: 0, scale: 1 },
+              {
+                x: Math.cos(a) * 70,
+                y: Math.sin(a) * 60 - 20,
+                opacity: 0,
+                scale: 0.4,
+                duration: 0.9,
+                delay: 0.75,
+                ease: 'power2.out',
+              },
+            );
+          });
+        }
+      };
+      ghost.addEventListener('click', poke);
+      ghost.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          poke();
+        }
+      });
+    }
+  });
+</script>

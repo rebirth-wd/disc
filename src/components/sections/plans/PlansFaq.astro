@@ -1,0 +1,464 @@
+---
+import PlansObject from '@components/graphics/objects/PlansObject.astro';
+const tabs = [
+  {
+    name: 'General',
+    items: [
+      [
+        'What’s Care?',
+        'Care is a monthly plan that keeps your Rebirth site hosted, backed up, secured and updated, with AI features that answer visitors, tune performance and keep your content current.',
+      ],
+      [
+        'Does Rebirth Care include the AI Site Assistant?',
+        'Yes. Care members get an AI Site Assistant (Starter Edition) trained on your services, your pricing, your suburbs and your FAQs. It answers after hours and guides visitors to the right page.',
+      ],
+      [
+        'What are Care Rewards?',
+        'Care Rewards is the set of extras included with a Care plan: the AI Site Assistant, monthly performance tuning and a monthly content refresh. Terms and eligibility rules apply.',
+      ],
+      [
+        'How does Care work?',
+        'Once you join, hosting, backups, security and updates are managed for you, every month. Patches and framework updates are tested against a preview deploy before they ever hit production.',
+      ],
+      [
+        'What’s the difference between Care and Care Basic?',
+        'Care is our most popular plan and unlocks every perk. Care Basic covers the essentials that keep a site online: managed edge hosting, daily backups and security patches.',
+      ],
+      [
+        'How much does Care cost?',
+        'Placeholder pricing only: Care Basic is $XX / month and Care is $XX / month. Lorem ipsum dolor sit amet, a detailed quote follows our initial discussion.',
+      ],
+      [
+        'Where can I join Care?',
+        'Get in touch through the contact page or call us. You work with the person writing the code, not an account manager, and we can add a plan to any site we build.',
+      ],
+    ],
+  },
+  {
+    name: 'Payments',
+    items: [
+      [
+        'What payment methods do you accept?',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Payment methods are confirmed on your quote.',
+      ],
+      [
+        'Do you offer Care and Care Basic on yearly billing?',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      ],
+    ],
+  },
+  {
+    name: 'Hosting and Updates',
+    items: [
+      [
+        'Where is my site hosted?',
+        'Your site is distributed across Cloudflare’s network and served from the node closest to each visitor, with no origin server to fall over under traffic.',
+      ],
+      [
+        'Do you keep backups?',
+        'Yes. Every change is tracked in version control, backed up and reversible, and backups run without anyone remembering to run them.',
+      ],
+      [
+        'How are updates tested?',
+        'Astro, dependencies and integrations are kept current. Updates are applied deliberately and tested against a preview deploy first.',
+      ],
+      [
+        'Can I move an existing site onto Care?',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. We will review your stack and tell you what fits.',
+      ],
+      [
+        'Does Rebirth offer plan promotions?',
+        'A limited number of pro-bono or heavily discounted sites are offered each year. Lorem ipsum dolor sit amet.',
+      ],
+    ],
+  },
+  {
+    name: 'Other',
+    items: [
+      [
+        'My Care plan comes with content edits. What are those?',
+        'Small changes to copy, images or sections that keep your site matching what people are actually searching for.',
+      ],
+      [
+        'Are plans lock-in?',
+        'Lorem ipsum dolor sit amet. You can take the full source code for you or your team to manage at any time.',
+      ],
+      [
+        'Why is my site not updating?',
+        'Changes are tested on a preview deploy before production. If something looks stuck, call us and you get the developer directly.',
+      ],
+    ],
+  },
+];
+---
+
+<section data-section="nitro-faq" id="faq" class="plans-faq">
+  <div class="plans-pad">
+    <div class="plans-wrap plans-wrap--wide">
+      <div class="plans-faq__head" data-par-trigger="faq">
+        <h2 class="plans-h2">Questions?</h2>
+        <p class="plans-xl">Questions about Care? Check out our FAQ.</p>
+        <PlansObject name="padlock" par="key" class="plans-faq__lock" />
+      </div>
+
+      <div class="plans-faq__tabs" role="tablist" data-faq-tabs>
+        {tabs.map((t, i) => (
+          <button
+            type="button"
+            role="tab"
+            id={`plans-faq-tab-${i}`}
+            aria-controls={`plans-faq-pane-${i}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            tabindex={i === 0 ? 0 : -1}
+            class:list={['plans-faq__tab', i === 0 && 'is-current']}
+            data-faq-tab
+          >
+            <span>{t.name}</span>
+          </button>
+        ))}
+        <svg class="plans-faq__arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path
+            d="m4 6 4 4 4-4"
+            stroke="#fff"
+            stroke-opacity="0.5"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+
+      <div class="plans-faq__panes">
+        {tabs.map((t, i) => (
+          <div
+            class="plans-faq__pane"
+            role="tabpanel"
+            id={`plans-faq-pane-${i}`}
+            aria-labelledby={`plans-faq-tab-${i}`}
+            hidden={i !== 0}
+            data-faq-pane
+          >
+            {t.items.map(([q, a], j) => (
+              <div class="plans-faq__item" data-faq-item>
+                <button
+                  type="button"
+                  class="plans-faq__q"
+                  aria-expanded="false"
+                  aria-controls={`plans-faq-a-${i}-${j}`}
+                  data-faq-toggle
+                >
+                  <span class="plans-xl plans-xl--medium">{q}</span>
+                  <span class="plans-faq__icons" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" fill="none">
+                      <path d="M1 8h14" stroke="#fff" stroke-width="2" />
+                    </svg>
+                    <svg viewBox="0 0 16 16" fill="none" data-faq-plus>
+                      <path d="M1 8h14M8 1v14" stroke="#fff" stroke-width="2" />
+                    </svg>
+                  </span>
+                </button>
+                <div class="plans-faq__a" id={`plans-faq-a-${i}-${j}`} hidden data-faq-panel>
+                  <p>{a}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .plans-faq {
+    position: relative;
+    padding-bottom: 160px;
+  }
+  .plans-faq__head {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: var(--spacing-48);
+  }
+  .plans-faq__head :global(.plans-faq__lock) {
+    top: -25px;
+    right: -18px;
+    width: 250px;
+    height: 250px;
+    z-index: 0;
+  }
+  .plans-faq__tabs {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-8);
+  }
+  .plans-faq__tab {
+    appearance: none;
+    border: 0;
+    margin: 0;
+    cursor: pointer;
+    padding: 14px var(--spacing-24);
+    border-radius: var(--radius-md);
+    background: rgba(221, 221, 221, 0);
+    color: rgba(255, 255, 255, 0.5);
+    font-family: var(--font-abc-ginto-discord);
+    font-size: var(--text-body);
+    line-height: 16px;
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+    transition:
+      background-color 0.35s,
+      color 0.35s;
+  }
+  .plans-faq__tab.is-current {
+    background: var(--color-white);
+    color: var(--color-black);
+  }
+  .plans-faq__tab:focus-visible,
+  .plans-faq__q:focus-visible {
+    outline: 2px solid var(--color-signal-green);
+    outline-offset: 2px;
+  }
+  @media (hover: hover) {
+    .plans-faq__tab:not(.is-current):hover {
+      background: var(--color-white-10);
+    }
+  }
+  .plans-faq__arrow {
+    display: none;
+  }
+  .plans-faq__item {
+    position: relative;
+    border-bottom: 2px solid var(--color-white-10);
+  }
+  .plans-faq__q {
+    appearance: none;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    position: relative;
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: var(--spacing-40) var(--spacing-40) var(--spacing-40) 0;
+  }
+  .plans-faq__q > .plans-xl {
+    display: block;
+  }
+  .plans-faq__icons {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 16px;
+    display: flex;
+    align-items: center;
+  }
+  .plans-faq__icons svg {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+  }
+  .plans-faq__a {
+    margin-top: calc(var(--spacing-8) * -1);
+    padding: 0 var(--spacing-16) var(--spacing-48) 0;
+  }
+  .plans-faq__a p {
+    margin: 0;
+    font-size: var(--text-body-xl);
+    line-height: 28px;
+    color: #b2b2b2;
+  }
+  @media (max-width: 1439px) {
+    .plans-faq {
+      padding-bottom: 120px;
+    }
+    .plans-faq__head .plans-h2 {
+      margin-bottom: var(--spacing-20);
+    }
+    .plans-faq__head :global(.plans-faq__lock) {
+      top: -33px;
+      right: -24px;
+      width: 194px;
+      height: 194px;
+    }
+  }
+  @media (max-width: 767px) {
+    /* the tab row is swapped for a click-to-expand list */
+    .plans-faq__tabs {
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 0;
+      height: 58px;
+      overflow: hidden;
+      border-radius: var(--radius-md);
+      background: var(--color-white-10);
+      margin-bottom: 2px;
+    }
+    .plans-faq__tab,
+    .plans-faq__tab.is-current {
+      flex: none;
+      height: 58px;
+      padding: 0 var(--spacing-24);
+      text-align: left;
+      background: transparent;
+      color: var(--color-white);
+      border-radius: 0;
+    }
+    .plans-faq__tab.is-current {
+      order: -1;
+    }
+    .plans-faq__arrow {
+      display: block;
+      position: absolute;
+      top: 21px;
+      right: 22px;
+      width: 16px;
+      height: 16px;
+      pointer-events: none;
+    }
+    .plans-faq__head :global(.plans-faq__lock) {
+      display: none;
+    }
+  }
+  @media (max-width: 479px) {
+    .plans-faq {
+      padding-bottom: 100px;
+    }
+    .plans-faq__q {
+      padding: 32px var(--spacing-40) 32px 0;
+    }
+    .plans-faq__a {
+      padding-bottom: 32px;
+    }
+    .plans-faq__a p {
+      font-size: var(--text-body);
+      line-height: 22.4px;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+  const root = document.querySelector<HTMLElement>('[data-section="nitro-faq"]');
+  if (root) {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const items = Array.from(root.querySelectorAll<HTMLElement>('[data-faq-item]'));
+    // Panel opens/closes instantly (display toggle), only one open at a time, closes on outside click.
+    // open: plus opacity 1 -> 0, 250ms ease. close: plus opacity -> 1, 500ms ease.
+    const ease = 'cubic-bezier(0.25,0.1,0.25,1)';
+    const set = (item: HTMLElement, open: boolean) => {
+      const btn = item.querySelector<HTMLElement>('[data-faq-toggle]')!,
+        panel = item.querySelector<HTMLElement>('[data-faq-panel]')!;
+      if ((btn.getAttribute('aria-expanded') === 'true') === open) return;
+      btn.setAttribute('aria-expanded', String(open));
+      panel.hidden = !open;
+      gsap.to(item.querySelector('[data-faq-plus]'), {
+        opacity: open ? 0 : 1,
+        duration: reduce ? 0 : open ? 0.25 : 0.5,
+        ease,
+        overwrite: true,
+      });
+      ScrollTrigger.refresh();
+    };
+    items.forEach((item) =>
+      item.querySelector('[data-faq-toggle]')!.addEventListener('click', () => {
+        const open =
+          item.querySelector('[data-faq-toggle]')!.getAttribute('aria-expanded') !== 'true';
+        items.forEach((o) => o !== item && set(o, false));
+        set(item, open);
+      }),
+    );
+    document.addEventListener('click', (e) => {
+      if (!(e.target as Element).closest('[data-faq-item]')) items.forEach((o) => set(o, false));
+    });
+
+    // Tabs: instant pane swap (duration 0); link colours cross-fade via the 0.35s CSS transition.
+    const tabsEl = root.querySelector<HTMLElement>('[data-faq-tabs]')!;
+    const tabs = Array.from(root.querySelectorAll<HTMLElement>('[data-faq-tab]')),
+      panes = Array.from(root.querySelectorAll<HTMLElement>('[data-faq-pane]'));
+    const arrow = root.querySelector('.plans-faq__arrow');
+    const mobile = matchMedia('(max-width: 767px)');
+    let menuOpen = false;
+    // height 58 -> auto and arrow 0 -> -180deg, 100ms after 50ms delay. back to 58px / 0deg in 200ms.
+    const menu = (open: boolean) => {
+      if (!mobile.matches || open === menuOpen) return;
+      menuOpen = open;
+      if (open) {
+        gsap.to(tabsEl, {
+          height: 'auto',
+          duration: reduce ? 0 : 0.1,
+          delay: 0.05,
+          ease: 'none',
+          overwrite: true,
+        });
+        gsap.to(arrow, {
+          rotation: -180,
+          duration: reduce ? 0 : 0.1,
+          delay: 0.05,
+          ease: 'none',
+          overwrite: true,
+        });
+      } else {
+        gsap.to(tabsEl, { height: 58, duration: reduce ? 0 : 0.2, ease: 'none', overwrite: true });
+        gsap.to(arrow, { rotation: 0, duration: reduce ? 0 : 0.2, ease: 'none', overwrite: true });
+      }
+    };
+    mobile.addEventListener('change', () => {
+      menuOpen = false;
+      gsap.set(tabsEl, { clearProps: 'height' });
+      gsap.set(arrow, { clearProps: 'transform' });
+    });
+    const select = (i: number) => {
+      tabs.forEach((t, k) => {
+        t.classList.toggle('is-current', k === i);
+        t.setAttribute('aria-selected', String(k === i));
+        t.tabIndex = k === i ? 0 : -1;
+      });
+      panes.forEach((p, k) => (p.hidden = k !== i));
+      items.forEach((o) => set(o, false));
+      ScrollTrigger.refresh();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const wasOpen = menuOpen;
+        select(i);
+        menu(!wasOpen);
+      });
+      t.addEventListener('keydown', (e) => {
+        const d =
+          e.key === 'ArrowRight' || e.key === 'ArrowDown'
+            ? 1
+            : e.key === 'ArrowLeft' || e.key === 'ArrowUp'
+              ? -1
+              : 0;
+        if (d) {
+          e.preventDefault();
+          const n = (i + d + tabs.length) % tabs.length;
+          select(n);
+          tabs[n].focus();
+        }
+      });
+    });
+
+    // progress of the FAQ heading block, 0 -> 100%: padlock y 0 -> -130
+    gsap.matchMedia().add('(prefers-reduced-motion: no-preference) and (min-width: 768px)', () => {
+      gsap.to(root.querySelector('[data-par="key"]'), {
+        y: -130,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: root.querySelector('[data-par-trigger="faq"]'),
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.6,
+        },
+      });
+    });
+  }
+</script>

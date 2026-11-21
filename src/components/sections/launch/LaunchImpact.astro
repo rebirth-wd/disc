@@ -1,0 +1,146 @@
+---
+// "Drive impact…" three glass cards
+const cards = [
+  {
+    icon: 'speed',
+    h: 'Built on Astro for raw speed',
+    p: 'Astro ships zero unnecessary JavaScript, so your site loads in a blink for every visitor, on any device they use.',
+  },
+  {
+    icon: 'branch',
+    h: 'Version-controlled with GitHub',
+    p: 'Every change to your site is tracked, backed up, and reversible, start to finish.',
+  },
+  {
+    icon: 'globe',
+    h: 'Powered by Cloudflare’s edge',
+    p: 'Your site is distributed across Cloudflare’s network and served from the node closest to each of your visitors.',
+  },
+];
+---
+
+<section data-section="quests-impact" class="launch-section launch-impact">
+  <div class="launch-pad">
+    <div class="launch-wrap">
+      <h2 class="launch-h2 launch-impact__h2">Modern technology, proven at scale</h2>
+      <div class="launch-impact__grid">
+        {cards.map((c) => (
+          <article class="launch-impact__card">
+            <svg class="launch-impact__icon" viewBox="0 0 120 90" fill="none" aria-hidden="true">
+              {c.icon === 'speed' && (
+                <>
+                  <path d="M10 74a50 50 0 0 1 100 0v8H10v-8Z" fill="#c9c4ff" />
+                  <path d="M26 74a34 34 0 0 1 68 0H26Z" fill="#5865f2" />
+                  <path d="m60 74 22-34 6 4-20 34-8-4Z" fill="#fff" />
+                  <circle cx="60" cy="74" r="8" fill="#eb459e" />
+                  <path d="M14 10h8v8h-8zM98 6h6v6h-6z" fill="#fff" />
+                </>
+              )}
+              {c.icon === 'branch' && (
+                <>
+                  <path
+                    d="M30 20v50M30 46h34a16 16 0 0 0 16-16v-6"
+                    stroke="#c9c4ff"
+                    stroke-width="10"
+                    stroke-linecap="round"
+                  />
+                  <rect x="16" y="6" width="28" height="28" rx="8" fill="#5865f2" />
+                  <rect x="16" y="56" width="28" height="28" rx="8" fill="#eb459e" />
+                  <rect x="66" y="4" width="28" height="28" rx="8" fill="#fff" />
+                  <path d="M104 60h8v8h-8z" fill="#57f287" />
+                </>
+              )}
+              {c.icon === 'globe' && (
+                <>
+                  <path d="M60 4 98 26v40L60 86 22 66V26L60 4Z" fill="#5865f2" />
+                  <path d="M60 4 98 26 60 46 22 26 60 4Z" fill="#c9c4ff" />
+                  <path d="M60 46v40L22 66V26l38 20Z" fill="#7f8bff" />
+                  <circle cx="60" cy="25" r="6" fill="#eb459e" />
+                  <circle cx="40" cy="58" r="5" fill="#fff" />
+                  <circle cx="80" cy="58" r="5" fill="#57f287" />
+                </>
+              )}
+            </svg>
+            <h3>{c.h}</h3>
+            <p>{c.p}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .launch-impact__h2.launch-h2 {
+    max-width: 870px;
+    margin: 0 auto;
+  }
+  .launch-impact__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacing-16);
+    margin-top: var(--spacing-48);
+  }
+  .launch-impact__card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--spacing-40);
+    border-radius: 40px;
+    background-color: var(--color-white-10);
+  }
+  .launch-impact__icon {
+    height: 70px;
+    width: auto;
+    margin-bottom: 38px;
+  }
+  .launch-impact__card h3 {
+    margin: 0 0 var(--spacing-8);
+    font-family: var(--font-abc-ginto-discord);
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: var(--font-weight-medium);
+    font-size: 20px;
+    line-height: 24px;
+    color: var(--color-white);
+  }
+  .launch-impact__card p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--color-white);
+    opacity: 0.5;
+  }
+  @media (min-width: 480px) {
+    .launch-impact__card p {
+      font-size: var(--text-body);
+    }
+  }
+  @media (min-width: 768px) {
+    .launch-impact__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 992px) {
+    .launch-impact__grid {
+      margin-top: 80px;
+    }
+    .launch-impact__icon {
+      margin-bottom: 30px;
+    }
+    .launch-impact__card h3 {
+      font-size: 24px;
+      line-height: 28.8px;
+    }
+  }
+  @media (min-width: 1440px) {
+    .launch-impact__card {
+      padding: var(--spacing-56);
+      border-radius: 56px;
+    }
+    .launch-impact__icon {
+      height: 90px;
+      margin-bottom: var(--spacing-48);
+    }
+  }
+</style>

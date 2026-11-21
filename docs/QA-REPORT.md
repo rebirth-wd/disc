@@ -6,10 +6,10 @@ Measured by the orchestrator against the reference captures taken at a 1680×100
 | Page | Document height (build / reference) | Sections matched |
 |---|---|---|
 | `/` | 8125 / 8124 | 11 of 11 |
-| `/download` | 6376 / 6376 | 5 of 5 |
-| `/nitro` | 12660 / 12659 | 9 of 9 |
+| `/services` (was `/download`) | 6376 / 6376 | 5 of 5 |
+| `/plans` (was `/nitro`) | 12660 / 12659 | 9 of 9 |
 | `/careers` | 8826 / 8825 (reference minus the omitted 6718px job-listings block) | 10 of 10 (banner 3172/677 vs reference 3171/677, checked by hand; the script's cut-off excluded it) |
-| `/ads/quests` | 6689 / 6689 | 12 of 12 |
+| `/launch` (was `/ads/quests`) | 6689 / 6689 | 12 of 12 |
 
 No console or page errors and no horizontal overflow on any page at 1680, 1280, 768 or 390px.
 No reference brand text or reference-hosted asset URL in the built HTML.

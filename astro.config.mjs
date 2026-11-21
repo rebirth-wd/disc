@@ -7,6 +7,11 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://rebirthwebdesign.com.au',
   adapter: cloudflare({ imageService: 'compile' }),
+  redirects: {
+    '/download': { status: 301, destination: '/services' },
+    '/nitro': { status: 301, destination: '/plans' },
+    '/ads/quests': { status: 301, destination: '/launch' },
+  },
   integrations: [react(), sitemap()],
   vite: { plugins: [tailwindcss()] },
   devToolbar: { enabled: false },

@@ -1,0 +1,245 @@
+---
+// Services banner: centered heading + line + dropdown CTA, two floating objects.
+// Motion (desktop ≥992 only): while the banner scrolls through the viewport (0→100%),
+// left object y 0→120px, right object y -100→30px, linear, smoothing 50. Dropdown chevron: see ServicesDropdown.
+import ServicesDropdown from './ServicesDropdown.astro';
+import ServicesObject from '@components/graphics/objects/ServicesObject.astro';
+const items = [
+  'Portfolio',
+  'Business landing page',
+  'Marketing site',
+  'Documentation hub',
+  'Personal brand',
+  'AI Tools',
+  'Maintenance',
+  'Something else',
+].map((label) => ({ label }));
+---
+
+<section data-section="download-banner" class="services-banner text-white">
+  <div class="services-banner__pad">
+    <div class="services-banner__container">
+      <div class="services-banner__box">
+        <h2 class="services-banner__h2">
+          Ready for <br />a rebirth?
+        </h2>
+        <div>
+          <p class="services-banner__p">
+            A focused prototype can be ready in just a few days. Tell us what you need.
+          </p>
+        </div>
+        <div class="services-banner__cta">
+          <ServicesDropdown
+            id="services-banner-start"
+            label="Start Your Project"
+            variant="blurple"
+            z={100}
+            items={items}
+          />
+        </div>
+        <ServicesObject
+          kind="flask"
+          class="services-banner__decor services-banner__decor-1"
+          data-services-banner-decor1
+        />
+        <ServicesObject
+          kind="bolt"
+          class="services-banner__decor services-banner__decor-2"
+          data-services-banner-decor2
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* background: black at the top easing to indigo (#19174b centre / #121134 edges) at the bottom */
+  .services-banner {
+    position: relative;
+    z-index: 98;
+    padding: 150px 0 240px;
+    text-align: center;
+    background:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.3)),
+      linear-gradient(
+        180deg,
+        #000 0%,
+        #000 8%,
+        #020206 14%,
+        #04040d 27%,
+        #080717 41%,
+        #0c0b24 55%,
+        #100f2f 69%,
+        #14133d 83%,
+        #181648 97%,
+        #19174b 100%
+      );
+  }
+  .services-banner__pad {
+    padding: 0 6vw;
+  }
+  .services-banner__container {
+    position: relative;
+    z-index: 2;
+    max-width: 944px;
+    margin: 0 auto;
+  }
+  .services-banner__box {
+    position: relative;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .services-banner__h2 {
+    font-family: var(--font-abc-ginto-discord-nord);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    color: var(--color-white);
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: -0.32px;
+    margin: 0 0 var(--spacing-16);
+  }
+  .services-banner__p {
+    font-family: var(--font-abc-ginto-discord);
+    font-size: var(--text-body);
+    line-height: 22px;
+    margin: 0;
+    color: var(--color-white);
+  }
+  .services-banner__cta {
+    display: inline-flex;
+    margin-top: 32px;
+    position: relative;
+    z-index: 100;
+  }
+  .services-banner :global(.services-banner__decor) {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    will-change: transform;
+  }
+  .services-banner :global(.services-banner__decor-1) {
+    z-index: 1;
+    top: 0;
+    left: 0;
+    margin: -148.8px 0 0 -8px;
+    rotate: 15deg;
+  }
+  .services-banner :global(.services-banner__decor-2) {
+    right: -24px;
+    bottom: -136px;
+  }
+
+  @media (min-width: 768px) {
+    .services-banner {
+      padding: 140px 0 288px;
+    }
+    .services-banner__pad {
+      padding: 0 var(--spacing-40);
+    }
+    .services-banner__box {
+      max-width: 590px;
+    }
+    .services-banner__h2 {
+      font-size: 56px;
+      letter-spacing: -1.68px;
+      margin-bottom: var(--spacing-24);
+    }
+    .services-banner__p {
+      font-size: var(--text-body-xl);
+      line-height: 26px;
+    }
+    .services-banner__cta {
+      margin-top: var(--spacing-40);
+    }
+    .services-banner :global(.services-banner__decor) {
+      width: 160px;
+      height: 160px;
+    }
+    .services-banner :global(.services-banner__decor-1) {
+      margin: -140px 0 0 -72px;
+      rotate: 12deg;
+    }
+    .services-banner :global(.services-banner__decor-2) {
+      right: -84.8px;
+      bottom: -122.4px;
+    }
+  }
+  @media (min-width: 992px) {
+    .services-banner__pad {
+      padding: 0 80px;
+    }
+    .services-banner :global(.services-banner__decor) {
+      width: 180px;
+      height: 180px;
+    }
+    .services-banner :global(.services-banner__decor-1) {
+      margin: -140px 0 0 -180px;
+      rotate: none;
+    }
+    .services-banner :global(.services-banner__decor-2) {
+      right: -180px;
+    }
+  }
+  @media (min-width: 1440px) {
+    .services-banner {
+      padding: 160px 0 288px;
+    }
+    .services-banner__pad {
+      padding: 0 120px;
+    }
+    .services-banner__container {
+      max-width: 1538px;
+    }
+    .services-banner__box {
+      max-width: 897px;
+    }
+    .services-banner__h2 {
+      font-size: 72px;
+      line-height: 0.9;
+      letter-spacing: -2.16px;
+    }
+    .services-banner :global(.services-banner__decor) {
+      width: 200px;
+      height: 200px;
+    }
+    .services-banner :global(.services-banner__decor-1) {
+      margin: -100px 0 0 -187px;
+    }
+    .services-banner :global(.services-banner__decor-2) {
+      right: -199px;
+      bottom: -104px;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+  const root = document.querySelector<HTMLElement>('[data-section="download-banner"]');
+  if (root) {
+    const mm = gsap.matchMedia();
+    mm.add(
+      '(min-width: 992px)',
+      () => {
+        // resting state (also with reduced motion): right object sits at y -100
+        gsap.set('[data-services-banner-decor2]', { y: -100 });
+      },
+      root,
+    );
+    mm.add(
+      '(prefers-reduced-motion: no-preference) and (min-width: 992px)',
+      () => {
+        gsap
+          .timeline({
+            defaults: { ease: 'none' },
+            scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: 0.5 },
+          })
+          .fromTo('[data-services-banner-decor1]', { y: 0 }, { y: 120 }, 0)
+          .fromTo('[data-services-banner-decor2]', { y: -100 }, { y: 30 }, 0);
+      },
+      root,
+    );
+  }
+</script>

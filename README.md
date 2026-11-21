@@ -5,7 +5,8 @@ Marketing site built with Astro 7, Tailwind CSS v4, GSAP and React islands, depl
     npm install && npm run dev      # http://127.0.0.1:4321
     npm run build && npm run preview
 
-Routes: `/`, `/download`, `/nitro`, `/careers`, `/ads/quests`.
+Routes: `/`, `/services`, `/plans`, `/careers`, `/launch`. The old URLs `/download`, `/nitro` and `/ads/quests` redirect (301) to
+`/services`, `/plans` and `/launch`; they are declared in `astro.config.mjs` and emitted to `_redirects` by the Cloudflare adapter.
 
 See `CONTRIBUTING.md` for commands, folder conventions and standards.
 

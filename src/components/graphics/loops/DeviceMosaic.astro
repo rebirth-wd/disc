@@ -1,0 +1,203 @@
+---
+/**
+ * Media loop for the devices feature — original "one site, every screen": a column of device buttons and a large tile
+ * that swaps between phone / tablet / laptop / desktop frames holding the same mini site.
+ * 4 × 1.6s = 6.4s seamless GSAP loop.
+ */
+import LoopStage from './LoopStage.astro';
+// frame = [x, y, w, h, r] of the device body inside a 200×200 box; screen inset derived in markup
+const devices = [
+  {
+    id: 'phone',
+    c: '#1f6fe0',
+    tile: 'linear-gradient(180deg,#2b83f5,#1557c0)',
+    f: [62, 14, 76, 172, 16],
+    stand: false,
+    cols: 1,
+  },
+  {
+    id: 'tablet',
+    c: '#8f7bf2',
+    tile: 'linear-gradient(180deg,#a595ff,#6f58e0)',
+    f: [36, 22, 128, 156, 14],
+    stand: false,
+    cols: 2,
+  },
+  {
+    id: 'laptop',
+    c: '#eb459e',
+    tile: 'linear-gradient(180deg,#f75db2,#c42c82)',
+    f: [26, 40, 148, 100, 10],
+    stand: 'base',
+    cols: 3,
+  },
+  {
+    id: 'desktop',
+    c: '#1fa862',
+    tile: 'linear-gradient(180deg,#27c474,#12864b)',
+    f: [14, 26, 172, 112, 10],
+    stand: 'foot',
+    cols: 3,
+  },
+];
+---
+
+<LoopStage>
+  <div class="device-mosaic" data-device-mosaic>
+    {devices.map((d, k) => (
+      <span
+        class="device-mosaic__dot"
+        data-device-mosaic-dot
+        style={`top:${151 + k * 100}px;background:${d.c}`}
+      >
+        <svg viewBox="0 0 200 200" width="44" height="44">
+          <rect x={d.f[0]} y={d.f[1]} width={d.f[2]} height={d.f[3]} rx={d.f[4]} fill="#fff" />
+          {d.stand === 'base' && <rect x="8" y="146" width="184" height="14" rx="7" fill="#fff" />}
+          {d.stand === 'foot' && <path d="M84 138h32l6 30H78z M56 166h88v12H56z" fill="#fff" />}
+        </svg>
+      </span>
+    ))}
+    <div class="device-mosaic__tile" data-device-mosaic-tile>
+      {devices.map((d) => {
+        const [x, y, w, h, r] = d.f as number[];
+        const p = 8,
+          sx = x + p,
+          sy = y + p,
+          sw = w - p * 2,
+          sh = h - p * 2;
+        const cw = (sw - 12 - (d.cols - 1) * 6) / d.cols;
+        return (
+          <div class="device-mosaic__face" data-device-mosaic-face style={`background:${d.tile}`}>
+            <svg viewBox="0 0 200 200">
+              <rect x={x} y={y} width={w} height={h} rx={r} fill="#fff" />
+              {d.stand === 'base' && (
+                <rect x="8" y="146" width="184" height="14" rx="7" fill="#fff" />
+              )}
+              {d.stand === 'foot' && <path d="M84 138h32l6 30H78z M56 166h88v12H56z" fill="#fff" />}
+              <rect x={sx} y={sy} width={sw} height={sh} rx={Math.max(2, r - 6)} fill="#1a2081" />
+              <rect x={sx + 6} y={sy + 6} width={sw * 0.3} height="5" rx="2.5" fill="#fff" />
+              <rect
+                x={sx + sw - 6 - sw * 0.18}
+                y={sy + 6}
+                width={sw * 0.18}
+                height="5"
+                rx="2.5"
+                fill="#57f287"
+              />
+              <rect
+                x={sx + 6}
+                y={sy + 17}
+                width={sw - 12}
+                height={sh * 0.34}
+                rx="4"
+                fill="#5865f2"
+              />
+              <rect
+                x={sx + 12}
+                y={sy + 17 + sh * 0.12}
+                width={(sw - 24) * 0.6}
+                height="5"
+                rx="2.5"
+                fill="#fff"
+              />
+              {Array.from({ length: d.cols }).map((_, i) => (
+                <rect
+                  x={sx + 6 + i * (cw + 6)}
+                  y={sy + 23 + sh * 0.34}
+                  width={cw}
+                  height={Math.max(8, sh - sh * 0.34 - 29)}
+                  rx="3"
+                  fill={i % 2 ? '#eb459e' : 'rgba(255,255,255,0.22)'}
+                />
+              ))}
+            </svg>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</LoopStage>
+
+<style>
+  .device-mosaic {
+    position: absolute;
+    inset: 0;
+  }
+  .device-mosaic__dot {
+    position: absolute;
+    left: 48px;
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+  }
+  .device-mosaic__tile {
+    position: absolute;
+    left: 265px;
+    top: 119px;
+    width: 335px;
+    height: 335px;
+  }
+  .device-mosaic__face {
+    position: absolute;
+    inset: 0;
+    border-radius: 28px;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+  }
+  .device-mosaic__face svg {
+    width: 74%;
+    height: 74%;
+  }
+  .device-mosaic__face + .device-mosaic__face {
+    opacity: 0;
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.querySelectorAll<HTMLElement>('[data-device-mosaic]').forEach((root) => {
+    const dots = gsap.utils.toArray<HTMLElement>('[data-device-mosaic-dot]', root);
+    const faces = gsap.utils.toArray<HTMLElement>('[data-device-mosaic-face]', root);
+    const n = faces.length;
+    const STEP = 1.6;
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      // start state == end state: the last device is showing, the timeline opens by switching to the first
+      gsap.set(faces, { opacity: 0, scale: 0.7 });
+      gsap.set(faces[n - 1], { opacity: 1, scale: 1 });
+      gsap.set(dots, { opacity: 0.5, scale: 0.92 });
+      gsap.set(dots[n - 1], { opacity: 1, scale: 1 });
+      const tl = gsap.timeline({ repeat: -1, paused: true });
+      faces.forEach((face, k) => {
+        const prev = (k + n - 1) % n;
+        const t = k * STEP;
+        tl.to(faces[prev], { opacity: 0, scale: 0.85, duration: 0.25, ease: 'power1.in' }, t)
+          .to(dots[prev], { opacity: 0.5, scale: 0.92, duration: 0.3, ease: 'power1.out' }, t)
+          .to(dots[k], { opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(2)' }, t + 0.1)
+          .fromTo(
+            face,
+            { opacity: 0, scale: 0.7 },
+            { opacity: 1, scale: 1, duration: 0.45, ease: 'back.out(1.6)', immediateRender: false },
+            t + 0.2,
+          );
+      });
+      tl.to({}, { duration: 0.01 }, n * STEP - 0.01);
+      const st = ScrollTrigger.create({
+        trigger: root,
+        start: 'top bottom',
+        end: 'bottom top',
+        onToggle: (s) => (s.isActive ? tl.play() : tl.pause()),
+      });
+      return () => {
+        st.kill();
+        tl.kill();
+      };
+    });
+  });
+</script>

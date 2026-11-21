@@ -1,11 +1,11 @@
 ---
 // Preview page for the global agent: header (top + scrolled state), Button variants, Starfield, footer.
 import BaseLayout from '@layouts/BaseLayout.astro';
-import Button from '@components/global/Button.astro';
-import Starfield from '@components/global/Starfield.astro';
-import LogoMark from '@components/global/LogoMark.astro';
+import Button from '@components/ui/Button.astro';
+import Starfield from '@components/layout/Starfield.astro';
+import LogoMark from '@components/layout/LogoMark.astro';
 ---
-<BaseLayout title="Preview — global" active="download">
+<BaseLayout title="Preview — global" active="services">
   <section data-section="preview-hero" data-nav-trigger class="relative h-[870px] overflow-hidden bg-deep-indigo">
     <Starfield density={1.2} />
     <div class="relative flex h-full flex-col items-center justify-center gap-24">

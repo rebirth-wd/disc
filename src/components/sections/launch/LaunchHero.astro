@@ -1,0 +1,267 @@
+---
+// Hero. Slides up under header + subnav.
+import LaunchButton from './LaunchButton.astro';
+import LaunchObject from '@components/graphics/objects/LaunchObject.astro';
+const cards = [
+  { x: 9, y: 16, w: 250, h: 300, r: -12 },
+  { x: 27, y: 6, w: 210, h: 120, r: -12 },
+  { x: 30, y: 30, w: 200, h: 230, r: -12 },
+  { x: 52, y: 14, w: 230, h: 150, r: -12 },
+  { x: 76, y: 12, w: 300, h: 150, r: -12 },
+  { x: 68, y: 46, w: 240, h: 260, r: -12 },
+  { x: 20, y: 62, w: 260, h: 170, r: -12 },
+  { x: 44, y: 62, w: 230, h: 200, r: -12 },
+  { x: 88, y: 50, w: 200, h: 220, r: -12 },
+];
+---
+
+<section data-section="quests-hero" data-nav-trigger class="launch-hero">
+  <div class="launch-hero__bg" aria-hidden="true">
+    <div class="launch-hero__cards">
+      {cards.map((c) => (
+        <div
+          class="launch-hero__card"
+          style={`left:${c.x}%;top:${c.y}%;width:${c.w}px;height:${c.h}px;transform:rotate(${c.r}deg)`}
+        >
+          <i></i>
+          <u style="width:62%"></u>
+          <u style="width:84%"></u>
+          <u style="width:46%"></u>
+          <b></b>
+        </div>
+      ))}
+    </div>
+    <!-- generic Starfield removed; this hero has no star layer -->
+    <div class="launch-hero__fade"></div>
+  </div>
+  <div class="launch-hero__pad">
+    <div class="launch-hero__inner">
+      <h1 class="launch-hero__h1">
+        Launch your site <span>on the modern web</span>
+      </h1>
+      <p class="launch-hero__p">
+        Rebirth builds fast, secure, static-first websites on a production-grade web stack.
+      </p>
+      <div class="launch-hero__cta">
+        <LaunchObject name="rocket" class="launch-hero__obj" data-float />
+        <div class="launch-hero__btn">
+          <LaunchButton variant="blurple" href="#launch-cta" glow>
+            Get Started
+          </LaunchButton>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .launch-hero {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -140px;
+    padding: 168px 0 84px;
+  }
+  .launch-hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    background: linear-gradient(
+      180deg,
+      #4751c5 0%,
+      #3f4ab4 13%,
+      #373f9a 30%,
+      #2a2f8e 62%,
+      var(--launch-canvas) 100%
+    );
+  }
+  .launch-hero__cards {
+    position: absolute;
+    inset: 0;
+    filter: blur(3px);
+    opacity: 0.55;
+  }
+  .launch-hero__card {
+    position: absolute;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.09);
+    padding: 18px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .launch-hero__card i {
+    display: block;
+    height: 42%;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(235, 69, 158, 0.45), rgba(88, 101, 242, 0.5));
+  }
+  .launch-hero__card u {
+    display: block;
+    height: 9px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.22);
+  }
+  .launch-hero__card b {
+    display: block;
+    margin-top: auto;
+    height: 26px;
+    border-radius: 8px;
+    background: rgba(88, 101, 242, 0.7);
+  }
+  .launch-hero__fade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(71, 81, 197, 0.35) 0%,
+      rgba(55, 63, 154, 0.2) 35%,
+      var(--launch-canvas) 96%
+    );
+  }
+  .launch-hero__pad {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 24px;
+  }
+  .launch-hero__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .launch-hero__h1 {
+    margin: 0 0 16px;
+    max-width: 576px;
+    text-align: center;
+    color: var(--color-white);
+    font-family: var(--font-abc-ginto-discord-nord);
+    font-weight: var(--font-weight-bold);
+    font-size: 9.75vw;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+  .launch-hero__p {
+    margin: 0;
+    text-align: center;
+    font-size: var(--text-body);
+    line-height: 22px;
+    color: var(--color-white);
+  }
+  .launch-hero__cta {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 720px;
+  }
+  .launch-hero__btn {
+    margin-top: 36px;
+  }
+  .launch-hero__obj {
+    position: absolute;
+    width: 112px;
+    height: 112px;
+    right: 0;
+    top: 23px;
+  }
+  @media (min-width: 480px) {
+    .launch-hero {
+      margin-top: -80px;
+      padding: 184px 0 128px;
+    }
+    .launch-hero__pad {
+      padding: 0 var(--spacing-40);
+    }
+    .launch-hero__h1 {
+      max-width: 800px;
+      margin-bottom: 20px;
+      font-size: 3.5rem; /* stays 56px down to 768 */
+      line-height: 56px;
+    }
+    .launch-hero__p {
+      font-size: var(--text-body-xl);
+      line-height: 26px;
+    }
+    .launch-hero__obj {
+      width: 150px;
+      height: 150px;
+      right: -74px;
+      top: -12px;
+    }
+  }
+  @media (min-width: 992px) {
+    .launch-hero {
+      margin-top: -160px;
+      padding: 240px 0 128px;
+    }
+    .launch-hero__inner {
+      max-width: 980px;
+    }
+    .launch-hero__h1 span {
+      display: block;
+    }
+    .launch-hero__cta {
+      max-width: 896px;
+    }
+    .launch-hero__obj {
+      right: -50px;
+    }
+  }
+  @media (min-width: 1440px) {
+    .launch-hero {
+      margin-top: -152px;
+      padding: 240px 0 195.2px;
+    }
+    .launch-hero__inner {
+      max-width: 1300px;
+    }
+    .launch-hero__h1 {
+      max-width: none;
+      margin-bottom: var(--spacing-24);
+      font-size: 72px;
+      line-height: 64.8px;
+      letter-spacing: -2.16px;
+    }
+    .launch-hero__btn {
+      margin-top: 44px;
+    }
+    .launch-hero__obj {
+      width: 200px;
+      height: 200px;
+      right: -85px;
+      top: -13px;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+  const mm = gsap.matchMedia();
+  // Scroll parallax (desktop only): object y 0 -> 100px across 60% -> 100% of the
+  // section's in-view progress, smoothing 80.
+  mm.add('(min-width: 992px) and (prefers-reduced-motion: no-preference)', () => {
+    document.querySelectorAll<HTMLElement>('[data-section="quests-hero"]').forEach((root) => {
+      const obj = root.querySelector('[data-float]');
+      if (!obj) return;
+      const tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: 0.8 },
+      });
+      tl.to({}, { duration: 60 }).fromTo(
+        obj,
+        { y: 0 },
+        { y: 100, duration: 40, immediateRender: false },
+      );
+    });
+  });
+</script>

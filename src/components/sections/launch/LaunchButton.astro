@@ -1,0 +1,86 @@
+---
+// Compact CTA used on this page (52px tall, 16px/500 label, 12px radius).
+// Wraps the shared Button primitive; adds a hover glow (a blurred dark
+// ellipse fading in at the bottom edge of the blurple button, 200ms linear).
+import Button from '@components/ui/Button.astro';
+interface Props {
+  variant: 'white' | 'blurple';
+  href?: string;
+  glow?: boolean;
+}
+const { variant, href = '#', glow = false } = Astro.props;
+---
+
+<span class="launch-button__wrap" data-btn data-glow-host={glow ? '' : undefined}>
+  <Button
+    variant={variant}
+    href={href}
+    class:list={['launch-button', `launch-button--${variant}`]}
+    data-btn-face
+  >
+    <slot />
+  </Button>
+  {glow && <span class="launch-button__glow" data-glow aria-hidden="true"></span>}
+</span>
+
+<style>
+  .launch-button__wrap {
+    position: relative;
+    display: inline-flex;
+    border-radius: var(--radius-buttons);
+    overflow: clip;
+  }
+  .launch-button.launch-button {
+    height: 48px;
+    padding: 0 var(--spacing-16);
+    font-size: var(--text-body);
+    line-height: 24px;
+    font-weight: var(--font-weight-medium);
+    letter-spacing: normal;
+    transition: background-color 0.3s;
+  }
+  .launch-button--white.launch-button {
+    color: var(--color-black);
+  }
+  @media (hover: hover) {
+    .launch-button--white.launch-button:hover {
+      background-color: var(--color-fog);
+    }
+  }
+  @media (min-width: 992px) {
+    .launch-button.launch-button {
+      height: 52px;
+      padding: 0 var(--spacing-20);
+    }
+    .launch-button--white.launch-button {
+      padding: 0 var(--spacing-24);
+    }
+  }
+  .launch-button__glow {
+    position: absolute;
+    left: -50%;
+    right: -50%;
+    top: 45px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: rgb(31, 29, 93);
+    filter: blur(30px);
+    opacity: 0;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  document.querySelectorAll<HTMLElement>('[data-glow-host]').forEach((host) => {
+    const glow = host.querySelector<HTMLElement>('[data-glow]');
+    if (!glow) return;
+    // glow: opacity 0 -> 1 in 200ms, back in 200ms, linear
+    host.addEventListener('pointerenter', () =>
+      gsap.to(glow, { opacity: 1, duration: 0.2, ease: 'none', overwrite: true }),
+    );
+    host.addEventListener('pointerleave', () =>
+      gsap.to(glow, { opacity: 0, duration: 0.2, ease: 'none', overwrite: true }),
+    );
+  });
+</script>
