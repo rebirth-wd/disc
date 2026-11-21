@@ -15,3 +15,13 @@ See `CONTRIBUTING.md` for commands, folder conventions and standards.
 - `docs/QA-REPORT.md` - final measurements and known gaps. `docs/CREDITS.md` - Unsplash credits. `docs/source-copy.md` - source text for the page copy.
 - `tools/previews/` - per-section preview pages (reference material, excluded from the build; copy one into `src/pages/` to use it).
 - `tools/qa/` - Playwright scripts used for capture and comparison (need `npm i playwright`).
+
+## Regression gate
+
+    npx playwright install chromium   # once per machine
+    npm run verify:baseline           # record this machine's baseline from a known-good commit
+    npm run verify                    # build + compare layout, overflow, console errors, screenshots
+    npm run verify:motion             # after a build: animation liveness per section
+
+Baselines are per machine (fonts and anti-aliasing differ between systems) and are not committed.
+See `docs/RESTRUCTURE-PLAN.md` for the rules around the gate.

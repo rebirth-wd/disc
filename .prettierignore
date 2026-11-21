@@ -8,3 +8,5 @@ tools/
 src/tokens/
 src/styles/theme.css
 src/styles/variables.css
+qa/baseline/
+qa/output/

@@ -14,11 +14,13 @@ and commits each task before the next starts.
    conflict): stop, leave the tree as it is, and report what happened, what you tried, and your options. Do
    not add workarounds, `!important`, overrides, special cases or try/catch to make a check pass. The
    orchestrator decides whether to patch, or to revert finished work and rebuild more simply.
-3. **The gate.** `node /home/claude/qa/verify.mjs` builds the site and compares it with the pre-restructure
-   baseline: section geometry at four widths, document height, overflow, console errors, and full-page
-   screenshots (pixel diff limit 0.3%; baseline noise is 0.000%). It must print `VERIFY PASSED` before you
-   report, unless your task says a difference is expected. Never edit anything under `/home/claude/qa/`.
-   `npm run check` and `npm run lint` (once they exist) must also pass with zero errors.
+3. **The gate.** `npm run verify` builds the site and compares it with the local baseline in
+   `qa/baseline/`: section geometry at four widths, document height, overflow, console errors, and
+   full-page reduced-motion screenshots (pixel diff limit 0.3%; baseline noise is 0.000%).
+   `npm run verify:motion` (after a build, about 4 minutes) checks that every section still has the same
+   number of animating elements (noise is 2 elements). Both must pass before you report, unless your task
+   says a difference is expected. Sub-agents run the gate; only the orchestrator edits anything under `qa/`
+   or re-records a baseline. `npm run check`, `npm run lint` and `npm run format:check` must also pass.
 4. **Behaviour is frozen.** Same DOM output where practical, same computed styles, same motion parameters
    (durations, eases, triggers). `data-section` values never change. No visual redesign, no new features
    beyond the task, no dependency not named in the task.
