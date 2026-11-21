@@ -13,7 +13,7 @@
 //   · five small stars twinkle (a-495 / a-496 / a-497)                  → .cb-star[data-tw]
 //   · the small robot is a 6-step click easter egg ending in a smoke puff → the pixel ghost
 // Added for the original cast (not in the reference, which uses a static bitmap): blinks, hover bob, wave.
-import Button from '../global/Button.astro';
+import Button from '@components/global/Button.astro';
 import Cast from './closing/Cast.astro';
 
 // rel. to section top / horizontal centre at 1680; size px; tw = IX2 action list
@@ -28,6 +28,7 @@ const stars = [
   { x: 401, y: 391, s: 6, tw: 'a495' },
 ];
 ---
+
 <section data-section="home-closing" class="cb relative text-white">
   <div class="cb-stars" aria-hidden="true">
     {stars.map((s) => (
@@ -42,10 +43,14 @@ const stars = [
   <div class="cb-pad relative z-[2] px-40">
     <div class="cb-inner mx-auto flex flex-col items-center">
       <h2 class="cb-title font-abc-ginto-discord-nord text-center font-bold uppercase">
-        Fast websites, engineered<br />and built to last.
+        Fast websites, engineered
+        <br />
+        and built to last.
       </h2>
       <div class="cb-cta">
-        <Button variant="white" href="#">Start Your Project</Button>
+        <Button variant="white" href="#">
+          Start Your Project
+        </Button>
       </div>
     </div>
   </div>
@@ -56,57 +61,136 @@ const stars = [
 </section>
 
 <style>
-  .cb { margin-bottom: -12px; overflow-x: clip; }
-  .cb-pad { padding-left: var(--page-gutter); padding-right: var(--page-gutter); }
-  .cb-inner { max-width: 1200px; }
+  .cb {
+    margin-bottom: -12px;
+    overflow-x: clip;
+  }
+  .cb-pad {
+    padding-left: var(--page-gutter);
+    padding-right: var(--page-gutter);
+  }
+  .cb-inner {
+    max-width: 1200px;
+  }
   .cb-title {
     margin: 0;
     font-size: var(--text-heading-lg);
     line-height: var(--leading-heading-lg);
     letter-spacing: -0.01em;
   }
-  .cb-cta { margin-top: 94px; display: flex; }
-  .cb-cta :global(.rb-btn) { height: 50px; min-width: 237px; padding: 12px 24px; font-size: 18px; line-height: 24px; }
+  .cb-cta {
+    margin-top: 94px;
+    display: flex;
+  }
+  .cb-cta :global(.rb-btn) {
+    height: 50px;
+    min-width: 237px;
+    padding: 12px 24px;
+    font-size: 18px;
+    line-height: 24px;
+  }
 
   /* character block: 59rem wide (64rem ≥1440), 1024:484, centred, 130px under the button */
   .cb-stage {
-    position: relative; z-index: 100;
-    width: 100%; max-width: 944px; aspect-ratio: 1024 / 484;
+    position: relative;
+    z-index: 100;
+    width: 100%;
+    max-width: 944px;
+    aspect-ratio: 1024 / 484;
     margin: 130px auto 0;
   }
-  .cb-stage :global(svg) { position: absolute; left: 0; top: 0; }
+  .cb-stage :global(svg) {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
 
-  .cb-stars { position: absolute; inset: 0; pointer-events: none; }
-  .cb-star { position: absolute; display: block; background: #d9dbff; opacity: 0.9; }
+  .cb-stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .cb-star {
+    position: absolute;
+    display: block;
+    background: #d9dbff;
+    opacity: 0.9;
+  }
   .cb-star--plus {
-    clip-path: polygon(45% 0, 55% 0, 55% 45%, 100% 45%, 100% 55%, 55% 55%, 55% 100%, 45% 100%, 45% 55%, 0 55%, 0 45%, 45% 45%);
+    clip-path: polygon(
+      45% 0,
+      55% 0,
+      55% 45%,
+      100% 45%,
+      100% 55%,
+      55% 55%,
+      55% 100%,
+      45% 100%,
+      45% 55%,
+      0 55%,
+      0 45%,
+      45% 45%
+    );
   }
 
   @media (min-width: 1440px) {
-    .cb-cta { margin-top: 110px; }
-    .cb-cta :global(.rb-btn) { height: 65px; min-width: 262px; padding: 19.5px 24px; font-size: var(--text-body-xl); line-height: 26px; }
-    .cb-stage { max-width: 1024px; }
+    .cb-cta {
+      margin-top: 110px;
+    }
+    .cb-cta :global(.rb-btn) {
+      height: 65px;
+      min-width: 262px;
+      padding: 19.5px 24px;
+      font-size: var(--text-body-xl);
+      line-height: 26px;
+    }
+    .cb-stage {
+      max-width: 1024px;
+    }
   }
-  @media (max-width: 1279px) { .cb-title { font-size: 36px; } }
+  @media (max-width: 1279px) {
+    .cb-title {
+      font-size: 36px;
+    }
+  }
   @media (max-width: 991px) {
-    .cb-title { font-size: 32px; }
-    .cb-cta { margin-top: 85px; }
+    .cb-title {
+      font-size: 32px;
+    }
+    .cb-cta {
+      margin-top: 85px;
+    }
   }
   @media (max-width: 767px) {
     /* only the middle character, 85% of the viewport (max 320px) wide, sitting on the footer edge */
     .cb-stage {
       --mw: min(85vw, 320px);
-      width: calc(var(--mw) * 1024 / 304); max-width: none;
+      width: calc(var(--mw) * 1024 / 304);
+      max-width: none;
       margin: calc(144px - var(--mw) * 224 / 304) 0 0 50%;
       transform: translateX(-50%);
     }
-    .cb-star[data-tw] { display: none; }
+    .cb-star[data-tw] {
+      display: none;
+    }
   }
   @media (max-width: 479px) {
-    .cb-pad { padding-left: 24px; padding-right: 24px; }
-    .cb-title { font-size: 27px; }
-    .cb-cta { margin-top: 63px; }
-    .cb-cta :global(.rb-btn) { min-width: 206px; padding: 10px 16px; font-size: 16px; line-height: 20px; }
+    .cb-pad {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+    .cb-title {
+      font-size: 27px;
+    }
+    .cb-cta {
+      margin-top: 63px;
+    }
+    .cb-cta :global(.rb-btn) {
+      min-width: 206px;
+      padding: 10px 16px;
+      font-size: 16px;
+      line-height: 20px;
+    }
   }
 </style>
 
@@ -127,22 +211,36 @@ const stars = [
         // SVG transforms are 2D: the reference's rotateX(30deg) tilt-back is rendered as scaleY(cos 30°).
         const peak = { rotation: 8, skewY: 7, scaleX: 1.05, scaleY: 1.05 };
         loops.push(
-          gsap.timeline({ repeat: -1, defaults: { ease: 'sine.inOut' } })
+          gsap
+            .timeline({ repeat: -1, defaults: { ease: 'sine.inOut' } })
             .set(tuft, peak)
             .to(tuft, { rotation: 3, skewY: 2, scaleX: 1, scaleY: 1, duration: 1.5 })
             .to(tuft, { rotation: 5, skewY: 3, scaleX: 1.01, scaleY: 1.01, duration: 0.75 })
             .to(tuft, { ...peak, duration: 1.0 })
-            .to(tuft, { rotation: -1, skewY: 0, scaleX: 1, scaleY: 0.87, duration: 1.25, ease: 'back.inOut(1.4)' })
+            .to(tuft, {
+              rotation: -1,
+              skewY: 0,
+              scaleX: 1,
+              scaleY: 0.87,
+              duration: 1.25,
+              ease: 'back.inOut(1.4)',
+            })
             .to(tuft, { ...peak, duration: 2.0, ease: 'back.inOut(1.4)' }),
         );
       }
 
       // — star twinkles: opacity 0 ↔ 1, 500ms easeIn, waits per action list (ms)
-      const waits: Record<string, number[]> = { a495: [1, 2, 1, 2], a496: [2, 2, 1, 2], a497: [1, 1, 1, 2] };
+      const waits: Record<string, number[]> = {
+        a495: [1, 2, 1, 2],
+        a496: [2, 2, 1, 2],
+        a497: [1, 1, 1, 2],
+      };
       q('.cb-star[data-tw]').forEach((el) => {
         const w = waits[(el as HTMLElement).dataset.tw || 'a495'];
         const tl = gsap.timeline({ repeat: -1 }).set(el, { opacity: 0 });
-        w.forEach((d, i) => tl.to(el, { opacity: i % 2 ? 0 : 1, duration: 0.5, ease: 'power1.in', delay: d }));
+        w.forEach((d, i) =>
+          tl.to(el, { opacity: i % 2 ? 0 : 1, duration: 0.5, ease: 'power1.in', delay: d }),
+        );
         loops.push(tl);
       });
 
@@ -150,23 +248,84 @@ const stars = [
       root.querySelectorAll('[data-char]').forEach((ch, i) => {
         const eyes = ch.querySelectorAll('.cb-eye');
         if (!eyes.length) return;
-        const tl = gsap.timeline({ repeat: -1, delay: 0.6 + i * 0.47, repeatDelay: 2.6 + (i % 4) * 0.8 });
-        tl.to(eyes, { scaleY: 0.1, duration: 0.07, ease: 'power1.in' }).to(eyes, { scaleY: 1, duration: 0.11, ease: 'power1.out' });
-        if (i % 2) tl.to(eyes, { scaleY: 0.1, duration: 0.07, delay: 0.12 }).to(eyes, { scaleY: 1, duration: 0.11 });
+        const tl = gsap.timeline({
+          repeat: -1,
+          delay: 0.6 + i * 0.47,
+          repeatDelay: 2.6 + (i % 4) * 0.8,
+        });
+        tl.to(eyes, { scaleY: 0.1, duration: 0.07, ease: 'power1.in' }).to(eyes, {
+          scaleY: 1,
+          duration: 0.11,
+          ease: 'power1.out',
+        });
+        if (i % 2)
+          tl.to(eyes, { scaleY: 0.1, duration: 0.07, delay: 0.12 }).to(eyes, {
+            scaleY: 1,
+            duration: 0.11,
+          });
         loops.push(tl);
       });
-      loops.push(gsap.to(q('.cb-orbit'), { y: -10, duration: 1.8, ease: 'sine.inOut', yoyo: true, repeat: -1 }));
-      loops.push(gsap.to(q('.cb-flame'), { scaleY: 0.55, duration: 0.18, ease: 'none', yoyo: true, repeat: -1 }));
-      loops.push(gsap.to(q('.cb-ghost'), { y: -7, duration: 1.5, ease: 'sine.inOut', yoyo: true, repeat: -1 }));
-      loops.push(gsap.to(q('.cb-crest'), { rotation: 8, duration: 2.2, ease: 'sine.inOut', yoyo: true, repeat: -1 }));
       loops.push(
-        gsap.timeline({ repeat: -1, repeatDelay: 2.4 })
-          .to(q('.cb-wave'), { rotation: -12, duration: 0.35, ease: 'sine.inOut', yoyo: true, repeat: 5 }),
+        gsap.to(q('.cb-orbit'), {
+          y: -10,
+          duration: 1.8,
+          ease: 'sine.inOut',
+          yoyo: true,
+          repeat: -1,
+        }),
       );
-      loops.push(gsap.to(q('.cb-led'), { opacity: 0.35, duration: 0.6, ease: 'steps(1)', yoyo: true, repeat: -1, stagger: { each: 0.23, from: 'random' } }));
+      loops.push(
+        gsap.to(q('.cb-flame'), {
+          scaleY: 0.55,
+          duration: 0.18,
+          ease: 'none',
+          yoyo: true,
+          repeat: -1,
+        }),
+      );
+      loops.push(
+        gsap.to(q('.cb-ghost'), {
+          y: -7,
+          duration: 1.5,
+          ease: 'sine.inOut',
+          yoyo: true,
+          repeat: -1,
+        }),
+      );
+      loops.push(
+        gsap.to(q('.cb-crest'), {
+          rotation: 8,
+          duration: 2.2,
+          ease: 'sine.inOut',
+          yoyo: true,
+          repeat: -1,
+        }),
+      );
+      loops.push(
+        gsap.timeline({ repeat: -1, repeatDelay: 2.4 }).to(q('.cb-wave'), {
+          rotation: -12,
+          duration: 0.35,
+          ease: 'sine.inOut',
+          yoyo: true,
+          repeat: 5,
+        }),
+      );
+      loops.push(
+        gsap.to(q('.cb-led'), {
+          opacity: 0.35,
+          duration: 0.6,
+          ease: 'steps(1)',
+          yoyo: true,
+          repeat: -1,
+          stagger: { each: 0.23, from: 'random' },
+        }),
+      );
 
       // run loops only while the banner is near the viewport
-      const io = new IntersectionObserver(([e]) => loops.forEach((l) => (e.isIntersecting ? l.play() : l.pause())), { rootMargin: '300px 0px' });
+      const io = new IntersectionObserver(
+        ([e]) => loops.forEach((l) => (e.isIntersecting ? l.play() : l.pause())),
+        { rootMargin: '300px 0px' },
+      );
       io.observe(root);
       return () => io.disconnect();
     });
@@ -188,23 +347,56 @@ const stars = [
         const n = step++;
         gsap.set(body, { fill: tints[n] });
         gsap.set(mouth, { attr: { height: 8 + n * 2, y: 86 - n } });
-        if (calm) { if (step === 6) { gsap.set(inner, { opacity: 0 }); ghost.setAttribute('data-done', ''); } return; }
-        gsap.timeline()
-          .to(inner, { y: -22 - n * 3, rotation: n % 2 ? 9 : -9, duration: 0.18, ease: 'power2.out', overwrite: 'auto' })
+        if (calm) {
+          if (step === 6) {
+            gsap.set(inner, { opacity: 0 });
+            ghost.setAttribute('data-done', '');
+          }
+          return;
+        }
+        gsap
+          .timeline()
+          .to(inner, {
+            y: -22 - n * 3,
+            rotation: n % 2 ? 9 : -9,
+            duration: 0.18,
+            ease: 'power2.out',
+            overwrite: 'auto',
+          })
           .to(inner, { y: 0, rotation: 0, duration: 0.32, ease: 'bounce.out' });
-        gsap.fromTo(glitch, { opacity: 1, x: -8 }, { opacity: 0, x: 8, duration: 0.3, ease: 'steps(3)', stagger: 0.05 });
+        gsap.fromTo(
+          glitch,
+          { opacity: 1, x: -8 },
+          { opacity: 0, x: 8, duration: 0.3, ease: 'steps(3)', stagger: 0.05 },
+        );
         if (step === 6) {
           ghost.setAttribute('data-done', '');
           gsap.to(inner, { scale: 0, opacity: 0, duration: 0.35, delay: 0.5, ease: 'back.in(2)' });
           bits.forEach((b, i) => {
             const a = (i / bits.length) * Math.PI * 2;
-            gsap.fromTo(b, { opacity: 1, x: 0, y: 0, scale: 1 },
-              { x: Math.cos(a) * 70, y: Math.sin(a) * 60 - 20, opacity: 0, scale: 0.4, duration: 0.9, delay: 0.75, ease: 'power2.out' });
+            gsap.fromTo(
+              b,
+              { opacity: 1, x: 0, y: 0, scale: 1 },
+              {
+                x: Math.cos(a) * 70,
+                y: Math.sin(a) * 60 - 20,
+                opacity: 0,
+                scale: 0.4,
+                duration: 0.9,
+                delay: 0.75,
+                ease: 'power2.out',
+              },
+            );
           });
         }
       };
       ghost.addEventListener('click', poke);
-      ghost.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); poke(); } });
+      ghost.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          poke();
+        }
+      });
     }
   });
 </script>

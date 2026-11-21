@@ -6,9 +6,11 @@
  * 5433px track in 60 000ms, linear, PAGE_START, loop) with no scroll coupling. Animated on ≥768 only
  * (IX2 media queries main + medium); the band is display:none below 768.
  */
-import LogoMark from '../global/LogoMark.astro';
+import LogoMark from '@components/global/LogoMark.astro';
 
-interface Props { words?: string[] }
+interface Props {
+  words?: string[];
+}
 const { words = ['Fast', 'Safe', 'Rank', 'Stay live'] } = Astro.props;
 const SETS = 4; // reference renders the word set four times
 ---

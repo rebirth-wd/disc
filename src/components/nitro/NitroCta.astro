@@ -1,14 +1,19 @@
 ---
-import Button from '../global/Button.astro';
+import Button from '@components/global/Button.astro';
 import NitroObject from './NitroObject.astro';
 ---
+
 <section data-section="nitro-cta" class="nx">
   <div class="nitro-pad">
     <div class="nitro-wrap">
       <div class="nx__block">
         <div class="nx__inner">
-          <h2 class="nitro-h1 nx__title"><span>Why wait</span> <span>any longer?</span></h2>
-          <Button variant="white" href="#plans" class="nitro-btn nitro-btn--slow nx__cta">Start now</Button>
+          <h2 class="nitro-h1 nx__title">
+            <span>Why wait</span> <span>any longer?</span>
+          </h2>
+          <Button variant="white" href="#plans" class="nitro-btn nitro-btn--slow nx__cta">
+            Start now
+          </Button>
         </div>
         <NitroObject name="rocket" par="flag" class="nx__rocket" />
         <NitroObject name="calendar" par="box" class="nx__cal" />
@@ -19,34 +24,130 @@ import NitroObject from './NitroObject.astro';
 </section>
 
 <style>
-  .nx { position: relative; z-index: 1; padding: 120px 0 160px; text-align: center; }
-  .nx__block { position: relative; max-width: 896px; margin-inline: auto; }
-  .nx__inner { max-width: 736px; margin-inline: auto; display: flex; flex-direction: column; align-items: center; }
-  .nx__title { margin-bottom: 44px !important; }
-  .nx__title span { display: block; white-space: nowrap; }
-  .nx__inner :global(.nx__cta) { min-width: 121px; line-height: 16px; }
-  .nx__block :global(.nx__rocket) { top: -198.4px; right: -223px; width: 280px; height: 280px; z-index: 1; mix-blend-mode: screen; }
-  .nx__block :global(.nx__cal) { top: 61.6px; left: -208px; width: 250px; height: 250px; }
-  .nx__glow { position: absolute; left: 0; right: 0; bottom: -20px; height: 962px; z-index: -1; pointer-events: none;
-    background: radial-gradient(ellipse 62% 78% at 50% 100%, #e646c9 0%, rgba(214, 64, 196, 0.86) 16%, rgba(150, 48, 160, 0.6) 40%, rgba(74, 28, 104, 0.34) 64%, rgba(24, 10, 46, 0.12) 84%, rgba(0, 0, 0, 0) 100%); }
+  .nx {
+    position: relative;
+    z-index: 1;
+    padding: 120px 0 160px;
+    text-align: center;
+  }
+  .nx__block {
+    position: relative;
+    max-width: 896px;
+    margin-inline: auto;
+  }
+  .nx__inner {
+    max-width: 736px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .nx__title {
+    margin-bottom: 44px !important;
+  }
+  .nx__title span {
+    display: block;
+    white-space: nowrap;
+  }
+  .nx__inner :global(.nx__cta) {
+    min-width: 121px;
+    line-height: 16px;
+  }
+  .nx__block :global(.nx__rocket) {
+    top: -198.4px;
+    right: -223px;
+    width: 280px;
+    height: 280px;
+    z-index: 1;
+    mix-blend-mode: screen;
+  }
+  .nx__block :global(.nx__cal) {
+    top: 61.6px;
+    left: -208px;
+    width: 250px;
+    height: 250px;
+  }
+  .nx__glow {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -20px;
+    height: 962px;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 62% 78% at 50% 100%,
+      #e646c9 0%,
+      rgba(214, 64, 196, 0.86) 16%,
+      rgba(150, 48, 160, 0.6) 40%,
+      rgba(74, 28, 104, 0.34) 64%,
+      rgba(24, 10, 46, 0.12) 84%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
   @media (max-width: 1439px) {
-    .nx { padding: 100px 0 120px; }
-    .nx__block { max-width: 640px; }
-    .nx__title { margin-bottom: var(--spacing-36) !important; }
-    .nx__block :global(.nx__rocket) { top: -184px; right: -150px; width: 200px; height: 200px; }
-    .nx__block :global(.nx__cal) { top: 53px; left: -145px; width: 212px; height: 212px; }
+    .nx {
+      padding: 100px 0 120px;
+    }
+    .nx__block {
+      max-width: 640px;
+    }
+    .nx__title {
+      margin-bottom: var(--spacing-36) !important;
+    }
+    .nx__block :global(.nx__rocket) {
+      top: -184px;
+      right: -150px;
+      width: 200px;
+      height: 200px;
+    }
+    .nx__block :global(.nx__cal) {
+      top: 53px;
+      left: -145px;
+      width: 212px;
+      height: 212px;
+    }
   }
   @media (max-width: 991px) {
-    .nx__block :global(.nx__rocket) { right: -74px; width: 160px; height: 160px; }
-    .nx__block :global(.nx__cal) { top: 105px; left: -64px; width: 160px; height: 160px; }
+    .nx__block :global(.nx__rocket) {
+      right: -74px;
+      width: 160px;
+      height: 160px;
+    }
+    .nx__block :global(.nx__cal) {
+      top: 105px;
+      left: -64px;
+      width: 160px;
+      height: 160px;
+    }
   }
-  @media (max-width: 767px) { .nx__title span { white-space: normal; } }
+  @media (max-width: 767px) {
+    .nx__title span {
+      white-space: normal;
+    }
+  }
   @media (max-width: 479px) {
-    .nx { padding: var(--spacing-56) 0 100px; }
-    .nx__title { margin-bottom: 32px !important; }
-    .nx__block :global(.nx__rocket) { top: -134px; right: 4px; width: 100px; height: 100px; }
-    .nx__block :global(.nx__cal) { top: 161px; left: -20px; width: 120px; height: 120px; }
-    .nx__glow { height: 620px; }
+    .nx {
+      padding: var(--spacing-56) 0 100px;
+    }
+    .nx__title {
+      margin-bottom: 32px !important;
+    }
+    .nx__block :global(.nx__rocket) {
+      top: -134px;
+      right: 4px;
+      width: 100px;
+      height: 100px;
+    }
+    .nx__block :global(.nx__cal) {
+      top: 161px;
+      left: -20px;
+      width: 120px;
+      height: 120px;
+    }
+    .nx__glow {
+      height: 620px;
+    }
   }
 </style>
 
@@ -58,7 +159,16 @@ import NitroObject from './NitroObject.astro';
   const root = document.querySelector<HTMLElement>('[data-section="nitro-cta"]');
   if (root) {
     gsap.matchMedia().add('(prefers-reduced-motion: no-preference) and (min-width: 768px)', () => {
-      gsap.timeline({ defaults: { ease: 'none', duration: 1 }, scrollTrigger: { trigger: root, start: () => `top+=${root.offsetHeight * 0.75} bottom`, end: 'bottom top', scrub: 0.6 } })
+      gsap
+        .timeline({
+          defaults: { ease: 'none', duration: 1 },
+          scrollTrigger: {
+            trigger: root,
+            start: () => `top+=${root.offsetHeight * 0.75} bottom`,
+            end: 'bottom top',
+            scrub: 0.6,
+          },
+        })
         .to(root.querySelector('[data-par="flag"]'), { y: 150 }, 0)
         .to(root.querySelector('[data-par="box"]'), { y: -150 }, 0);
     });

@@ -2,17 +2,29 @@
 // Compact CTA used on this page (reference: 52px tall, 16px/500 label, 12px radius).
 // Wraps the shared Button primitive; adds the reference's hover glow (a blurred dark
 // ellipse fading in at the bottom edge of the blurple button, 200ms linear).
-import Button from '../global/Button.astro';
-interface Props { variant: 'white' | 'blurple'; href?: string; glow?: boolean }
+import Button from '@components/global/Button.astro';
+interface Props {
+  variant: 'white' | 'blurple';
+  href?: string;
+  glow?: boolean;
+}
 const { variant, href = '#', glow = false } = Astro.props;
 ---
+
 <span class="q-btn-wrap" data-btn data-glow-host={glow ? '' : undefined}>
-  <Button variant={variant} href={href} class:list={['q-btn', `q-btn--${variant}`]} data-btn-face><slot /></Button>
+  <Button variant={variant} href={href} class:list={['q-btn', `q-btn--${variant}`]} data-btn-face>
+    <slot />
+  </Button>
   {glow && <span class="q-btn-glow" data-glow aria-hidden="true"></span>}
 </span>
 
 <style>
-  .q-btn-wrap { position: relative; display: inline-flex; border-radius: var(--radius-buttons); overflow: clip; }
+  .q-btn-wrap {
+    position: relative;
+    display: inline-flex;
+    border-radius: var(--radius-buttons);
+    overflow: clip;
+  }
   .q-btn.q-btn {
     height: 48px;
     padding: 0 var(--spacing-16);
@@ -22,11 +34,22 @@ const { variant, href = '#', glow = false } = Astro.props;
     letter-spacing: normal;
     transition: background-color 0.3s;
   }
-  .q-btn--white.q-btn { color: var(--color-black); }
-  @media (hover: hover) { .q-btn--white.q-btn:hover { background-color: var(--color-fog); } }
+  .q-btn--white.q-btn {
+    color: var(--color-black);
+  }
+  @media (hover: hover) {
+    .q-btn--white.q-btn:hover {
+      background-color: var(--color-fog);
+    }
+  }
   @media (min-width: 992px) {
-    .q-btn.q-btn { height: 52px; padding: 0 var(--spacing-20); }
-    .q-btn--white.q-btn { padding: 0 var(--spacing-24); }
+    .q-btn.q-btn {
+      height: 52px;
+      padding: 0 var(--spacing-20);
+    }
+    .q-btn--white.q-btn {
+      padding: 0 var(--spacing-24);
+    }
   }
   .q-btn-glow {
     position: absolute;
@@ -48,7 +71,11 @@ const { variant, href = '#', glow = false } = Astro.props;
     const glow = host.querySelector<HTMLElement>('[data-glow]');
     if (!glow) return;
     // reference IX2 a-560 / a-561: opacity 0 -> 1 in 200ms, back in 200ms, linear
-    host.addEventListener('pointerenter', () => gsap.to(glow, { opacity: 1, duration: 0.2, ease: 'none', overwrite: true }));
-    host.addEventListener('pointerleave', () => gsap.to(glow, { opacity: 0, duration: 0.2, ease: 'none', overwrite: true }));
+    host.addEventListener('pointerenter', () =>
+      gsap.to(glow, { opacity: 1, duration: 0.2, ease: 'none', overwrite: true }),
+    );
+    host.addEventListener('pointerleave', () =>
+      gsap.to(glow, { opacity: 0, duration: 0.2, ease: 'none', overwrite: true }),
+    );
   });
 </script>

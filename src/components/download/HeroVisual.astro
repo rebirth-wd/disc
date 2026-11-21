@@ -2,120 +2,513 @@
 // Original device mock-up for the hero frame (reference frame: 961×689, aspect 2366/1696, desktop window + phone).
 // Everything is sized in cqw so the composition scales with the frame like the reference image does.
 import { Image } from 'astro:assets';
-import workspace from '../../assets/photos/download-workspace.jpg';
-import city from '../../assets/photos/download-city.jpg';
-import neon from '../../assets/photos/download-neon.jpg';
-import LogoMark from '../global/LogoMark.astro';
-const sections = ['Headers', 'Heros', 'Features', 'Content', 'Call-to-Action', 'Pricing', 'Testimonial', 'Contact', 'Footers'];
-const stats = [['2-3', 'Build Days'], ['<2s', 'Load Speed'], ['100%', 'Satisfaction'], ['39k+', 'Astro Users']];
+import workspace from '@assets/photos/download-workspace.jpg';
+import city from '@assets/photos/download-city.jpg';
+import neon from '@assets/photos/download-neon.jpg';
+import LogoMark from '@components/global/LogoMark.astro';
+const sections = [
+  'Headers',
+  'Heros',
+  'Features',
+  'Content',
+  'Call-to-Action',
+  'Pricing',
+  'Testimonial',
+  'Contact',
+  'Footers',
+];
+const stats = [
+  ['2-3', 'Build Days'],
+  ['<2s', 'Load Speed'],
+  ['100%', 'Satisfaction'],
+  ['39k+', 'Astro Users'],
+];
 const tones = ['#eb459e', '#5865f2', '#57f287', '#fee75c'];
 ---
+
 <div class="hv" aria-hidden="true">
   <div class="hv-win">
-    <div class="hv-bar"><i></i><i></i><i></i><span><LogoMark size={12} class="hv-logo" /> Rebirth Online</span></div>
+    <div class="hv-bar">
+      <i></i>
+      <i></i>
+      <i></i>
+      <span>
+        <LogoMark size={12} class="hv-logo" /> Rebirth Online
+      </span>
+    </div>
     <div class="hv-body">
       <div class="hv-rail">
-        <b class="is-on"><LogoMark size={16} /></b>
-        {tones.map((t) => <b style={`background:${t}`}></b>)}
-        <b></b><b></b>
+        <b class="is-on">
+          <LogoMark size={16} />
+        </b>
+        {tones.map((t) => (
+          <b style={`background:${t}`}></b>
+        ))}
+        <b></b>
+        <b></b>
       </div>
       <div class="hv-side">
-        <div class="hv-side-photo"><Image src={neon} alt="" widths={[240, 480]} sizes="200px" loading="eager" /><span>Website Sections</span></div>
+        <div class="hv-side-photo">
+          <Image src={neon} alt="" widths={[240, 480]} sizes="200px" loading="eager" />
+          <span>Website Sections</span>
+        </div>
         <ul>
-          {sections.map((s, i) => <li class:list={[i === 1 && 'is-on']}><em>#</em>{s}</li>)}
+          {sections.map((s, i) => (
+            <li class:list={[i === 1 && 'is-on']}>
+              <em>#</em>
+              {s}
+            </li>
+          ))}
         </ul>
-        <div class="hv-side-foot"><i></i><span>Reb · online</span></div>
+        <div class="hv-side-foot">
+          <i></i>
+          <span>Reb · online</span>
+        </div>
       </div>
       <div class="hv-main">
         <div class="hv-photo">
-          <Image src={workspace} alt="" widths={[640, 1280]} sizes="(min-width: 1440px) 560px, 60vw" loading="eager" />
+          <Image
+            src={workspace}
+            alt=""
+            widths={[640, 1280]}
+            sizes="(min-width: 1440px) 560px, 60vw"
+            loading="eager"
+          />
           <div class="hv-photo-copy">
             <small>Core Feature</small>
-            <strong>Modern websites,<br />built to last.</strong>
+            <strong>
+              Modern websites,
+              <br />
+              built to last.
+            </strong>
             <span class="hv-chip">Start Your Project</span>
           </div>
           <span class="hv-live">LIVE</span>
         </div>
         <div class="hv-stats">
-          {stats.map(([n, l], i) => <div style={`--tone:${tones[i]}`}><strong>{n}</strong><span>{l}</span></div>)}
+          {stats.map(([n, l], i) => (
+            <div style={`--tone:${tones[i]}`}>
+              <strong>{n}</strong>
+              <span>{l}</span>
+            </div>
+          ))}
         </div>
-        <div class="hv-tools"><i></i><i></i><i></i><i></i><i class="is-hot"></i></div>
+        <div class="hv-tools">
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i class="is-hot"></i>
+        </div>
       </div>
     </div>
   </div>
   <div class="hv-phone">
     <div class="hv-phone-in">
-      <div class="hv-phone-top"><span>⌄ rebirth</span><i></i><i></i></div>
-      <div class="hv-phone-photo"><Image src={city} alt="" widths={[320, 640]} sizes="240px" loading="eager" /></div>
-      <div class="hv-phone-grid">
-        {stats.map(([n, l], i) => <div style={`--tone:${tones[(i + 1) % 4]}`}><strong>{n}</strong><span>{l}</span></div>)}
+      <div class="hv-phone-top">
+        <span>⌄ rebirth</span>
+        <i></i>
+        <i></i>
       </div>
-      <div class="hv-phone-tools"><i></i><i></i><i></i><i class="is-hot"></i></div>
+      <div class="hv-phone-photo">
+        <Image src={city} alt="" widths={[320, 640]} sizes="240px" loading="eager" />
+      </div>
+      <div class="hv-phone-grid">
+        {stats.map(([n, l], i) => (
+          <div style={`--tone:${tones[(i + 1) % 4]}`}>
+            <strong>{n}</strong>
+            <span>{l}</span>
+          </div>
+        ))}
+      </div>
+      <div class="hv-phone-tools">
+        <i></i>
+        <i></i>
+        <i></i>
+        <i class="is-hot"></i>
+      </div>
       <div class="hv-phone-home"></div>
     </div>
   </div>
 </div>
 
 <style>
-  .hv { position: relative; width: 100%; aspect-ratio: 2366 / 1696; container-type: inline-size; text-align: left; font-family: var(--font-abc-ginto-discord); color: var(--color-white); }
-  .hv :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .hv-win { position: absolute; left: 0; top: 0; width: 81.2%; height: 83.5%; border-radius: 1.3cqw; background: #08080c; overflow: hidden; display: flex; flex-direction: column; }
-  .hv-bar { height: 3.2cqw; flex: none; display: flex; align-items: center; gap: 0.5cqw; padding: 0 1.2cqw; font-size: 0.95cqw; font-weight: 500; }
-  .hv-bar i { width: 0.7cqw; height: 0.7cqw; border-radius: 50%; background: #2c2d36; }
-  .hv-bar span { margin: 0 auto; display: flex; align-items: center; gap: 0.5cqw; transform: translateX(-1.5cqw); }
-  .hv-bar :global(.hv-logo) { width: 1.2cqw; height: 1.2cqw; color: var(--color-fuchsia); }
-  .hv-body { flex: 1; display: flex; min-height: 0; }
-  .hv-rail { width: 4.2cqw; flex: none; display: flex; flex-direction: column; align-items: center; gap: 0.8cqw; padding-top: 0.6cqw; }
-  .hv-rail b { width: 2.5cqw; height: 2.5cqw; border-radius: 0.8cqw; background: #1c1d26; display: grid; place-items: center; }
-  .hv-rail b.is-on { background: var(--color-blurple); }
-  .hv-rail b :global(svg) { width: 1.5cqw; height: 1.5cqw; }
-  .hv-side { width: 17.5cqw; flex: none; background: #111118; border-radius: 0.8cqw 0 0 0; display: flex; flex-direction: column; overflow: hidden; }
-  .hv-side-photo { position: relative; height: 8.4cqw; flex: none; }
-  .hv-side-photo span { position: absolute; left: 1cqw; top: 0.9cqw; font-size: 0.95cqw; font-weight: 500; }
-  .hv-side ul { list-style: none; margin: 0; padding: 1.2cqw 0.8cqw; display: flex; flex-direction: column; gap: 0.25cqw; flex: 1; }
-  .hv-side li { font-size: 0.92cqw; line-height: 1; padding: 0.55cqw 0.6cqw; border-radius: 0.5cqw; color: rgba(255, 255, 255, 0.55); display: flex; gap: 0.6cqw; }
-  .hv-side li em { font-style: normal; opacity: 0.6; }
-  .hv-side li.is-on { background: rgba(255, 255, 255, 0.1); color: var(--color-white); }
-  .hv-side-foot { height: 4cqw; flex: none; background: #191a22; display: flex; align-items: center; gap: 0.7cqw; padding: 0 1cqw; font-size: 0.85cqw; }
-  .hv-side-foot i { width: 1.9cqw; height: 1.9cqw; border-radius: 50%; background: var(--color-spring-green); }
-  .hv-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.6cqw; padding: 0 0 1.4cqw 2.4cqw; }
-  .hv-photo { position: relative; height: 40.5cqw; flex: none; overflow: hidden; margin-top: 6.6cqw; }
-  .hv-photo-copy { position: absolute; left: 2cqw; bottom: 2cqw; display: flex; flex-direction: column; align-items: flex-start; gap: 0.7cqw; }
-  .hv-photo-copy small { font-size: 0.9cqw; letter-spacing: 0.08em; text-transform: uppercase; }
-  .hv-photo-copy strong { font-family: var(--font-abc-ginto-discord-nord); font-weight: 800; font-size: 2.3cqw; line-height: 0.95; letter-spacing: -0.01em; text-transform: uppercase; }
-  .hv-chip { background: var(--color-white); color: var(--color-black); font-size: 0.95cqw; font-weight: 500; padding: 0.6cqw 1cqw; border-radius: 0.6cqw; }
-  .hv-live { position: absolute; right: 1cqw; top: 1cqw; background: #f23f42; font-size: 0.7cqw; font-weight: 500; padding: 0.2cqw 0.5cqw; border-radius: 0.4cqw; }
-  .hv-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5cqw; height: 7.8cqw; flex: none; width: 51cqw; }
-  .hv-stats div, .hv-phone-grid div { background: var(--tone); color: #0b0b12; border-radius: 0.5cqw; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 0.3cqw; }
-  .hv-stats strong, .hv-phone-grid strong { font-family: var(--font-abc-ginto-discord-nord); font-weight: 800; font-size: 1.7cqw; line-height: 1; }
-  .hv-stats span, .hv-phone-grid span { font-size: 0.8cqw; line-height: 1; font-weight: 500; }
-  .hv-tools, .hv-phone-tools { display: flex; gap: 0.5cqw; justify-content: center; align-items: center; }
-  .hv-tools { margin: 4.6cqw auto 0; transform: translateX(-6cqw); }
-  .hv-tools i, .hv-phone-tools i { width: 2.8cqw; height: 2.8cqw; border-radius: 0.8cqw; background: #1c1d26; }
-  .hv-tools i.is-hot, .hv-phone-tools i.is-hot { background: #f23f42; width: 3.6cqw; }
+  .hv {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2366 / 1696;
+    container-type: inline-size;
+    text-align: left;
+    font-family: var(--font-abc-ginto-discord);
+    color: var(--color-white);
+  }
+  .hv :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .hv-win {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 81.2%;
+    height: 83.5%;
+    border-radius: 1.3cqw;
+    background: #08080c;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .hv-bar {
+    height: 3.2cqw;
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5cqw;
+    padding: 0 1.2cqw;
+    font-size: 0.95cqw;
+    font-weight: 500;
+  }
+  .hv-bar i {
+    width: 0.7cqw;
+    height: 0.7cqw;
+    border-radius: 50%;
+    background: #2c2d36;
+  }
+  .hv-bar span {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5cqw;
+    transform: translateX(-1.5cqw);
+  }
+  .hv-bar :global(.hv-logo) {
+    width: 1.2cqw;
+    height: 1.2cqw;
+    color: var(--color-fuchsia);
+  }
+  .hv-body {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+  }
+  .hv-rail {
+    width: 4.2cqw;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8cqw;
+    padding-top: 0.6cqw;
+  }
+  .hv-rail b {
+    width: 2.5cqw;
+    height: 2.5cqw;
+    border-radius: 0.8cqw;
+    background: #1c1d26;
+    display: grid;
+    place-items: center;
+  }
+  .hv-rail b.is-on {
+    background: var(--color-blurple);
+  }
+  .hv-rail b :global(svg) {
+    width: 1.5cqw;
+    height: 1.5cqw;
+  }
+  .hv-side {
+    width: 17.5cqw;
+    flex: none;
+    background: #111118;
+    border-radius: 0.8cqw 0 0 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .hv-side-photo {
+    position: relative;
+    height: 8.4cqw;
+    flex: none;
+  }
+  .hv-side-photo span {
+    position: absolute;
+    left: 1cqw;
+    top: 0.9cqw;
+    font-size: 0.95cqw;
+    font-weight: 500;
+  }
+  .hv-side ul {
+    list-style: none;
+    margin: 0;
+    padding: 1.2cqw 0.8cqw;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25cqw;
+    flex: 1;
+  }
+  .hv-side li {
+    font-size: 0.92cqw;
+    line-height: 1;
+    padding: 0.55cqw 0.6cqw;
+    border-radius: 0.5cqw;
+    color: rgba(255, 255, 255, 0.55);
+    display: flex;
+    gap: 0.6cqw;
+  }
+  .hv-side li em {
+    font-style: normal;
+    opacity: 0.6;
+  }
+  .hv-side li.is-on {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-white);
+  }
+  .hv-side-foot {
+    height: 4cqw;
+    flex: none;
+    background: #191a22;
+    display: flex;
+    align-items: center;
+    gap: 0.7cqw;
+    padding: 0 1cqw;
+    font-size: 0.85cqw;
+  }
+  .hv-side-foot i {
+    width: 1.9cqw;
+    height: 1.9cqw;
+    border-radius: 50%;
+    background: var(--color-spring-green);
+  }
+  .hv-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6cqw;
+    padding: 0 0 1.4cqw 2.4cqw;
+  }
+  .hv-photo {
+    position: relative;
+    height: 40.5cqw;
+    flex: none;
+    overflow: hidden;
+    margin-top: 6.6cqw;
+  }
+  .hv-photo-copy {
+    position: absolute;
+    left: 2cqw;
+    bottom: 2cqw;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7cqw;
+  }
+  .hv-photo-copy small {
+    font-size: 0.9cqw;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .hv-photo-copy strong {
+    font-family: var(--font-abc-ginto-discord-nord);
+    font-weight: 800;
+    font-size: 2.3cqw;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+  .hv-chip {
+    background: var(--color-white);
+    color: var(--color-black);
+    font-size: 0.95cqw;
+    font-weight: 500;
+    padding: 0.6cqw 1cqw;
+    border-radius: 0.6cqw;
+  }
+  .hv-live {
+    position: absolute;
+    right: 1cqw;
+    top: 1cqw;
+    background: #f23f42;
+    font-size: 0.7cqw;
+    font-weight: 500;
+    padding: 0.2cqw 0.5cqw;
+    border-radius: 0.4cqw;
+  }
+  .hv-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5cqw;
+    height: 7.8cqw;
+    flex: none;
+    width: 51cqw;
+  }
+  .hv-stats div,
+  .hv-phone-grid div {
+    background: var(--tone);
+    color: #0b0b12;
+    border-radius: 0.5cqw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.3cqw;
+  }
+  .hv-stats strong,
+  .hv-phone-grid strong {
+    font-family: var(--font-abc-ginto-discord-nord);
+    font-weight: 800;
+    font-size: 1.7cqw;
+    line-height: 1;
+  }
+  .hv-stats span,
+  .hv-phone-grid span {
+    font-size: 0.8cqw;
+    line-height: 1;
+    font-weight: 500;
+  }
+  .hv-tools,
+  .hv-phone-tools {
+    display: flex;
+    gap: 0.5cqw;
+    justify-content: center;
+    align-items: center;
+  }
+  .hv-tools {
+    margin: 4.6cqw auto 0;
+    transform: translateX(-6cqw);
+  }
+  .hv-tools i,
+  .hv-phone-tools i {
+    width: 2.8cqw;
+    height: 2.8cqw;
+    border-radius: 0.8cqw;
+    background: #1c1d26;
+  }
+  .hv-tools i.is-hot,
+  .hv-phone-tools i.is-hot {
+    background: #f23f42;
+    width: 3.6cqw;
+  }
 
-  .hv-phone { position: absolute; left: 73.3%; top: 21.2%; width: 25%; height: 73.8%; border-radius: 3.4cqw; background: #17171d; padding: 0.7cqw; box-sizing: border-box; }
-  .hv-phone-in { width: 100%; height: 100%; border-radius: 2.8cqw; background: #000; overflow: hidden; display: flex; flex-direction: column; padding: 0 1.6cqw; box-sizing: border-box; }
-  .hv-phone-top { height: 6.4cqw; flex: none; display: flex; align-items: center; gap: 0.8cqw; font-size: 0.95cqw; font-weight: 500; }
-  .hv-phone-top span { margin-right: auto; padding-left: 0.6cqw; }
-  .hv-phone-top i { width: 1.7cqw; height: 1.7cqw; border-radius: 0.5cqw; background: #26272f; }
-  .hv-phone-top i:first-of-type { background: var(--color-white); }
-  .hv-phone-photo { height: 10cqw; flex: none; border-radius: 0.6cqw; overflow: hidden; margin-top: 1.6cqw; }
-  .hv-phone-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5cqw; margin-top: 0.6cqw; height: 20.6cqw; flex: none; }
-  .hv-phone-grid div { border-radius: 0.6cqw; }
-  .hv-phone-tools { margin-top: 3.4cqw; background: #14141a; border-radius: 1.2cqw; padding: 1cqw 0; gap: 1cqw; }
-  .hv-phone-tools i { background: transparent; box-shadow: inset 0 0 0 0.9cqw #14141a, inset 0 0 0 2cqw #fff; border-radius: 50%; }
-  .hv-phone-tools i.is-hot { box-shadow: none; background: #f23f42; border-radius: 0.8cqw; width: 2.8cqw; }
-  .hv-phone-home { width: 8cqw; height: 0.35cqw; border-radius: 1cqw; background: #fff; margin: auto auto 1.2cqw; }
+  .hv-phone {
+    position: absolute;
+    left: 73.3%;
+    top: 21.2%;
+    width: 25%;
+    height: 73.8%;
+    border-radius: 3.4cqw;
+    background: #17171d;
+    padding: 0.7cqw;
+    box-sizing: border-box;
+  }
+  .hv-phone-in {
+    width: 100%;
+    height: 100%;
+    border-radius: 2.8cqw;
+    background: #000;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 0 1.6cqw;
+    box-sizing: border-box;
+  }
+  .hv-phone-top {
+    height: 6.4cqw;
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 0.8cqw;
+    font-size: 0.95cqw;
+    font-weight: 500;
+  }
+  .hv-phone-top span {
+    margin-right: auto;
+    padding-left: 0.6cqw;
+  }
+  .hv-phone-top i {
+    width: 1.7cqw;
+    height: 1.7cqw;
+    border-radius: 0.5cqw;
+    background: #26272f;
+  }
+  .hv-phone-top i:first-of-type {
+    background: var(--color-white);
+  }
+  .hv-phone-photo {
+    height: 10cqw;
+    flex: none;
+    border-radius: 0.6cqw;
+    overflow: hidden;
+    margin-top: 1.6cqw;
+  }
+  .hv-phone-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5cqw;
+    margin-top: 0.6cqw;
+    height: 20.6cqw;
+    flex: none;
+  }
+  .hv-phone-grid div {
+    border-radius: 0.6cqw;
+  }
+  .hv-phone-tools {
+    margin-top: 3.4cqw;
+    background: #14141a;
+    border-radius: 1.2cqw;
+    padding: 1cqw 0;
+    gap: 1cqw;
+  }
+  .hv-phone-tools i {
+    background: transparent;
+    box-shadow:
+      inset 0 0 0 0.9cqw #14141a,
+      inset 0 0 0 2cqw #fff;
+    border-radius: 50%;
+  }
+  .hv-phone-tools i.is-hot {
+    box-shadow: none;
+    background: #f23f42;
+    border-radius: 0.8cqw;
+    width: 2.8cqw;
+  }
+  .hv-phone-home {
+    width: 8cqw;
+    height: 0.35cqw;
+    border-radius: 1cqw;
+    background: #fff;
+    margin: auto auto 1.2cqw;
+  }
 
   /* ≤479: the reference swaps to a tighter mobile composition (frame 105% wide, aspect ≈360/336) */
   @media (max-width: 479px) {
-    .hv { width: 105%; margin-left: -1.5%; aspect-ratio: 360.4 / 335.6; }
-    .hv-win { height: 78%; }
-    .hv-phone { top: 12%; height: 86%; width: 30%; left: 69%; }
-    .hv-photo { height: 36cqw; margin-top: 4cqw; }
-    .hv-tools { margin-top: 2.4cqw; }
-    .hv-phone-photo { height: 13cqw; }
-    .hv-phone-grid { height: 26cqw; }
+    .hv {
+      width: 105%;
+      margin-left: -1.5%;
+      aspect-ratio: 360.4 / 335.6;
+    }
+    .hv-win {
+      height: 78%;
+    }
+    .hv-phone {
+      top: 12%;
+      height: 86%;
+      width: 30%;
+      left: 69%;
+    }
+    .hv-photo {
+      height: 36cqw;
+      margin-top: 4cqw;
+    }
+    .hv-tools {
+      margin-top: 2.4cqw;
+    }
+    .hv-phone-photo {
+      height: 13cqw;
+    }
+    .hv-phone-grid {
+      height: 26cqw;
+    }
   }
 </style>

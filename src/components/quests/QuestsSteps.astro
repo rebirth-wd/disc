@@ -2,24 +2,40 @@
 // "Designed for…" + 3 numbered step cards (reference: section.testimonials-section.is-60.top-0)
 import QuestsMock from './QuestsMock.astro';
 const steps = [
-  { h: '1. You share your goals', p: 'Clear goals, existing branding, content and reference sites you love.', mock: 'brief' },
+  {
+    h: '1. You share your goals',
+    p: 'Clear goals, existing branding, content and reference sites you love.',
+    mock: 'brief',
+  },
   { h: '2. We build fast', p: 'A focused prototype is ready in just a few days.', mock: 'build' },
-  { h: '3. And launch in weeks', p: 'Full custom sites typically take 2–4 weeks, kickoff to launch.', mock: 'launch' },
+  {
+    h: '3. And launch in weeks',
+    p: 'Full custom sites typically take 2–4 weeks, kickoff to launch.',
+    mock: 'launch',
+  },
 ] as const;
 ---
+
 <section data-section="quests-steps" class="q-sec q-steps">
   <div class="q-pad">
     <div class="q-wrap">
       <div class="q-title">
         <h2 class="q-h2">Designed for busy owners</h2>
-        <p class="q-lead q-steps__lead">A focused prototype can be ready in just a few days. Quick wins early, refinements along the way, so you see progress fast.</p>
+        <p class="q-lead q-steps__lead">
+          A focused prototype can be ready in just a few days. Quick wins early, refinements along
+          the way, so you see progress fast.
+        </p>
       </div>
       <div class="q-steps__grid">
         {steps.map((s, i) => (
           <article class:list={['q-step', i === 1 && 'q-step--alt']}>
-            <div class="q-step__media"><QuestsMock variant={s.mock} /></div>
+            <div class="q-step__media">
+              <QuestsMock variant={s.mock} />
+            </div>
             <div class="q-step__text">
-              <div class="q-step__title"><h3>{s.h}</h3></div>
+              <div class="q-step__title">
+                <h3>{s.h}</h3>
+              </div>
               <p>{s.p}</p>
             </div>
           </article>
@@ -30,9 +46,17 @@ const steps = [
 </section>
 
 <style>
-  .q-steps.q-steps { padding-top: 0; }
-  .q-steps__lead { max-width: 400px; }
-  .q-steps__grid { display: flex; flex-direction: column; gap: var(--spacing-16); }
+  .q-steps.q-steps {
+    padding-top: 0;
+  }
+  .q-steps__lead {
+    max-width: 400px;
+  }
+  .q-steps__grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-16);
+  }
   .q-step {
     display: grid;
     grid-template-columns: 1fr;
@@ -41,36 +65,117 @@ const steps = [
     padding: 16px 16px 32px;
     border-radius: 40px;
     background-color: rgb(56, 31, 44);
-    background-image: linear-gradient(180deg, #3d2030 0%, #4b2239 34%, #8b306f 62%, #d542af 84%, #fc4bd0 100%);
+    background-image: linear-gradient(
+      180deg,
+      #3d2030 0%,
+      #4b2239 34%,
+      #8b306f 62%,
+      #d542af 84%,
+      #fc4bd0 100%
+    );
   }
-  .q-step__media { position: relative; aspect-ratio: 357.3 / 358.4; border-radius: 32px; overflow: hidden; }
-  .q-step__text { padding: 0 var(--spacing-16); }
-  .q-step__title { margin-bottom: var(--spacing-16); }
-  .q-step h3 { font-weight: var(--font-weight-bold); font-size: 20px; line-height: 22px; letter-spacing: -0.2px; color: var(--color-white); }
-  .q-step p { margin: 0; font-size: var(--text-body); line-height: 1.278; color: var(--color-white); }
+  .q-step__media {
+    position: relative;
+    aspect-ratio: 357.3 / 358.4;
+    border-radius: 32px;
+    overflow: hidden;
+  }
+  .q-step__text {
+    padding: 0 var(--spacing-16);
+  }
+  .q-step__title {
+    margin-bottom: var(--spacing-16);
+  }
+  .q-step h3 {
+    font-weight: var(--font-weight-bold);
+    font-size: 20px;
+    line-height: 22px;
+    letter-spacing: -0.2px;
+    color: var(--color-white);
+  }
+  .q-step p {
+    margin: 0;
+    font-size: var(--text-body);
+    line-height: 1.278;
+    color: var(--color-white);
+  }
   @media (min-width: 480px) {
-    .q-step { padding: var(--spacing-40); gap: 32px; border-radius: 64px; }
-    .q-step__media { border-radius: 54px; }
-    .q-step__text { padding: 0 17px; }
-    .q-step h3 { font-size: 32px; line-height: 32px; letter-spacing: -0.32px; }
-    .q-step p { font-size: 18px; line-height: 23px; }
+    .q-step {
+      padding: var(--spacing-40);
+      gap: 32px;
+      border-radius: 64px;
+    }
+    .q-step__media {
+      border-radius: 54px;
+    }
+    .q-step__text {
+      padding: 0 17px;
+    }
+    .q-step h3 {
+      font-size: 32px;
+      line-height: 32px;
+      letter-spacing: -0.32px;
+    }
+    .q-step p {
+      font-size: 18px;
+      line-height: 23px;
+    }
   }
   @media (min-width: 992px) {
-    .q-steps__lead { max-width: 620px; }
-    .q-step { grid-template-columns: 1fr 393px; }
-    .q-step__media { order: 2; }
-    .q-step--alt .q-step__media { order: 0; }
-    .q-step--alt { grid-template-columns: 1fr 393px; }
-    .q-step__text { padding: 0; }
+    .q-steps__lead {
+      max-width: 620px;
+    }
+    .q-step {
+      grid-template-columns: 1fr 393px;
+    }
+    .q-step__media {
+      order: 2;
+    }
+    .q-step--alt .q-step__media {
+      order: 0;
+    }
+    .q-step--alt {
+      grid-template-columns: 1fr 393px;
+    }
+    .q-step__text {
+      padding: 0;
+    }
   }
   @media (min-width: 1440px) {
-    .q-steps.q-steps { padding-bottom: 80px; }
-    .q-steps__lead { max-width: 740px; }
-    .q-steps__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .q-step, .q-step--alt { display: flex; flex-direction: column; align-items: stretch; gap: 32px; padding: 16px 16px 40px; border-radius: 56px; }
-    .q-step__media, .q-step--alt .q-step__media { order: 0; border-radius: var(--spacing-48); }
-    .q-step__text { padding: 0 var(--spacing-16); }
-    .q-step__title { min-height: 64px; }
-    .q-step h3 { font-size: 28px; line-height: 28px; letter-spacing: -0.28px; }
+    .q-steps.q-steps {
+      padding-bottom: 80px;
+    }
+    .q-steps__lead {
+      max-width: 740px;
+    }
+    .q-steps__grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .q-step,
+    .q-step--alt {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 32px;
+      padding: 16px 16px 40px;
+      border-radius: 56px;
+    }
+    .q-step__media,
+    .q-step--alt .q-step__media {
+      order: 0;
+      border-radius: var(--spacing-48);
+    }
+    .q-step__text {
+      padding: 0 var(--spacing-16);
+    }
+    .q-step__title {
+      min-height: 64px;
+    }
+    .q-step h3 {
+      font-size: 28px;
+      line-height: 28px;
+      letter-spacing: -0.28px;
+    }
   }
 </style>

@@ -1,0 +1,10 @@
+dist/
+.astro/
+.wrangler/
+node_modules/
+package-lock.json
+docs/
+tools/
+src/tokens/
+src/styles/theme.css
+src/styles/variables.css

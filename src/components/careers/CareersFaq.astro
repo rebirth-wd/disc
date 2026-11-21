@@ -3,53 +3,125 @@
 // "See All" reveals the remaining questions.
 import CareersGlowButton from './CareersGlowButton.astro';
 const faqs = [
-  ['Why choose Rebirth Online for my project? What makes a static-first website different?', 'I focus on fast, modern static websites built with Astro and Tailwind CSS—delivering standout design, blazing speed, and 90+ Lighthouse scores out of the box. Every site is mobile-first, accessible, SEO-ready, and tailored to your vision without unnecessary complexity or bloat.'],
-  ['What kinds of projects do you take on?', 'My core expertise is in high-quality static sites: portfolios, business landing pages, marketing sites, documentation hubs, and personal brands. I’m also open to light dynamic features (e.g., forms, search, or simple APIs) when they add real value, all while keeping performance and maintainability first.'],
-  ['How long does it take to build a website?', 'A focused prototype can be ready in just a few days. Full custom sites typically take 2–4 weeks from kickoff to launch, depending on scope and feedback rounds. I work iteratively—quick wins early, refinements along the way—so you see progress fast.'],
-  ['What do you need from me to get started?', 'Clear goals, any existing branding/assets (logo, colors, photos), content (or a plan for it), and reference sites you love. If you’re not sure about any of that, I can guide you through discovery and help shape the direction.'],
-  ['How much does a website cost?', 'Pricing is custom and transparent based on your needs. Paid projects start in the mid-four-figure range for bespoke, high-performance sites. I’ll provide a detailed quote after our initial discussion.'],
-  ['Do you offer maintenance or updates after launch, or do I manage the site myself?', 'Yes. I can hand off the full source code for you or your team to manage, or I can provide ongoing support (updates, new sections, performance tweaks) on a monthly retainer or per-request basis—whatever fits your workflow best.'],
-  ['What is my site actually built on?', 'Astro — the framework behind IKEA, Microsoft, Porsche, Visa, NBC News, and The Guardian. It ships zero unnecessary JavaScript, so your site loads in a blink.'],
-  ['Where is my code kept, and what happens if something breaks after a change?', 'On GitHub. Every change to your site is tracked, backed up, and reversible — the same professional workflow that runs the world’s biggest software.'],
-  ['Who hosts the site?', 'Cloudflare. Your site is distributed across its network and served from the node closest to each visitor, with no origin server to fall over under traffic.'],
-  ['Will my site rank on Google?', 'Google weighs Core Web Vitals and crawlable, semantic HTML in its rankings. Astro outputs both by default. The SEO groundwork is in the architecture, not bolted on afterward.'],
-  ['How secure is a static site?', 'Most website hacks happen through databases and plugins. Your site doesn’t use either, so there’s simply far less that can be broken into. Fewer weak points, fewer things to worry about.'],
-  ['Who will I be working with?', 'The person writing the code — not an account manager, not an offshore team. One Bundaberg-based developer who knows your entire stack.'],
+  [
+    'Why choose Rebirth Online for my project? What makes a static-first website different?',
+    'I focus on fast, modern static websites built with Astro and Tailwind CSS—delivering standout design, blazing speed, and 90+ Lighthouse scores out of the box. Every site is mobile-first, accessible, SEO-ready, and tailored to your vision without unnecessary complexity or bloat.',
+  ],
+  [
+    'What kinds of projects do you take on?',
+    'My core expertise is in high-quality static sites: portfolios, business landing pages, marketing sites, documentation hubs, and personal brands. I’m also open to light dynamic features (e.g., forms, search, or simple APIs) when they add real value, all while keeping performance and maintainability first.',
+  ],
+  [
+    'How long does it take to build a website?',
+    'A focused prototype can be ready in just a few days. Full custom sites typically take 2–4 weeks from kickoff to launch, depending on scope and feedback rounds. I work iteratively—quick wins early, refinements along the way—so you see progress fast.',
+  ],
+  [
+    'What do you need from me to get started?',
+    'Clear goals, any existing branding/assets (logo, colors, photos), content (or a plan for it), and reference sites you love. If you’re not sure about any of that, I can guide you through discovery and help shape the direction.',
+  ],
+  [
+    'How much does a website cost?',
+    'Pricing is custom and transparent based on your needs. Paid projects start in the mid-four-figure range for bespoke, high-performance sites. I’ll provide a detailed quote after our initial discussion.',
+  ],
+  [
+    'Do you offer maintenance or updates after launch, or do I manage the site myself?',
+    'Yes. I can hand off the full source code for you or your team to manage, or I can provide ongoing support (updates, new sections, performance tweaks) on a monthly retainer or per-request basis—whatever fits your workflow best.',
+  ],
+  [
+    'What is my site actually built on?',
+    'Astro — the framework behind IKEA, Microsoft, Porsche, Visa, NBC News, and The Guardian. It ships zero unnecessary JavaScript, so your site loads in a blink.',
+  ],
+  [
+    'Where is my code kept, and what happens if something breaks after a change?',
+    'On GitHub. Every change to your site is tracked, backed up, and reversible — the same professional workflow that runs the world’s biggest software.',
+  ],
+  [
+    'Who hosts the site?',
+    'Cloudflare. Your site is distributed across its network and served from the node closest to each visitor, with no origin server to fall over under traffic.',
+  ],
+  [
+    'Will my site rank on Google?',
+    'Google weighs Core Web Vitals and crawlable, semantic HTML in its rankings. Astro outputs both by default. The SEO groundwork is in the architecture, not bolted on afterward.',
+  ],
+  [
+    'How secure is a static site?',
+    'Most website hacks happen through databases and plugins. Your site doesn’t use either, so there’s simply far less that can be broken into. Fewer weak points, fewer things to worry about.',
+  ],
+  [
+    'Who will I be working with?',
+    'The person writing the code — not an account manager, not an offshore team. One Bundaberg-based developer who knows your entire stack.',
+  ],
 ];
 const first = faqs.slice(0, 4);
 const rest = faqs.slice(4);
 ---
-<section data-section="careers-faq" class="relative mt-[30px] py-[100px] md:py-[120px] [@media(min-width:1440px)]:py-[160px]">
+
+<section
+  data-section="careers-faq"
+  class="relative mt-[30px] py-[100px] md:py-[120px] [@media(min-width:1440px)]:py-[160px]"
+>
   <div class="px-[6vw] md:px-40 xl:px-[80px] [@media(min-width:1440px)]:px-[120px]">
     <div class="relative z-2 mx-auto max-w-[944px] [@media(min-width:1440px)]:flex [@media(min-width:1440px)]:max-w-[1538px] [@media(min-width:1440px)]:gap-[134px]">
       <div class="mx-auto w-full max-w-[514px] text-center [@media(min-width:1440px)]:mx-0 [@media(min-width:1440px)]:flex-none [@media(min-width:1440px)]:text-left">
-        <h2 class="mb-16 font-abc-ginto-discord-nord text-[8.2vw] leading-none font-bold tracking-[-0.01em] text-white uppercase xl:mb-24 md:text-[40px] md:tracking-[-0.02em] [@media(min-width:1440px)]:text-heading-lg">Questions?</h2>
-        <p class="font-abc-ginto-discord text-[16px] leading-[22px] text-white md:text-body-xl md:leading-[26px]">Questions about how Rebirth works? Check out the ones I hear most often.</p>
+        <h2 class="mb-16 font-abc-ginto-discord-nord text-[8.2vw] leading-none font-bold tracking-[-0.01em] text-white uppercase xl:mb-24 md:text-[40px] md:tracking-[-0.02em] [@media(min-width:1440px)]:text-heading-lg">
+          Questions?
+        </h2>
+        <p class="font-abc-ginto-discord text-[16px] leading-[22px] text-white md:text-body-xl md:leading-[26px]">
+          Questions about how Rebirth works? Check out the ones I hear most often.
+        </p>
         <div class="h-40 xl:h-48"></div>
       </div>
       <div class="xl:mt-[-40px] [@media(min-width:1440px)]:flex-1">
         {first.map(([q, a]) => (
           <div data-faq class="careers-faq__item">
             <button type="button" data-faq-toggle class="careers-faq__toggle" aria-expanded="false">
-              <span class="careers-faq__icons" aria-hidden="true"><i class="careers-faq__minus"></i><i data-faq-plus class="careers-faq__plus"></i></span>
+              <span class="careers-faq__icons" aria-hidden="true">
+                <i class="careers-faq__minus"></i>
+                <i data-faq-plus class="careers-faq__plus"></i>
+              </span>
               <span>{q}</span>
             </button>
-            <div data-faq-panel class="careers-faq__panel" hidden><p>{a}</p></div>
+            <div data-faq-panel class="careers-faq__panel" hidden>
+              <p>{a}</p>
+            </div>
           </div>
         ))}
         <div data-faq-all class="careers-faq__all" style="height:0px">
           {rest.map(([q, a]) => (
             <div data-faq class="careers-faq__item">
-              <button type="button" data-faq-toggle class="careers-faq__toggle" aria-expanded="false" tabindex="-1">
-                <span class="careers-faq__icons" aria-hidden="true"><i class="careers-faq__minus"></i><i data-faq-plus class="careers-faq__plus"></i></span>
+              <button
+                type="button"
+                data-faq-toggle
+                class="careers-faq__toggle"
+                aria-expanded="false"
+                tabindex="-1"
+              >
+                <span class="careers-faq__icons" aria-hidden="true">
+                  <i class="careers-faq__minus"></i>
+                  <i data-faq-plus class="careers-faq__plus"></i>
+                </span>
                 <span>{q}</span>
               </button>
-              <div data-faq-panel class="careers-faq__panel" hidden><p>{a}</p></div>
+              <div data-faq-panel class="careers-faq__panel" hidden>
+                <p>{a}</p>
+              </div>
             </div>
           ))}
         </div>
-        <div data-faq-all-wrap class="flex justify-center pt-48 md:pt-[64px] [@media(min-width:1440px)]:justify-start">
-          <CareersGlowButton variant="white" href={undefined} size="sm" glow={false} data-faq-all-btn class="md:max-xl:[&_.rb-btn]:px-20!">See All</CareersGlowButton>
+        <div
+          data-faq-all-wrap
+          class="flex justify-center pt-48 md:pt-[64px] [@media(min-width:1440px)]:justify-start"
+        >
+          <CareersGlowButton
+            variant="white"
+            href={undefined}
+            size="sm"
+            glow={false}
+            data-faq-all-btn
+            class="md:max-xl:[&_.rb-btn]:px-20!"
+          >
+            See All
+          </CareersGlowButton>
         </div>
       </div>
     </div>
@@ -57,23 +129,104 @@ const rest = faqs.slice(4);
 </section>
 <style>
   /* reference measures a 2px hairline (rgba(255,255,255,.1)) under each question — a divider the style docs did not sample */
-  .careers-faq__item { position: relative; z-index: 1; display: block; width: 100%; margin-bottom: -2px; border-bottom: 2px solid rgba(255, 255, 255, 0.1); font-family: var(--font-abc-ginto-discord); text-align: left; }
-  .careers-faq__toggle {
-    position: relative; display: block; width: 100%; margin: 0 0 -2px; padding: 32px 40px 32px 4px; border: 0; background: transparent; cursor: pointer;
-    color: var(--color-white); font: inherit; font-size: 16px; line-height: 1.3; font-weight: var(--font-weight-medium); text-align: left;
+  .careers-faq__item {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    margin-bottom: -2px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    font-family: var(--font-abc-ginto-discord);
+    text-align: left;
   }
-  .careers-faq__toggle:focus-visible { outline: 2px solid var(--color-blurple); outline-offset: 4px; border-radius: 24px; }
-  @media (min-width: 768px) { .careers-faq__toggle { font-size: 20px; line-height: 1.4; } }
-  .careers-faq__icons { position: absolute; top: 34px; right: 0; width: 16px; height: 17px; display: flex; align-items: center; justify-content: center; }
-  @media (min-width: 768px) { .careers-faq__icons { top: 36px; } }
-  .careers-faq__minus { position: absolute; left: 0; top: 7px; width: 16px; height: 3px; background: var(--color-white); }
-  .careers-faq__plus { position: relative; width: 16px; height: 17px; }
-  .careers-faq__plus::before { content: ''; position: absolute; left: 6.5px; top: 0.5px; width: 3px; height: 16px; background: var(--color-white); }
-  .careers-faq__panel { padding-right: 16px; padding-bottom: 16px; }
-  .careers-faq__panel[hidden] { display: none; }
-  .careers-faq__panel p { margin: -16px 0 0; color: #b2b2b2; font-size: 16px; line-height: 1.4; }
-  @media (min-width: 768px) { .careers-faq__panel p { font-size: 20px; line-height: 28px; } }
-  .careers-faq__all { width: 100%; padding: 1px 0; overflow: hidden; }
+  .careers-faq__toggle {
+    position: relative;
+    display: block;
+    width: 100%;
+    margin: 0 0 -2px;
+    padding: 32px 40px 32px 4px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    color: var(--color-white);
+    font: inherit;
+    font-size: 16px;
+    line-height: 1.3;
+    font-weight: var(--font-weight-medium);
+    text-align: left;
+  }
+  .careers-faq__toggle:focus-visible {
+    outline: 2px solid var(--color-blurple);
+    outline-offset: 4px;
+    border-radius: 24px;
+  }
+  @media (min-width: 768px) {
+    .careers-faq__toggle {
+      font-size: 20px;
+      line-height: 1.4;
+    }
+  }
+  .careers-faq__icons {
+    position: absolute;
+    top: 34px;
+    right: 0;
+    width: 16px;
+    height: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  @media (min-width: 768px) {
+    .careers-faq__icons {
+      top: 36px;
+    }
+  }
+  .careers-faq__minus {
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 16px;
+    height: 3px;
+    background: var(--color-white);
+  }
+  .careers-faq__plus {
+    position: relative;
+    width: 16px;
+    height: 17px;
+  }
+  .careers-faq__plus::before {
+    content: '';
+    position: absolute;
+    left: 6.5px;
+    top: 0.5px;
+    width: 3px;
+    height: 16px;
+    background: var(--color-white);
+  }
+  .careers-faq__panel {
+    padding-right: 16px;
+    padding-bottom: 16px;
+  }
+  .careers-faq__panel[hidden] {
+    display: none;
+  }
+  .careers-faq__panel p {
+    margin: -16px 0 0;
+    color: #b2b2b2;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  @media (min-width: 768px) {
+    .careers-faq__panel p {
+      font-size: 20px;
+      line-height: 28px;
+    }
+  }
+  .careers-faq__all {
+    width: 100%;
+    padding: 1px 0;
+    overflow: hidden;
+  }
 </style>
 <script>
   import gsap from 'gsap';
@@ -89,19 +242,28 @@ const rest = faqs.slice(4);
       if ((toggle.getAttribute('aria-expanded') === 'true') === open) return;
       toggle.setAttribute('aria-expanded', String(open));
       item.querySelector<HTMLElement>('[data-faq-panel]')!.hidden = !open;
-      gsap.to(item.querySelector('[data-faq-plus]'), { opacity: open ? 0 : 1, duration: reduced ? 0 : open ? 0.25 : 0.5, ease: CSS_EASE, overwrite: true });
+      gsap.to(item.querySelector('[data-faq-plus]'), {
+        opacity: open ? 0 : 1,
+        duration: reduced ? 0 : open ? 0.25 : 0.5,
+        ease: CSS_EASE,
+        overwrite: true,
+      });
     };
     items.forEach((item) => {
       item.querySelector('[data-faq-toggle]')!.addEventListener('click', (e) => {
         e.stopPropagation();
-        const open = item.querySelector('[data-faq-toggle]')!.getAttribute('aria-expanded') !== 'true';
+        const open =
+          item.querySelector('[data-faq-toggle]')!.getAttribute('aria-expanded') !== 'true';
         items.forEach((o) => o !== item && set(o, false)); // one open at a time
         set(item, open);
       });
       item.querySelector('[data-faq-panel]')!.addEventListener('click', (e) => e.stopPropagation());
     });
     document.addEventListener('click', () => items.forEach((o) => set(o, false))); // Webflow closes dropdowns on outside click
-    document.addEventListener('keydown', (e) => e.key === 'Escape' && items.forEach((o) => set(o, false)));
+    document.addEventListener(
+      'keydown',
+      (e) => e.key === 'Escape' && items.forEach((o) => set(o, false)),
+    );
 
     // IX2 "Faq_all" (click): .all-faq height 0 -> auto in 300ms, button wrapper display:none
     const all = root.querySelector<HTMLElement>('[data-faq-all]')!;

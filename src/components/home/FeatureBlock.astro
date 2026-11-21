@@ -86,16 +86,28 @@ const fills: Record<string, string> = {
 };
 const fill = fills[insetFill] ?? insetFill;
 const vars = [
-  `--fb-pt:${padTop}px`, `--fb-pb:${pb}px`,
-  `--fb-pt-lg:${padLg[0]}px`, `--fb-pb-lg:${padLg[1]}px`,
-  `--fb-pt-md:${padMd[0]}px`, `--fb-pb-md:${padMd[1]}px`,
-  `--fb-pt-sm:${padSm[0]}px`, `--fb-pb-sm:${padSm[1]}px`,
+  `--fb-pt:${padTop}px`,
+  `--fb-pb:${pb}px`,
+  `--fb-pt-lg:${padLg[0]}px`,
+  `--fb-pb-lg:${padLg[1]}px`,
+  `--fb-pt-md:${padMd[0]}px`,
+  `--fb-pb-md:${padMd[1]}px`,
+  `--fb-pt-sm:${padSm[0]}px`,
+  `--fb-pb-sm:${padSm[1]}px`,
   ...(glassBlur != null ? [`--fb-blur:${glassBlur}px`] : []),
-  `--fb-fill:${fill}`, `--fb-text-pr:${textPadRight}px`, `--fb-p-ls:${paragraphTracking}`,
+  `--fb-fill:${fill}`,
+  `--fb-text-pr:${textPadRight}px`,
+  `--fb-p-ls:${paragraphTracking}`,
 ].join(';');
 ---
 
-<section data-section={`home-${name}`} data-feature-block data-inview="false" class:list={['fb', className]} style={vars}>
+<section
+  data-section={`home-${name}`}
+  data-feature-block
+  data-inview="false"
+  class:list={['fb', className]}
+  style={vars}
+>
   <div class="fb-decor" aria-hidden="true">
     <slot name="decor" />
   </div>
@@ -111,7 +123,10 @@ const vars = [
             data-fb-heading
             set:html={heading}
           />
-          <p class="fb-paragraph font-abc-ginto-discord text-body-xl leading-body-xl font-normal text-white" data-fb-paragraph>
+          <p
+            class="fb-paragraph font-abc-ginto-discord text-body-xl leading-body-xl font-normal text-white"
+            data-fb-paragraph
+          >
             <slot />
           </p>
         </div>
@@ -320,7 +335,15 @@ const vars = [
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
   gsap.registerPlugin(ScrollTrigger);
 
-  type Px = { from: number; to: number; startOffset?: number; zoneTop?: number; zoneHeight?: number; kfStart?: number; kfEnd?: number };
+  type Px = {
+    from: number;
+    to: number;
+    startOffset?: number;
+    zoneTop?: number;
+    zoneHeight?: number;
+    kfStart?: number;
+    kfEnd?: number;
+  };
 
   document.querySelectorAll<HTMLElement>('[data-feature-block]').forEach((section) => {
     // (b) in-view signal for the media loops — works with reduced motion too (loops decide what to do with it)
@@ -330,7 +353,9 @@ const vars = [
       end: 'bottom top',
       onToggle: (self) => {
         section.dataset.inview = String(self.isActive);
-        section.dispatchEvent(new CustomEvent(self.isActive ? 'fb:enter' : 'fb:leave', { bubbles: true }));
+        section.dispatchEvent(
+          new CustomEvent(self.isActive ? 'fb:enter' : 'fb:leave', { bubbles: true }),
+        );
       },
     });
 
@@ -364,8 +389,14 @@ const vars = [
             ease: 'none',
             immediateRender: true,
             scrollTrigger: {
-              start: () => { const z = zone(); return z.p0 + kfStart * z.range; },
-              end: () => { const z = zone(); return z.p0 + kfEnd * z.range; },
+              start: () => {
+                const z = zone();
+                return z.p0 + kfStart * z.range;
+              },
+              end: () => {
+                const z = zone();
+                return z.p0 + kfEnd * z.range;
+              },
               scrub: 0.25,
               invalidateOnRefresh: true,
             },

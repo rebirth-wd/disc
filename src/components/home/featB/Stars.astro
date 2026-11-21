@@ -19,6 +19,7 @@ const stars: [number, number, number, 'a' | 'b' | 'c'][] = [
   [569.2, 93.6, 4, 'c'],
 ];
 ---
+
 <div class="fbx-stars" data-fbx-stars>
   {stars.map(([x, y, s, k]) => (
     <i
@@ -41,7 +42,20 @@ const stars: [number, number, number, 'a' | 'b' | 'c'][] = [
     filter: blur(1px);
   }
   .fbx-star.is-plus {
-    clip-path: polygon(44% 0, 56% 0, 60% 40%, 100% 44%, 100% 56%, 60% 60%, 56% 100%, 44% 100%, 40% 60%, 0 56%, 0 44%, 40% 40%);
+    clip-path: polygon(
+      44% 0,
+      56% 0,
+      60% 40%,
+      100% 44%,
+      100% 56%,
+      60% 60%,
+      56% 100%,
+      44% 100%,
+      40% 60%,
+      0 56%,
+      0 44%,
+      40% 40%
+    );
   }
 </style>
 
@@ -60,7 +74,9 @@ const stars: [number, number, number, 'a' | 'b' | 'c'][] = [
         const delays = LISTS[el.dataset.fbxStar || 'a'];
         const tl = gsap.timeline({ repeat: -1, paused: true });
         tl.set(el, { opacity: 0 });
-        delays.forEach((d, i) => tl.to(el, { opacity: i % 2 ? 0 : 1, duration: 0.5, ease: 'power1.in' }, `>+${d}`));
+        delays.forEach((d, i) =>
+          tl.to(el, { opacity: i % 2 ? 0 : 1, duration: 0.5, ease: 'power1.in' }, `>+${d}`),
+        );
         return tl;
       });
       const st = ScrollTrigger.create({

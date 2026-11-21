@@ -37,8 +37,8 @@ export function createCarousel(root: HTMLElement, opts: CarouselOptions) {
   const next = root.querySelector<HTMLElement>('[data-carousel-next]');
   const N = slides.length;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const speed = reduced ? 0 : opts.speed ?? 0.6;
-  const stateDur = reduced ? 0 : opts.stateDuration ?? 0.5;
+  const speed = reduced ? 0 : (opts.speed ?? 0.6);
+  const stateDur = reduced ? 0 : (opts.stateDuration ?? 0.5);
   const st = { pos: 0 };
   const act = slides.map((_, i) => ({ a: i === 0 ? 1 : 0 }));
   let active = 0;
@@ -91,7 +91,13 @@ export function createCarousel(root: HTMLElement, opts: CarouselOptions) {
 
   function goTo(target: number, user = false) {
     setActive(target);
-    gsap.to(st, { pos: target, duration: speed, ease: CSS_EASE, overwrite: true, onUpdate: render });
+    gsap.to(st, {
+      pos: target,
+      duration: speed,
+      ease: CSS_EASE,
+      overwrite: true,
+      onUpdate: render,
+    });
     if (user) interacted();
     else startTimer();
   }
@@ -145,7 +151,8 @@ export function createCarousel(root: HTMLElement, opts: CarouselOptions) {
       const quick = performance.now() - pressTime < 300;
       let target = Math.round(st.pos);
       // Swiper: short swipes always advance, long swipes advance past 50% of the slide
-      if (quick && Math.abs(moved) > 0.02 && target === Math.round(startPos)) target = Math.round(startPos) + Math.sign(moved);
+      if (quick && Math.abs(moved) > 0.02 && target === Math.round(startPos))
+        target = Math.round(startPos) + Math.sign(moved);
       goTo(target, true);
     },
     onClick(e: Event) {
@@ -157,11 +164,19 @@ export function createCarousel(root: HTMLElement, opts: CarouselOptions) {
     },
   });
 
-  prev?.addEventListener('click', (e) => { e.preventDefault(); step(-1, true); });
-  next?.addEventListener('click', (e) => { e.preventDefault(); step(1, true); });
+  prev?.addEventListener('click', (e) => {
+    e.preventDefault();
+    step(-1, true);
+  });
+  next?.addEventListener('click', (e) => {
+    e.preventDefault();
+    step(1, true);
+  });
 
   // keyboard: true (only while the carousel is on screen, as Swiper does)
-  new IntersectionObserver((en) => { inView = en[0].isIntersecting; }).observe(root);
+  new IntersectionObserver((en) => {
+    inView = en[0].isIntersecting;
+  }).observe(root);
   window.addEventListener('keydown', (e) => {
     if (!inView || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
     const t = e.target as HTMLElement | null;
@@ -174,12 +189,18 @@ export function createCarousel(root: HTMLElement, opts: CarouselOptions) {
   root.addEventListener('pointerenter', (e) => {
     if ((e as PointerEvent).pointerType !== 'mouse') return;
     hovering = true;
-    if (timer) { timer.pause(); opts.onAutoplay?.('pause', opts.autoplay!); }
+    if (timer) {
+      timer.pause();
+      opts.onAutoplay?.('pause', opts.autoplay!);
+    }
   });
   root.addEventListener('pointerleave', () => {
     if (!hovering) return;
     hovering = false;
-    if (timer) { timer.resume(); opts.onAutoplay?.('resume', opts.autoplay!); }
+    if (timer) {
+      timer.resume();
+      opts.onAutoplay?.('resume', opts.autoplay!);
+    }
   });
 
   function measure() {
@@ -199,5 +220,12 @@ export function createCarousel(root: HTMLElement, opts: CarouselOptions) {
   opts.onChange?.(0, N);
   startTimer();
 
-  return { goTo: (i: number) => goTo(Math.round(st.pos) + Math.round(dist(mod(i))), true), step, get active() { return active; }, count: N };
+  return {
+    goTo: (i: number) => goTo(Math.round(st.pos) + Math.round(dist(mod(i))), true),
+    step,
+    get active() {
+      return active;
+    },
+    count: N,
+  };
 }

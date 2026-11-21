@@ -1,38 +1,85 @@
 ---
 // Original floating decor objects (chunky faux-3D shapes with a smeared motion trail).
 // Each replaces a reference 3D render slot with a different, Rebirth-themed object.
-interface Props { name: 'shield' | 'bot' | 'cog' | 'pulse' | 'cloud' | 'disks' | 'padlock' | 'rocket' | 'calendar'; par: string; class?: string }
+interface Props {
+  name: 'shield' | 'bot' | 'cog' | 'pulse' | 'cloud' | 'disks' | 'padlock' | 'rocket' | 'calendar';
+  par: string;
+  class?: string;
+}
 const { name, par, class: cls = '' } = Astro.props;
 const u = `no-${name}`;
 ---
+
 <div class:list={['nitro-obj', cls]} data-par={par} aria-hidden="true">
   <svg viewBox="0 0 250 250" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <linearGradient id={`${u}-a`} x1="40" y1="30" x2="210" y2="220" gradientUnits="userSpaceOnUse">
-        <stop stop-color="#7a8bff" /><stop offset="0.5" stop-color="#5865f2" /><stop offset="1" stop-color="#ff3df0" />
+      <linearGradient
+        id={`${u}-a`}
+        x1="40"
+        y1="30"
+        x2="210"
+        y2="220"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#7a8bff" />
+        <stop offset="0.5" stop-color="#5865f2" />
+        <stop offset="1" stop-color="#ff3df0" />
       </linearGradient>
-      <linearGradient id={`${u}-b`} x1="60" y1="40" x2="190" y2="230" gradientUnits="userSpaceOnUse">
-        <stop stop-color="#2a1f9c" /><stop offset="1" stop-color="#a81fd0" />
+      <linearGradient
+        id={`${u}-b`}
+        x1="60"
+        y1="40"
+        x2="190"
+        y2="230"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#2a1f9c" />
+        <stop offset="1" stop-color="#a81fd0" />
       </linearGradient>
       <linearGradient id={`${u}-g`} x1="0" y1="0" x2="250" y2="250" gradientUnits="userSpaceOnUse">
-        <stop stop-color="#57f287" /><stop offset="1" stop-color="#35c8ff" />
+        <stop stop-color="#57f287" />
+        <stop offset="1" stop-color="#35c8ff" />
       </linearGradient>
       <linearGradient id={`${u}-t`} x1="0" y1="250" x2="170" y2="80" gradientUnits="userSpaceOnUse">
-        <stop stop-color="#ff3df0" stop-opacity="0" /><stop offset="1" stop-color="#ff3df0" stop-opacity="0.75" />
+        <stop stop-color="#ff3df0" stop-opacity="0" />
+        <stop offset="1" stop-color="#ff3df0" stop-opacity="0.75" />
       </linearGradient>
-      <linearGradient id={`${u}-tg`} x1="0" y1="250" x2="170" y2="80" gradientUnits="userSpaceOnUse">
-        <stop stop-color="#57f287" stop-opacity="0" /><stop offset="1" stop-color="#57f287" stop-opacity="0.7" />
+      <linearGradient
+        id={`${u}-tg`}
+        x1="0"
+        y1="250"
+        x2="170"
+        y2="80"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#57f287" stop-opacity="0" />
+        <stop offset="1" stop-color="#57f287" stop-opacity="0.7" />
       </linearGradient>
-      <filter id={`${u}-blur`} x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="9" /></filter>
+      <filter id={`${u}-blur`} x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="9" />
+      </filter>
     </defs>
 
     {name === 'shield' && (
       <g transform="rotate(-14 125 125)">
         <path d="M30 236 96 70l92 40-64 132Z" fill={`url(#${u}-t)`} filter={`url(#${u}-blur)`} />
-        <path d="M136 34 204 58v62c0 44-28 78-68 96-40-18-68-52-68-96V58l68-24Z" fill={`url(#${u}-b)`} transform="translate(-12 12)" />
-        <path d="M136 34 204 58v62c0 44-28 78-68 96-40-18-68-52-68-96V58l68-24Z" fill={`url(#${u}-a)`} />
+        <path
+          d="M136 34 204 58v62c0 44-28 78-68 96-40-18-68-52-68-96V58l68-24Z"
+          fill={`url(#${u}-b)`}
+          transform="translate(-12 12)"
+        />
+        <path
+          d="M136 34 204 58v62c0 44-28 78-68 96-40-18-68-52-68-96V58l68-24Z"
+          fill={`url(#${u}-a)`}
+        />
         <path d="M136 50 190 69v51c0 35-21 62-54 78V50Z" fill="#fff" fill-opacity="0.16" />
-        <path d="m104 122 24 24 44-50" stroke="#fff" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" />
+        <path
+          d="m104 122 24 24 44-50"
+          stroke="#fff"
+          stroke-width="16"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
       </g>
     )}
 
@@ -42,18 +89,60 @@ const u = `no-${name}`;
         <g transform="rotate(12 130 120)">
           <path d="M127 22v26" stroke="#c9ceff" stroke-width="7" stroke-linecap="round" />
           <circle cx="127" cy="18" r="11" fill={`url(#${u}-g)`} />
-          <rect x="58" y="46" width="138" height="104" rx="34" fill={`url(#${u}-b)`} transform="translate(-8 9)" />
+          <rect
+            x="58"
+            y="46"
+            width="138"
+            height="104"
+            rx="34"
+            fill={`url(#${u}-b)`}
+            transform="translate(-8 9)"
+          />
           <rect x="58" y="46" width="138" height="104" rx="34" fill={`url(#${u}-a)`} />
           <rect x="76" y="68" width="102" height="54" rx="22" fill="#120b45" />
           <rect x="94" y="82" width="16" height="26" rx="8" fill="#57f287" />
           <rect x="144" y="82" width="16" height="26" rx="8" fill="#57f287" />
-          <path d="M72 60c14-8 40-10 60-6" stroke="#fff" stroke-opacity="0.45" stroke-width="6" stroke-linecap="round" />
-          <rect x="80" y="156" width="94" height="62" rx="24" fill={`url(#${u}-b)`} transform="translate(-6 7)" />
+          <path
+            d="M72 60c14-8 40-10 60-6"
+            stroke="#fff"
+            stroke-opacity="0.45"
+            stroke-width="6"
+            stroke-linecap="round"
+          />
+          <rect
+            x="80"
+            y="156"
+            width="94"
+            height="62"
+            rx="24"
+            fill={`url(#${u}-b)`}
+            transform="translate(-6 7)"
+          />
           <rect x="80" y="156" width="94" height="62" rx="24" fill="#e7e9ff" />
           <rect x="108" y="172" width="38" height="22" rx="8" fill={`url(#${u}-a)`} />
-          <rect x="38" y="160" width="34" height="18" rx="9" fill="#c9ceff" transform="rotate(-28 55 169)" />
-          <rect x="182" y="150" width="40" height="18" rx="9" fill="#c9ceff" transform="rotate(-34 202 159)" />
-          <path d="m214 104 22-22a17 17 0 0 0 4 30l-12 12-18-6Z" fill={`url(#${u}-g)`} transform="rotate(8 222 110)" />
+          <rect
+            x="38"
+            y="160"
+            width="34"
+            height="18"
+            rx="9"
+            fill="#c9ceff"
+            transform="rotate(-28 55 169)"
+          />
+          <rect
+            x="182"
+            y="150"
+            width="40"
+            height="18"
+            rx="9"
+            fill="#c9ceff"
+            transform="rotate(-34 202 159)"
+          />
+          <path
+            d="m214 104 22-22a17 17 0 0 0 4 30l-12 12-18-6Z"
+            fill={`url(#${u}-g)`}
+            transform="rotate(8 222 110)"
+          />
           <path d="M104 220h18v16a9 9 0 0 1-18 0Zm30 0h18v16a9 9 0 0 1-18 0Z" fill="#ff3df0" />
         </g>
       </g>
@@ -61,13 +150,30 @@ const u = `no-${name}`;
 
     {name === 'cog' && (
       <g>
-        <path d="M10 60 120 96l-8 96L6 110Z" fill={`url(#${u}-t)`} filter={`url(#${u}-blur)`} transform="scale(-1 1) translate(-250 0)" opacity="0.9" />
+        <path
+          d="M10 60 120 96l-8 96L6 110Z"
+          fill={`url(#${u}-t)`}
+          filter={`url(#${u}-blur)`}
+          transform="scale(-1 1) translate(-250 0)"
+          opacity="0.9"
+        />
         <g transform="rotate(18 135 135)">
-          <path id={`${u}-cog`} d="M121 46h28l6 22 16 7 20-11 20 20-11 20 7 16 22 6v28l-22 6-7 16 11 20-20 20-20-11-16 7-6 22h-28l-6-22-16-7-20 11-20-20 11-20-7-16-22-6v-28l22-6 7-16-11-20 20-20 20 11 16-7 6-22Z" fill={`url(#${u}-b)`} transform="translate(-10 10)" />
+          <path
+            id={`${u}-cog`}
+            d="M121 46h28l6 22 16 7 20-11 20 20-11 20 7 16 22 6v28l-22 6-7 16 11 20-20 20-20-11-16 7-6 22h-28l-6-22-16-7-20 11-20-20 11-20-7-16-22-6v-28l22-6 7-16-11-20 20-20 20 11 16-7 6-22Z"
+            fill={`url(#${u}-b)`}
+            transform="translate(-10 10)"
+          />
           <use href={`#${u}-cog`} fill={`url(#${u}-a)`} transform="translate(10 -10)" />
           <circle cx="135" cy="140" r="34" fill="#120b45" />
           <circle cx="135" cy="140" r="16" fill={`url(#${u}-g)`} />
-          <path d="M92 86c20-16 50-22 76-12" stroke="#fff" stroke-opacity="0.4" stroke-width="7" stroke-linecap="round" />
+          <path
+            d="M92 86c20-16 50-22 76-12"
+            stroke="#fff"
+            stroke-opacity="0.4"
+            stroke-width="7"
+            stroke-linecap="round"
+          />
         </g>
       </g>
     )}
@@ -76,11 +182,36 @@ const u = `no-${name}`;
       <g>
         <path d="M0 232 84 92l76 60-74 98Z" fill={`url(#${u}-t)`} filter={`url(#${u}-blur)`} />
         <g transform="rotate(-10 140 120)">
-          <path d="M140 30 210 70v84l-70 40-70-40V70l70-40Z" fill={`url(#${u}-b)`} transform="translate(-12 12)" stroke={`url(#${u}-b)`} stroke-width="20" stroke-linejoin="round" />
-          <path d="M140 30 210 70v84l-70 40-70-40V70l70-40Z" fill={`url(#${u}-a)`} stroke={`url(#${u}-a)`} stroke-width="20" stroke-linejoin="round" />
-          <path d="M82 116h28l12-30 22 58 14-28h30" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="M140 30 210 70v84l-70 40-70-40V70l70-40Z"
+            fill={`url(#${u}-b)`}
+            transform="translate(-12 12)"
+            stroke={`url(#${u}-b)`}
+            stroke-width="20"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M140 30 210 70v84l-70 40-70-40V70l70-40Z"
+            fill={`url(#${u}-a)`}
+            stroke={`url(#${u}-a)`}
+            stroke-width="20"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M82 116h28l12-30 22 58 14-28h30"
+            stroke="#fff"
+            stroke-width="12"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
           <circle cx="188" cy="116" r="9" fill="#57f287" />
-          <path d="M92 66c14-10 36-16 54-14" stroke="#fff" stroke-opacity="0.45" stroke-width="7" stroke-linecap="round" />
+          <path
+            d="M92 66c14-10 36-16 54-14"
+            stroke="#fff"
+            stroke-opacity="0.45"
+            stroke-width="7"
+            stroke-linecap="round"
+          />
         </g>
       </g>
     )}
@@ -89,10 +220,26 @@ const u = `no-${name}`;
       <g>
         <path d="M40 250 96 120l96 20-70 110Z" fill={`url(#${u}-tg)`} filter={`url(#${u}-blur)`} />
         <g transform="rotate(8 130 110)">
-          <path id={`${u}-cl`} d="M78 150a38 38 0 0 1-4-76 52 52 0 0 1 100-14 44 44 0 0 1 14 88c-2 2-108 2-110 2Z" fill={`url(#${u}-b)`} transform="translate(-10 12)" />
+          <path
+            id={`${u}-cl`}
+            d="M78 150a38 38 0 0 1-4-76 52 52 0 0 1 100-14 44 44 0 0 1 14 88c-2 2-108 2-110 2Z"
+            fill={`url(#${u}-b)`}
+            transform="translate(-10 12)"
+          />
           <use href={`#${u}-cl`} fill="#eef0ff" />
-          <path d="M82 138a26 26 0 0 1 0-52" stroke="#c3c8ff" stroke-width="8" stroke-linecap="round" />
-          <path d="M128 132V84m-22 22 22-24 22 24" stroke={`url(#${u}-a)`} stroke-width="14" stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="M82 138a26 26 0 0 1 0-52"
+            stroke="#c3c8ff"
+            stroke-width="8"
+            stroke-linecap="round"
+          />
+          <path
+            d="M128 132V84m-22 22 22-24 22 24"
+            stroke={`url(#${u}-a)`}
+            stroke-width="14"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
           <rect x="96" y="168" width="14" height="34" rx="7" fill={`url(#${u}-g)`} />
           <rect x="124" y="176" width="14" height="44" rx="7" fill={`url(#${u}-g)`} />
           <rect x="152" y="168" width="14" height="30" rx="7" fill={`url(#${u}-g)`} />
@@ -110,7 +257,15 @@ const u = `no-${name}`;
               <ellipse cx="138" cy={y} rx="66" ry="24" fill={`url(#${u}-a)`} />
               <ellipse cx="138" cy={y} rx="44" ry="13" fill="#fff" fill-opacity="0.16" />
               <circle cx="92" cy={y + 32} r="6" fill="#57f287" />
-              <rect x="108" y={y + 30} width="34" height="7" rx="3.5" fill="#fff" fill-opacity="0.4" />
+              <rect
+                x="108"
+                y={y + 30}
+                width="34"
+                height="7"
+                rx="3.5"
+                fill="#fff"
+                fill-opacity="0.4"
+              />
             </g>
           ))}
         </g>
@@ -121,12 +276,31 @@ const u = `no-${name}`;
       <g>
         <path d="M0 20 120 70l-30 100L10 120Z" fill={`url(#${u}-t)`} filter={`url(#${u}-blur)`} />
         <g transform="rotate(-24 130 130)">
-          <path d="M92 112V84a40 40 0 0 1 80 0v28" stroke="#c9ceff" stroke-width="18" stroke-linecap="round" />
-          <rect x="62" y="108" width="140" height="112" rx="30" fill={`url(#${u}-b)`} transform="translate(-10 10)" />
+          <path
+            d="M92 112V84a40 40 0 0 1 80 0v28"
+            stroke="#c9ceff"
+            stroke-width="18"
+            stroke-linecap="round"
+          />
+          <rect
+            x="62"
+            y="108"
+            width="140"
+            height="112"
+            rx="30"
+            fill={`url(#${u}-b)`}
+            transform="translate(-10 10)"
+          />
           <rect x="62" y="108" width="140" height="112" rx="30" fill={`url(#${u}-a)`} />
           <circle cx="132" cy="154" r="16" fill="#120b45" />
           <path d="M126 160h12l5 30h-22Z" fill="#120b45" />
-          <path d="M80 126c16-8 46-10 66-6" stroke="#fff" stroke-opacity="0.45" stroke-width="7" stroke-linecap="round" />
+          <path
+            d="M80 126c16-8 46-10 66-6"
+            stroke="#fff"
+            stroke-opacity="0.45"
+            stroke-width="7"
+            stroke-linecap="round"
+          />
         </g>
       </g>
     )}
@@ -135,7 +309,11 @@ const u = `no-${name}`;
       <g>
         <path d="M20 250 86 150l40 34-50 66Z" fill={`url(#${u}-t)`} filter={`url(#${u}-blur)`} />
         <g transform="rotate(38 130 120)">
-          <path d="M130 14c34 30 46 74 40 126h-80c-6-52 6-96 40-126Z" fill={`url(#${u}-b)`} transform="translate(-9 9)" />
+          <path
+            d="M130 14c34 30 46 74 40 126h-80c-6-52 6-96 40-126Z"
+            fill={`url(#${u}-b)`}
+            transform="translate(-9 9)"
+          />
           <path d="M130 14c34 30 46 74 40 126h-80c-6-52 6-96 40-126Z" fill="#eef0ff" />
           <path d="M130 14c34 30 46 74 40 126h-40Z" fill="#c9ceff" />
           <circle cx="130" cy="82" r="20" fill={`url(#${u}-a)`} />
@@ -150,16 +328,37 @@ const u = `no-${name}`;
 
     {name === 'calendar' && (
       <g>
-        <path d="M250 250 150 110l-80 50 96 90Z" fill={`url(#${u}-tg)`} filter={`url(#${u}-blur)`} />
+        <path
+          d="M250 250 150 110l-80 50 96 90Z"
+          fill={`url(#${u}-tg)`}
+          filter={`url(#${u}-blur)`}
+        />
         <g transform="rotate(-12 120 125)">
-          <rect x="44" y="52" width="150" height="150" rx="28" fill={`url(#${u}-b)`} transform="translate(12 12)" />
+          <rect
+            x="44"
+            y="52"
+            width="150"
+            height="150"
+            rx="28"
+            fill={`url(#${u}-b)`}
+            transform="translate(12 12)"
+          />
           <rect x="44" y="52" width="150" height="150" rx="28" fill="#eef0ff" />
           <path d="M44 80a28 28 0 0 1 28-28h94a28 28 0 0 1 28 28v18H44Z" fill={`url(#${u}-a)`} />
           <rect x="78" y="36" width="14" height="36" rx="7" fill="#120b45" />
           <rect x="146" y="36" width="14" height="36" rx="7" fill="#120b45" />
-          {[0, 1, 2].map((c) => [0, 1].map((r) => (
-            <rect x={66 + c * 40} y={114 + r * 38} width="26" height="24" rx="8" fill={c === 1 && r === 1 ? '#57f287' : '#c9ceff'} />
-          )))}
+          {[0, 1, 2].map((c) =>
+            [0, 1].map((r) => (
+              <rect
+                x={66 + c * 40}
+                y={114 + r * 38}
+                width="26"
+                height="24"
+                rx="8"
+                fill={c === 1 && r === 1 ? '#57f287' : '#c9ceff'}
+              />
+            )),
+          )}
         </g>
       </g>
     )}

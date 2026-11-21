@@ -1,6 +1,11 @@
 ---
 // Original flat icon set used by the benefit cards (bare) and the stack carousel (inside a gradient badge).
-interface Props { name: string; badge?: number | null; size?: number; class?: string }
+interface Props {
+  name: string;
+  badge?: number | null;
+  size?: number;
+  class?: string;
+}
 const { name, badge = null, size = 72, class: cls = '' } = Astro.props;
 // palettes: [badge from, badge to, main, accent]
 const palettes = [
@@ -34,15 +39,51 @@ const glyphs: Record<string, string> = {
 };
 const body = glyphs[name] ?? glyphs.spark;
 ---
+
 {badge === null ? (
-  <svg class={cls} width={size} height={size} viewBox="0 0 48 48" fill="none" aria-hidden="true" focusable="false">
-    <defs><linearGradient id="cg-main" x1="6" y1="4" x2="42" y2="44" gradientUnits="userSpaceOnUse"><stop stop-color="#a9b0ff" /><stop offset="1" stop-color="#5865f2" /></linearGradient></defs>
+  <svg
+    class={cls}
+    width={size}
+    height={size}
+    viewBox="0 0 48 48"
+    fill="none"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <defs>
+      <linearGradient id="cg-main" x1="6" y1="4" x2="42" y2="44" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#a9b0ff" />
+        <stop offset="1" stop-color="#5865f2" />
+      </linearGradient>
+    </defs>
     <Fragment set:html={body} />
   </svg>
 ) : (
-  <svg class={cls} width={size} height={size} viewBox="0 0 120 120" fill="none" aria-hidden="true" focusable="false">
-    <defs><linearGradient id={`cg-b${badge}`} x1="10" y1="6" x2="110" y2="114" gradientUnits="userSpaceOnUse"><stop stop-color={p[0]} /><stop offset="1" stop-color={p[1]} /></linearGradient></defs>
+  <svg
+    class={cls}
+    width={size}
+    height={size}
+    viewBox="0 0 120 120"
+    fill="none"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <defs>
+      <linearGradient
+        id={`cg-b${badge}`}
+        x1="10"
+        y1="6"
+        x2="110"
+        y2="114"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color={p[0]} />
+        <stop offset="1" stop-color={p[1]} />
+      </linearGradient>
+    </defs>
     <circle cx="60" cy="60" r="60" fill={`url(#cg-b${badge})`} />
-    <g transform="translate(30 30) scale(1.25)"><Fragment set:html={body} /></g>
+    <g transform="translate(30 30) scale(1.25)">
+      <Fragment set:html={body} />
+    </g>
   </svg>
 )}

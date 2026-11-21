@@ -1,28 +1,32 @@
 /* Order matters: Tailwind, then the governing style docs (theme.css = Tailwind @theme, variables.css = :root). */
-@import "tailwindcss";
-@import "./theme.css";
-@import "./variables.css";
+@import 'tailwindcss';
+@import './theme.css';
+@import './variables.css';
 
 /* The style docs name the proprietary families 'ABC Ginto Discord Nord' / 'ABC Ginto Discord'.
    They are not licensed for this project, so the DESIGN.md substitutes (Unbounded, DM Sans)
    are registered under those names. Tokens stay untouched. See DECISIONS.md #4. */
 @font-face {
   font-family: 'ABC Ginto Discord Nord';
-  src: url('../assets/fonts/unbounded-latin-wght-normal.woff2') format('woff2-variations');
+  src: url('@fontsource-variable/unbounded/files/unbounded-latin-wght-normal.woff2')
+    format('woff2-variations');
   font-weight: 200 900;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'ABC Ginto Discord';
-  src: url('../assets/fonts/dm-sans-latin-wght-normal.woff2') format('woff2-variations');
+  src: url('@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2')
+    format('woff2-variations');
   font-weight: 100 1000;
   font-style: normal;
   font-display: swap;
 }
 
 @layer base {
-  html { background: var(--surface-deep-indigo-canvas); }
+  html {
+    background: var(--surface-deep-indigo-canvas);
+  }
   body {
     margin: 0;
     background: var(--surface-deep-indigo-canvas);
@@ -34,16 +38,26 @@
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-abc-ginto-discord-nord);
     text-transform: uppercase;
     letter-spacing: -0.01em;
     margin: 0;
   }
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
   }
 }
 
 /* Decorative objects may hang past the viewport edge on small screens; clip without creating a scroll container (keeps position: sticky working). */
-.page-wrapper { overflow-x: clip; }
+.page-wrapper {
+  overflow-x: clip;
+}

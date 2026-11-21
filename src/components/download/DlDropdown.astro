@@ -2,26 +2,60 @@
 // Click-to-open dropdown button (reference: Webflow .w-dropdown, data-hover="false").
 // variant "white": 48px white toggle + white list (platform block). variant "blurple": 52px blurple toggle + indigo list (banner).
 // Motion (IX2 a-983 / a-984): chevron rotates 0→180deg in 100ms easeIn on open, back in 100ms ease on close; list toggles instantly.
-interface Item { label: string; href?: string }
-interface Props { label: string; items: Item[]; variant?: 'white' | 'blurple'; z?: number; id: string }
+interface Item {
+  label: string;
+  href?: string;
+}
+interface Props {
+  label: string;
+  items: Item[];
+  variant?: 'white' | 'blurple';
+  z?: number;
+  id: string;
+}
 const { label, items, variant = 'white', z = 1, id } = Astro.props;
 ---
+
 <div class:list={['dl-dd', `dl-dd--${variant}`]} data-dl-dropdown style={`z-index:${z}`}>
-  <button type="button" class="dl-dd__toggle" id={`${id}-toggle`} aria-haspopup="menu" aria-expanded="false" aria-controls={`${id}-list`}>
-    {Astro.slots.has('icon') && <span class="dl-dd__icon" aria-hidden="true"><slot name="icon" /></span>}
+  <button
+    type="button"
+    class="dl-dd__toggle"
+    id={`${id}-toggle`}
+    aria-haspopup="menu"
+    aria-expanded="false"
+    aria-controls={`${id}-list`}
+  >
+    {Astro.slots.has('icon') && (
+      <span class="dl-dd__icon" aria-hidden="true">
+        <slot name="icon" />
+      </span>
+    )}
     <span class="dl-dd__label">{label}</span>
     {variant === 'blurple' && <span class="dl-dd__glow" aria-hidden="true"></span>}
     <svg class="dl-dd__arrow" data-dl-arrow viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path d="M2.5 5.5 8 11l5.5-5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      <path
+        d="M2.5 5.5 8 11l5.5-5.5"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
     </svg>
   </button>
   <nav class="dl-dd__list" id={`${id}-list`} aria-labelledby={`${id}-toggle`} hidden>
-    {items.map((it) => <a class="dl-dd__link" href={it.href ?? '#'}>{it.label}</a>)}
+    {items.map((it) => (
+      <a class="dl-dd__link" href={it.href ?? '#'}>
+        {it.label}
+      </a>
+    ))}
   </nav>
 </div>
 
 <style>
-  .dl-dd { position: relative; display: inline-flex; }
+  .dl-dd {
+    position: relative;
+    display: inline-flex;
+  }
   .dl-dd__toggle {
     position: relative;
     display: flex;
@@ -38,13 +72,41 @@ const { label, items, variant = 'white', z = 1, id } = Astro.props;
     line-height: 24px;
     white-space: nowrap;
   }
-  .dl-dd__toggle:focus-visible { outline: 2px solid var(--color-signal-green); outline-offset: 3px; }
-  .dl-dd__icon { display: flex; width: 24px; height: 24px; flex: none; }
-  .dl-dd__icon :global(svg) { width: 24px; height: 24px; display: block; }
-  .dl-dd__label { position: relative; z-index: 3; }
-  .dl-dd__arrow { position: relative; z-index: 1; flex: none; }
-  .dl-dd__list { position: absolute; left: 0; width: 100%; box-sizing: border-box; padding: var(--spacing-8); text-align: left; }
-  .dl-dd__list[hidden] { display: none; }
+  .dl-dd__toggle:focus-visible {
+    outline: 2px solid var(--color-signal-green);
+    outline-offset: 3px;
+  }
+  .dl-dd__icon {
+    display: flex;
+    width: 24px;
+    height: 24px;
+    flex: none;
+  }
+  .dl-dd__icon :global(svg) {
+    width: 24px;
+    height: 24px;
+    display: block;
+  }
+  .dl-dd__label {
+    position: relative;
+    z-index: 3;
+  }
+  .dl-dd__arrow {
+    position: relative;
+    z-index: 1;
+    flex: none;
+  }
+  .dl-dd__list {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--spacing-8);
+    text-align: left;
+  }
+  .dl-dd__list[hidden] {
+    display: none;
+  }
   .dl-dd__link {
     display: block;
     padding: 13px var(--spacing-16);
@@ -64,17 +126,41 @@ const { label, items, variant = 'white', z = 1, id } = Astro.props;
     color: var(--color-black);
     transition: all 0.3s;
   }
-  .dl-dd--white .dl-dd__arrow { width: 14px; height: 14px; }
-  .dl-dd--white .dl-dd__list { top: 100%; margin-top: 11px; min-width: max-content; border-radius: 8px; background-color: var(--surface-white-control); }
-  .dl-dd--white .dl-dd__link { border-radius: 8px; color: var(--color-black); }
-  @media (hover: hover) {
-    .dl-dd--white .dl-dd__toggle:hover { background-color: var(--color-fog); }
-    .dl-dd--white .dl-dd__link:hover { background-color: rgba(0, 0, 0, 0.1); }
-    .dl-dd--blurple .dl-dd__link:hover { background-color: var(--color-white-10); }
-    /* measured on the reference banner button: hover adds 0 2px 9px rgba(6,10,11,.42) */
-    .dl-dd--blurple .dl-dd__toggle:hover { box-shadow: 0 2px 9px rgba(6, 10, 11, 0.42); }
+  .dl-dd--white .dl-dd__arrow {
+    width: 14px;
+    height: 14px;
   }
-  @media (min-width: 992px) { .dl-dd--white .dl-dd__toggle { padding: 13.5px var(--spacing-24); } }
+  .dl-dd--white .dl-dd__list {
+    top: 100%;
+    margin-top: 11px;
+    min-width: max-content;
+    border-radius: 8px;
+    background-color: var(--surface-white-control);
+  }
+  .dl-dd--white .dl-dd__link {
+    border-radius: 8px;
+    color: var(--color-black);
+  }
+  @media (hover: hover) {
+    .dl-dd--white .dl-dd__toggle:hover {
+      background-color: var(--color-fog);
+    }
+    .dl-dd--white .dl-dd__link:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    .dl-dd--blurple .dl-dd__link:hover {
+      background-color: var(--color-white-10);
+    }
+    /* measured on the reference banner button: hover adds 0 2px 9px rgba(6,10,11,.42) */
+    .dl-dd--blurple .dl-dd__toggle:hover {
+      box-shadow: 0 2px 9px rgba(6, 10, 11, 0.42);
+    }
+  }
+  @media (min-width: 992px) {
+    .dl-dd--white .dl-dd__toggle {
+      padding: 13.5px var(--spacing-24);
+    }
+  }
 
   /* blurple (banner) */
   .dl-dd--blurple .dl-dd__toggle {
@@ -85,23 +171,52 @@ const { label, items, variant = 'white', z = 1, id } = Astro.props;
     font-size: 14px;
     line-height: 18px;
     overflow: clip;
-    transition: box-shadow 0.3s, transform 0.3s, background-color 0.3s;
+    transition:
+      box-shadow 0.3s,
+      transform 0.3s,
+      background-color 0.3s;
   }
   .dl-dd__glow {
-    position: absolute; z-index: 1; top: 45px; left: -50%;
-    width: 200%; height: 70px; border-radius: 50%;
-    background-color: #1f1d5d; filter: blur(30px); pointer-events: none;
+    position: absolute;
+    z-index: 1;
+    top: 45px;
+    left: -50%;
+    width: 200%;
+    height: 70px;
+    border-radius: 50%;
+    background-color: #1f1d5d;
+    filter: blur(30px);
+    pointer-events: none;
   }
-  .dl-dd--blurple .dl-dd__arrow { width: 16px; height: 17px; }
+  .dl-dd--blurple .dl-dd__arrow {
+    width: 16px;
+    height: 17px;
+  }
   .dl-dd--blurple .dl-dd__list {
-    top: 0; margin-top: 60px; max-height: 260px; overflow: auto; border-radius: 12px;
-    background-color: #30305f; box-shadow: 0 6px 10px rgba(0, 0, 0, 0.08);
+    top: 0;
+    margin-top: 60px;
+    max-height: 260px;
+    overflow: auto;
+    border-radius: 12px;
+    background-color: #30305f;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.08);
   }
-  .dl-dd--blurple .dl-dd__link { border-radius: 12px; color: var(--color-white); }
+  .dl-dd--blurple .dl-dd__link {
+    border-radius: 12px;
+    color: var(--color-white);
+  }
   @media (min-width: 480px) {
-    .dl-dd--blurple .dl-dd__toggle { padding: 14.5px var(--spacing-20) 13.5px; font-size: var(--text-nav); line-height: 24px; }
+    .dl-dd--blurple .dl-dd__toggle {
+      padding: 14.5px var(--spacing-20) 13.5px;
+      font-size: var(--text-nav);
+      line-height: 24px;
+    }
   }
-  @media (min-width: 992px) { .dl-dd--blurple .dl-dd__toggle { padding: 14.5px var(--spacing-24) 13.5px; } }
+  @media (min-width: 992px) {
+    .dl-dd--blurple .dl-dd__toggle {
+      padding: 14.5px var(--spacing-24) 13.5px;
+    }
+  }
 </style>
 
 <script>
@@ -122,7 +237,12 @@ const { label, items, variant = 'white', z = 1, id } = Astro.props;
     toggle.setAttribute('aria-expanded', String(open));
     list.hidden = !open;
     dd.classList.toggle('is-open', open);
-    gsap.to(arrow, { rotation: open ? 180 : 0, duration: reduce.matches ? 0 : 0.1, ease: open ? easeIn : ease, overwrite: true });
+    gsap.to(arrow, {
+      rotation: open ? 180 : 0,
+      duration: reduce.matches ? 0 : 0.1,
+      ease: open ? easeIn : ease,
+      overwrite: true,
+    });
   };
   all.forEach((dd) => {
     dd.querySelector('.dl-dd__toggle')!.addEventListener('click', (e) => {
@@ -132,6 +252,11 @@ const { label, items, variant = 'white', z = 1, id } = Astro.props;
       setOpen(dd, willOpen);
     });
   });
-  document.addEventListener('click', (e) => all.forEach((dd) => !dd.contains(e.target as Node) && setOpen(dd, false)));
-  document.addEventListener('keydown', (e) => e.key === 'Escape' && all.forEach((dd) => setOpen(dd, false)));
+  document.addEventListener('click', (e) =>
+    all.forEach((dd) => !dd.contains(e.target as Node) && setOpen(dd, false)),
+  );
+  document.addEventListener(
+    'keydown',
+    (e) => e.key === 'Escape' && all.forEach((dd) => setOpen(dd, false)),
+  );
 </script>

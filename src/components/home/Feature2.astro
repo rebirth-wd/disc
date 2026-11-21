@@ -5,6 +5,7 @@ import PerfLoop from './featA/PerfLoop.astro';
 import Objects from './featA/Objects.astro';
 import Twinkles from './featA/Twinkles.astro';
 ---
+
 <FeatureBlock
   name="feature-2"
   heading="Loads in<br>under a<br>second"
@@ -20,10 +21,30 @@ import Twinkles from './featA/Twinkles.astro';
   class="z-[4]"
 >
   <PerfLoop slot="media" />
-  Over half of mobile visitors abandon a site that takes more than three seconds to load. Our sites, served as static pages from Cloudflare's edge, load in a blink and are built to turn casual traffic into paying customers.
+  Over half of mobile visitors abandon a site that takes more than three seconds to load. Our sites,
+  served as static pages from Cloudflare's edge, load in a blink and are built to turn casual
+  traffic into paying customers.
   <Fragment slot="decor">
-    <Twinkles stars={[[1200, 16, 20, 1], [319, -16, 20, 2], [845, -56, 6, 2], [173, 120, 6, 2], [476, -24, 6, 3], [1148, -72, 6, 2], [290, 112, 8, 3], [1501, -48, 6, 1], [1476, 80, 4, 3], [569, 80, 4, 3]]} />
+    <Twinkles
+      stars={[
+        [1200, 16, 20, 1],
+        [319, -16, 20, 2],
+        [845, -56, 6, 2],
+        [173, 120, 6, 2],
+        [476, -24, 6, 3],
+        [1148, -72, 6, 2],
+        [290, 112, 8, 3],
+        [1501, -48, 6, 1],
+        [1476, 80, 4, 3],
+        [569, 80, 4, 3],
+      ]}
+    />
     <!-- trigger zone = 1300px starting 108px above this section's bottom edge; keyframes at 10% and 100% (IX2 a-481) -->
-    <div style="left:calc(var(--fb-cx) + 80px);bottom:calc(var(--fb-cyb) - 160.4px)" data-fb-parallax='{"from":-100,"to":220,"zoneTop":-108,"zoneHeight":1300,"kfStart":0.1}'><Objects kind="cube" /></div>
+    <div
+      style="left:calc(var(--fb-cx) + 80px);bottom:calc(var(--fb-cyb) - 160.4px)"
+      data-fb-parallax='{"from":-100,"to":220,"zoneTop":-108,"zoneHeight":1300,"kfStart":0.1}'
+    >
+      <Objects kind="cube" />
+    </div>
   </Fragment>
 </FeatureBlock>

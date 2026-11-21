@@ -1,18 +1,46 @@
 ---
 // Per-section twinkling stars. Positions (x from the 1680 viewport centre, y from the section top) and the three
 // opacity sequences are the reference's (IX2 a-495 / a-496 / a-497: 500ms easeIn fades separated by 1–2s holds, looped).
-interface Props { stars: [x: number, y: number, size: number, seq: 1 | 2 | 3][] }
+interface Props {
+  stars: [x: number, y: number, size: number, seq: 1 | 2 | 3][];
+}
 const { stars } = Astro.props;
 ---
+
 <div class="fa-twinkles" data-fa-twinkles>
   {stars.map(([x, y, s, seq]) => (
-    <i class:list={[s >= 20 ? 'is-plus' : '']} data-seq={seq} style={`left:calc(50% + ${x - 840}px);top:${y}px;width:${s}px;height:${s}px`} />
+    <i
+      class:list={[s >= 20 ? 'is-plus' : '']}
+      data-seq={seq}
+      style={`left:calc(50% + ${x - 840}px);top:${y}px;width:${s}px;height:${s}px`}
+    />
   ))}
 </div>
 <style>
-  .fa-twinkles { inset: 0; }
-  .fa-twinkles i { position: absolute; display: block; background: var(--color-white); }
-  .fa-twinkles i.is-plus { clip-path: polygon(42% 0, 58% 0, 58% 42%, 100% 42%, 100% 58%, 58% 58%, 58% 100%, 42% 100%, 42% 58%, 0 58%, 0 42%, 42% 42%); }
+  .fa-twinkles {
+    inset: 0;
+  }
+  .fa-twinkles i {
+    position: absolute;
+    display: block;
+    background: var(--color-white);
+  }
+  .fa-twinkles i.is-plus {
+    clip-path: polygon(
+      42% 0,
+      58% 0,
+      58% 42%,
+      100% 42%,
+      100% 58%,
+      58% 58%,
+      58% 100%,
+      42% 100%,
+      42% 58%,
+      0 58%,
+      0 42%,
+      42% 42%
+    );
+  }
 </style>
 <script>
   import gsap from 'gsap';

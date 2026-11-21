@@ -21,9 +21,25 @@ interface Props {
   floatRot?: number;
   floatDur?: number;
 }
-const { class: cls = '', from, to, ease = 'none', triggerTop, triggerHeight = 2000, front = false, floatY = 8, floatRot = 3, floatDur = 3.6 } = Astro.props;
+const {
+  class: cls = '',
+  from,
+  to,
+  ease = 'none',
+  triggerTop,
+  triggerHeight = 2000,
+  front = false,
+  floatY = 8,
+  floatRot = 3,
+  floatDur = 3.6,
+} = Astro.props;
 ---
-<div class="fbx-trigger" data-fbx-trigger style={`top:${triggerTop};height:${triggerHeight}px;`}></div>
+
+<div
+  class="fbx-trigger"
+  data-fbx-trigger
+  style={`top:${triggerTop};height:${triggerHeight}px;`}
+></div>
 <div
   class:list={['fbx-float', cls]}
   data-fbx-float
@@ -35,7 +51,9 @@ const { class: cls = '', from, to, ease = 'none', triggerTop, triggerHeight = 20
   data-float-dur={floatDur}
   {...(front ? { 'data-decor-front': '' } : {})}
 >
-  <div class="fbx-float-inner" data-fbx-float-inner><slot /></div>
+  <div class="fbx-float-inner" data-fbx-float-inner>
+    <slot />
+  </div>
 </div>
 
 <style>
@@ -104,7 +122,15 @@ const { class: cls = '', from, to, ease = 'none', triggerTop, triggerHeight = 20
       const tween = gsap.fromTo(
         inner,
         { y: -dy, rotation: -rot },
-        { y: dy, rotation: rot, duration: dur, ease: 'sine.inOut', repeat: -1, yoyo: true, delay: -i * 0.9 },
+        {
+          y: dy,
+          rotation: rot,
+          duration: dur,
+          ease: 'sine.inOut',
+          repeat: -1,
+          yoyo: true,
+          delay: -i * 0.9,
+        },
       );
       return () => {
         tween.kill();

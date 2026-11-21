@@ -6,42 +6,91 @@ import DlButton from './DlButton.astro';
 import DlDropdown from './DlDropdown.astro';
 import PlatformMock from './PlatformMock.astro';
 ---
+
 <section data-section="download-platforms" id="download-platforms" class="dp bg-black text-white">
   <div class="dp-pad">
     <div class="dp-container">
       <div class="dp-group">
         <div class="dp-layout dp-layout--a" data-block="desktop">
           <div class="dp-text">
-            <h2 class="dp-h2">Built for<br />desktop</h2>
-            <p class="dp-p">Bold first impressions with stunning local imagery and clear messaging that grabs attention the moment someone lands on your site, on any screen.</p>
+            <h2 class="dp-h2">
+              Built for
+              <br />
+              desktop
+            </h2>
+            <p class="dp-p">
+              Bold first impressions with stunning local imagery and clear messaging that grabs
+              attention the moment someone lands on your site, on any screen.
+            </p>
             <div class="dp-spacer"></div>
             <div class="dp-btns">
-              <DlDropdown id="dp-business" label="Business" z={4} items={[{ label: 'Landing page' }, { label: 'Marketing site' }]}>
-                <svg slot="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M9 3h6a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H2V9a2 2 0 0 1 2-2h3V5a2 2 0 0 1 2-2Zm0 4h6V5H9v2ZM2 14h8v2h4v-2h8v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5Z" /></svg>
+              <DlDropdown
+                id="dp-business"
+                label="Business"
+                z={4}
+                items={[{ label: 'Landing page' }, { label: 'Marketing site' }]}
+              >
+                <svg slot="icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 3h6a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H2V9a2 2 0 0 1 2-2h3V5a2 2 0 0 1 2-2Zm0 4h6V5H9v2ZM2 14h8v2h4v-2h8v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5Z" />
+                </svg>
               </DlDropdown>
-              <DlDropdown id="dp-portfolio" label="Portfolio" z={3} items={[{ label: 'Personal brand' }, { label: 'Showcase' }]}>
-                <svg slot="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3V3Zm10 0h8v8h-8V3ZM3 13h8v8H3v-8Zm10 0h8v8h-8v-8Z" /></svg>
+              <DlDropdown
+                id="dp-portfolio"
+                label="Portfolio"
+                z={3}
+                items={[{ label: 'Personal brand' }, { label: 'Showcase' }]}
+              >
+                <svg slot="icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M3 3h8v8H3V3Zm10 0h8v8h-8V3ZM3 13h8v8H3v-8Zm10 0h8v8h-8v-8Z" />
+                </svg>
               </DlDropdown>
-              <DlDropdown id="dp-docs" label="Docs" z={2} items={[{ label: 'Docs hub' }, { label: 'Blog' }, { label: 'FAQs' }, { label: 'Search' }]}>
-                <svg slot="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M5 2h10l4 4v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm2 8v2h10v-2H7Zm0 4v2h10v-2H7Zm0-8v2h6V6H7Z" /></svg>
+              <DlDropdown
+                id="dp-docs"
+                label="Docs"
+                z={2}
+                items={[
+                  { label: 'Docs hub' },
+                  { label: 'Blog' },
+                  { label: 'FAQs' },
+                  { label: 'Search' },
+                ]}
+              >
+                <svg slot="icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M5 2h10l4 4v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm2 8v2h10v-2H7Zm0 4v2h10v-2H7Zm0-8v2h6V6H7Z" />
+                </svg>
               </DlDropdown>
             </div>
           </div>
-          <div class="dp-media dp-media--green dp-media--right"><PlatformMock kind="desktop" /></div>
+          <div class="dp-media dp-media--green dp-media--right">
+            <PlatformMock kind="desktop" />
+          </div>
         </div>
         <div class="dp-layout dp-layout--b" data-block="mobile">
-          <div class="dp-media dp-media--blue"><PlatformMock kind="phone" /></div>
+          <div class="dp-media dp-media--blue">
+            <PlatformMock kind="phone" />
+          </div>
           <div class="dp-text">
-            <h2 class="dp-h2">Made for<br />mobile</h2>
-            <p class="dp-p">Over half of mobile visitors abandon a site that takes more than three seconds to load. Ours are built to load in under a second.</p>
+            <h2 class="dp-h2">
+              Made for
+              <br />
+              mobile
+            </h2>
+            <p class="dp-p">
+              Over half of mobile visitors abandon a site that takes more than three seconds to
+              load. Ours are built to load in under a second.
+            </p>
             <div class="dp-spacer"></div>
             <div class="dp-btns">
               <DlButton href="tel:+61488162040">
-                <svg slot="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 2h3.2l1.6 5-2.3 1.7a12 12 0 0 0 6.2 6.2l1.7-2.3 5 1.6v3.2A2.6 2.6 0 0 1 19.400 20 C10.300 20 4 13.700 4 4.600 A2.6 2.6 0 0 1 6.600 2Z" /></svg>
+                <svg slot="icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M6.6 2h3.2l1.6 5-2.3 1.7a12 12 0 0 0 6.2 6.2l1.7-2.3 5 1.6v3.2A2.6 2.6 0 0 1 19.400 20 C10.300 20 4 13.700 4 4.600 A2.6 2.6 0 0 1 6.600 2Z" />
+                </svg>
                 Call Us
               </DlButton>
               <DlButton href="#">
-                <svg slot="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v.4l-10 6.2L2 6.400V6Zm0 2.800V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8.800l-10 6.200-10-6.200Z" /></svg>
+                <svg slot="icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v.4l-10 6.2L2 6.400V6Zm0 2.800V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8.800l-10 6.200-10-6.200Z" />
+                </svg>
                 Email Us
               </DlButton>
             </div>
@@ -51,30 +100,47 @@ import PlatformMock from './PlatformMock.astro';
       <div class="dp-layout dp-layout--c" data-block="edge">
         <div class="dp-text">
           <h2 class="dp-h2">Edge-delivered</h2>
-          <p class="dp-p">Your site is distributed across Cloudflare's network and served from the node closest to each visitor. Local customers get instant loads, and there is no origin server to fall over under traffic.</p>
+          <p class="dp-p">
+            Your site is distributed across Cloudflare's network and served from the node closest to
+            each visitor. Local customers get instant loads, and there is no origin server to fall
+            over under traffic.
+          </p>
           <div class="dp-spacer"></div>
           <div class="dp-btns">
             <DlButton href="#" radius={8}>
-              <svg slot="icon" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 10 5-10 5L2 7l10-5Zm-7.500 8.800L12 14.500l7.500-3.700L22 12l-10 5-10-5 2.500-1.200Zm0 5L12 19.500l7.500-3.700L22 17l-10 5-10-5 2.500-1.200Z" /></svg>
+              <svg slot="icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="m12 2 10 5-10 5L2 7l10-5Zm-7.500 8.800L12 14.500l7.500-3.700L22 12l-10 5-10-5 2.500-1.200Zm0 5L12 19.500l7.500-3.700L22 17l-10 5-10-5 2.500-1.200Z" />
+              </svg>
               The Stack
             </DlButton>
             <DlButton href="#" radius={8}>
-              <svg slot="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20Zm-1 5v6.400l4.800 2.900 1-1.700-3.800-2.300V7h-2Z" /></svg>
+              <svg slot="icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20Zm-1 5v6.400l4.800 2.900 1-1.700-3.800-2.300V7h-2Z" />
+              </svg>
               Process
             </DlButton>
           </div>
         </div>
-        <div class="dp-media dp-media--pink dp-media--right"><PlatformMock kind="edge" /></div>
+        <div class="dp-media dp-media--pink dp-media--right">
+          <PlatformMock kind="edge" />
+        </div>
       </div>
       <div class="dp-layout dp-layout--d" data-block="ai">
-        <div class="dp-media dp-media--indigo"><PlatformMock kind="chat" /></div>
+        <div class="dp-media dp-media--indigo">
+          <PlatformMock kind="chat" />
+        </div>
         <div class="dp-text">
           <h2 class="dp-h2">AI-ready websites</h2>
-          <p class="dp-p">A chatbot that actually knows your business: your services, your pricing, your suburbs, your FAQs. It answers after hours and guides visitors to the right page, every time.</p>
+          <p class="dp-p">
+            A chatbot that actually knows your business: your services, your pricing, your suburbs,
+            your FAQs. It answers after hours and guides visitors to the right page, every time.
+          </p>
           <div class="dp-spacer"></div>
           <div class="dp-btns">
             <DlButton href="#">
-              <svg slot="icon" viewBox="0 0 24 24" fill="currentColor"><path d="m10 2 2.200 5.800L18 10l-5.800 2.200L10 18l-2.200-5.800L2 10l5.800-2.200L10 2Zm8.500 11 1.100 2.900 2.900 1.100-2.900 1.100-1.100 2.900-1.100-2.900-2.900-1.100 2.900-1.100 1.100-2.900Z" /></svg>
+              <svg slot="icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="m10 2 2.200 5.800L18 10l-5.800 2.200L10 18l-2.200-5.800L2 10l5.800-2.200L10 2Zm8.500 11 1.100 2.900 2.900 1.100-2.900 1.100-1.100 2.900-1.100-2.900-2.900-1.100 2.900-1.100 1.100-2.900Z" />
+              </svg>
               Ask Reb
             </DlButton>
           </div>
@@ -85,74 +151,257 @@ import PlatformMock from './PlatformMock.astro';
 </section>
 
 <style>
-  .dp { position: relative; padding: 100px 0; }
-  .dp-pad { padding: 0 6vw; }
-  .dp-container { position: relative; z-index: 2; max-width: 944px; margin: 0 auto; }
-  .dp-group { display: flex; flex-direction: column-reverse; }
-  .dp-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--spacing-48); align-items: center; margin-bottom: 80px; }
-  .dp-layout--a { margin-bottom: 100px; }
-  .dp-layout--d { margin-bottom: 0; }
-  .dp-text { text-align: center; }
-  .dp-h2 { font-family: var(--font-abc-ginto-discord-nord); font-weight: var(--font-weight-bold); text-transform: uppercase; color: var(--color-white); font-size: min(8.2vw, 32px); line-height: 1; letter-spacing: -0.01em; margin: 0 0 var(--spacing-16); }
-  .dp-p { font-family: var(--font-abc-ginto-discord); font-weight: var(--font-weight-regular); color: var(--color-white); font-size: var(--text-body); line-height: 22px; margin: 0; }
-  .dp-spacer { padding-bottom: 32px; }
-  .dp-btns { display: flex; flex-flow: wrap; justify-content: center; align-items: flex-start; gap: var(--spacing-8); }
+  .dp {
+    position: relative;
+    padding: 100px 0;
+  }
+  .dp-pad {
+    padding: 0 6vw;
+  }
+  .dp-container {
+    position: relative;
+    z-index: 2;
+    max-width: 944px;
+    margin: 0 auto;
+  }
+  .dp-group {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .dp-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacing-48);
+    align-items: center;
+    margin-bottom: 80px;
+  }
+  .dp-layout--a {
+    margin-bottom: 100px;
+  }
+  .dp-layout--d {
+    margin-bottom: 0;
+  }
+  .dp-text {
+    text-align: center;
+  }
+  .dp-h2 {
+    font-family: var(--font-abc-ginto-discord-nord);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    color: var(--color-white);
+    font-size: min(8.2vw, 32px);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    margin: 0 0 var(--spacing-16);
+  }
+  .dp-p {
+    font-family: var(--font-abc-ginto-discord);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-white);
+    font-size: var(--text-body);
+    line-height: 22px;
+    margin: 0;
+  }
+  .dp-spacer {
+    padding-bottom: 32px;
+  }
+  .dp-btns {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: var(--spacing-8);
+  }
 
-  .dp-media { display: flex; box-sizing: border-box; width: 100%; max-width: 432px; margin: 0 auto; border-radius: 56px; overflow: hidden; }
-  .dp-media :global(.pm) { max-width: 322px; margin-left: auto; }
-  .dp-layout--a .dp-media, .dp-layout--c .dp-media { order: -1; }
-  .dp-media--green { background-image: linear-gradient(171deg, #35ed7e, #c8ffef); padding: 48px 0 0 48px; align-items: flex-end; }
-  .dp-media--blue { background-image: linear-gradient(#5865f2, #e0e3ff); padding: 52px 48px 0; align-items: flex-end; }
-  .dp-media--blue :global(.pm) { margin: 0 auto; }
-  .dp-media--pink { background-image: linear-gradient(#ff4cd2, #f5c9ff); padding: 50px 0 50px 48px; }
-  .dp-media--indigo { background-image: linear-gradient(#211f62, #2a2a7c 30%, #5865f2 88%); padding: 81px 0 81px 30px; height: 482px; }
-  .dp-media--indigo :global(.pm) { max-width: none; }
+  .dp-media {
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 432px;
+    margin: 0 auto;
+    border-radius: 56px;
+    overflow: hidden;
+  }
+  .dp-media :global(.pm) {
+    max-width: 322px;
+    margin-left: auto;
+  }
+  .dp-layout--a .dp-media,
+  .dp-layout--c .dp-media {
+    order: -1;
+  }
+  .dp-media--green {
+    background-image: linear-gradient(171deg, #35ed7e, #c8ffef);
+    padding: 48px 0 0 48px;
+    align-items: flex-end;
+  }
+  .dp-media--blue {
+    background-image: linear-gradient(#5865f2, #e0e3ff);
+    padding: 52px 48px 0;
+    align-items: flex-end;
+  }
+  .dp-media--blue :global(.pm) {
+    margin: 0 auto;
+  }
+  .dp-media--pink {
+    background-image: linear-gradient(#ff4cd2, #f5c9ff);
+    padding: 50px 0 50px 48px;
+  }
+  .dp-media--indigo {
+    background-image: linear-gradient(#211f62, #2a2a7c 30%, #5865f2 88%);
+    padding: 81px 0 81px 30px;
+    height: 482px;
+  }
+  .dp-media--indigo :global(.pm) {
+    max-width: none;
+  }
 
   @media (min-width: 768px) {
-    .dp { padding: 146px 0 0; margin-bottom: var(--spacing-128); }
-    .dp-pad { padding: 0 var(--spacing-40); }
-    .dp-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 80px; }
-    .dp-layout--a { margin-bottom: 80px; }
-    .dp-text { text-align: left; }
-    .dp-h2 { font-size: 40px; letter-spacing: -0.4px; margin-bottom: var(--spacing-20); }
-    .dp-p { font-size: var(--text-body-xl); line-height: 26px; }
-    .dp-btns { justify-content: flex-start; }
-    .dp-media { display: block; max-width: none; border-radius: 64px; }
-    .dp-media :global(.pm) { max-width: none; }
-    .dp-media--green { padding: 64px 0 0 64px; }
-    .dp-media--blue { padding: 60px 60px 0; }
-    .dp-media--pink { padding: 64px 0 64px 64px; }
-    .dp-media--indigo { display: flex; padding: 71px 0 72px 27px; height: 427px; }
-    .dp-layout--b .dp-text { order: -1; }
-    .dp-layout--c .dp-media { order: 0; }
+    .dp {
+      padding: 146px 0 0;
+      margin-bottom: var(--spacing-128);
+    }
+    .dp-pad {
+      padding: 0 var(--spacing-40);
+    }
+    .dp-layout {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 80px;
+    }
+    .dp-layout--a {
+      margin-bottom: 80px;
+    }
+    .dp-text {
+      text-align: left;
+    }
+    .dp-h2 {
+      font-size: 40px;
+      letter-spacing: -0.4px;
+      margin-bottom: var(--spacing-20);
+    }
+    .dp-p {
+      font-size: var(--text-body-xl);
+      line-height: 26px;
+    }
+    .dp-btns {
+      justify-content: flex-start;
+    }
+    .dp-media {
+      display: block;
+      max-width: none;
+      border-radius: 64px;
+    }
+    .dp-media :global(.pm) {
+      max-width: none;
+    }
+    .dp-media--green {
+      padding: 64px 0 0 64px;
+    }
+    .dp-media--blue {
+      padding: 60px 60px 0;
+    }
+    .dp-media--pink {
+      padding: 64px 0 64px 64px;
+    }
+    .dp-media--indigo {
+      display: flex;
+      padding: 71px 0 72px 27px;
+      height: 427px;
+    }
+    .dp-layout--b .dp-text {
+      order: -1;
+    }
+    .dp-layout--c .dp-media {
+      order: 0;
+    }
   }
   @media (min-width: 992px) {
-    .dp-pad { padding: 0 80px; }
-    .dp-group { flex-direction: column; }
-    .dp-spacer { padding-bottom: var(--spacing-40); }
-    .dp-media--blue { padding: 64px 64px 0; }
-    .dp-media--indigo { height: 606.8px; padding: 101px 0 102px 38px; }
-    .dp-layout--a .dp-media, .dp-layout--b .dp-text { order: 0; }
+    .dp-pad {
+      padding: 0 80px;
+    }
+    .dp-group {
+      flex-direction: column;
+    }
+    .dp-spacer {
+      padding-bottom: var(--spacing-40);
+    }
+    .dp-media--blue {
+      padding: 64px 64px 0;
+    }
+    .dp-media--indigo {
+      height: 606.8px;
+      padding: 101px 0 102px 38px;
+    }
+    .dp-layout--a .dp-media,
+    .dp-layout--b .dp-text {
+      order: 0;
+    }
   }
   @media (min-width: 1440px) {
-    .dp { padding-top: 200px; margin-bottom: 200px; }
-    .dp-pad { padding: 0 120px; }
-    .dp-container { max-width: 1360px; padding: 0; }
-    .dp-layout { gap: 100px; margin-bottom: 120px; grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); }
-    .dp-layout--a { margin-bottom: 120px; }
-    .dp-layout--b, .dp-layout--d { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr); }
-    .dp-layout--d { margin-bottom: 0; }
-    .dp-h2 { font-size: var(--text-heading-lg); line-height: 1; letter-spacing: -0.96px; margin-bottom: var(--spacing-24); }
-    .dp-btns { gap: var(--spacing-16); }
-    .dp-media { border-radius: 72px; }
-    .dp-media--green { padding: 80px 0 0 80px; }
-    .dp-media--blue { padding: 80px 80px 0; }
-    .dp-media--pink { padding: 80px 0 80px 80px; }
-    .dp-media--indigo { padding: 115px 0 116px 43px; height: 687.5px; }
+    .dp {
+      padding-top: 200px;
+      margin-bottom: 200px;
+    }
+    .dp-pad {
+      padding: 0 120px;
+    }
+    .dp-container {
+      max-width: 1360px;
+      padding: 0;
+    }
+    .dp-layout {
+      gap: 100px;
+      margin-bottom: 120px;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    }
+    .dp-layout--a {
+      margin-bottom: 120px;
+    }
+    .dp-layout--b,
+    .dp-layout--d {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    }
+    .dp-layout--d {
+      margin-bottom: 0;
+    }
+    .dp-h2 {
+      font-size: var(--text-heading-lg);
+      line-height: 1;
+      letter-spacing: -0.96px;
+      margin-bottom: var(--spacing-24);
+    }
+    .dp-btns {
+      gap: var(--spacing-16);
+    }
+    .dp-media {
+      border-radius: 72px;
+    }
+    .dp-media--green {
+      padding: 80px 0 0 80px;
+    }
+    .dp-media--blue {
+      padding: 80px 80px 0;
+    }
+    .dp-media--pink {
+      padding: 80px 0 80px 80px;
+    }
+    .dp-media--indigo {
+      padding: 115px 0 116px 43px;
+      height: 687.5px;
+    }
   }
   @media (min-width: 1640px) {
-    .dp-media { max-width: 82%; margin: 0; }
-    .dp-media--right { justify-self: end; }
+    .dp-media {
+      max-width: 82%;
+      margin: 0;
+    }
+    .dp-media--right {
+      justify-self: end;
+    }
   }
-  @media (min-width: 1920px) { .dp-media { max-width: 100%; } }
+  @media (min-width: 1920px) {
+    .dp-media {
+      max-width: 100%;
+    }
+  }
 </style>

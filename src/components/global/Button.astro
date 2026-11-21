@@ -1,17 +1,19 @@
 ---
 // Shared button primitive. Specs: DESIGN.md "Primary CTA Button (White)",
 // "Secondary CTA Button (Blurple)", "Nav Button".
-interface Props {
+import type { HTMLAttributes } from 'astro/types';
+// `type` is owned by the primitive: links get none, buttons are always type="button".
+interface Props extends Omit<HTMLAttributes<'a'>, 'type'> {
   variant: 'white' | 'blurple' | 'nav';
   href?: string;
   icon?: 'download' | 'none';
   class?: string;
-  [key: string]: any;
 }
 const { variant = 'white', href, icon = 'none', class: cls = '', ...rest } = Astro.props;
 const Tag = href ? 'a' : 'button';
 const hasIcon = icon === 'download' && variant !== 'nav';
 ---
+
 <Tag
   href={href}
   type={href ? undefined : 'button'}
@@ -21,11 +23,23 @@ const hasIcon = icon === 'download' && variant !== 'nav';
   {...rest}
 >
   {hasIcon && (
-    <svg class="rb-btn__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path fill="currentColor" d="M10.5 2h3v9.2l3.4-3.4 2.1 2.1L12 16.9 4.99 9.9 7.1 7.8l3.4 3.4V2ZM4 18.5h16v3H4v-3Z" />
+    <svg
+      class="rb-btn__icon"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        fill="currentColor"
+        d="M10.5 2h3v9.2l3.4-3.4 2.1 2.1L12 16.9 4.99 9.9 7.1 7.8l3.4 3.4V2ZM4 18.5h16v3H4v-3Z"
+      />
     </svg>
   )}
-  <span class="rb-btn__label"><slot /></span>
+  <span class="rb-btn__label">
+    <slot />
+  </span>
 </Tag>
 
 <style>
@@ -44,7 +58,10 @@ const hasIcon = icon === 'download' && variant !== 'nav';
     transition: all var(--transition-control);
     -webkit-tap-highlight-color: transparent;
   }
-  .rb-btn:focus-visible { outline: 2px solid var(--color-signal-green); outline-offset: 3px; }
+  .rb-btn:focus-visible {
+    outline: 2px solid var(--color-signal-green);
+    outline-offset: 3px;
+  }
 
   /* Large CTAs: 65px tall, 12px radius, 20px/26px label, 0.25px tracking */
   .rb-btn--white,
@@ -57,10 +74,23 @@ const hasIcon = icon === 'download' && variant !== 'nav';
     font-weight: var(--font-weight-regular);
     letter-spacing: var(--tracking-button);
   }
-  .rb-btn--white { background-color: var(--surface-white-control); color: var(--color-not-quite-black); }
-  .rb-btn--blurple { background-color: var(--surface-blurple-action); color: var(--color-white); }
-  .rb-btn[data-icon='download'] { padding-left: var(--spacing-56); }
-  .rb-btn__icon { position: absolute; left: var(--spacing-24); top: 50%; transform: translateY(-50%); }
+  .rb-btn--white {
+    background-color: var(--surface-white-control);
+    color: var(--color-not-quite-black);
+  }
+  .rb-btn--blurple {
+    background-color: var(--surface-blurple-action);
+    color: var(--color-white);
+  }
+  .rb-btn[data-icon='download'] {
+    padding-left: var(--spacing-56);
+  }
+  .rb-btn__icon {
+    position: absolute;
+    left: var(--spacing-24);
+    top: 50%;
+    transform: translateY(-50%);
+  }
 
   /* Nav button: 39px tall, 16px radius, 16px/500 */
   .rb-btn--nav {
@@ -75,6 +105,8 @@ const hasIcon = icon === 'download' && variant !== 'nav';
     letter-spacing: var(--tracking-button);
   }
   @media (hover: hover) {
-    .rb-btn--nav:hover { background-color: var(--color-fog); }
+    .rb-btn--nav:hover {
+      background-color: var(--color-fog);
+    }
   }
 </style>

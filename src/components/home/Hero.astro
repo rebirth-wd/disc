@@ -1,19 +1,35 @@
 ---
 // Home hero. Reference: div.home--hero (896px tall at 1680). Geometry follows the reference's own
 // breakpoints (1440 / 1280 / 991 / 767 / 479). Motion parameters come from its IX2 data — see <script>.
-import Button from '../global/Button.astro';
-import Starfield from '../global/Starfield.astro';
+import Button from '@components/global/Button.astro';
 import HeroArt from './hero/HeroArt.astro';
 
 // 20 twinkling stars: x as % of the hero width, y in px at 1680 (reference .star-hero-home),
 // size in px, and the IX2 action list each one plays (a-495/496/497/505/506/507).
 const twinkles: [number, number, number, string][] = [
-  [998, 81, 20, 'a'], [724, 179, 14, 'c'], [1572, 224, 14, 'f'], [279, 179, 14, 'b'], [1572, 224, 14, 'c'],
-  [753, 233, 6, 'b'], [291, 81, 6, 'd'], [173, 134, 6, 'b'], [820, 90, 6, 'c'], [1005, 143, 6, 'f'],
-  [1148, 72, 6, 'b'], [207, 108, 6, 'a'], [543, 90, 6, 'e'], [1568, 90, 6, 'e'], [727, 403, 8, 'c'],
-  [1504, 269, 8, 'c'], [1502, 143, 4, 'a'], [1502, 143, 4, 'd'], [790, 152, 4, 'c'], [1476, 90, 4, 'c'],
+  [998, 81, 20, 'a'],
+  [724, 179, 14, 'c'],
+  [1572, 224, 14, 'f'],
+  [279, 179, 14, 'b'],
+  [1572, 224, 14, 'c'],
+  [753, 233, 6, 'b'],
+  [291, 81, 6, 'd'],
+  [173, 134, 6, 'b'],
+  [820, 90, 6, 'c'],
+  [1005, 143, 6, 'f'],
+  [1148, 72, 6, 'b'],
+  [207, 108, 6, 'a'],
+  [543, 90, 6, 'e'],
+  [1568, 90, 6, 'e'],
+  [727, 403, 8, 'c'],
+  [1504, 269, 8, 'c'],
+  [1502, 143, 4, 'a'],
+  [1502, 143, 4, 'd'],
+  [790, 152, 4, 'c'],
+  [1476, 90, 4, 'c'],
 ];
 ---
+
 <section data-section="home-hero" data-nav-trigger class="hero relative text-white">
   <!-- sky: gradient glow, pixel stars, twinkles, far-field object B -->
   <div class="hero-sky" aria-hidden="true">
@@ -32,7 +48,11 @@ const twinkles: [number, number, number, string][] = [
       <svg viewBox="0 0 144 160" xmlns="http://www.w3.org/2000/svg">
         <g transform="translate(72 82)">
           {[0, 45, 90, 135, 180, 225, 270, 315].map((a) => (
-            <path d="M-13-62h26l5 22h-36Z" fill={a % 90 ? '#8c95ff' : '#b48cff'} transform={`rotate(${a})`} />
+            <path
+              d="M-13-62h26l5 22h-36Z"
+              fill={a % 90 ? '#8c95ff' : '#b48cff'}
+              transform={`rotate(${a})`}
+            />
           ))}
           <path d="M0-48l34 14 14 34-14 34-34 14-34-14-14-34 14-34Z" fill="#9b84ff" />
           <path d="M0-48l34 14 14 34-14 34-34 14Z" fill="#7b5cf0" />
@@ -49,15 +69,24 @@ const twinkles: [number, number, number, string][] = [
           <!-- far-field object A: cursor (reference slot: .crown) -->
           <div class="hero-far hero-far--a" data-hero="far-a" aria-hidden="true">
             <svg viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
-              <path d="M62 30l94 70-40 8 26 46-24 14-26-46-30 28Z" fill="#b02d7c" transform="translate(8 8)" />
+              <path
+                d="M62 30l94 70-40 8 26 46-24 14-26-46-30 28Z"
+                fill="#b02d7c"
+                transform="translate(8 8)"
+              />
               <path d="M62 30l94 70-40 8 26 46-24 14-26-46-30 28Z" fill="#f47fbf" />
               <path d="M62 30l94 70-40 8-24-14Z" fill="#ffd3ea" />
             </svg>
           </div>
           <div class="hero-mask">
-            <h1 class="hero-h1 font-abc-ginto-discord-nord text-display leading-display tracking-display font-bold uppercase text-white">Fast sites for&nbsp;the modern&nbsp;web</h1>
+            <h1 class="hero-h1 font-abc-ginto-discord-nord text-display leading-display tracking-display font-bold uppercase text-white">
+              Fast sites for&nbsp;the modern&nbsp;web
+            </h1>
           </div>
-          <p class="hero-p font-abc-ginto-discord text-body-xl leading-body-xl tracking-body-xl font-normal text-white">Rebirth Online builds fast, secure, static-first websites using a modern, production-grade web architecture. Websites in Bundaberg just got an&nbsp;upgrade.</p>
+          <p class="hero-p font-abc-ginto-discord text-body-xl leading-body-xl tracking-body-xl font-normal text-white">
+            Rebirth Online builds fast, secure, static-first websites using a modern,
+            production-grade web architecture. Websites in Bundaberg just got an&nbsp;upgrade.
+          </p>
         </div>
         <div class="hero-media">
           <div class="hero-stage" data-hero="stage">
@@ -66,8 +95,12 @@ const twinkles: [number, number, number, string][] = [
         </div>
       </div>
       <div class="hero-cta" data-hero="cta">
-        <Button variant="white" href="#stack" class="hero-btn hero-btn--white">Explore the Stack</Button>
-        <Button variant="blurple" href="#how-we-work" class="hero-btn hero-btn--blurple">How We Work</Button>
+        <Button variant="white" href="#stack" class="hero-btn hero-btn--white">
+          Explore the Stack
+        </Button>
+        <Button variant="blurple" href="#how-we-work" class="hero-btn hero-btn--blurple">
+          How We Work
+        </Button>
       </div>
     </div>
   </div>
@@ -80,111 +113,416 @@ const twinkles: [number, number, number, string][] = [
     padding: 128px 0 125px;
     isolation: isolate;
   }
-  .hero-sky { position: absolute; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; }
+  .hero-sky {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+  }
   .hero-glow {
-    position: absolute; inset: 0;
+    position: absolute;
+    inset: 0;
     background:
-      radial-gradient(120% 110% at 105% 65%, #2c36b6 0%, #2731a5 25%, rgba(26, 32, 129, 0.85) 50%, rgba(13, 16, 82, 0.4) 72%, rgba(13, 16, 82, 0) 92%),
+      radial-gradient(
+        120% 110% at 105% 65%,
+        #2c36b6 0%,
+        #2731a5 25%,
+        rgba(26, 32, 129, 0.85) 50%,
+        rgba(13, 16, 82, 0.4) 72%,
+        rgba(13, 16, 82, 0) 92%
+      ),
       linear-gradient(180deg, #000003 0%, #01011a 45%, #030330 78%, #070947 100%);
     /* dissolve into whatever canvas follows the hero (the reference's page-wide sky continues below) */
     -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 180px), transparent 100%);
     mask-image: linear-gradient(180deg, #000 calc(100% - 180px), transparent 100%);
   }
-  .hero-tw { position: absolute; display: block; background: var(--color-white); filter: blur(1px); }
-  .hero-tw--plus { clip-path: polygon(40% 0, 60% 0, 60% 40%, 100% 40%, 100% 60%, 60% 60%, 60% 100%, 40% 100%, 40% 60%, 0 60%, 0 40%, 40% 40%); filter: blur(0.6px); }
+  .hero-tw {
+    position: absolute;
+    display: block;
+    background: var(--color-white);
+    filter: blur(1px);
+  }
+  .hero-tw--plus {
+    clip-path: polygon(
+      40% 0,
+      60% 0,
+      60% 40%,
+      100% 40%,
+      100% 60%,
+      60% 60%,
+      60% 100%,
+      40% 100%,
+      40% 60%,
+      0 60%,
+      0 40%,
+      40% 40%
+    );
+    filter: blur(0.6px);
+  }
 
-  .hero-pad { position: relative; z-index: 1; padding: 0 var(--page-gutter); }
-  .hero-container { position: relative; width: 90%; max-width: 1080px; margin: 0 auto; }
-  .hero-cols { position: relative; display: flex; align-items: flex-start; gap: 34.6px; margin-bottom: 24px; }
-  .hero-text { position: relative; z-index: 3; flex: none; width: 100%; max-width: 336px; margin-top: 64px; }
-  .hero-mask { position: relative; padding-bottom: 6px; }
-  .hero-h1 { position: relative; z-index: 4; margin: 0 0 4px; font-size: 44px; letter-spacing: -0.44px; }
-  .hero-p { margin: 4px 0 0; padding-right: 16px; font-size: 18px; }
-  .hero-media { position: relative; flex: 1 1 0; min-width: 0; height: 420px; }
-  .hero-stage { position: absolute; left: -40px; top: 20px; width: calc(100% + 80px); }
+  .hero-pad {
+    position: relative;
+    z-index: 1;
+    padding: 0 var(--page-gutter);
+  }
+  .hero-container {
+    position: relative;
+    width: 90%;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .hero-cols {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 34.6px;
+    margin-bottom: 24px;
+  }
+  .hero-text {
+    position: relative;
+    z-index: 3;
+    flex: none;
+    width: 100%;
+    max-width: 336px;
+    margin-top: 64px;
+  }
+  .hero-mask {
+    position: relative;
+    padding-bottom: 6px;
+  }
+  .hero-h1 {
+    position: relative;
+    z-index: 4;
+    margin: 0 0 4px;
+    font-size: 44px;
+    letter-spacing: -0.44px;
+  }
+  .hero-p {
+    margin: 4px 0 0;
+    padding-right: 16px;
+    font-size: 18px;
+  }
+  .hero-media {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    height: 420px;
+  }
+  .hero-stage {
+    position: absolute;
+    left: -40px;
+    top: 20px;
+    width: calc(100% + 80px);
+  }
 
-  .hero-far { position: absolute; pointer-events: none; will-change: transform; }
-  .hero-far svg { display: block; width: 100%; height: 100%; }
-  .hero-far--a { z-index: 3; left: 256px; top: -144px; width: 160px; height: 160px; filter: blur(7px); opacity: 0.9; }
-  .hero-far--b { z-index: 0; left: calc(50% + 490px); top: 232px; width: 115px; height: 128px; filter: blur(6px); opacity: 0.8; }
+  .hero-far {
+    position: absolute;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .hero-far svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .hero-far--a {
+    z-index: 3;
+    left: 256px;
+    top: -144px;
+    width: 160px;
+    height: 160px;
+    filter: blur(7px);
+    opacity: 0.9;
+  }
+  .hero-far--b {
+    z-index: 0;
+    left: calc(50% + 490px);
+    top: 232px;
+    width: 115px;
+    height: 128px;
+    filter: blur(6px);
+    opacity: 0.8;
+  }
 
-  .hero-cta { position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0 var(--spacing-24); }
-  .hero-cta :global(.rb-btn) { margin-top: var(--spacing-24); height: 56px; font-size: 18px; line-height: 24px; isolation: isolate; overflow: hidden; }
-  .hero-cta :global(.rb-btn--white) { min-width: 232px; padding: 15px var(--spacing-24); transition: all 0.3s; }
-  .hero-cta :global(.rb-btn--blurple) { min-width: 299px; padding: 16.7px var(--spacing-24); transition: none; }
+  .hero-cta {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0 var(--spacing-24);
+  }
+  .hero-cta :global(.rb-btn) {
+    margin-top: var(--spacing-24);
+    height: 56px;
+    font-size: 18px;
+    line-height: 24px;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .hero-cta :global(.rb-btn--white) {
+    min-width: 232px;
+    padding: 15px var(--spacing-24);
+    transition: all 0.3s;
+  }
+  .hero-cta :global(.rb-btn--blurple) {
+    min-width: 299px;
+    padding: 16.7px var(--spacing-24);
+    transition: none;
+  }
   /* blurple hover = dark gradient veil fading in over 0.3s (reference ::after) */
   .hero-cta :global(.rb-btn--blurple)::after {
-    content: ''; position: absolute; inset: 0; z-index: -1; opacity: 0; transition: opacity 0.3s;
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s;
     background: linear-gradient(transparent 0, rgb(31, 29, 93) 130%);
   }
   @media (hover: hover) {
     /* measured on the reference: fill → Fog + a 0 8px 15px rgba(0,0,0,.2) hover shadow (not in the style docs' resting sample) */
-    .hero-cta :global(.rb-btn--white:hover) { background-color: var(--color-fog); color: var(--color-not-quite-black); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); }
-    .hero-cta :global(.rb-btn--blurple:hover)::after { opacity: 1; }
+    .hero-cta :global(.rb-btn--white:hover) {
+      background-color: var(--color-fog);
+      color: var(--color-not-quite-black);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+    .hero-cta :global(.rb-btn--blurple:hover)::after {
+      opacity: 1;
+    }
   }
 
   /* ---------- ≥1280 ---------- */
   @media (min-width: 1280px) {
-    .hero { min-height: min(100vh, 900px); }
-    .hero-text { max-width: 448px; }
-    .hero-p { font-size: var(--text-body-xl); }
-    .hero-media { height: 480px; }
-    .hero-stage { left: -70.6px; top: 27.7px; width: 736px; }
+    .hero {
+      min-height: min(100vh, 900px);
+    }
+    .hero-text {
+      max-width: 448px;
+    }
+    .hero-p {
+      font-size: var(--text-body-xl);
+    }
+    .hero-media {
+      height: 480px;
+    }
+    .hero-stage {
+      left: -70.6px;
+      top: 27.7px;
+      width: 736px;
+    }
   }
   /* ---------- ≥1440 (the measured 1680 layout) ---------- */
   @media (min-width: 1440px) {
-    .hero { --hero-sy: 1; padding-top: 176px; min-height: 0; }
-    .hero-container { width: 100%; max-width: var(--page-max-width); }
-    .hero-cols { margin-bottom: var(--spacing-40); }
-    .hero-text { max-width: 491.2px; margin-top: var(--spacing-56); }
-    .hero-h1 { margin-bottom: var(--spacing-8); font-size: var(--text-display); letter-spacing: var(--tracking-display); }
-    .hero-p { margin-top: var(--spacing-8); padding-right: 0; }
-    .hero-media { height: 466px; }
-    .hero-stage { left: calc(-15.8px - 2vw); top: -14px; width: 832px; }
-    .hero-far--a { left: 396.8px; top: -160px; width: 192px; height: 192px; }
-    .hero-far--b { left: calc(50% + 586px); top: 320px; width: 144px; height: 160px; }
-    .hero-cta :global(.rb-btn) { height: 65px; font-size: var(--text-body-xl); line-height: 26px; }
-    .hero-cta :global(.rb-btn--white) { min-width: 262px; padding: 15px var(--spacing-24); }
-    .hero-cta :global(.rb-btn--blurple) { min-width: 320px; padding: 19.5px var(--spacing-24); }
+    .hero {
+      --hero-sy: 1;
+      padding-top: 176px;
+      min-height: 0;
+    }
+    .hero-container {
+      width: 100%;
+      max-width: var(--page-max-width);
+    }
+    .hero-cols {
+      margin-bottom: var(--spacing-40);
+    }
+    .hero-text {
+      max-width: 491.2px;
+      margin-top: var(--spacing-56);
+    }
+    .hero-h1 {
+      margin-bottom: var(--spacing-8);
+      font-size: var(--text-display);
+      letter-spacing: var(--tracking-display);
+    }
+    .hero-p {
+      margin-top: var(--spacing-8);
+      padding-right: 0;
+    }
+    .hero-media {
+      height: 466px;
+    }
+    .hero-stage {
+      left: calc(-15.8px - 2vw);
+      top: -14px;
+      width: 832px;
+    }
+    .hero-far--a {
+      left: 396.8px;
+      top: -160px;
+      width: 192px;
+      height: 192px;
+    }
+    .hero-far--b {
+      left: calc(50% + 586px);
+      top: 320px;
+      width: 144px;
+      height: 160px;
+    }
+    .hero-cta :global(.rb-btn) {
+      height: 65px;
+      font-size: var(--text-body-xl);
+      line-height: 26px;
+    }
+    .hero-cta :global(.rb-btn--white) {
+      min-width: 262px;
+      padding: 15px var(--spacing-24);
+    }
+    .hero-cta :global(.rb-btn--blurple) {
+      min-width: 320px;
+      padding: 19.5px var(--spacing-24);
+    }
   }
   /* ---------- ≤991: stacked, art first ---------- */
   @media (max-width: 991px) {
-    .hero { padding-bottom: var(--spacing-56); }
-    .hero-cols { flex-direction: column-reverse; align-items: stretch; gap: 0; margin-bottom: 32px; }
-    .hero-text { max-width: none; margin-top: var(--spacing-48); text-align: center; }
-    .hero-h1 { max-width: 400px; margin: 0 auto 14px; font-size: 35px; line-height: 30px; letter-spacing: -0.35px; }
-    .hero-p { margin-top: 0; text-align: center; line-height: 23.4px; }
-    .hero-media { flex: none; width: 100%; max-width: 688px; height: 417px; margin: 0 auto; display: flex; justify-content: center; align-items: flex-start; }
-    .hero-stage { position: relative; left: auto; top: 22px; width: min(600px, 100%); }
-    .hero-far--a { left: calc(50% + 71px); top: -577px; width: 128px; height: 128px; filter: blur(9px); }
-    .hero-far--b { left: calc(100% - 56px); top: 293px; width: 112px; height: 128px; }
-    .hero-cta { min-height: 162.8px; align-content: flex-start; }
+    .hero {
+      padding-bottom: var(--spacing-56);
+    }
+    .hero-cols {
+      flex-direction: column-reverse;
+      align-items: stretch;
+      gap: 0;
+      margin-bottom: 32px;
+    }
+    .hero-text {
+      max-width: none;
+      margin-top: var(--spacing-48);
+      text-align: center;
+    }
+    .hero-h1 {
+      max-width: 400px;
+      margin: 0 auto 14px;
+      font-size: 35px;
+      line-height: 30px;
+      letter-spacing: -0.35px;
+    }
+    .hero-p {
+      margin-top: 0;
+      text-align: center;
+      line-height: 23.4px;
+    }
+    .hero-media {
+      flex: none;
+      width: 100%;
+      max-width: 688px;
+      height: 417px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .hero-stage {
+      position: relative;
+      left: auto;
+      top: 22px;
+      width: min(600px, 100%);
+    }
+    .hero-far--a {
+      left: calc(50% + 71px);
+      top: -577px;
+      width: 128px;
+      height: 128px;
+      filter: blur(9px);
+    }
+    .hero-far--b {
+      left: calc(100% - 56px);
+      top: 293px;
+      width: 112px;
+      height: 128px;
+    }
+    .hero-cta {
+      min-height: 162.8px;
+      align-content: flex-start;
+    }
   }
   /* ---------- ≤767 ---------- */
   @media (max-width: 767px) {
-    .hero { padding: var(--spacing-64) 0 39px; }
-    .hero-pad { padding: 0 32px; }
-    .hero-cols { margin-bottom: var(--spacing-16); }
-    .hero-text { margin-top: 0; }
-    .hero-h1 { max-width: 325px; font-size: 27px; line-height: 24px; letter-spacing: -0.27px; }
-    .hero-p { font-size: var(--text-body); line-height: 20.8px; }
-    .hero-media { height: auto; max-width: 600px; padding: var(--spacing-40) 0 32px; aspect-ratio: auto; }
-    .hero-stage { top: 0; width: 100%; aspect-ratio: 482.4 / 389.8; display: flex; align-items: center; justify-content: center; }
-    .hero-stage :global(.hero-art) { flex: none; width: 108%; }
-    .hero-tw { display: none; }
-    .hero-far--a { left: calc(50% + 39px); top: auto; bottom: calc(100% + 386px); width: 84px; height: 84px; }
-    .hero-far--b { left: calc(100% - 41px); top: 206px; }
-    .hero-cta { flex-direction: column; flex-wrap: nowrap; min-height: 0; }
+    .hero {
+      padding: var(--spacing-64) 0 39px;
+    }
+    .hero-pad {
+      padding: 0 32px;
+    }
+    .hero-cols {
+      margin-bottom: var(--spacing-16);
+    }
+    .hero-text {
+      margin-top: 0;
+    }
+    .hero-h1 {
+      max-width: 325px;
+      font-size: 27px;
+      line-height: 24px;
+      letter-spacing: -0.27px;
+    }
+    .hero-p {
+      font-size: var(--text-body);
+      line-height: 20.8px;
+    }
+    .hero-media {
+      height: auto;
+      max-width: 600px;
+      padding: var(--spacing-40) 0 32px;
+      aspect-ratio: auto;
+    }
+    .hero-stage {
+      top: 0;
+      width: 100%;
+      aspect-ratio: 482.4 / 389.8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-stage :global(.hero-art) {
+      flex: none;
+      width: 108%;
+    }
+    .hero-tw {
+      display: none;
+    }
+    .hero-far--a {
+      left: calc(50% + 39px);
+      top: auto;
+      bottom: calc(100% + 386px);
+      width: 84px;
+      height: 84px;
+    }
+    .hero-far--b {
+      left: calc(100% - 41px);
+      top: 206px;
+    }
+    .hero-cta {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      min-height: 0;
+    }
   }
   /* ---------- ≤479 ---------- */
   @media (max-width: 479px) {
-    .hero { padding-bottom: 0; }
-    .hero-pad { padding: 0 var(--spacing-24); }
-    .hero-container { width: 100%; }
-    .hero-cols { padding: 0 2%; }
-    .hero-media { padding-top: var(--spacing-20); }
-    .hero-far--a { left: calc(50% + 4px); bottom: calc(100% + 276px); }
-    .hero-far--b { left: calc(100% - 54px); top: 165px; }
+    .hero {
+      padding-bottom: 0;
+    }
+    .hero-pad {
+      padding: 0 var(--spacing-24);
+    }
+    .hero-container {
+      width: 100%;
+    }
+    .hero-cols {
+      padding: 0 2%;
+    }
+    .hero-media {
+      padding-top: var(--spacing-20);
+    }
+    .hero-far--a {
+      left: calc(50% + 4px);
+      bottom: calc(100% + 276px);
+    }
+    .hero-far--b {
+      left: calc(100% - 54px);
+      top: 165px;
+    }
   }
 </style>
 
@@ -227,7 +565,11 @@ const twinkles: [number, number, number, string][] = [
       // a-631: each group starts every 5s; group 1 has a 1s delay
       const far = gsap.timeline({ repeat: -1, paused: true, defaults: { ease: 'none' } });
       far
-        .set(q('[data-hero="far-a"], [data-hero="far-b"]'), { x: 0, y: 0, rotation: 0, scale: 1 }, 0)
+        .set(
+          q('[data-hero="far-a"], [data-hero="far-b"]'),
+          { x: 0, y: 0, rotation: 0, scale: 1 },
+          0,
+        )
         .to(q('[data-hero="far-a"]'), { x: -5, y: -5, rotation: 5, scale: 1.03, duration: 4 }, 1)
         .to(q('[data-hero="far-a"]'), { x: -20, y: 10, rotation: 12, scale: 1.1, duration: 5 }, 5)
         .to(q('[data-hero="far-a"]'), { x: 0, y: 15, rotation: 23, scale: 1.03, duration: 5 }, 10)
@@ -253,7 +595,11 @@ const twinkles: [number, number, number, string][] = [
       q('[data-hero="twinkle"]').forEach((el) => {
         const d = patterns[(el as HTMLElement).dataset.pattern || 'a'];
         gsap.set(el, { opacity: 0 });
-        const tl = gsap.timeline({ repeat: -1, paused: true, defaults: { duration: 0.5, ease: easeIn } });
+        const tl = gsap.timeline({
+          repeat: -1,
+          paused: true,
+          defaults: { duration: 0.5, ease: easeIn },
+        });
         tl.to(el, { opacity: 1, delay: d[0] })
           .to(el, { opacity: 0, delay: d[1] })
           .to(el, { opacity: 1, delay: d[2] })
@@ -278,7 +624,11 @@ const twinkles: [number, number, number, string][] = [
       // a-465
       gsap.set(bobEl, { y: -10 });
       gsap.set(shadow, { scaleX: 1.05, transformOrigin: '50% 50%', filter: 'blur(0.5px)' });
-      const bob = gsap.timeline({ repeat: -1, paused: true, defaults: { duration: 2, ease: inOutSine } });
+      const bob = gsap.timeline({
+        repeat: -1,
+        paused: true,
+        defaults: { duration: 2, ease: inOutSine },
+      });
       bob
         .to(bobEl, { y: 0 }, 0)
         .to(shadow, { scaleX: 0.5, filter: 'blur(0px)' }, 0)
@@ -287,7 +637,11 @@ const twinkles: [number, number, number, string][] = [
 
       // a-466
       gsap.set(wobble, { transformOrigin: '50% 50%', skewY: 0, scale: 1, rotation: 0 });
-      const wob = gsap.timeline({ repeat: -1, paused: true, defaults: { duration: 2, ease: 'none' } });
+      const wob = gsap.timeline({
+        repeat: -1,
+        paused: true,
+        defaults: { duration: 2, ease: 'none' },
+      });
       wob
         .to(wobble, { skewY: 10, scale: 1.1 }, 0)
         .to(wobble, { rotation: 10, ease: outQuart }, 0)

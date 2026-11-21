@@ -8,54 +8,111 @@ type Item =
   | { t: 'bubble'; side: 'l' | 'r'; text: string }
   | { t: 'btn'; label: string }
   | { t: 'lines'; w: number[] };
-interface Props { variant: 'brief' | 'build' | 'launch' | 'chat' | 'maintain' | 'content' | 'leads'; size?: 'card' | 'pane' }
+interface Props {
+  variant: 'brief' | 'build' | 'launch' | 'chat' | 'maintain' | 'content' | 'leads';
+  size?: 'card' | 'pane';
+}
 const { variant, size = 'card' } = Astro.props;
 const scenes: Record<string, { title: string; items: Item[] }> = {
-  brief: { title: 'Project brief', items: [
-    { t: 'row', label: 'Clear goals', chip: 'Done', tone: 'green' },
-    { t: 'row', label: 'Branding & assets', chip: 'Done', tone: 'green' },
-    { t: 'row', label: 'Sites you love', chip: 'Added', tone: 'blue' },
-    { t: 'btn', label: 'Send brief' } ] },
-  build: { title: 'Prototype', items: [
-    { t: 'bar', label: 'Build 65% complete', pct: 65 },
-    { t: 'lines', w: [78, 52, 64] },
-    { t: 'row', label: 'Preview deploy', chip: 'Ready', tone: 'pink' } ] },
-  launch: { title: 'yoursite.com.au', items: [
-    { t: 'lines', w: [86, 58] },
-    { t: 'row', label: 'Edge network', chip: 'Live', tone: 'green' },
-    { t: 'row', label: 'Backups', chip: 'On', tone: 'blue' },
-    { t: 'btn', label: 'Site launched' } ] },
-  chat: { title: 'Ask Reb', items: [
-    { t: 'bubble', side: 'r', text: 'Do you service my suburb?' },
-    { t: 'bubble', side: 'l', text: 'Yes — here are our areas and pricing.' },
-    { t: 'bubble', side: 'r', text: 'Can I book for Friday?' },
-    { t: 'bubble', side: 'l', text: 'Done. I have sent the details through.' } ] },
-  maintain: { title: 'Site health', items: [
-    { t: 'row', label: 'Security patching', chip: 'Applied', tone: 'green' },
-    { t: 'row', label: 'Uptime monitor', chip: 'Watching', tone: 'blue' },
-    { t: 'row', label: 'Backups', chip: 'Complete', tone: 'green' },
-    { t: 'bar', label: 'Dependencies current', pct: 100 } ] },
-  content: { title: 'Content schedule', items: [
-    { t: 'row', label: 'Blog post drafted', chip: 'Mon', tone: 'blue' },
-    { t: 'row', label: 'Published to site', chip: 'Wed', tone: 'green' },
-    { t: 'row', label: 'Pushed to socials', chip: 'Fri', tone: 'pink' },
-    { t: 'lines', w: [82, 60] } ] },
-  leads: { title: 'Enquiries', items: [
-    { t: 'row', label: 'Chat enquiry', chip: 'Ready to buy', tone: 'green' },
-    { t: 'row', label: 'Contact form', chip: 'Browsing', tone: 'blue' },
-    { t: 'row', label: 'Call-back request', chip: 'Priority', tone: 'pink' },
-    { t: 'btn', label: 'Reply drafted' } ] },
+  brief: {
+    title: 'Project brief',
+    items: [
+      { t: 'row', label: 'Clear goals', chip: 'Done', tone: 'green' },
+      { t: 'row', label: 'Branding & assets', chip: 'Done', tone: 'green' },
+      { t: 'row', label: 'Sites you love', chip: 'Added', tone: 'blue' },
+      { t: 'btn', label: 'Send brief' },
+    ],
+  },
+  build: {
+    title: 'Prototype',
+    items: [
+      { t: 'bar', label: 'Build 65% complete', pct: 65 },
+      { t: 'lines', w: [78, 52, 64] },
+      { t: 'row', label: 'Preview deploy', chip: 'Ready', tone: 'pink' },
+    ],
+  },
+  launch: {
+    title: 'yoursite.com.au',
+    items: [
+      { t: 'lines', w: [86, 58] },
+      { t: 'row', label: 'Edge network', chip: 'Live', tone: 'green' },
+      { t: 'row', label: 'Backups', chip: 'On', tone: 'blue' },
+      { t: 'btn', label: 'Site launched' },
+    ],
+  },
+  chat: {
+    title: 'Ask Reb',
+    items: [
+      { t: 'bubble', side: 'r', text: 'Do you service my suburb?' },
+      { t: 'bubble', side: 'l', text: 'Yes — here are our areas and pricing.' },
+      { t: 'bubble', side: 'r', text: 'Can I book for Friday?' },
+      { t: 'bubble', side: 'l', text: 'Done. I have sent the details through.' },
+    ],
+  },
+  maintain: {
+    title: 'Site health',
+    items: [
+      { t: 'row', label: 'Security patching', chip: 'Applied', tone: 'green' },
+      { t: 'row', label: 'Uptime monitor', chip: 'Watching', tone: 'blue' },
+      { t: 'row', label: 'Backups', chip: 'Complete', tone: 'green' },
+      { t: 'bar', label: 'Dependencies current', pct: 100 },
+    ],
+  },
+  content: {
+    title: 'Content schedule',
+    items: [
+      { t: 'row', label: 'Blog post drafted', chip: 'Mon', tone: 'blue' },
+      { t: 'row', label: 'Published to site', chip: 'Wed', tone: 'green' },
+      { t: 'row', label: 'Pushed to socials', chip: 'Fri', tone: 'pink' },
+      { t: 'lines', w: [82, 60] },
+    ],
+  },
+  leads: {
+    title: 'Enquiries',
+    items: [
+      { t: 'row', label: 'Chat enquiry', chip: 'Ready to buy', tone: 'green' },
+      { t: 'row', label: 'Contact form', chip: 'Browsing', tone: 'blue' },
+      { t: 'row', label: 'Call-back request', chip: 'Priority', tone: 'pink' },
+      { t: 'btn', label: 'Reply drafted' },
+    ],
+  },
 };
 const scene = scenes[variant];
 ---
+
 <div class:list={['q-mock', `q-mock--${size}`]} data-mock={variant} aria-hidden="true">
   <div class="q-mock__win">
-    <div class="q-mock__bar"><i></i><i></i><i></i><span>{scene.title}</span></div>
+    <div class="q-mock__bar">
+      <i></i>
+      <i></i>
+      <i></i>
+      <span>{scene.title}</span>
+    </div>
     <div class="q-mock__body">
       {scene.items.map((it) => (
-        <div class:list={['q-mock__item', `q-mock__item--${it.t}`, it.t === 'bubble' && `is-${it.side}`]} data-step>
-          {it.t === 'row' && (<><b data-check></b><span>{it.label}</span>{it.chip && <em class={`is-${it.tone}`}>{it.chip}</em>}</>)}
-          {it.t === 'bar' && (<><span>{it.label}</span><div class="q-mock__track"><div data-fill style={`width:${it.pct}%`}></div></div></>)}
+        <div
+          class:list={[
+            'q-mock__item',
+            `q-mock__item--${it.t}`,
+            it.t === 'bubble' && `is-${it.side}`,
+          ]}
+          data-step
+        >
+          {it.t === 'row' && (
+            <>
+              <b data-check></b>
+              <span>{it.label}</span>
+              {it.chip && <em class={`is-${it.tone}`}>{it.chip}</em>}
+            </>
+          )}
+          {it.t === 'bar' && (
+            <>
+              <span>{it.label}</span>
+              <div class="q-mock__track">
+                <div data-fill style={`width:${it.pct}%`}></div>
+              </div>
+            </>
+          )}
           {it.t === 'bubble' && <span>{it.text}</span>}
           {it.t === 'btn' && <span data-press>{it.label}</span>}
           {it.t === 'lines' && it.w.map((w) => <u style={`width:${w}%`}></u>)}
@@ -66,43 +123,190 @@ const scene = scenes[variant];
 </div>
 
 <style>
-  .q-mock { container-type: inline-size; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; font-family: var(--font-abc-ginto-discord); }
-  .q-mock--card { background: radial-gradient(120% 90% at 50% 0%, #2b2f8f 0%, #14164f 55%, #0c0d33 100%); }
-  .q-mock--pane { background: linear-gradient(180deg, #070820 0%, #14164f 55%, #25249a 100%); }
-  .q-mock__win { width: 74%; max-width: 380px; border-radius: 14px; background: #1b1d4f; overflow: hidden; }
-  .q-mock--pane .q-mock__win { width: 56%; }
-  .q-mock__bar { display: flex; align-items: center; gap: 5px; padding: 10px 12px; background: #24276a; color: var(--color-white-70); font-size: 11px; line-height: 14px; }
-  .q-mock__bar i { width: 7px; height: 7px; border-radius: 50%; background: #ff7ad0; }
-  .q-mock__bar i:nth-child(2) { background: var(--color-yellow); }
-  .q-mock__bar i:nth-child(3) { background: var(--color-spring-green); }
-  .q-mock__bar span { margin-left: 6px; }
-  .q-mock__body { display: flex; flex-direction: column; gap: 8px; padding: 12px; min-height: 172px; }
-  .q-mock__item { color: var(--color-white); font-size: 12px; line-height: 16px; }
-  .q-mock__item--row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; background: var(--color-white-10); }
-  .q-mock__item--row b { width: 12px; height: 12px; border-radius: 4px; background: var(--color-blurple); flex: none; }
-  .q-mock__item--row span { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .q-mock__item em { font-style: normal; font-size: 10px; line-height: 14px; padding: 2px 7px; border-radius: 6px; color: var(--color-black); white-space: nowrap; }
-  .q-mock__item em.is-green { background: var(--color-spring-green); }
-  .q-mock__item em.is-pink { background: #ff8fd8; }
-  .q-mock__item em.is-blue { background: #aab1ff; }
-  .q-mock__item--bar { display: flex; flex-direction: column; gap: 6px; padding: 8px 10px; border-radius: 8px; background: var(--color-white-10); }
-  .q-mock__track { height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.14); overflow: hidden; }
-  .q-mock__track div { height: 100%; border-radius: 3px; background: var(--color-spring-green); }
-  .q-mock__item--bubble { display: flex; }
-  .q-mock__item--bubble span { max-width: 82%; padding: 7px 10px; border-radius: 10px 10px 10px 3px; background: var(--color-white-10); }
-  .q-mock__item--bubble.is-r { justify-content: flex-end; }
-  .q-mock__item--bubble.is-r span { border-radius: 10px 10px 3px 10px; background: var(--color-blurple); }
-  .q-mock__item--btn span { display: block; padding: 8px 10px; border-radius: 8px; background: var(--color-blurple); text-align: center; font-weight: var(--font-weight-medium); }
-  .q-mock__item--lines { display: flex; flex-direction: column; gap: 6px; padding: 4px 0; }
-  .q-mock__item--lines u { height: 7px; border-radius: 4px; background: rgba(255, 255, 255, 0.16); text-decoration: none; }
+  .q-mock {
+    container-type: inline-size;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    font-family: var(--font-abc-ginto-discord);
+  }
+  .q-mock--card {
+    background: radial-gradient(120% 90% at 50% 0%, #2b2f8f 0%, #14164f 55%, #0c0d33 100%);
+  }
+  .q-mock--pane {
+    background: linear-gradient(180deg, #070820 0%, #14164f 55%, #25249a 100%);
+  }
+  .q-mock__win {
+    width: 74%;
+    max-width: 380px;
+    border-radius: 14px;
+    background: #1b1d4f;
+    overflow: hidden;
+  }
+  .q-mock--pane .q-mock__win {
+    width: 56%;
+  }
+  .q-mock__bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 10px 12px;
+    background: #24276a;
+    color: var(--color-white-70);
+    font-size: 11px;
+    line-height: 14px;
+  }
+  .q-mock__bar i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ff7ad0;
+  }
+  .q-mock__bar i:nth-child(2) {
+    background: var(--color-yellow);
+  }
+  .q-mock__bar i:nth-child(3) {
+    background: var(--color-spring-green);
+  }
+  .q-mock__bar span {
+    margin-left: 6px;
+  }
+  .q-mock__body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    min-height: 172px;
+  }
+  .q-mock__item {
+    color: var(--color-white);
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .q-mock__item--row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: var(--color-white-10);
+  }
+  .q-mock__item--row b {
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+    background: var(--color-blurple);
+    flex: none;
+  }
+  .q-mock__item--row span {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .q-mock__item em {
+    font-style: normal;
+    font-size: 10px;
+    line-height: 14px;
+    padding: 2px 7px;
+    border-radius: 6px;
+    color: var(--color-black);
+    white-space: nowrap;
+  }
+  .q-mock__item em.is-green {
+    background: var(--color-spring-green);
+  }
+  .q-mock__item em.is-pink {
+    background: #ff8fd8;
+  }
+  .q-mock__item em.is-blue {
+    background: #aab1ff;
+  }
+  .q-mock__item--bar {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: var(--color-white-10);
+  }
+  .q-mock__track {
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.14);
+    overflow: hidden;
+  }
+  .q-mock__track div {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--color-spring-green);
+  }
+  .q-mock__item--bubble {
+    display: flex;
+  }
+  .q-mock__item--bubble span {
+    max-width: 82%;
+    padding: 7px 10px;
+    border-radius: 10px 10px 10px 3px;
+    background: var(--color-white-10);
+  }
+  .q-mock__item--bubble.is-r {
+    justify-content: flex-end;
+  }
+  .q-mock__item--bubble.is-r span {
+    border-radius: 10px 10px 3px 10px;
+    background: var(--color-blurple);
+  }
+  .q-mock__item--btn span {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: var(--color-blurple);
+    text-align: center;
+    font-weight: var(--font-weight-medium);
+  }
+  .q-mock__item--lines {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 4px 0;
+  }
+  .q-mock__item--lines u {
+    height: 7px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.16);
+    text-decoration: none;
+  }
   @container (max-width: 430px) {
-    .q-mock--pane .q-mock__win { width: 76%; }
-    .q-mock--pane .q-mock__bar { padding: 6px 10px; font-size: 10px; }
-    .q-mock--pane .q-mock__body { min-height: 0; gap: 5px; padding: 8px; }
-    .q-mock--pane .q-mock__item { font-size: 10px; line-height: 13px; }
-    .q-mock--pane .q-mock__item--row, .q-mock--pane .q-mock__item--bar { padding: 5px 8px; }
-    .q-mock--pane .q-mock__item--bubble span { padding: 4px 8px; }
-    .q-mock--pane .q-mock__item--btn span { padding: 5px 8px; }
+    .q-mock--pane .q-mock__win {
+      width: 76%;
+    }
+    .q-mock--pane .q-mock__bar {
+      padding: 6px 10px;
+      font-size: 10px;
+    }
+    .q-mock--pane .q-mock__body {
+      min-height: 0;
+      gap: 5px;
+      padding: 8px;
+    }
+    .q-mock--pane .q-mock__item {
+      font-size: 10px;
+      line-height: 13px;
+    }
+    .q-mock--pane .q-mock__item--row,
+    .q-mock--pane .q-mock__item--bar {
+      padding: 5px 8px;
+    }
+    .q-mock--pane .q-mock__item--bubble span {
+      padding: 4px 8px;
+    }
+    .q-mock--pane .q-mock__item--btn span {
+      padding: 5px 8px;
+    }
   }
 </style>
 
@@ -118,14 +322,28 @@ const scene = scenes[variant];
       const fills = gsap.utils.toArray<HTMLElement>('[data-fill]', root);
       const press = gsap.utils.toArray<HTMLElement>('[data-press]', root);
       const tl = gsap.timeline({ repeat: -1, paused: true, defaults: { ease: 'power2.out' } });
-      tl.set(steps, { autoAlpha: 0, y: 10 }).set(fills, { scaleX: 0, transformOrigin: '0 50%' })
+      tl.set(steps, { autoAlpha: 0, y: 10 })
+        .set(fills, { scaleX: 0, transformOrigin: '0 50%' })
         .to(steps, { autoAlpha: 1, y: 0, duration: 0.4, stagger: 0.55 }, 0.3)
         .to(fills, { scaleX: 1, duration: 1.1, ease: 'power1.inOut' }, 0.6)
-        .to(press, { scale: 0.94, duration: 0.12, yoyo: true, repeat: 1, ease: 'power1.inOut' }, '>-0.1')
-        .to(steps, { autoAlpha: 0, y: -6, duration: 0.35, stagger: 0.05, ease: 'power1.in' }, '+=1.8')
+        .to(
+          press,
+          { scale: 0.94, duration: 0.12, yoyo: true, repeat: 1, ease: 'power1.inOut' },
+          '>-0.1',
+        )
+        .to(
+          steps,
+          { autoAlpha: 0, y: -6, duration: 0.35, stagger: 0.05, ease: 'power1.in' },
+          '+=1.8',
+        )
         .to({}, { duration: 0.25 });
       // run only while on screen and displayed (tab panes are display:none when inactive)
-      ScrollTrigger.create({ trigger: root, start: 'top bottom', end: 'bottom top', onToggle: (s) => (s.isActive ? tl.play() : tl.pause()) });
+      ScrollTrigger.create({
+        trigger: root,
+        start: 'top bottom',
+        end: 'bottom top',
+        onToggle: (s) => (s.isActive ? tl.play() : tl.pause()),
+      });
       return () => tl.kill();
     });
   });
