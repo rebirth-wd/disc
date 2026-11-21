@@ -513,229 +513,229 @@ const slides = [
 </style>
 
 <script>
-  import gsap from 'gsap';
   import { Draggable } from 'gsap/Draggable';
-  import { CustomEase } from 'gsap/CustomEase';
-  gsap.registerPlugin(Draggable, CustomEase);
-  const cssEase = CustomEase.create('launchCssEase', '0.25,0.1,0.25,1'); // CSS `ease` (Swiper's default wrapper timing)
+  import { gsap, ease, onPage, reducedMotion } from '@lib/motion';
+  gsap.registerPlugin(Draggable);
 
-  document
-    .querySelectorAll<HTMLElement>('[data-section="quests-stories"] [data-carousel]')
-    .forEach((root) => {
-      const view = root.querySelector<HTMLElement>('[data-view]')!;
-      const slides = [...root.querySelectorAll<HTMLElement>('[data-slide]')];
-      const dots = [...root.querySelectorAll<HTMLElement>('[data-bullet]')];
-      const N = slides.length;
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const touch = window.matchMedia('(hover: none)').matches;
-      const SPEED = reduce ? 0 : 0.8; // Swiper speed: 800
-      const DELAY = 9; // Swiper autoplay.delay: 9000
-      const state = { pos: 0 };
-      let active = 0;
-      let pitch = 454;
-      const wrapIdx = gsap.utils.wrap(0, N);
-      const wrapD = gsap.utils.wrap(-N / 2, N / 2);
+  onPage(() => {
+    document
+      .querySelectorAll<HTMLElement>('[data-section="quests-stories"] [data-carousel]')
+      .forEach((root) => {
+        const view = root.querySelector<HTMLElement>('[data-view]')!;
+        const slides = [...root.querySelectorAll<HTMLElement>('[data-slide]')];
+        const dots = [...root.querySelectorAll<HTMLElement>('[data-bullet]')];
+        const N = slides.length;
+        const reduce = reducedMotion();
+        const touch = window.matchMedia('(hover: none)').matches;
+        const SPEED = reduce ? 0 : 0.8; // Swiper speed: 800
+        const DELAY = 9; // Swiper autoplay.delay: 9000
+        const state = { pos: 0 };
+        let active = 0;
+        let pitch = 454;
+        const wrapIdx = gsap.utils.wrap(0, N);
+        const wrapD = gsap.utils.wrap(-N / 2, N / 2);
 
-      const measure = () => {
-        const cs = getComputedStyle(root);
-        // <568px slidesPerView 1.36 / spaceBetween -16
-        if (window.innerWidth < 568)
-          root.style.setProperty('--w', `${(root.clientWidth + 16 * 0.36) / 1.36}px`);
-        else root.style.removeProperty('--w');
-        pitch = slides[0].offsetWidth - parseFloat(cs.getPropertyValue('--overlap'));
-        render();
-      };
-      const render = () =>
-        slides.forEach((s, i) => gsap.set(s, { x: wrapD(i - state.pos) * pitch }));
+        const measure = () => {
+          const cs = getComputedStyle(root);
+          // <568px slidesPerView 1.36 / spaceBetween -16
+          if (window.innerWidth < 568)
+            root.style.setProperty('--w', `${(root.clientWidth + 16 * 0.36) / 1.36}px`);
+          else root.style.removeProperty('--w');
+          pitch = slides[0].offsetWidth - parseFloat(cs.getPropertyValue('--overlap'));
+          render();
+        };
+        const render = () =>
+          slides.forEach((s, i) => gsap.set(s, { x: wrapD(i - state.pos) * pitch }));
 
-      // per-slide state transitions : slide opacity .8s; inner 80% -> 100% .8s;
-      // tag wrapper / copy translate .4s; tag cross-fade & copy opacity .5s; "learn more" opacity .3s — all `ease`
-      const paint = (i: number, on: boolean, instant = false) => {
-        const s = slides[i];
-        const d = (v: number) => (instant || reduce ? 0 : v);
-        const cs = getComputedStyle(root);
-        const inner = cs.getPropertyValue('--inner').trim() || '80%';
-        s.classList.toggle('is-active', on);
-        const o = { ease: cssEase, overwrite: 'auto' as const };
-        gsap.to(s, { opacity: on ? 1 : 0.2, duration: d(0.8), ...o });
-        gsap.to(s.querySelector('[data-inner]'), {
-          width: on ? '100%' : inner,
-          height: on ? '100%' : '80%',
-          duration: d(0.8),
-          ...o,
-        });
-        gsap.to(s.querySelector('[data-tagwr]'), { y: on ? 0 : 82, duration: d(0.4), ...o });
-        gsap.to(s.querySelector('[data-tag-idle]'), {
-          opacity: on ? 0 : 1,
-          duration: d(0.5),
-          ...o,
-        });
-        gsap.to(s.querySelector('[data-tag-active]'), {
-          opacity: on ? 1 : 0,
-          duration: d(0.5),
-          ...o,
-        });
-        gsap.to(s.querySelector('[data-copy]'), { y: on ? 0 : 60, duration: d(0.4), ...o });
-        gsap.to(s.querySelector('[data-copy]'), { opacity: on ? 1 : 0, duration: d(0.5), ...o });
-        gsap.to(s.querySelector('[data-more]'), { opacity: on ? 1 : 0, duration: d(0.3), ...o });
-        const link = s.querySelector<HTMLAnchorElement>('a')!;
-        link.tabIndex = on ? 0 : -1;
-        link.setAttribute('aria-hidden', on ? 'false' : 'true');
-      };
+        // per-slide state transitions : slide opacity .8s; inner 80% -> 100% .8s;
+        // tag wrapper / copy translate .4s; tag cross-fade & copy opacity .5s; "learn more" opacity .3s — all `ease`
+        const paint = (i: number, on: boolean, instant = false) => {
+          const s = slides[i];
+          const d = (v: number) => (instant || reduce ? 0 : v);
+          const cs = getComputedStyle(root);
+          const inner = cs.getPropertyValue('--inner').trim() || '80%';
+          s.classList.toggle('is-active', on);
+          const o = { ease: ease.css, overwrite: 'auto' as const };
+          gsap.to(s, { opacity: on ? 1 : 0.2, duration: d(0.8), ...o });
+          gsap.to(s.querySelector('[data-inner]'), {
+            width: on ? '100%' : inner,
+            height: on ? '100%' : '80%',
+            duration: d(0.8),
+            ...o,
+          });
+          gsap.to(s.querySelector('[data-tagwr]'), { y: on ? 0 : 82, duration: d(0.4), ...o });
+          gsap.to(s.querySelector('[data-tag-idle]'), {
+            opacity: on ? 0 : 1,
+            duration: d(0.5),
+            ...o,
+          });
+          gsap.to(s.querySelector('[data-tag-active]'), {
+            opacity: on ? 1 : 0,
+            duration: d(0.5),
+            ...o,
+          });
+          gsap.to(s.querySelector('[data-copy]'), { y: on ? 0 : 60, duration: d(0.4), ...o });
+          gsap.to(s.querySelector('[data-copy]'), { opacity: on ? 1 : 0, duration: d(0.5), ...o });
+          gsap.to(s.querySelector('[data-more]'), { opacity: on ? 1 : 0, duration: d(0.3), ...o });
+          const link = s.querySelector<HTMLAnchorElement>('a')!;
+          link.tabIndex = on ? 0 : -1;
+          link.setAttribute('aria-hidden', on ? 'false' : 'true');
+        };
 
-      // dynamic bullets: active 32px, +-1 8px, +-2 4px, rest hidden (no wrap, like Swiper's realIndex)
-      const paintDots = () =>
-        dots.forEach((dEl, i) => {
-          const k = Math.abs(i - active);
-          dEl.classList.toggle('is-active', k === 0);
-          dEl.classList.toggle('is-near', k === 1);
-          dEl.classList.toggle('is-far', k === 2);
-          if (k === 0) {
-            dEl.setAttribute('aria-current', 'true');
-            dEl.setAttribute('aria-label', `Current slide, slide ${i + 1}`);
-          } else {
-            dEl.removeAttribute('aria-current');
-            dEl.setAttribute('aria-label', `Go to slide ${i + 1}`);
+        // dynamic bullets: active 32px, +-1 8px, +-2 4px, rest hidden (no wrap, like Swiper's realIndex)
+        const paintDots = () =>
+          dots.forEach((dEl, i) => {
+            const k = Math.abs(i - active);
+            dEl.classList.toggle('is-active', k === 0);
+            dEl.classList.toggle('is-near', k === 1);
+            dEl.classList.toggle('is-far', k === 2);
+            if (k === 0) {
+              dEl.setAttribute('aria-current', 'true');
+              dEl.setAttribute('aria-label', `Current slide, slide ${i + 1}`);
+            } else {
+              dEl.removeAttribute('aria-current');
+              dEl.setAttribute('aria-label', `Go to slide ${i + 1}`);
+            }
+            gsap.to(dEl, {
+              width: k === 0 ? 32 : k === 1 ? 8 : 4,
+              duration: reduce ? 0 : 0.3,
+              ease: ease.css,
+              overwrite: true,
+            });
+          });
+
+        // autoplay + progress bar: width 0 -> 32px over 9s linear, pauses while hovered
+        let auto: gsap.core.Tween | null = null;
+        let autoplayOn = !reduce;
+        const startAuto = () => {
+          auto?.kill();
+          dots.forEach((dEl) => gsap.set(dEl.querySelector('[data-progress]'), { width: 0 }));
+          if (!autoplayOn) return;
+          auto = gsap.fromTo(
+            dots[active].querySelector('[data-progress]'),
+            { width: 0 },
+            { width: 32, duration: DELAY, ease: 'none', onComplete: () => go(active + 1) },
+          );
+          if (hovering) auto.pause();
+        };
+        let hovering = false;
+        root.addEventListener('pointerenter', (e) => {
+          if (e.pointerType === 'mouse') {
+            hovering = true;
+            auto?.pause();
           }
-          gsap.to(dEl, {
-            width: k === 0 ? 32 : k === 1 ? 8 : 4,
-            duration: reduce ? 0 : 0.3,
-            ease: cssEase,
-            overwrite: true,
+        });
+        root.addEventListener('pointerleave', (e) => {
+          if (e.pointerType === 'mouse') {
+            hovering = false;
+            auto?.resume();
+          }
+        });
+
+        let mover: gsap.core.Tween | null = null;
+        const setActive = (idx: number) => {
+          const next = wrapIdx(idx);
+          if (next === active) return;
+          paint(active, false);
+          active = next;
+          paint(active, true);
+          paintDots();
+        };
+        // move by the shortest way round to logical index `to` (may be outside 0..N-1)
+        const go = (to: number, dur = SPEED) => {
+          const target = state.pos + wrapD(to - state.pos);
+          setActive(Math.round(target));
+          mover?.kill();
+          mover = gsap.to(state, {
+            pos: target,
+            duration: dur,
+            ease: ease.css,
+            onUpdate: render,
+            onComplete: () => {
+              state.pos = wrapIdx(state.pos);
+              render();
+            },
+          });
+          startAuto();
+        };
+
+        root.querySelector('[data-next]')!.addEventListener('click', () => go(active + 1));
+        root.querySelector('[data-prev]')!.addEventListener('click', () => go(active - 1));
+        dots.forEach((dEl, i) => {
+          dEl.addEventListener('click', () => go(i));
+          dEl.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              go(i);
+            }
           });
         });
 
-      // autoplay + progress bar: width 0 -> 32px over 9s linear, pauses while hovered
-      let auto: gsap.core.Tween | null = null;
-      let autoplayOn = !reduce;
-      const startAuto = () => {
-        auto?.kill();
-        dots.forEach((dEl) => gsap.set(dEl.querySelector('[data-progress]'), { width: 0 }));
-        if (!autoplayOn) return;
-        auto = gsap.fromTo(
-          dots[active].querySelector('[data-progress]'),
-          { width: 0 },
-          { width: 32, duration: DELAY, ease: 'none', onComplete: () => go(active + 1) },
-        );
-        if (hovering) auto.pause();
-      };
-      let hovering = false;
-      root.addEventListener('pointerenter', (e) => {
-        if (e.pointerType === 'mouse') {
-          hovering = true;
-          auto?.pause();
-        }
-      });
-      root.addEventListener('pointerleave', (e) => {
-        if (e.pointerType === 'mouse') {
-          hovering = false;
-          auto?.resume();
-        }
-      });
+        // keyboard: arrows while the carousel is in the viewport (Swiper keyboard: true)
+        let inView = false;
+        new IntersectionObserver(([en]) => {
+          inView = en.isIntersecting;
+        }).observe(root);
+        document.addEventListener('keydown', (e) => {
+          if (!inView || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+          const t = e.target as HTMLElement;
+          if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+          if (e.key === 'ArrowRight') go(active + 1);
+          if (e.key === 'ArrowLeft') go(active - 1);
+        });
 
-      let mover: gsap.core.Tween | null = null;
-      const setActive = (idx: number) => {
-        const next = wrapIdx(idx);
-        if (next === active) return;
-        paint(active, false);
-        active = next;
-        paint(active, true);
-        paintDots();
-      };
-      // move by the shortest way round to logical index `to` (may be outside 0..N-1)
-      const go = (to: number, dur = SPEED) => {
-        const target = state.pos + wrapD(to - state.pos);
-        setActive(Math.round(target));
-        mover?.kill();
-        mover = gsap.to(state, {
-          pos: target,
-          duration: dur,
-          ease: cssEase,
-          onUpdate: render,
-          onComplete: () => {
-            state.pos = wrapIdx(state.pos);
+        // drag (grabCursor) + slideToClickedSlide
+        const proxy = document.createElement('div');
+        let startPos = 0;
+        Draggable.create(proxy, {
+          type: 'x',
+          trigger: view,
+          dragClickables: true,
+          minimumMovement: 4,
+          onPress() {
+            startPos = state.pos;
+          },
+          onDragStart() {
+            mover?.kill();
+            auto?.pause();
+          },
+          onDrag() {
+            state.pos = startPos - (this.x - this.startX) / pitch;
             render();
           },
+          onDragEnd() {
+            const moved = state.pos - startPos;
+            const target =
+              Math.abs(moved) > 0.12 && Math.abs(moved) < 0.5
+                ? startPos + Math.sign(moved)
+                : Math.round(state.pos);
+            if (touch) autoplayOn = false; // autoplay.disableOnInteraction on phone/tablet
+            go(Math.round(target));
+            gsap.set(proxy, { x: 0 });
+          },
+          onClick(e: PointerEvent) {
+            const slide = (e.target as HTMLElement).closest<HTMLElement>('[data-slide]');
+            if (!slide) return;
+            const i = slides.indexOf(slide);
+            if (i !== active) go(i);
+            else {
+              const href = slide.querySelector('a')!.getAttribute('href');
+              if (href && href !== '#') window.location.href = href;
+            }
+          },
         });
+        // native link clicks are handled above (prevents jumps on href="#")
+        root.querySelectorAll('a').forEach((a) =>
+          a.addEventListener('click', (e) => {
+            if (a.getAttribute('href') === '#') e.preventDefault();
+          }),
+        );
+
+        slides.forEach((_, i) => paint(i, i === 0, true));
+        paintDots();
+        measure();
+        window.addEventListener('resize', measure);
         startAuto();
-      };
-
-      root.querySelector('[data-next]')!.addEventListener('click', () => go(active + 1));
-      root.querySelector('[data-prev]')!.addEventListener('click', () => go(active - 1));
-      dots.forEach((dEl, i) => {
-        dEl.addEventListener('click', () => go(i));
-        dEl.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            go(i);
-          }
-        });
       });
-
-      // keyboard: arrows while the carousel is in the viewport (Swiper keyboard: true)
-      let inView = false;
-      new IntersectionObserver(([en]) => {
-        inView = en.isIntersecting;
-      }).observe(root);
-      document.addEventListener('keydown', (e) => {
-        if (!inView || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
-        const t = e.target as HTMLElement;
-        if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
-        if (e.key === 'ArrowRight') go(active + 1);
-        if (e.key === 'ArrowLeft') go(active - 1);
-      });
-
-      // drag (grabCursor) + slideToClickedSlide
-      const proxy = document.createElement('div');
-      let startPos = 0;
-      Draggable.create(proxy, {
-        type: 'x',
-        trigger: view,
-        dragClickables: true,
-        minimumMovement: 4,
-        onPress() {
-          startPos = state.pos;
-        },
-        onDragStart() {
-          mover?.kill();
-          auto?.pause();
-        },
-        onDrag() {
-          state.pos = startPos - (this.x - this.startX) / pitch;
-          render();
-        },
-        onDragEnd() {
-          const moved = state.pos - startPos;
-          const target =
-            Math.abs(moved) > 0.12 && Math.abs(moved) < 0.5
-              ? startPos + Math.sign(moved)
-              : Math.round(state.pos);
-          if (touch) autoplayOn = false; // autoplay.disableOnInteraction on phone/tablet
-          go(Math.round(target));
-          gsap.set(proxy, { x: 0 });
-        },
-        onClick(e: PointerEvent) {
-          const slide = (e.target as HTMLElement).closest<HTMLElement>('[data-slide]');
-          if (!slide) return;
-          const i = slides.indexOf(slide);
-          if (i !== active) go(i);
-          else {
-            const href = slide.querySelector('a')!.getAttribute('href');
-            if (href && href !== '#') window.location.href = href;
-          }
-        },
-      });
-      // native link clicks are handled above (prevents jumps on href="#")
-      root.querySelectorAll('a').forEach((a) =>
-        a.addEventListener('click', (e) => {
-          if (a.getAttribute('href') === '#') e.preventDefault();
-        }),
-      );
-
-      slides.forEach((_, i) => paint(i, i === 0, true));
-      paintDots();
-      measure();
-      window.addEventListener('resize', measure);
-      startAuto();
-    });
+  });
 </script>

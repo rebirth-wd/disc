@@ -152,25 +152,27 @@ import PlansObject from '@components/graphics/objects/PlansObject.astro';
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
+  import { gsap, motion, onPage, MQ } from '@lib/motion';
+
   // progress of the section (start offset 75%), 0 -> 100%: rocket y 0 -> 150, calendar y 0 -> -150
-  const root = document.querySelector<HTMLElement>('[data-section="nitro-cta"]');
-  if (root) {
-    gsap.matchMedia().add('(prefers-reduced-motion: no-preference) and (min-width: 768px)', () => {
-      gsap
-        .timeline({
-          defaults: { ease: 'none', duration: 1 },
-          scrollTrigger: {
-            trigger: root,
-            start: () => `top+=${root.offsetHeight * 0.75} bottom`,
-            end: 'bottom top',
-            scrub: 0.6,
-          },
-        })
-        .to(root.querySelector('[data-par="flag"]'), { y: 150 }, 0)
-        .to(root.querySelector('[data-par="box"]'), { y: -150 }, 0);
-    });
-  }
+  onPage(() => {
+    motion(
+      document.querySelector<HTMLElement>('[data-section="nitro-cta"]'),
+      (root) => {
+        gsap
+          .timeline({
+            defaults: { ease: 'none', duration: 1 },
+            scrollTrigger: {
+              trigger: root,
+              start: () => `top+=${root.offsetHeight * 0.75} bottom`,
+              end: 'bottom top',
+              scrub: 0.6,
+            },
+          })
+          .to(root.querySelector('[data-par="flag"]'), { y: 150 }, 0)
+          .to(root.querySelector('[data-par="box"]'), { y: -150 }, 0);
+      },
+      MQ.md,
+    );
+  });
 </script>

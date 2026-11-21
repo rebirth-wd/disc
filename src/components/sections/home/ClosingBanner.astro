@@ -195,208 +195,215 @@ const stars = [
 </style>
 
 <script>
-  import gsap from 'gsap';
+  import { gsap, motion, onPage, reducedMotion } from '@lib/motion';
 
-  document.querySelectorAll<HTMLElement>('[data-section="home-closing"]').forEach((root) => {
-    const q = (s: string) => Array.from(root.querySelectorAll<SVGElement | HTMLElement>(s));
-    const mm = gsap.matchMedia();
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-section="home-closing"]').forEach((root) => {
+      const q = (s: string) => Array.from(root.querySelectorAll<SVGElement | HTMLElement>(s));
 
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
-      const loops: gsap.core.Animation[] = [];
+      motion(root, () => {
+        const loops: gsap.core.Animation[] = [];
 
-      // — sway of the sprout. Period 6.5s;
-      //   (rest → dip → plateau → peak → 3D tilt-back → peak). Easing ≈ back.inOut.
-      const tuft = q('.cast__tuft');
-      if (tuft.length) {
-        // SVG transforms are 2D: the rotateX(30deg) tilt-back is rendered as scaleY(cos 30°).
-        const peak = { rotation: 8, skewY: 7, scaleX: 1.05, scaleY: 1.05 };
-        loops.push(
-          gsap
-            .timeline({ repeat: -1, defaults: { ease: 'sine.inOut' } })
-            .set(tuft, peak)
-            .to(tuft, { rotation: 3, skewY: 2, scaleX: 1, scaleY: 1, duration: 1.5 })
-            .to(tuft, { rotation: 5, skewY: 3, scaleX: 1.01, scaleY: 1.01, duration: 0.75 })
-            .to(tuft, { ...peak, duration: 1.0 })
-            .to(tuft, {
-              rotation: -1,
-              skewY: 0,
-              scaleX: 1,
-              scaleY: 0.87,
-              duration: 1.25,
-              ease: 'back.inOut(1.4)',
-            })
-            .to(tuft, { ...peak, duration: 2.0, ease: 'back.inOut(1.4)' }),
-        );
-      }
+        // — sway of the sprout. Period 6.5s;
+        //   (rest → dip → plateau → peak → 3D tilt-back → peak). Easing ≈ back.inOut.
+        const tuft = q('.cast__tuft');
+        if (tuft.length) {
+          // SVG transforms are 2D: the rotateX(30deg) tilt-back is rendered as scaleY(cos 30°).
+          const peak = { rotation: 8, skewY: 7, scaleX: 1.05, scaleY: 1.05 };
+          loops.push(
+            gsap
+              .timeline({ repeat: -1, defaults: { ease: 'sine.inOut' } })
+              .set(tuft, peak)
+              .to(tuft, { rotation: 3, skewY: 2, scaleX: 1, scaleY: 1, duration: 1.5 })
+              .to(tuft, { rotation: 5, skewY: 3, scaleX: 1.01, scaleY: 1.01, duration: 0.75 })
+              .to(tuft, { ...peak, duration: 1.0 })
+              .to(tuft, {
+                rotation: -1,
+                skewY: 0,
+                scaleX: 1,
+                scaleY: 0.87,
+                duration: 1.25,
+                ease: 'back.inOut(1.4)',
+              })
+              .to(tuft, { ...peak, duration: 2.0, ease: 'back.inOut(1.4)' }),
+          );
+        }
 
-      // — star twinkles: opacity 0 ↔ 1, 500ms easeIn, waits per action list (ms)
-      const waits: Record<string, number[]> = {
-        a: [1, 2, 1, 2],
-        b: [2, 2, 1, 2],
-        c: [1, 1, 1, 2],
-      };
-      q('.closing-banner__star[data-tw]').forEach((el) => {
-        const w = waits[(el as HTMLElement).dataset.tw || 'a'];
-        const tl = gsap.timeline({ repeat: -1 }).set(el, { opacity: 0 });
-        w.forEach((d, i) =>
-          tl.to(el, { opacity: i % 2 ? 0 : 1, duration: 0.5, ease: 'power1.in', delay: d }),
-        );
-        loops.push(tl);
-      });
-
-      // — idle life for the original cast (additions)
-      root.querySelectorAll('[data-char]').forEach((ch, i) => {
-        const eyes = ch.querySelectorAll('.cast__eye');
-        if (!eyes.length) return;
-        const tl = gsap.timeline({
-          repeat: -1,
-          delay: 0.6 + i * 0.47,
-          repeatDelay: 2.6 + (i % 4) * 0.8,
+        // — star twinkles: opacity 0 ↔ 1, 500ms easeIn, waits per action list (ms)
+        const waits: Record<string, number[]> = {
+          a: [1, 2, 1, 2],
+          b: [2, 2, 1, 2],
+          c: [1, 1, 1, 2],
+        };
+        q('.closing-banner__star[data-tw]').forEach((el) => {
+          const w = waits[(el as HTMLElement).dataset.tw || 'a'];
+          const tl = gsap.timeline({ repeat: -1 }).set(el, { opacity: 0 });
+          w.forEach((d, i) =>
+            tl.to(el, { opacity: i % 2 ? 0 : 1, duration: 0.5, ease: 'power1.in', delay: d }),
+          );
+          loops.push(tl);
         });
-        tl.to(eyes, { scaleY: 0.1, duration: 0.07, ease: 'power1.in' }).to(eyes, {
-          scaleY: 1,
-          duration: 0.11,
-          ease: 'power1.out',
-        });
-        if (i % 2)
-          tl.to(eyes, { scaleY: 0.1, duration: 0.07, delay: 0.12 }).to(eyes, {
+
+        // — idle life for the original cast (additions)
+        root.querySelectorAll('[data-char]').forEach((ch, i) => {
+          const eyes = ch.querySelectorAll('.cast__eye');
+          if (!eyes.length) return;
+          const tl = gsap.timeline({
+            repeat: -1,
+            delay: 0.6 + i * 0.47,
+            repeatDelay: 2.6 + (i % 4) * 0.8,
+          });
+          tl.to(eyes, { scaleY: 0.1, duration: 0.07, ease: 'power1.in' }).to(eyes, {
             scaleY: 1,
             duration: 0.11,
+            ease: 'power1.out',
           });
-        loops.push(tl);
-      });
-      loops.push(
-        gsap.to(q('.cast__orbit'), {
-          y: -10,
-          duration: 1.8,
-          ease: 'sine.inOut',
-          yoyo: true,
-          repeat: -1,
-        }),
-      );
-      loops.push(
-        gsap.to(q('.cast__flame'), {
-          scaleY: 0.55,
-          duration: 0.18,
-          ease: 'none',
-          yoyo: true,
-          repeat: -1,
-        }),
-      );
-      loops.push(
-        gsap.to(q('.cast__ghost'), {
-          y: -7,
-          duration: 1.5,
-          ease: 'sine.inOut',
-          yoyo: true,
-          repeat: -1,
-        }),
-      );
-      loops.push(
-        gsap.to(q('.cast__crest'), {
-          rotation: 8,
-          duration: 2.2,
-          ease: 'sine.inOut',
-          yoyo: true,
-          repeat: -1,
-        }),
-      );
-      loops.push(
-        gsap.timeline({ repeat: -1, repeatDelay: 2.4 }).to(q('.cast__wave'), {
-          rotation: -12,
-          duration: 0.35,
-          ease: 'sine.inOut',
-          yoyo: true,
-          repeat: 5,
-        }),
-      );
-      loops.push(
-        gsap.to(q('.cast__led'), {
-          opacity: 0.35,
-          duration: 0.6,
-          ease: 'steps(1)',
-          yoyo: true,
-          repeat: -1,
-          stagger: { each: 0.23, from: 'random' },
-        }),
-      );
-
-      // run loops only while the banner is near the viewport
-      const io = new IntersectionObserver(
-        ([e]) => loops.forEach((l) => (e.isIntersecting ? l.play() : l.pause())),
-        { rootMargin: '300px 0px' },
-      );
-      io.observe(root);
-      return () => io.disconnect();
-    });
-
-    // — click easter egg (6 clicks step through reactions, the last one ends in a puff and
-    //   disables the element). Works without motion preference too, but then only swaps state.
-    const ghost = root.querySelector<SVGGElement>('.cast__ghost-wrap');
-    if (ghost) {
-      const body = ghost.querySelector('.cast__ghost-body');
-      const inner = ghost.querySelector('.cast__ghost');
-      const mouth = ghost.querySelector('.cast__ghost-mouth');
-      const glitch = ghost.querySelectorAll('.cast__glitch');
-      const bits = ghost.querySelectorAll('.cast__poof rect');
-      const tints = ['#57f287', '#fee75c', '#eb459e', '#8a94ff', '#ffffff', '#ffffff'];
-      const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      let step = 0;
-      const poke = () => {
-        if (step >= 6) return;
-        const n = step++;
-        gsap.set(body, { fill: tints[n] });
-        gsap.set(mouth, { attr: { height: 8 + n * 2, y: 86 - n } });
-        if (calm) {
-          if (step === 6) {
-            gsap.set(inner, { opacity: 0 });
-            ghost.setAttribute('data-done', '');
-          }
-          return;
-        }
-        gsap
-          .timeline()
-          .to(inner, {
-            y: -22 - n * 3,
-            rotation: n % 2 ? 9 : -9,
-            duration: 0.18,
-            ease: 'power2.out',
-            overwrite: 'auto',
-          })
-          .to(inner, { y: 0, rotation: 0, duration: 0.32, ease: 'bounce.out' });
-        gsap.fromTo(
-          glitch,
-          { opacity: 1, x: -8 },
-          { opacity: 0, x: 8, duration: 0.3, ease: 'steps(3)', stagger: 0.05 },
+          if (i % 2)
+            tl.to(eyes, { scaleY: 0.1, duration: 0.07, delay: 0.12 }).to(eyes, {
+              scaleY: 1,
+              duration: 0.11,
+            });
+          loops.push(tl);
+        });
+        loops.push(
+          gsap.to(q('.cast__orbit'), {
+            y: -10,
+            duration: 1.8,
+            ease: 'sine.inOut',
+            yoyo: true,
+            repeat: -1,
+          }),
         );
-        if (step === 6) {
-          ghost.setAttribute('data-done', '');
-          gsap.to(inner, { scale: 0, opacity: 0, duration: 0.35, delay: 0.5, ease: 'back.in(2)' });
-          bits.forEach((b, i) => {
-            const a = (i / bits.length) * Math.PI * 2;
-            gsap.fromTo(
-              b,
-              { opacity: 1, x: 0, y: 0, scale: 1 },
-              {
-                x: Math.cos(a) * 70,
-                y: Math.sin(a) * 60 - 20,
-                opacity: 0,
-                scale: 0.4,
-                duration: 0.9,
-                delay: 0.75,
-                ease: 'power2.out',
-              },
-            );
-          });
-        }
-      };
-      ghost.addEventListener('click', poke);
-      ghost.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          poke();
-        }
+        loops.push(
+          gsap.to(q('.cast__flame'), {
+            scaleY: 0.55,
+            duration: 0.18,
+            ease: 'none',
+            yoyo: true,
+            repeat: -1,
+          }),
+        );
+        loops.push(
+          gsap.to(q('.cast__ghost'), {
+            y: -7,
+            duration: 1.5,
+            ease: 'sine.inOut',
+            yoyo: true,
+            repeat: -1,
+          }),
+        );
+        loops.push(
+          gsap.to(q('.cast__crest'), {
+            rotation: 8,
+            duration: 2.2,
+            ease: 'sine.inOut',
+            yoyo: true,
+            repeat: -1,
+          }),
+        );
+        loops.push(
+          gsap.timeline({ repeat: -1, repeatDelay: 2.4 }).to(q('.cast__wave'), {
+            rotation: -12,
+            duration: 0.35,
+            ease: 'sine.inOut',
+            yoyo: true,
+            repeat: 5,
+          }),
+        );
+        loops.push(
+          gsap.to(q('.cast__led'), {
+            opacity: 0.35,
+            duration: 0.6,
+            ease: 'steps(1)',
+            yoyo: true,
+            repeat: -1,
+            stagger: { each: 0.23, from: 'random' },
+          }),
+        );
+
+        // run loops only while the banner is near the viewport
+        const io = new IntersectionObserver(
+          ([e]) => loops.forEach((l) => (e.isIntersecting ? l.play() : l.pause())),
+          { rootMargin: '300px 0px' },
+        );
+        io.observe(root);
+        return () => io.disconnect();
       });
-    }
+
+      // — click easter egg (6 clicks step through reactions, the last one ends in a puff and
+      //   disables the element). Works without motion preference too, but then only swaps state.
+      const ghost = root.querySelector<SVGGElement>('.cast__ghost-wrap');
+      if (ghost) {
+        const body = ghost.querySelector('.cast__ghost-body');
+        const inner = ghost.querySelector('.cast__ghost');
+        const mouth = ghost.querySelector('.cast__ghost-mouth');
+        const glitch = ghost.querySelectorAll('.cast__glitch');
+        const bits = ghost.querySelectorAll('.cast__poof rect');
+        const tints = ['#57f287', '#fee75c', '#eb459e', '#8a94ff', '#ffffff', '#ffffff'];
+        const calm = reducedMotion();
+        let step = 0;
+        const poke = () => {
+          if (step >= 6) return;
+          const n = step++;
+          gsap.set(body, { fill: tints[n] });
+          gsap.set(mouth, { attr: { height: 8 + n * 2, y: 86 - n } });
+          if (calm) {
+            if (step === 6) {
+              gsap.set(inner, { opacity: 0 });
+              ghost.setAttribute('data-done', '');
+            }
+            return;
+          }
+          gsap
+            .timeline()
+            .to(inner, {
+              y: -22 - n * 3,
+              rotation: n % 2 ? 9 : -9,
+              duration: 0.18,
+              ease: 'power2.out',
+              overwrite: 'auto',
+            })
+            .to(inner, { y: 0, rotation: 0, duration: 0.32, ease: 'bounce.out' });
+          gsap.fromTo(
+            glitch,
+            { opacity: 1, x: -8 },
+            { opacity: 0, x: 8, duration: 0.3, ease: 'steps(3)', stagger: 0.05 },
+          );
+          if (step === 6) {
+            ghost.setAttribute('data-done', '');
+            gsap.to(inner, {
+              scale: 0,
+              opacity: 0,
+              duration: 0.35,
+              delay: 0.5,
+              ease: 'back.in(2)',
+            });
+            bits.forEach((b, i) => {
+              const a = (i / bits.length) * Math.PI * 2;
+              gsap.fromTo(
+                b,
+                { opacity: 1, x: 0, y: 0, scale: 1 },
+                {
+                  x: Math.cos(a) * 70,
+                  y: Math.sin(a) * 60 - 20,
+                  opacity: 0,
+                  scale: 0.4,
+                  duration: 0.9,
+                  delay: 0.75,
+                  ease: 'power2.out',
+                },
+              );
+            });
+          }
+        };
+        ghost.addEventListener('click', poke);
+        ghost.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            poke();
+          }
+        });
+      }
+    });
   });
 </script>

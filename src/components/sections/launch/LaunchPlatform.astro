@@ -274,74 +274,75 @@ const stats = [
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { CustomEase } from 'gsap/CustomEase';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(CustomEase, ScrollTrigger);
-  const cssEase = CustomEase.create('launchCssEase', '0.25,0.1,0.25,1');
+  import { gsap, ease, motion, onPage, MQ } from '@lib/motion';
 
-  document.querySelectorAll<HTMLElement>('[data-section="quests-platform"]').forEach((root) => {
-    // Source tooltips. display flex + opacity 0 -> 1 in 300ms ease
-    // on hover (desktop) or click (all sizes); opacity -> 0 in 300ms ease, then display none.
-    root.querySelectorAll<HTMLButtonElement>('[data-source]').forEach((btn) => {
-      const tip = btn.querySelector<HTMLElement>('[data-tip]')!;
-      let open = false;
-      const set = (v: boolean) => {
-        if (v === open) return;
-        open = v;
-        btn.setAttribute('aria-expanded', String(v));
-        if (v) {
-          tip.hidden = false;
-          gsap.fromTo(
-            tip,
-            { opacity: 0 },
-            { opacity: 1, duration: 0.3, ease: cssEase, overwrite: true },
-          );
-        } else
-          gsap.to(tip, {
-            opacity: 0,
-            duration: 0.3,
-            ease: cssEase,
-            overwrite: true,
-            onComplete: () => {
-              tip.hidden = true;
-            },
-          });
-      };
-      const desktop = window.matchMedia('(min-width: 992px)');
-      btn.addEventListener('pointerenter', (e) => {
-        if (e.pointerType === 'mouse' && desktop.matches) set(true);
-      });
-      btn.addEventListener('pointerleave', (e) => {
-        if (e.pointerType === 'mouse' && desktop.matches) set(false);
-      });
-      btn.addEventListener('click', (e) => {
-        if ((e as PointerEvent).pointerType !== 'mouse' || !desktop.matches) set(!open);
-      });
-      btn.addEventListener('focus', () => {
-        if (btn.matches(':focus-visible')) set(true);
-      });
-      btn.addEventListener('blur', () => set(false));
-      btn.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') set(false);
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-section="quests-platform"]').forEach((root) => {
+      // Source tooltips. display flex + opacity 0 -> 1 in 300ms ease
+      // on hover (desktop) or click (all sizes); opacity -> 0 in 300ms ease, then display none.
+      root.querySelectorAll<HTMLButtonElement>('[data-source]').forEach((btn) => {
+        const tip = btn.querySelector<HTMLElement>('[data-tip]')!;
+        let open = false;
+        const set = (v: boolean) => {
+          if (v === open) return;
+          open = v;
+          btn.setAttribute('aria-expanded', String(v));
+          if (v) {
+            tip.hidden = false;
+            gsap.fromTo(
+              tip,
+              { opacity: 0 },
+              { opacity: 1, duration: 0.3, ease: ease.css, overwrite: true },
+            );
+          } else
+            gsap.to(tip, {
+              opacity: 0,
+              duration: 0.3,
+              ease: ease.css,
+              overwrite: true,
+              onComplete: () => {
+                tip.hidden = true;
+              },
+            });
+        };
+        const desktop = window.matchMedia(MQ.lg);
+        btn.addEventListener('pointerenter', (e) => {
+          if (e.pointerType === 'mouse' && desktop.matches) set(true);
+        });
+        btn.addEventListener('pointerleave', (e) => {
+          if (e.pointerType === 'mouse' && desktop.matches) set(false);
+        });
+        btn.addEventListener('click', (e) => {
+          if ((e as PointerEvent).pointerType !== 'mouse' || !desktop.matches) set(!open);
+        });
+        btn.addEventListener('focus', () => {
+          if (btn.matches(':focus-visible')) set(true);
+        });
+        btn.addEventListener('blur', () => set(false));
+        btn.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') set(false);
+        });
       });
     });
-  });
 
-  const mm = gsap.matchMedia();
-  // Scroll parallax (desktop only, smoothing 80), keyed to the section's in-view progress:
-  // object A y -40 -> 0 over 20% -> 80%; object B y 0 -> 40 over 45% -> 100%.
-  mm.add('(min-width: 992px) and (prefers-reduced-motion: no-preference)', () => {
+    // Scroll parallax (desktop only, smoothing 80), keyed to the section's in-view progress:
+    // object A y -40 -> 0 over 20% -> 80%; object B y 0 -> 40 over 45% -> 100%.
     document.querySelectorAll<HTMLElement>('[data-section="quests-platform"]').forEach((root) => {
-      const a = root.querySelector('[data-float="a"]');
-      const b = root.querySelector('[data-float="b"]');
-      const tl = gsap.timeline({
-        defaults: { ease: 'none' },
-        scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: 0.8 },
-      });
-      tl.fromTo(a, { y: -40 }, { y: 0, duration: 60 }, 20)
-        .fromTo(b, { y: 0 }, { y: 40, duration: 55 }, 45)
-        .to({}, { duration: 0 }, 100);
+      motion(
+        root,
+        () => {
+          const a = root.querySelector('[data-float="a"]');
+          const b = root.querySelector('[data-float="b"]');
+          const tl = gsap.timeline({
+            defaults: { ease: 'none' },
+            scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: 0.8 },
+          });
+          tl.fromTo(a, { y: -40 }, { y: 0, duration: 60 }, 20)
+            .fromTo(b, { y: 0 }, { y: 40, duration: 55 }, 45)
+            .to({}, { duration: 0 }, 100);
+        },
+        MQ.lg,
+      );
     });
   });
 </script>

@@ -220,117 +220,126 @@ const C = 2 * Math.PI * 24; // dial circumference
 </style>
 
 <script>
-  import gsap from 'gsap';
+  import { gsap, media, motion, onPage, playWhileInView, MOTION_REDUCE } from '@lib/motion';
 
-  document.querySelectorAll<HTMLElement>('[data-perf-loop="perf"]').forEach((root) => {
-    const q = gsap.utils.selector(root);
-    const one = (s: string) => q<SVGElement>(s)[0];
-    const C = Number(root.dataset.circ);
-    const dials = q('[data-dial]');
-    const nums = q('[data-num]');
-    const bars = q('[data-bars] rect');
-    const heights = [0.9, 0.55, 0.7, 0.4, 0.3, 0.2, 0.14];
-    const ms = one('[data-ms]');
-    const cursor = one('[data-cursor]');
-    const score = { a: 0, b: 0, t: 0 };
-    const paint = () => {
-      nums[0].textContent = String(Math.round(score.a));
-      nums[1].textContent = String(Math.round(score.b));
-      gsap.set(dials[0], { strokeDashoffset: C * (1 - score.a / 100) });
-      gsap.set(dials[1], { strokeDashoffset: C * (1 - score.b / 100) });
-      ms.textContent = score.t.toFixed(1) + 's';
-    };
-    gsap.set(bars, { transformOrigin: '50% 100%' });
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-perf-loop="perf"]').forEach((root) => {
+      const q = gsap.utils.selector(root);
+      const one = (s: string) => q<SVGElement>(s)[0];
+      const C = Number(root.dataset.circ);
+      const dials = q('[data-dial]');
+      const nums = q('[data-num]');
+      const bars = q('[data-bars] rect');
+      const heights = [0.9, 0.55, 0.7, 0.4, 0.3, 0.2, 0.14];
+      const ms = one('[data-ms]');
+      const cursor = one('[data-cursor]');
+      const score = { a: 0, b: 0, t: 0 };
+      const paint = () => {
+        nums[0].textContent = String(Math.round(score.a));
+        nums[1].textContent = String(Math.round(score.b));
+        gsap.set(dials[0], { strokeDashoffset: C * (1 - score.a / 100) });
+        gsap.set(dials[1], { strokeDashoffset: C * (1 - score.b / 100) });
+        ms.textContent = score.t.toFixed(1) + 's';
+      };
+      gsap.set(bars, { transformOrigin: '50% 100%' });
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      score.a = score.b = 100;
-      score.t = 0.6;
-      paint();
-      gsap.set(bars, { scaleY: (i) => heights[i] });
-      gsap.set(one('[data-bar]'), { autoAlpha: 0 });
-      gsap.set(cursor, { x: 560, y: 300 });
-      return;
-    }
-
-    const tl = gsap.timeline({ repeat: -1, paused: true });
-    tl.set(cursor, { x: 610, y: 330 })
-      .set(one('[data-page]'), { autoAlpha: 0 })
-      .set(q('[data-h]'), { autoAlpha: 0, y: 10 })
-      .set(one('[data-tag]'), { autoAlpha: 0 })
-      .set(one('[data-bar]'), { scaleX: 0, autoAlpha: 1, transformOrigin: '0% 50%' })
-      .set(bars, { scaleY: 0.06 })
-      .set(one('[data-live]'), { autoAlpha: 0, scale: 0.5, transformOrigin: '437px 395px' })
-      .add(() => {
-        score.a = score.b = score.t = 0;
-        paint();
-      })
-      // cursor goes to reload and clicks
-      .to(cursor, { x: 541, y: 58, duration: 0.8, ease: 'power2.inOut' }, 0.3)
-      .to(
-        cursor,
-        { scale: 0.82, transformOrigin: '0 0', duration: 0.09, yoyo: true, repeat: 1 },
-        1.15,
-      )
-      .to(
-        one('[data-reload]'),
-        { rotation: 360, transformOrigin: '547px 61px', duration: 0.6, ease: 'power2.out' },
-        1.2,
-      )
-      // instant load
-      .to(one('[data-bar]'), { scaleX: 1, duration: 0.55, ease: 'power3.out' }, 1.25)
-      .to(one('[data-page]'), { autoAlpha: 1, duration: 0.3, ease: 'power1.out' }, 1.45)
-      .to(score, { t: 0.6, duration: 0.55, ease: 'none', onUpdate: paint }, 1.25)
-      .to(one('[data-bar]'), { autoAlpha: 0, duration: 0.25 }, 1.85)
-      .to(
-        q('[data-h]'),
-        {
-          autoAlpha: (i) => (i === 3 || i === 4 ? 0.6 : 1),
-          y: 0,
-          duration: 0.4,
-          stagger: 0.07,
-          ease: 'power2.out',
+      media(
+        root,
+        () => {
+          score.a = score.b = 100;
+          score.t = 0.6;
+          paint();
+          gsap.set(bars, { scaleY: (i) => heights[i] });
+          gsap.set(one('[data-bar]'), { autoAlpha: 0 });
+          gsap.set(cursor, { x: 560, y: 300 });
         },
-        1.6,
-      )
-      .to(one('[data-tag]'), { autoAlpha: 1, duration: 0.3 }, 1.9)
-      // scores fill
-      .to(cursor, { x: 352, y: 452, duration: 1, ease: 'power2.inOut' }, 2.2)
-      .to(score, { a: 100, duration: 1.5, ease: 'power2.out', onUpdate: paint }, 2.5)
-      .to(
-        bars,
-        { scaleY: (i) => heights[i], duration: 0.7, stagger: 0.07, ease: 'back.out(1.6)' },
-        2.8,
-      )
-      .to(one('[data-live]'), { autoAlpha: 1, scale: 1, duration: 0.3, ease: 'back.out(2)' }, 3.3)
-      .to(score, { b: 100, duration: 1.5, ease: 'power2.out', onUpdate: paint }, 3.1)
-      .to(
-        q('[data-tile]'),
-        { y: -5, duration: 0.22, stagger: 0.09, yoyo: true, repeat: 1, ease: 'sine.inOut' },
-        4.7,
-      )
-      .to(
-        one('[data-live]'),
-        { autoAlpha: 0.35, duration: 0.45, yoyo: true, repeat: 5, ease: 'sine.inOut' },
-        3.7,
-      )
-      .to(cursor, { x: 610, y: 330, duration: 1.1, ease: 'power2.inOut' }, 5.6)
-      // fade back to the unloaded state (matches the timeline start)
-      .to(
-        [one('[data-page]'), one('[data-tag]'), one('[data-live]')],
-        { autoAlpha: 0, duration: 0.45, ease: 'power1.in' },
-        7.2,
-      )
-      .to(score, { a: 0, b: 0, duration: 0.45, ease: 'power1.in', onUpdate: paint }, 7.2)
-      .to(bars, { scaleY: 0.06, duration: 0.45, ease: 'power1.in' }, 7.2)
-      .to({}, { duration: 0.3 });
+        MOTION_REDUCE,
+      );
 
-    const section = root.closest<HTMLElement>('[data-feature-block]');
-    if (!section) {
-      tl.play();
-      return;
-    }
-    section.addEventListener('fb:enter', () => tl.play());
-    section.addEventListener('fb:leave', () => tl.pause());
-    if (section.dataset.inview === 'true') tl.play();
+      motion(root, () => {
+        const tl = gsap.timeline({ repeat: -1, paused: true });
+        tl.set(cursor, { x: 610, y: 330 })
+          .set(one('[data-page]'), { autoAlpha: 0 })
+          .set(q('[data-h]'), { autoAlpha: 0, y: 10 })
+          .set(one('[data-tag]'), { autoAlpha: 0 })
+          .set(one('[data-bar]'), { scaleX: 0, autoAlpha: 1, transformOrigin: '0% 50%' })
+          .set(bars, { scaleY: 0.06 })
+          .set(one('[data-live]'), { autoAlpha: 0, scale: 0.5, transformOrigin: '437px 395px' })
+          .add(() => {
+            score.a = score.b = score.t = 0;
+            paint();
+          })
+          // cursor goes to reload and clicks
+          .to(cursor, { x: 541, y: 58, duration: 0.8, ease: 'power2.inOut' }, 0.3)
+          .to(
+            cursor,
+            { scale: 0.82, transformOrigin: '0 0', duration: 0.09, yoyo: true, repeat: 1 },
+            1.15,
+          )
+          .to(
+            one('[data-reload]'),
+            { rotation: 360, transformOrigin: '547px 61px', duration: 0.6, ease: 'power2.out' },
+            1.2,
+          )
+          // instant load
+          .to(one('[data-bar]'), { scaleX: 1, duration: 0.55, ease: 'power3.out' }, 1.25)
+          .to(one('[data-page]'), { autoAlpha: 1, duration: 0.3, ease: 'power1.out' }, 1.45)
+          .to(score, { t: 0.6, duration: 0.55, ease: 'none', onUpdate: paint }, 1.25)
+          .to(one('[data-bar]'), { autoAlpha: 0, duration: 0.25 }, 1.85)
+          .to(
+            q('[data-h]'),
+            {
+              autoAlpha: (i) => (i === 3 || i === 4 ? 0.6 : 1),
+              y: 0,
+              duration: 0.4,
+              stagger: 0.07,
+              ease: 'power2.out',
+            },
+            1.6,
+          )
+          .to(one('[data-tag]'), { autoAlpha: 1, duration: 0.3 }, 1.9)
+          // scores fill
+          .to(cursor, { x: 352, y: 452, duration: 1, ease: 'power2.inOut' }, 2.2)
+          .to(score, { a: 100, duration: 1.5, ease: 'power2.out', onUpdate: paint }, 2.5)
+          .to(
+            bars,
+            { scaleY: (i) => heights[i], duration: 0.7, stagger: 0.07, ease: 'back.out(1.6)' },
+            2.8,
+          )
+          .to(
+            one('[data-live]'),
+            { autoAlpha: 1, scale: 1, duration: 0.3, ease: 'back.out(2)' },
+            3.3,
+          )
+          .to(score, { b: 100, duration: 1.5, ease: 'power2.out', onUpdate: paint }, 3.1)
+          .to(
+            q('[data-tile]'),
+            { y: -5, duration: 0.22, stagger: 0.09, yoyo: true, repeat: 1, ease: 'sine.inOut' },
+            4.7,
+          )
+          .to(
+            one('[data-live]'),
+            { autoAlpha: 0.35, duration: 0.45, yoyo: true, repeat: 5, ease: 'sine.inOut' },
+            3.7,
+          )
+          .to(cursor, { x: 610, y: 330, duration: 1.1, ease: 'power2.inOut' }, 5.6)
+          // fade back to the unloaded state (matches the timeline start)
+          .to(
+            [one('[data-page]'), one('[data-tag]'), one('[data-live]')],
+            { autoAlpha: 0, duration: 0.45, ease: 'power1.in' },
+            7.2,
+          )
+          .to(score, { a: 0, b: 0, duration: 0.45, ease: 'power1.in', onUpdate: paint }, 7.2)
+          .to(bars, { scaleY: 0.06, duration: 0.45, ease: 'power1.in' }, 7.2)
+          .to({}, { duration: 0.3 });
+
+        const section = root.closest<HTMLElement>('[data-feature-block]');
+        if (!section) {
+          tl.play();
+          return;
+        }
+        playWhileInView(section, tl);
+      });
+    });
   });
 </script>

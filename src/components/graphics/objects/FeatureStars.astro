@@ -60,35 +60,29 @@ const stars: [number, number, number, 'a' | 'b' | 'c'][] = [
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
+  import { gsap, motion, onPage, playWhileInView } from '@lib/motion';
 
   // delays (s) before each 0.5s fade: →1, →0, →1, →0
   const LISTS: Record<string, number[]> = { a: [1, 2, 1, 2], b: [2, 2, 1, 2], c: [1, 1, 1, 2] };
 
-  document.querySelectorAll<HTMLElement>('[data-feature-stars]').forEach((root) => {
-    const mm = gsap.matchMedia();
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
-      const tls = gsap.utils.toArray<HTMLElement>('[data-feature-stars-star]', root).map((el) => {
-        const delays = LISTS[el.dataset.featureStarsStar || 'a'];
-        const tl = gsap.timeline({ repeat: -1, paused: true });
-        tl.set(el, { opacity: 0 });
-        delays.forEach((d, i) =>
-          tl.to(el, { opacity: i % 2 ? 0 : 1, duration: 0.5, ease: 'power1.in' }, `>+${d}`),
-        );
-        return tl;
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-feature-stars]').forEach((root) => {
+      motion(root, () => {
+        const tls = gsap.utils.toArray<HTMLElement>('[data-feature-stars-star]', root).map((el) => {
+          const delays = LISTS[el.dataset.featureStarsStar || 'a'];
+          const tl = gsap.timeline({ repeat: -1, paused: true });
+          tl.set(el, { opacity: 0 });
+          delays.forEach((d, i) =>
+            tl.to(el, { opacity: i % 2 ? 0 : 1, duration: 0.5, ease: 'power1.in' }, `>+${d}`),
+          );
+          return tl;
+        });
+        const st = playWhileInView(root, ...tls);
+        return () => {
+          st.kill();
+          tls.forEach((tl) => tl.kill());
+        };
       });
-      const st = ScrollTrigger.create({
-        trigger: root,
-        start: 'top bottom',
-        end: 'bottom top',
-        onToggle: (self) => tls.forEach((tl) => (self.isActive ? tl.play() : tl.pause())),
-      });
-      return () => {
-        st.kill();
-        tls.forEach((tl) => tl.kill());
-      };
     });
   });
 </script>

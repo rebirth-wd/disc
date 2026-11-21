@@ -34,13 +34,17 @@ const { w = 727, h = 554, class: cls = '' } = Astro.props;
 </style>
 
 <script>
-  document.querySelectorAll<HTMLElement>('[data-loop-stage-wrap]').forEach((wrap) => {
-    const w = Number(wrap.dataset.w) || 727;
-    const apply = () => {
-      const cw = wrap.clientWidth;
-      if (cw) wrap.style.setProperty('--loop-stage-s', String(cw / w));
-    };
-    apply();
-    new ResizeObserver(apply).observe(wrap);
+  import { onPage } from '@lib/motion';
+
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-loop-stage-wrap]').forEach((wrap) => {
+      const w = Number(wrap.dataset.w) || 727;
+      const apply = () => {
+        const cw = wrap.clientWidth;
+        if (cw) wrap.style.setProperty('--loop-stage-s', String(cw / w));
+      };
+      apply();
+      new ResizeObserver(apply).observe(wrap);
+    });
   });
 </script>

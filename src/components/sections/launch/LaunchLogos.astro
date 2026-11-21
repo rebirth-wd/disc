@@ -224,33 +224,33 @@ const SETS = 5;
 </style>
 
 <script>
-  import gsap from 'gsap';
-  const mm = gsap.matchMedia();
+  import { gsap, motion, onPage, MQ } from '@lib/motion';
+
   // Looping marquee, linear: desktop x 0 -> -50% of the 7300px track in 70s
   // (52.14px/s); tablet 0 -> -780px in 20s (39px/s); phone 0 -> -930px in 20s (46.5px/s).
   // Same velocities here, but the loop distance is exactly one logo set, so it never jumps.
-  const run = (speed: number) => () => {
+  const run = (speed: number) => (root: HTMLElement) => {
     const tweens: gsap.core.Tween[] = [];
-    document
-      .querySelectorAll<HTMLElement>('[data-section="quests-logos"] [data-track]')
-      .forEach((track) => {
-        const set = track.querySelector<HTMLElement>('[data-set]')!;
-        const cs = getComputedStyle(set);
-        const dist = set.offsetWidth + parseFloat(cs.marginRight);
-        tweens.push(
-          gsap.fromTo(
-            track,
-            { x: 0 },
-            { x: -dist, duration: dist / speed, ease: 'none', repeat: -1 },
-          ),
-        );
-      });
+    root.querySelectorAll<HTMLElement>('[data-track]').forEach((track) => {
+      const set = track.querySelector<HTMLElement>('[data-set]')!;
+      const cs = getComputedStyle(set);
+      const dist = set.offsetWidth + parseFloat(cs.marginRight);
+      tweens.push(
+        gsap.fromTo(
+          track,
+          { x: 0 },
+          { x: -dist, duration: dist / speed, ease: 'none', repeat: -1 },
+        ),
+      );
+    });
     return () => tweens.forEach((t) => t.kill());
   };
-  mm.add('(min-width: 992px) and (prefers-reduced-motion: no-preference)', run(3650 / 70));
-  mm.add(
-    '(min-width: 768px) and (max-width: 991px) and (prefers-reduced-motion: no-preference)',
-    run(780 / 20),
-  );
-  mm.add('(max-width: 767px) and (prefers-reduced-motion: no-preference)', run(930 / 20));
+
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-section="quests-logos"]').forEach((root) => {
+      motion(root, run(3650 / 70), MQ.lg);
+      motion(root, run(780 / 20), MQ.mdOnly);
+      motion(root, run(930 / 20), MQ.sm);
+    });
+  });
 </script>

@@ -214,23 +214,21 @@ const items = [
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
-  const root = document.querySelector<HTMLElement>('[data-section="download-banner"]');
-  if (root) {
-    const mm = gsap.matchMedia();
-    mm.add(
-      '(min-width: 992px)',
+  import { gsap, media, motion, onPage, MQ } from '@lib/motion';
+
+  onPage(() => {
+    const root = document.querySelector<HTMLElement>('[data-section="download-banner"]');
+    media(
+      root,
       () => {
         // resting state (also with reduced motion): right object sits at y -100
         gsap.set('[data-services-banner-decor2]', { y: -100 });
       },
-      root,
+      MQ.lg,
     );
-    mm.add(
-      '(prefers-reduced-motion: no-preference) and (min-width: 992px)',
-      () => {
+    motion(
+      root,
+      (root) => {
         gsap
           .timeline({
             defaults: { ease: 'none' },
@@ -239,7 +237,7 @@ const items = [
           .fromTo('[data-services-banner-decor1]', { y: 0 }, { y: 120 }, 0)
           .fromTo('[data-services-banner-decor2]', { y: -100 }, { y: 30 }, 0);
       },
-      root,
+      MQ.lg,
     );
-  }
+  });
 </script>

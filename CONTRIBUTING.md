@@ -76,6 +76,43 @@ doc. Do not edit the token files to make a component fit; raise it instead.
 ## Code standards
 
 - Typed props on every component; no `any`, no `@ts-ignore`.
-- Respect `prefers-reduced-motion`: wrap GSAP motion in `gsap.matchMedia()`.
+- Respect `prefers-reduced-motion`: start animation with `motion()` from `@lib/motion` (see Motion below).
 - Every section root carries `data-section="<page>-<name>"`.
 - Comments explain why, not what.
+
+## Motion
+
+All GSAP code goes through `src/lib/motion.ts`. It registers ScrollTrigger and CustomEase once and re-exports
+`gsap` and `ScrollTrigger`, so components never import from `gsap` or call `registerPlugin` themselves
+(`Draggable` is the exception: only the carousels load it).
+
+- `onPage(init)`: the component script's entry point. Runs `init` when the DOM is ready, and again after each
+  client-side navigation if the Astro client router is enabled (it reverts every `motion()` context on
+  `astro:before-swap`).
+- `motion(root, setup, when?)`: runs `setup` only without a reduced-motion preference, optionally also within a
+  breakpoint such as `MQ.md`. Everything created inside (tweens, timelines, ScrollTriggers) is reverted
+  automatically. `media(root, setup, query)` is the same without the reduced-motion condition, for static states
+  and in-view triggers.
+- `ease.css`, `ease.in`, `ease.inOutSine`, `ease.outQuart`: the registered cubic-bezier curves. Do not call
+  `CustomEase.create` in a component.
+- `MOTION_OK`, `MOTION_REDUCE`, `MQ`, `reducedMotion()`: the media-query strings and a live check for code that
+  zeroes durations instead of skipping the tween. Do not write these strings out.
+- `playWhileInView(trigger, ...animations)`: plays looping timelines only while their section is on screen.
+
+```ts
+import { gsap, motion, onPage, MQ } from '@lib/motion';
+
+onPage(() => {
+  motion(
+    document.querySelector<HTMLElement>('[data-section="plans-cta"]'),
+    (root) => {
+      gsap.to(root.querySelector('[data-par="flag"]'), {
+        y: 150,
+        ease: 'none',
+        scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: 0.6 },
+      });
+    },
+    MQ.md,
+  );
+});
+```

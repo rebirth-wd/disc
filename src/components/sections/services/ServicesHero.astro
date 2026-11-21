@@ -384,17 +384,14 @@ import ServicesObject from '@components/graphics/objects/ServicesObject.astro';
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
+  import { gsap, ScrollTrigger, motion, onPage, MQ } from '@lib/motion';
 
-  const root = document.querySelector<HTMLElement>('[data-section="download-hero"]');
-  if (root) {
-    const mm = gsap.matchMedia();
+  onPage(() => {
+    const root = document.querySelector<HTMLElement>('[data-section="download-hero"]');
     // Scroll parallax on the title layout: progress runs from start "top bottom" to end "bottom top". Keyframes: 65% → y 0, 100% → y 150 / 120 (linear).
-    mm.add(
-      '(prefers-reduced-motion: no-preference) and (min-width: 992px)',
-      () => {
+    motion(
+      root,
+      (root) => {
         const layout = root.querySelector('[data-services-hero-layout]');
         const tl = gsap.timeline({
           defaults: { ease: 'none' },
@@ -404,12 +401,12 @@ import ServicesObject from '@components/graphics/objects/ServicesObject.astro';
           .fromTo('[data-services-hero-token]', { y: 0 }, { y: 150, duration: 0.35 }, 0.65)
           .fromTo('[data-services-hero-rocket]', { y: 0 }, { y: 120, duration: 0.35 }, 0.65);
       },
-      root,
+      MQ.lg,
     );
     // looping tuft wobble, 2s out + 2s back, linear; starts when the visual enters the viewport.
-    mm.add(
-      '(prefers-reduced-motion: no-preference) and (min-width: 768px)',
-      () => {
+    motion(
+      root,
+      (root) => {
         const tuft = root.querySelector('[data-services-hero-tuft]');
         gsap.set(tuft, { transformOrigin: '50% 50%' });
         const loop = gsap
@@ -430,7 +427,7 @@ import ServicesObject from '@components/graphics/objects/ServicesObject.astro';
           onLeaveBack: () => loop.pause(),
         });
       },
-      root,
+      MQ.md,
     );
-  }
+  });
 </script>

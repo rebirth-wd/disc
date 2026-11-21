@@ -25,8 +25,7 @@
  *
  * The slabs themselves have NO entrance animation (transform none / opacity 1 at every scroll
  * position), so the shell does not animate slab, inset, heading or paragraph.
- * The shell only (a) drives decor parallax and (b) tells the media loop when the block is on screen:
- * it sets data-inview="true|false" on the section and dispatches bubbling `feature-block:enter` / `feature-block:leave` CustomEvents on it.
+ * The shell only drives decor parallax. Media loops pause themselves while the section is off screen.
  */
 interface Props {
   /** becomes data-section="home-<name>" on the outer section */
@@ -104,7 +103,6 @@ const vars = [
 <section
   data-section={`home-${name}`}
   data-feature-block
-  data-inview="false"
   class:list={['feature-block', className]}
   style={vars}
 >
@@ -334,9 +332,7 @@ const vars = [
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
+  import { gsap, motion, onPage, MQ } from '@lib/motion';
 
   type Px = {
     from: number;
@@ -348,66 +344,56 @@ const vars = [
     kfEnd?: number;
   };
 
-  document.querySelectorAll<HTMLElement>('[data-feature-block]').forEach((section) => {
-    // (b) in-view signal for the media loops — works with reduced motion too (loops decide what to do with it)
-    ScrollTrigger.create({
-      trigger: section,
-      start: 'top bottom',
-      end: 'bottom top',
-      onToggle: (self) => {
-        section.dataset.inview = String(self.isActive);
-        section.dispatchEvent(
-          new CustomEvent(self.isActive ? 'feature-block:enter' : 'feature-block:leave', {
-            bubbles: true,
-          }),
-        );
-      },
-    });
-
-    // (a) decor parallax. Smoothing 80, ≥768px.
-    const mm = gsap.matchMedia();
-    mm.add('(prefers-reduced-motion: no-preference) and (min-width: 768px)', () => {
-      section.querySelectorAll<HTMLElement>('[data-feature-block-parallax]').forEach((el) => {
-        let cfg: Px;
-        try {
-          cfg = JSON.parse(el.dataset.featureBlockParallax || '');
-        } catch {
-          return;
-        }
-        const { from, to, startOffset = 0, kfStart = 0, kfEnd = 1 } = cfg;
-        // progress p = (scrollY + vh − zoneTop − off) / (zoneH + vh − off), off = startOffset × zoneH
-        const zone = () => {
-          const top = section.getBoundingClientRect().top + window.scrollY;
-          const zt = cfg.zoneTop ?? 0;
-          const zoneTop = zt < 0 ? top + section.offsetHeight + zt : top + zt;
-          const zoneH = cfg.zoneHeight ?? section.offsetHeight;
-          const off = startOffset * zoneH;
-          const p0 = zoneTop + off - window.innerHeight; // scrollY where p = 0
-          const range = zoneH + window.innerHeight - off; // scroll distance for p 0 → 1
-          return { p0, range };
-        };
-        gsap.fromTo(
-          el,
-          { y: from },
-          {
-            y: to,
-            ease: 'none',
-            immediateRender: true,
-            scrollTrigger: {
-              start: () => {
-                const z = zone();
-                return z.p0 + kfStart * z.range;
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-feature-block]').forEach((section) => {
+      // decor parallax. Smoothing 80.
+      motion(
+        section,
+        () => {
+          section.querySelectorAll<HTMLElement>('[data-feature-block-parallax]').forEach((el) => {
+            let cfg: Px;
+            try {
+              cfg = JSON.parse(el.dataset.featureBlockParallax || '');
+            } catch {
+              return;
+            }
+            const { from, to, startOffset = 0, kfStart = 0, kfEnd = 1 } = cfg;
+            // progress p = (scrollY + vh − zoneTop − off) / (zoneH + vh − off), off = startOffset × zoneH
+            const zone = () => {
+              const top = section.getBoundingClientRect().top + window.scrollY;
+              const zt = cfg.zoneTop ?? 0;
+              const zoneTop = zt < 0 ? top + section.offsetHeight + zt : top + zt;
+              const zoneH = cfg.zoneHeight ?? section.offsetHeight;
+              const off = startOffset * zoneH;
+              const p0 = zoneTop + off - window.innerHeight; // scrollY where p = 0
+              const range = zoneH + window.innerHeight - off; // scroll distance for p 0 → 1
+              return { p0, range };
+            };
+            gsap.fromTo(
+              el,
+              { y: from },
+              {
+                y: to,
+                ease: 'none',
+                immediateRender: true,
+                scrollTrigger: {
+                  start: () => {
+                    const z = zone();
+                    return z.p0 + kfStart * z.range;
+                  },
+                  end: () => {
+                    const z = zone();
+                    return z.p0 + kfEnd * z.range;
+                  },
+                  scrub: 0.25,
+                  invalidateOnRefresh: true,
+                },
               },
-              end: () => {
-                const z = zone();
-                return z.p0 + kfEnd * z.range;
-              },
-              scrub: 0.25,
-              invalidateOnRefresh: true,
-            },
-          },
-        );
-      });
+            );
+          });
+        },
+        MQ.md,
+      );
     });
   });
 </script>

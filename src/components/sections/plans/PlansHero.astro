@@ -172,22 +172,23 @@ import PlansObject from '@components/graphics/objects/PlansObject.astro';
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
+  import { gsap, motion, onPage, MQ } from '@lib/motion';
+
   // scroll progress of the hero block, start offset 30%, 56% -> 100%: shield y 0->160, bot y 0->140, smoothing 75
-  const root = document.querySelector<HTMLElement>('[data-section="nitro-hero"]');
-  if (root) {
-    const mm = gsap.matchMedia();
-    mm.add('(prefers-reduced-motion: no-preference) and (min-width: 768px)', () => {
-      const block = root.querySelector('[data-par-trigger="hero"]');
-      const tl = gsap.timeline({
-        defaults: { ease: 'none' },
-        scrollTrigger: { trigger: block, start: 'top 70%', end: 'bottom top', scrub: 0.6 },
-      });
-      tl.to({}, { duration: 0.56 })
-        .to(root.querySelector('[data-par="bolt"]'), { y: 160, duration: 0.44 }, 0.56)
-        .to(root.querySelector('[data-par="astro"]'), { y: 140, duration: 0.44 }, 0.56);
-    });
-  }
+  onPage(() => {
+    motion(
+      document.querySelector<HTMLElement>('[data-section="nitro-hero"]'),
+      (root) => {
+        const block = root.querySelector('[data-par-trigger="hero"]');
+        const tl = gsap.timeline({
+          defaults: { ease: 'none' },
+          scrollTrigger: { trigger: block, start: 'top 70%', end: 'bottom top', scrub: 0.6 },
+        });
+        tl.to({}, { duration: 0.56 })
+          .to(root.querySelector('[data-par="bolt"]'), { y: 160, duration: 0.44 }, 0.56)
+          .to(root.querySelector('[data-par="astro"]'), { y: 140, duration: 0.44 }, 0.56);
+      },
+      MQ.md,
+    );
+  });
 </script>

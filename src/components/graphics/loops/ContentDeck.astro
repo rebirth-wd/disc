@@ -302,45 +302,40 @@ import laptop from '@assets/photos/home-content-purple-laptop.jpg';
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
+  import { gsap, motion, onPage, playWhileInView } from '@lib/motion';
 
-  document.querySelectorAll<HTMLElement>('[data-content-deck]').forEach((root) => {
-    const cards = gsap.utils.toArray<HTMLElement>('[data-content-deck-card]', root);
-    const tile = (n: number) => root.querySelector<HTMLElement>(`[data-content-deck-tile="${n}"]`);
-    const ring = root.querySelector('[data-content-deck-ring]');
-    const mm = gsap.matchMedia();
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
-      gsap.set(cards, { scale: 0.5, opacity: 0, transformOrigin: '0% 50%' });
-      const tl = gsap.timeline({ repeat: -1, paused: true });
-      tl.to(ring, { opacity: 1, duration: 0.2, ease: 'none' }, 0.5)
-        .to(cards[0], { scale: 1, opacity: 1, duration: 0.45, ease: 'back.out(1.7)' }, 0.9)
-        .to(cards[1], { scale: 1, opacity: 1, duration: 0.45, ease: 'back.out(1.7)' }, 2.1)
-        // shuffle: right-column tiles swap vertically, bottom tiles swap sideways
-        .to(tile(1), { y: 126, duration: 0.6, ease: 'power2.inOut' }, 3.5)
-        .to(tile(2), { y: -129, duration: 0.6, ease: 'power2.inOut' }, 3.5)
-        .to(tile(3), { x: 129, y: 2, duration: 0.6, ease: 'power2.inOut' }, 3.7)
-        .to(tile(4), { x: -129, y: -2, duration: 0.6, ease: 'power2.inOut' }, 3.7)
-        .to(cards[1], { scale: 0.5, opacity: 0, duration: 0.28, ease: 'back.in(1.6)' }, 5.3)
-        .to(cards[0], { scale: 0.5, opacity: 0, duration: 0.28, ease: 'back.in(1.6)' }, 5.5)
-        .to(ring, { opacity: 0, duration: 0.2, ease: 'none' }, 5.8)
-        .to(
-          [tile(1), tile(2), tile(3), tile(4)],
-          { x: 0, y: 0, duration: 0.6, ease: 'power2.inOut' },
-          6.2,
-        )
-        .to({}, { duration: 0.01 }, 7.49);
-      const st = ScrollTrigger.create({
-        trigger: root,
-        start: 'top bottom',
-        end: 'bottom top',
-        onToggle: (s) => (s.isActive ? tl.play() : tl.pause()),
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-content-deck]').forEach((root) => {
+      const cards = gsap.utils.toArray<HTMLElement>('[data-content-deck-card]', root);
+      const tile = (n: number) =>
+        root.querySelector<HTMLElement>(`[data-content-deck-tile="${n}"]`);
+      const ring = root.querySelector('[data-content-deck-ring]');
+      motion(root, () => {
+        gsap.set(cards, { scale: 0.5, opacity: 0, transformOrigin: '0% 50%' });
+        const tl = gsap.timeline({ repeat: -1, paused: true });
+        tl.to(ring, { opacity: 1, duration: 0.2, ease: 'none' }, 0.5)
+          .to(cards[0], { scale: 1, opacity: 1, duration: 0.45, ease: 'back.out(1.7)' }, 0.9)
+          .to(cards[1], { scale: 1, opacity: 1, duration: 0.45, ease: 'back.out(1.7)' }, 2.1)
+          // shuffle: right-column tiles swap vertically, bottom tiles swap sideways
+          .to(tile(1), { y: 126, duration: 0.6, ease: 'power2.inOut' }, 3.5)
+          .to(tile(2), { y: -129, duration: 0.6, ease: 'power2.inOut' }, 3.5)
+          .to(tile(3), { x: 129, y: 2, duration: 0.6, ease: 'power2.inOut' }, 3.7)
+          .to(tile(4), { x: -129, y: -2, duration: 0.6, ease: 'power2.inOut' }, 3.7)
+          .to(cards[1], { scale: 0.5, opacity: 0, duration: 0.28, ease: 'back.in(1.6)' }, 5.3)
+          .to(cards[0], { scale: 0.5, opacity: 0, duration: 0.28, ease: 'back.in(1.6)' }, 5.5)
+          .to(ring, { opacity: 0, duration: 0.2, ease: 'none' }, 5.8)
+          .to(
+            [tile(1), tile(2), tile(3), tile(4)],
+            { x: 0, y: 0, duration: 0.6, ease: 'power2.inOut' },
+            6.2,
+          )
+          .to({}, { duration: 0.01 }, 7.49);
+        const st = playWhileInView(root, tl);
+        return () => {
+          st.kill();
+          tl.kill();
+        };
       });
-      return () => {
-        st.kill();
-        tl.kill();
-      };
     });
   });
 </script>

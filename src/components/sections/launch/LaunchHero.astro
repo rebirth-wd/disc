@@ -243,24 +243,28 @@ const cards = [
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
-  const mm = gsap.matchMedia();
+  import { gsap, motion, onPage, MQ } from '@lib/motion';
+
   // Scroll parallax (desktop only): object y 0 -> 100px across 60% -> 100% of the
   // section's in-view progress, smoothing 80.
-  mm.add('(min-width: 992px) and (prefers-reduced-motion: no-preference)', () => {
+  onPage(() => {
     document.querySelectorAll<HTMLElement>('[data-section="quests-hero"]').forEach((root) => {
-      const obj = root.querySelector('[data-float]');
-      if (!obj) return;
-      const tl = gsap.timeline({
-        defaults: { ease: 'none' },
-        scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: 0.8 },
-      });
-      tl.to({}, { duration: 60 }).fromTo(
-        obj,
-        { y: 0 },
-        { y: 100, duration: 40, immediateRender: false },
+      motion(
+        root,
+        () => {
+          const obj = root.querySelector('[data-float]');
+          if (!obj) return;
+          const tl = gsap.timeline({
+            defaults: { ease: 'none' },
+            scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: 0.8 },
+          });
+          tl.to({}, { duration: 60 }).fromTo(
+            obj,
+            { y: 0 },
+            { y: 100, duration: 40, immediateRender: false },
+          );
+        },
+        MQ.lg,
       );
     });
   });

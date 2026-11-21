@@ -220,30 +220,31 @@ import ParallaxFloat from '@components/graphics/objects/ParallaxFloat.astro';
 </style>
 
 <script>
-  import gsap from 'gsap';
-  document.querySelectorAll<HTMLElement>('[data-feature-content-bot]').forEach((bot) => {
-    const mm = gsap.matchMedia();
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
-      const drone = bot.querySelector('[data-feature-content-bot-drone]');
-      const eyes = bot.querySelector('[data-feature-content-bot-eyes]');
-      const a = gsap.fromTo(
-        drone,
-        { y: -5 },
-        { y: 7, duration: 1.8, ease: 'sine.inOut', repeat: -1, yoyo: true },
-      );
-      const b = gsap.to(eyes, {
-        scaleY: 0.1,
-        transformOrigin: '50% 50%',
-        duration: 0.09,
-        ease: 'none',
-        repeat: -1,
-        yoyo: true,
-        repeatDelay: 2.6,
+  import { gsap, motion, onPage } from '@lib/motion';
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-feature-content-bot]').forEach((bot) => {
+      motion(bot, () => {
+        const drone = bot.querySelector('[data-feature-content-bot-drone]');
+        const eyes = bot.querySelector('[data-feature-content-bot-eyes]');
+        const a = gsap.fromTo(
+          drone,
+          { y: -5 },
+          { y: 7, duration: 1.8, ease: 'sine.inOut', repeat: -1, yoyo: true },
+        );
+        const b = gsap.to(eyes, {
+          scaleY: 0.1,
+          transformOrigin: '50% 50%',
+          duration: 0.09,
+          ease: 'none',
+          repeat: -1,
+          yoyo: true,
+          repeatDelay: 2.6,
+        });
+        return () => {
+          a.kill();
+          b.kill();
+        };
       });
-      return () => {
-        a.kill();
-        b.kill();
-      };
     });
   });
 </script>

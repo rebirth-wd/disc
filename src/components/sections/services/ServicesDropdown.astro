@@ -230,44 +230,40 @@ const { label, items, variant = 'white', z = 1, id } = Astro.props;
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { CustomEase } from 'gsap/CustomEase';
-  gsap.registerPlugin(CustomEase);
-  // "easeIn" = cubic-bezier(.42,0,1,1); "ease" = cubic-bezier(.25,.1,.25,1)
-  const easeIn = CustomEase.create('servicesDropdownEaseIn', '0.42,0,1,1');
-  const ease = CustomEase.create('servicesDropdownEase', '0.25,0.1,0.25,1');
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  import { gsap, ease, onPage, reducedMotion } from '@lib/motion';
 
-  const all = Array.from(document.querySelectorAll<HTMLElement>('[data-services-dropdown]'));
-  const setOpen = (dd: HTMLElement, open: boolean) => {
-    const toggle = dd.querySelector<HTMLButtonElement>('.services-dropdown__toggle')!;
-    const list = dd.querySelector<HTMLElement>('.services-dropdown__list')!;
-    const arrow = dd.querySelector<SVGElement>('[data-services-dropdown-arrow]')!;
-    if ((toggle.getAttribute('aria-expanded') === 'true') === open) return;
-    toggle.setAttribute('aria-expanded', String(open));
-    list.hidden = !open;
-    dd.classList.toggle('is-open', open);
-    gsap.to(arrow, {
-      rotation: open ? 180 : 0,
-      duration: reduce.matches ? 0 : 0.1,
-      ease: open ? easeIn : ease,
-      overwrite: true,
+  onPage(() => {
+    const all = Array.from(document.querySelectorAll<HTMLElement>('[data-services-dropdown]'));
+    const setOpen = (dd: HTMLElement, open: boolean) => {
+      const toggle = dd.querySelector<HTMLButtonElement>('.services-dropdown__toggle')!;
+      const list = dd.querySelector<HTMLElement>('.services-dropdown__list')!;
+      const arrow = dd.querySelector<SVGElement>('[data-services-dropdown-arrow]')!;
+      if ((toggle.getAttribute('aria-expanded') === 'true') === open) return;
+      toggle.setAttribute('aria-expanded', String(open));
+      list.hidden = !open;
+      dd.classList.toggle('is-open', open);
+      gsap.to(arrow, {
+        rotation: open ? 180 : 0,
+        duration: reducedMotion() ? 0 : 0.1,
+        ease: open ? ease.in : ease.css,
+        overwrite: true,
+      });
+    };
+    all.forEach((dd) => {
+      dd.querySelector('.services-dropdown__toggle')!.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const willOpen =
+          dd.querySelector('.services-dropdown__toggle')!.getAttribute('aria-expanded') !== 'true';
+        all.forEach((o) => o !== dd && setOpen(o, false));
+        setOpen(dd, willOpen);
+      });
     });
-  };
-  all.forEach((dd) => {
-    dd.querySelector('.services-dropdown__toggle')!.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const willOpen =
-        dd.querySelector('.services-dropdown__toggle')!.getAttribute('aria-expanded') !== 'true';
-      all.forEach((o) => o !== dd && setOpen(o, false));
-      setOpen(dd, willOpen);
-    });
+    document.addEventListener('click', (e) =>
+      all.forEach((dd) => !dd.contains(e.target as Node) && setOpen(dd, false)),
+    );
+    document.addEventListener(
+      'keydown',
+      (e) => e.key === 'Escape' && all.forEach((dd) => setOpen(dd, false)),
+    );
   });
-  document.addEventListener('click', (e) =>
-    all.forEach((dd) => !dd.contains(e.target as Node) && setOpen(dd, false)),
-  );
-  document.addEventListener(
-    'keydown',
-    (e) => e.key === 'Escape' && all.forEach((dd) => setOpen(dd, false)),
-  );
 </script>

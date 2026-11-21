@@ -273,57 +273,55 @@ const tabs = [
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { CustomEase } from 'gsap/CustomEase';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(CustomEase, ScrollTrigger);
-  const cssEase = CustomEase.create('launchCssEase', '0.25,0.1,0.25,1');
+  import { gsap, ScrollTrigger, ease, onPage, reducedMotion } from '@lib/motion';
 
-  document.querySelectorAll<HTMLElement>('[data-section="quests-solutions"]').forEach((root) => {
-    const tabs = [...root.querySelectorAll<HTMLElement>('[data-tab]')];
-    const panes = [...root.querySelectorAll<HTMLElement>('[data-pane]')];
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let current = 0;
-    // Tabs swap instantly; the plus icon fades:
-    // -> 0 in 250ms ease when a row opens, -> 1 in 500ms ease when it closes.
-    const select = (i: number, focus = false) => {
-      if (i === current) return;
-      const prev = current;
-      current = i;
-      tabs.forEach((t, k) => {
-        t.classList.toggle('is-current', k === i);
-        t.setAttribute('aria-selected', String(k === i));
-        t.tabIndex = k === i ? 0 : -1;
-      });
-      panes.forEach((p, k) => p.classList.toggle('is-active', k === i));
-      const plusPrev = tabs[prev].querySelector('[data-plus]');
-      const plusNow = tabs[i].querySelector('[data-plus]');
-      if (!reduce) {
-        gsap.fromTo(
-          plusPrev,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.5, ease: cssEase, overwrite: true },
-        );
-        gsap.to(plusNow, { opacity: 0, duration: 0.25, ease: cssEase, overwrite: true });
-      }
-      if (focus) tabs[i].focus();
-      ScrollTrigger.refresh();
-    };
-    tabs.forEach((t, i) => {
-      t.addEventListener('click', () => select(i));
-      t.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          select(i);
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-section="quests-solutions"]').forEach((root) => {
+      const tabs = [...root.querySelectorAll<HTMLElement>('[data-tab]')];
+      const panes = [...root.querySelectorAll<HTMLElement>('[data-pane]')];
+      const reduce = reducedMotion();
+      let current = 0;
+      // Tabs swap instantly; the plus icon fades:
+      // -> 0 in 250ms ease when a row opens, -> 1 in 500ms ease when it closes.
+      const select = (i: number, focus = false) => {
+        if (i === current) return;
+        const prev = current;
+        current = i;
+        tabs.forEach((t, k) => {
+          t.classList.toggle('is-current', k === i);
+          t.setAttribute('aria-selected', String(k === i));
+          t.tabIndex = k === i ? 0 : -1;
+        });
+        panes.forEach((p, k) => p.classList.toggle('is-active', k === i));
+        const plusPrev = tabs[prev].querySelector('[data-plus]');
+        const plusNow = tabs[i].querySelector('[data-plus]');
+        if (!reduce) {
+          gsap.fromTo(
+            plusPrev,
+            { opacity: 0 },
+            { opacity: 1, duration: 0.5, ease: ease.css, overwrite: true },
+          );
+          gsap.to(plusNow, { opacity: 0, duration: 0.25, ease: ease.css, overwrite: true });
         }
-        if (e.key === 'ArrowDown') {
-          e.preventDefault();
-          select((i + 1) % tabs.length, true);
-        }
-        if (e.key === 'ArrowUp') {
-          e.preventDefault();
-          select((i - 1 + tabs.length) % tabs.length, true);
-        }
+        if (focus) tabs[i].focus();
+        ScrollTrigger.refresh();
+      };
+      tabs.forEach((t, i) => {
+        t.addEventListener('click', () => select(i));
+        t.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            select(i);
+          }
+          if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            select((i + 1) % tabs.length, true);
+          }
+          if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            select((i - 1 + tabs.length) % tabs.length, true);
+          }
+        });
       });
     });
   });

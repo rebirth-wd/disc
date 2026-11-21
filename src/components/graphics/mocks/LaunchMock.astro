@@ -311,40 +311,34 @@ const scene = scenes[variant];
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
+  import { gsap, motion, onPage, playWhileInView } from '@lib/motion';
 
-  const mm = gsap.matchMedia();
-  mm.add('(prefers-reduced-motion: no-preference)', () => {
+  onPage(() => {
     document.querySelectorAll<HTMLElement>('[data-mock]').forEach((root) => {
-      const steps = gsap.utils.toArray<HTMLElement>('[data-step]', root);
-      const fills = gsap.utils.toArray<HTMLElement>('[data-fill]', root);
-      const press = gsap.utils.toArray<HTMLElement>('[data-press]', root);
-      const tl = gsap.timeline({ repeat: -1, paused: true, defaults: { ease: 'power2.out' } });
-      tl.set(steps, { autoAlpha: 0, y: 10 })
-        .set(fills, { scaleX: 0, transformOrigin: '0 50%' })
-        .to(steps, { autoAlpha: 1, y: 0, duration: 0.4, stagger: 0.55 }, 0.3)
-        .to(fills, { scaleX: 1, duration: 1.1, ease: 'power1.inOut' }, 0.6)
-        .to(
-          press,
-          { scale: 0.94, duration: 0.12, yoyo: true, repeat: 1, ease: 'power1.inOut' },
-          '>-0.1',
-        )
-        .to(
-          steps,
-          { autoAlpha: 0, y: -6, duration: 0.35, stagger: 0.05, ease: 'power1.in' },
-          '+=1.8',
-        )
-        .to({}, { duration: 0.25 });
-      // run only while on screen and displayed (tab panes are display:none when inactive)
-      ScrollTrigger.create({
-        trigger: root,
-        start: 'top bottom',
-        end: 'bottom top',
-        onToggle: (s) => (s.isActive ? tl.play() : tl.pause()),
+      motion(root, () => {
+        const steps = gsap.utils.toArray<HTMLElement>('[data-step]', root);
+        const fills = gsap.utils.toArray<HTMLElement>('[data-fill]', root);
+        const press = gsap.utils.toArray<HTMLElement>('[data-press]', root);
+        const tl = gsap.timeline({ repeat: -1, paused: true, defaults: { ease: 'power2.out' } });
+        tl.set(steps, { autoAlpha: 0, y: 10 })
+          .set(fills, { scaleX: 0, transformOrigin: '0 50%' })
+          .to(steps, { autoAlpha: 1, y: 0, duration: 0.4, stagger: 0.55 }, 0.3)
+          .to(fills, { scaleX: 1, duration: 1.1, ease: 'power1.inOut' }, 0.6)
+          .to(
+            press,
+            { scale: 0.94, duration: 0.12, yoyo: true, repeat: 1, ease: 'power1.inOut' },
+            '>-0.1',
+          )
+          .to(
+            steps,
+            { autoAlpha: 0, y: -6, duration: 0.35, stagger: 0.05, ease: 'power1.in' },
+            '+=1.8',
+          )
+          .to({}, { duration: 0.25 });
+        // run only while on screen and displayed (tab panes are display:none when inactive)
+        playWhileInView(root, tl);
+        return () => tl.kill();
       });
-      return () => tl.kill();
     });
   });
 </script>

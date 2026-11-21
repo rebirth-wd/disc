@@ -149,45 +149,47 @@ const { kind } = Astro.props;
 </style>
 
 <script>
-  import gsap from 'gsap';
-  const mm = gsap.matchMedia();
-  mm.add('(prefers-reduced-motion: no-preference)', () => {
-    document.querySelectorAll<SVGElement>('[data-feature-objects-peeker]').forEach((svg) => {
-      const body = svg.querySelector('[data-peek-body]');
-      const eyes = svg.querySelector('[data-peek-eyes]');
-      // 3.2s GIF-like loop: pop up, look around, blink twice, duck back
-      const tl = gsap.timeline({ repeat: -1, defaults: { ease: 'sine.inOut' } });
-      tl.fromTo(
-        body,
-        { y: 60, rotation: -6, svgOrigin: '73.5 94' },
-        { y: 0, rotation: 0, duration: 0.45, ease: 'back.out(1.8)' },
-      )
-        .to(body, { rotation: 7, duration: 0.5 }, 0.6)
-        .to(body, { rotation: -7, duration: 0.6 }, 1.1)
-        .to(body, { rotation: 0, duration: 0.4 }, 1.7)
-        .to(
-          eyes,
-          {
-            scaleY: 0.1,
-            svgOrigin: '73.5 56',
-            duration: 0.07,
-            yoyo: true,
-            repeat: 3,
-            repeatDelay: 0.12,
-          },
-          0.8,
+  import { gsap, motion, onPage } from '@lib/motion';
+  // Page-wide scope: the LED stagger index counts across every instance on the page.
+  onPage(() => {
+    motion(document.body, () => {
+      document.querySelectorAll<SVGElement>('[data-feature-objects-peeker]').forEach((svg) => {
+        const body = svg.querySelector('[data-peek-body]');
+        const eyes = svg.querySelector('[data-peek-eyes]');
+        // 3.2s GIF-like loop: pop up, look around, blink twice, duck back
+        const tl = gsap.timeline({ repeat: -1, defaults: { ease: 'sine.inOut' } });
+        tl.fromTo(
+          body,
+          { y: 60, rotation: -6, svgOrigin: '73.5 94' },
+          { y: 0, rotation: 0, duration: 0.45, ease: 'back.out(1.8)' },
         )
-        .to(body, { y: -7, duration: 0.25, yoyo: true, repeat: 1 }, 2.1)
-        .to(body, { y: 60, rotation: -6, duration: 0.4, ease: 'power2.in' }, 2.8);
-    });
-    document.querySelectorAll('.feature-objects [data-led]').forEach((led, i) => {
-      gsap.to(led, {
-        opacity: 0.25,
-        duration: 0.5,
-        repeat: -1,
-        yoyo: true,
-        delay: (i % 3) * 0.3,
-        ease: 'steps(1)',
+          .to(body, { rotation: 7, duration: 0.5 }, 0.6)
+          .to(body, { rotation: -7, duration: 0.6 }, 1.1)
+          .to(body, { rotation: 0, duration: 0.4 }, 1.7)
+          .to(
+            eyes,
+            {
+              scaleY: 0.1,
+              svgOrigin: '73.5 56',
+              duration: 0.07,
+              yoyo: true,
+              repeat: 3,
+              repeatDelay: 0.12,
+            },
+            0.8,
+          )
+          .to(body, { y: -7, duration: 0.25, yoyo: true, repeat: 1 }, 2.1)
+          .to(body, { y: 60, rotation: -6, duration: 0.4, ease: 'power2.in' }, 2.8);
+      });
+      document.querySelectorAll('.feature-objects [data-led]').forEach((led, i) => {
+        gsap.to(led, {
+          opacity: 0.25,
+          duration: 0.5,
+          repeat: -1,
+          yoyo: true,
+          delay: (i % 3) * 0.3,
+          ease: 'steps(1)',
+        });
       });
     });
   });

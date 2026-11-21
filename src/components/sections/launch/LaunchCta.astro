@@ -158,23 +158,27 @@ import LaunchObject from '@components/graphics/objects/LaunchObject.astro';
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
-  const mm = gsap.matchMedia();
+  import { gsap, motion, onPage, MQ } from '@lib/motion';
+
   // Scroll parallax (desktop only, smoothing 75), keyed to the section's in-view progress:
   // object A y -40 -> 10 over 0% -> 55%; object B y 0 -> 55 over 22% -> 80%.
-  mm.add('(min-width: 992px) and (prefers-reduced-motion: no-preference)', () => {
+  onPage(() => {
     document.querySelectorAll<HTMLElement>('[data-section="quests-cta"]').forEach((root) => {
-      const a = root.querySelector('[data-float="a"]');
-      const b = root.querySelector('[data-float="b"]');
-      const tl = gsap.timeline({
-        defaults: { ease: 'none' },
-        scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: 0.75 },
-      });
-      tl.fromTo(a, { y: -40 }, { y: 10, duration: 55 }, 0)
-        .fromTo(b, { y: 0 }, { y: 55, duration: 58 }, 22)
-        .to({}, { duration: 0 }, 100);
+      motion(
+        root,
+        () => {
+          const a = root.querySelector('[data-float="a"]');
+          const b = root.querySelector('[data-float="b"]');
+          const tl = gsap.timeline({
+            defaults: { ease: 'none' },
+            scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: 0.75 },
+          });
+          tl.fromTo(a, { y: -40 }, { y: 10, duration: 55 }, 0)
+            .fromTo(b, { y: 0 }, { y: 55, duration: 58 }, 22)
+            .to({}, { duration: 0 }, 100);
+        },
+        MQ.lg,
+      );
     });
   });
 </script>

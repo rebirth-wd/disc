@@ -63,16 +63,18 @@ const sizes = {
   }
 </style>
 <script>
-  import gsap from 'gsap';
-  // glow: opacity 0 -> 1 in 200ms on mouseover, 1 -> 0 in 200ms on mouseout (linear)
-  document.querySelectorAll<HTMLElement>('[data-glow-btn]').forEach((btn) => {
-    const glow = btn.querySelector<HTMLElement>('[data-glow]');
-    if (!glow) return;
-    btn.addEventListener('mouseenter', () =>
-      gsap.to(glow, { opacity: 1, duration: 0.2, ease: 'none', overwrite: true }),
-    );
-    btn.addEventListener('mouseleave', () =>
-      gsap.to(glow, { opacity: 0, duration: 0.2, ease: 'none', overwrite: true }),
-    );
+  import { gsap, onPage } from '@lib/motion';
+  onPage(() => {
+    // glow: opacity 0 -> 1 in 200ms on mouseover, 1 -> 0 in 200ms on mouseout (linear)
+    document.querySelectorAll<HTMLElement>('[data-glow-btn]').forEach((btn) => {
+      const glow = btn.querySelector<HTMLElement>('[data-glow]');
+      if (!glow) return;
+      btn.addEventListener('mouseenter', () =>
+        gsap.to(glow, { opacity: 1, duration: 0.2, ease: 'none', overwrite: true }),
+      );
+      btn.addEventListener('mouseleave', () =>
+        gsap.to(glow, { opacity: 0, duration: 0.2, ease: 'none', overwrite: true }),
+      );
+    });
   });
 </script>

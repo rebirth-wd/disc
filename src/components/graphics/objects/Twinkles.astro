@@ -43,16 +43,28 @@ const { stars } = Astro.props;
   }
 </style>
 <script>
-  import gsap from 'gsap';
+  import { gsap, motion, onPage, MQ } from '@lib/motion';
+
   // holds (s) before each 0.5s fade: in, out, in, out
   const SEQ: Record<string, number[]> = { '1': [1, 2, 1, 2], '2': [2, 2, 1, 2], '3': [1, 1, 1, 2] };
-  const mm = gsap.matchMedia();
-  mm.add('(prefers-reduced-motion: no-preference) and (min-width: 768px)', () => {
-    document.querySelectorAll<HTMLElement>('[data-twinkles] i').forEach((el) => {
-      const d = SEQ[el.dataset.seq || '1'];
-      const tl = gsap.timeline({ repeat: -1, defaults: { duration: 0.5, ease: 'power1.in' } });
-      tl.set(el, { opacity: 0 });
-      d.forEach((hold, i) => tl.to(el, { opacity: i % 2 ? 0 : 1 }, `+=${hold}`));
+
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-twinkles]').forEach((root) => {
+      motion(
+        root,
+        () => {
+          root.querySelectorAll<HTMLElement>('i').forEach((el) => {
+            const d = SEQ[el.dataset.seq || '1'];
+            const tl = gsap.timeline({
+              repeat: -1,
+              defaults: { duration: 0.5, ease: 'power1.in' },
+            });
+            tl.set(el, { opacity: 0 });
+            d.forEach((hold, i) => tl.to(el, { opacity: i % 2 ? 0 : 1 }, `+=${hold}`));
+          });
+        },
+        MQ.md,
+      );
     });
   });
 </script>

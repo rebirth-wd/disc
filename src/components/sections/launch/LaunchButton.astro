@@ -71,16 +71,18 @@ const { variant, href = '#', glow = false } = Astro.props;
 </style>
 
 <script>
-  import gsap from 'gsap';
-  document.querySelectorAll<HTMLElement>('[data-glow-host]').forEach((host) => {
-    const glow = host.querySelector<HTMLElement>('[data-glow]');
-    if (!glow) return;
-    // glow: opacity 0 -> 1 in 200ms, back in 200ms, linear
-    host.addEventListener('pointerenter', () =>
-      gsap.to(glow, { opacity: 1, duration: 0.2, ease: 'none', overwrite: true }),
-    );
-    host.addEventListener('pointerleave', () =>
-      gsap.to(glow, { opacity: 0, duration: 0.2, ease: 'none', overwrite: true }),
-    );
+  import { gsap, onPage } from '@lib/motion';
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-glow-host]').forEach((host) => {
+      const glow = host.querySelector<HTMLElement>('[data-glow]');
+      if (!glow) return;
+      // glow: opacity 0 -> 1 in 200ms, back in 200ms, linear
+      host.addEventListener('pointerenter', () =>
+        gsap.to(glow, { opacity: 1, duration: 0.2, ease: 'none', overwrite: true }),
+      );
+      host.addEventListener('pointerleave', () =>
+        gsap.to(glow, { opacity: 0, duration: 0.2, ease: 'none', overwrite: true }),
+      );
+    });
   });
 </script>

@@ -2,13 +2,10 @@
 // Swiper-style behaviour: slidesPerView 'auto', centeredSlides, loop,
 // speed 600ms with the CSS `ease` curve, slideToClickedSlide, keyboard, grab cursor,
 // prev/next buttons, autoplay with pauseOnMouseEnter, optional dynamic bullets.
-import gsap from 'gsap';
 import { Draggable } from 'gsap/Draggable';
-import { CustomEase } from 'gsap/CustomEase';
+import { gsap, ease, reducedMotion } from './motion';
 
-gsap.registerPlugin(Draggable, CustomEase);
-// CSS `ease` keyword = cubic-bezier(.25,.1,.25,1)
-export const CSS_EASE = CustomEase.create('careersCssEase', '0.25,0.1,0.25,1');
+gsap.registerPlugin(Draggable);
 
 export interface CarouselOptions {
   /** seconds for the track move (Swiper `speed`) */
@@ -36,7 +33,7 @@ export function createCarousel(root: HTMLElement, opts: CarouselOptions) {
   const prev = root.querySelector<HTMLElement>('[data-carousel-prev]');
   const next = root.querySelector<HTMLElement>('[data-carousel-next]');
   const N = slides.length;
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduced = reducedMotion();
   const speed = reduced ? 0 : (opts.speed ?? 0.6);
   const stateDur = reduced ? 0 : (opts.stateDuration ?? 0.5);
   const st = { pos: 0 };
@@ -81,7 +78,7 @@ export function createCarousel(root: HTMLElement, opts: CarouselOptions) {
       gsap.to(act[i], {
         a: on ? 1 : 0,
         duration: stateDur,
-        ease: CSS_EASE,
+        ease: ease.css,
         overwrite: true,
         onUpdate: () => opts.applyState(s, act[i].a),
       });
@@ -94,7 +91,7 @@ export function createCarousel(root: HTMLElement, opts: CarouselOptions) {
     gsap.to(st, {
       pos: target,
       duration: speed,
-      ease: CSS_EASE,
+      ease: ease.css,
       overwrite: true,
       onUpdate: render,
     });

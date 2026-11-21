@@ -229,50 +229,53 @@ const rest = faqs.slice(4);
   }
 </style>
 <script>
-  import gsap from 'gsap';
-  import { CSS_EASE } from '@lib/carousel';
-  const root = document.querySelector<HTMLElement>('[data-section="careers-faq"]');
-  if (root) {
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const items = gsap.utils.toArray<HTMLElement>('[data-faq]', root);
-    // the answer shows/hides instantly (no height tween);
-    // the vertical bar of the plus fades out in 250ms ease on open and back in over 500ms ease on close.
-    const set = (item: HTMLElement, open: boolean) => {
-      const toggle = item.querySelector<HTMLElement>('[data-faq-toggle]')!;
-      if ((toggle.getAttribute('aria-expanded') === 'true') === open) return;
-      toggle.setAttribute('aria-expanded', String(open));
-      item.querySelector<HTMLElement>('[data-faq-panel]')!.hidden = !open;
-      gsap.to(item.querySelector('[data-faq-plus]'), {
-        opacity: open ? 0 : 1,
-        duration: reduced ? 0 : open ? 0.25 : 0.5,
-        ease: CSS_EASE,
-        overwrite: true,
+  import { gsap, ease, onPage, reducedMotion } from '@lib/motion';
+  onPage(() => {
+    const root = document.querySelector<HTMLElement>('[data-section="careers-faq"]');
+    if (root) {
+      const reduced = reducedMotion();
+      const items = gsap.utils.toArray<HTMLElement>('[data-faq]', root);
+      // the answer shows/hides instantly (no height tween);
+      // the vertical bar of the plus fades out in 250ms ease on open and back in over 500ms ease on close.
+      const set = (item: HTMLElement, open: boolean) => {
+        const toggle = item.querySelector<HTMLElement>('[data-faq-toggle]')!;
+        if ((toggle.getAttribute('aria-expanded') === 'true') === open) return;
+        toggle.setAttribute('aria-expanded', String(open));
+        item.querySelector<HTMLElement>('[data-faq-panel]')!.hidden = !open;
+        gsap.to(item.querySelector('[data-faq-plus]'), {
+          opacity: open ? 0 : 1,
+          duration: reduced ? 0 : open ? 0.25 : 0.5,
+          ease: ease.css,
+          overwrite: true,
+        });
+      };
+      items.forEach((item) => {
+        item.querySelector('[data-faq-toggle]')!.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const open =
+            item.querySelector('[data-faq-toggle]')!.getAttribute('aria-expanded') !== 'true';
+          items.forEach((o) => o !== item && set(o, false)); // one open at a time
+          set(item, open);
+        });
+        item
+          .querySelector('[data-faq-panel]')!
+          .addEventListener('click', (e) => e.stopPropagation());
       });
-    };
-    items.forEach((item) => {
-      item.querySelector('[data-faq-toggle]')!.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const open =
-          item.querySelector('[data-faq-toggle]')!.getAttribute('aria-expanded') !== 'true';
-        items.forEach((o) => o !== item && set(o, false)); // one open at a time
-        set(item, open);
-      });
-      item.querySelector('[data-faq-panel]')!.addEventListener('click', (e) => e.stopPropagation());
-    });
-    document.addEventListener('click', () => items.forEach((o) => set(o, false))); // close on outside click
-    document.addEventListener(
-      'keydown',
-      (e) => e.key === 'Escape' && items.forEach((o) => set(o, false)),
-    );
+      document.addEventListener('click', () => items.forEach((o) => set(o, false))); // close on outside click
+      document.addEventListener(
+        'keydown',
+        (e) => e.key === 'Escape' && items.forEach((o) => set(o, false)),
+      );
 
-    // "See All" (click): the hidden list height 0 -> auto in 300ms, button wrapper display:none
-    const all = root.querySelector<HTMLElement>('[data-faq-all]')!;
-    const wrap = root.querySelector<HTMLElement>('[data-faq-all-wrap]')!;
-    root.querySelector('[data-faq-all-btn]')?.addEventListener('click', (e) => {
-      e.stopPropagation();
-      wrap.style.display = 'none';
-      all.querySelectorAll('[data-faq-toggle]').forEach((t) => t.removeAttribute('tabindex'));
-      gsap.to(all, { height: 'auto', duration: reduced ? 0 : 0.3, ease: 'none' });
-    });
-  }
+      // "See All" (click): the hidden list height 0 -> auto in 300ms, button wrapper display:none
+      const all = root.querySelector<HTMLElement>('[data-faq-all]')!;
+      const wrap = root.querySelector<HTMLElement>('[data-faq-all-wrap]')!;
+      root.querySelector('[data-faq-all-btn]')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        wrap.style.display = 'none';
+        all.querySelectorAll('[data-faq-toggle]').forEach((t) => t.removeAttribute('tabindex'));
+        gsap.to(all, { height: 'auto', duration: reduced ? 0 : 0.3, ease: 'none' });
+      });
+    }
+  });
 </script>

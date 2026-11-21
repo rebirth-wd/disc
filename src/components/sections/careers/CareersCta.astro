@@ -52,14 +52,12 @@ import Starfield from '@components/layout/Starfield.astro';
   }
 </style>
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
-  const root = document.querySelector<HTMLElement>('[data-section="careers-cta"]');
-  if (root) {
+  import { gsap, motion, onPage } from '@lib/motion';
+
+  onPage(() => {
     // Scroll parallax on the banner (smoothing 50), 0% -> 100%:
     // left object y -45 -> 150px, right object y -150 -> 30px.
-    gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
+    motion(document.querySelector<HTMLElement>('[data-section="careers-cta"]'), (root) => {
       const st = { trigger: root, start: 'top bottom', end: 'bottom top', scrub: 0.5 };
       gsap.fromTo(
         root.querySelector('[data-careers-float="cta-a"]'),
@@ -72,5 +70,5 @@ import Starfield from '@components/layout/Starfield.astro';
         { y: 30, ease: 'none', scrollTrigger: { ...st } },
       );
     });
-  }
+  });
 </script>

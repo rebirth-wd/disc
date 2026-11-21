@@ -89,41 +89,46 @@ const SETS = 4; // the word set is rendered four times
 </style>
 
 <script>
-  import gsap from 'gsap';
+  import { gsap, motion, onPage, MQ } from '@lib/motion';
 
   const SPEED = 2727.4 / 60; // px per second
 
-  document.querySelectorAll<HTMLElement>('[data-section="home-marquee"]').forEach((root) => {
-    const track = root.querySelector<HTMLElement>('[data-marquee-track]');
-    const sets = root.querySelectorAll<HTMLElement>('[data-marquee-set]');
-    if (!track || sets.length < 2) return;
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-section="home-marquee"]').forEach((root) => {
+      const track = root.querySelector<HTMLElement>('[data-marquee-track]');
+      const sets = root.querySelectorAll<HTMLElement>('[data-marquee-set]');
+      if (!track || sets.length < 2) return;
 
-    const mm = gsap.matchMedia();
-    mm.add('(prefers-reduced-motion: no-preference) and (min-width: 768px)', () => {
-      let tween: gsap.core.Tween | undefined;
-      const build = () => {
-        const progress = tween ? tween.progress() : 0;
-        tween?.kill();
-        // distance between two consecutive sets = one seamless period
-        const period = sets[1].offsetLeft - sets[0].offsetLeft;
-        if (!period) return;
-        tween = gsap.fromTo(
-          track,
-          { x: 0 },
-          { x: -period, duration: period / SPEED, ease: 'none', repeat: -1 },
-        );
-        tween.progress(progress);
-      };
-      build();
-      // fonts change the word widths → rebuild with the same phase
-      document.fonts?.ready.then(build);
-      const ro = new ResizeObserver(build);
-      ro.observe(sets[0]);
-      return () => {
-        ro.disconnect();
-        tween?.kill();
-        gsap.set(track, { clearProps: 'transform' });
-      };
+      motion(
+        root,
+        () => {
+          let tween: gsap.core.Tween | undefined;
+          const build = () => {
+            const progress = tween ? tween.progress() : 0;
+            tween?.kill();
+            // distance between two consecutive sets = one seamless period
+            const period = sets[1].offsetLeft - sets[0].offsetLeft;
+            if (!period) return;
+            tween = gsap.fromTo(
+              track,
+              { x: 0 },
+              { x: -period, duration: period / SPEED, ease: 'none', repeat: -1 },
+            );
+            tween.progress(progress);
+          };
+          build();
+          // fonts change the word widths → rebuild with the same phase
+          document.fonts?.ready.then(build);
+          const ro = new ResizeObserver(build);
+          ro.observe(sets[0]);
+          return () => {
+            ro.disconnect();
+            tween?.kill();
+            gsap.set(track, { clearProps: 'transform' });
+          };
+        },
+        MQ.md,
+      );
     });
   });
 </script>

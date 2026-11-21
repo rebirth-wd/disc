@@ -275,51 +275,53 @@ const idleC = ['#5b6fb8', '#3f8f6b', '#8a5aa0'];
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
+  import { gsap, media, motion, onPage, playWhileInView, MOTION_REDUCE } from '@lib/motion';
 
-  document.querySelectorAll<HTMLElement>('[data-lead-feed]').forEach((root) => {
-    const cursor = root.querySelector('[data-lead-feed-cursor]');
-    const hls = gsap.utils.toArray<HTMLElement>('[data-lead-feed-hl]', root);
-    const pops = gsap.utils.toArray<HTMLElement>('[data-lead-feed-pop]', root);
-    const mm = gsap.matchMedia();
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
-      const STEP = 1.85; // 4 rows × 1.85s = 7.4s
-      const pos = (k: number) => ({ x: 318 - (k % 2) * 14, y: 97 + k * 45 });
-      gsap.set(cursor, pos(3)); // loop starts where it ends
-      gsap.set(pops, { opacity: 0, y: 8, scale: 0.96, transformOrigin: '0% 20%' });
-      const tl = gsap.timeline({ repeat: -1, paused: true });
-      hls.forEach((hl, k) => {
-        const t = k * STEP;
-        tl.to(cursor, { ...pos(k), duration: 0.5, ease: 'power2.inOut' }, t)
-          .to(hl, { opacity: 1, duration: 0.15, ease: 'none' }, t + 0.4)
-          .to(pops[k], { opacity: 1, y: 0, scale: 1, duration: 0.28, ease: 'power2.out' }, t + 0.5)
-          .to(
-            pops[k],
-            { opacity: 0, y: 8, scale: 0.96, duration: 0.2, ease: 'power1.in' },
-            t + STEP - 0.2,
-          )
-          .to(hl, { opacity: 0, duration: 0.15, ease: 'none' }, t + STEP - 0.05);
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-lead-feed]').forEach((root) => {
+      const cursor = root.querySelector('[data-lead-feed-cursor]');
+      const hls = gsap.utils.toArray<HTMLElement>('[data-lead-feed-hl]', root);
+      const pops = gsap.utils.toArray<HTMLElement>('[data-lead-feed-pop]', root);
+      motion(root, () => {
+        const STEP = 1.85; // 4 rows × 1.85s = 7.4s
+        const pos = (k: number) => ({ x: 318 - (k % 2) * 14, y: 97 + k * 45 });
+        gsap.set(cursor, pos(3)); // loop starts where it ends
+        gsap.set(pops, { opacity: 0, y: 8, scale: 0.96, transformOrigin: '0% 20%' });
+        const tl = gsap.timeline({ repeat: -1, paused: true });
+        hls.forEach((hl, k) => {
+          const t = k * STEP;
+          tl.to(cursor, { ...pos(k), duration: 0.5, ease: 'power2.inOut' }, t)
+            .to(hl, { opacity: 1, duration: 0.15, ease: 'none' }, t + 0.4)
+            .to(
+              pops[k],
+              { opacity: 1, y: 0, scale: 1, duration: 0.28, ease: 'power2.out' },
+              t + 0.5,
+            )
+            .to(
+              pops[k],
+              { opacity: 0, y: 8, scale: 0.96, duration: 0.2, ease: 'power1.in' },
+              t + STEP - 0.2,
+            )
+            .to(hl, { opacity: 0, duration: 0.15, ease: 'none' }, t + STEP - 0.05);
+        });
+        // last highlight fades during the first 0.1s of the next cycle → wrap it so the loop is exact
+        tl.set(hls[hls.length - 1], { opacity: 0 }, 4 * STEP);
+        const st = playWhileInView(root, tl);
+        return () => {
+          st.kill();
+          tl.kill();
+        };
       });
-      // last highlight fades during the first 0.1s of the next cycle → wrap it so the loop is exact
-      tl.set(hls[hls.length - 1], { opacity: 0 }, 4 * STEP);
-      const st = ScrollTrigger.create({
-        trigger: root,
-        start: 'top bottom',
-        end: 'bottom top',
-        onToggle: (s) => (s.isActive ? tl.play() : tl.pause()),
-      });
-      return () => {
-        st.kill();
-        tl.kill();
-      };
-    });
-    // reduced motion / no JS: show the first lead's card
-    mm.add('(prefers-reduced-motion: reduce)', () => {
-      gsap.set(cursor, { x: 318, y: 97 });
-      gsap.set(hls[0], { opacity: 1 });
-      gsap.set(pops[0], { opacity: 1 });
+      // reduced motion / no JS: show the first lead's card
+      media(
+        root,
+        () => {
+          gsap.set(cursor, { x: 318, y: 97 });
+          gsap.set(hls[0], { opacity: 1 });
+          gsap.set(pops[0], { opacity: 1 });
+        },
+        MOTION_REDUCE,
+      );
     });
   });
 </script>

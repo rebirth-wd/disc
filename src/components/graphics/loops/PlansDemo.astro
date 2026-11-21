@@ -382,9 +382,7 @@ const F = 'font-family:var(--font-abc-ginto-discord);font-weight:500';
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
+  import { gsap, motion, onPage, playWhileInView } from '@lib/motion';
 
   const build: Record<string, (q: (s: string) => Element[]) => gsap.core.Timeline> = {
     repairs(q) {
@@ -622,17 +620,14 @@ const F = 'font-family:var(--font-abc-ginto-discord);font-weight:500';
     },
   };
 
-  gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
+  onPage(() => {
     document.querySelectorAll('.plans-page [data-demo]').forEach((el) => {
-      const q = (s: string) => Array.from(el.querySelectorAll(s));
-      const tl = build[(el as HTMLElement).dataset.demo!](q);
-      tl.pause();
-      // like autoplay loops, but only spend frames while on screen
-      ScrollTrigger.create({
-        trigger: el,
-        start: 'top bottom',
-        end: 'bottom top',
-        onToggle: (s) => (s.isActive ? tl.play() : tl.pause()),
+      motion(el, () => {
+        const q = (s: string) => Array.from(el.querySelectorAll(s));
+        const tl = build[(el as HTMLElement).dataset.demo!](q);
+        tl.pause();
+        // like autoplay loops, but only spend frames while on screen
+        playWhileInView(el, tl);
       });
     });
   });

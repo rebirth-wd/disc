@@ -96,13 +96,11 @@ const photo =
   }
 </style>
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
-  const root = document.querySelector<HTMLElement>('[data-section="careers-values"]');
-  if (root) {
-    // Scroll parallax on the section (smoothing 50): 0% -> 50%: y 0 -> 100px, then holds.
-    gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
+  import { gsap, motion, onPage } from '@lib/motion';
+
+  // Scroll parallax on the section (smoothing 50): 0% -> 50%: y 0 -> 100px, then holds.
+  onPage(() => {
+    motion(document.querySelector<HTMLElement>('[data-section="careers-values"]'), (root) => {
       gsap
         .timeline({
           defaults: { ease: 'none' },
@@ -111,5 +109,5 @@ const photo =
         .to(root.querySelector('[data-careers-float="bot"]'), { y: 100, duration: 0.5 })
         .to({}, { duration: 0.5 });
     });
-  }
+  });
 </script>

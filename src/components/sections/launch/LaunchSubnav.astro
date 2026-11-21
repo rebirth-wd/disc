@@ -334,84 +334,82 @@ const mobile = [
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { CustomEase } from 'gsap/CustomEase';
-  gsap.registerPlugin(CustomEase);
-  // CSS `ease`
-  const cssEase = CustomEase.create('launchCssEase', '0.25,0.1,0.25,1');
+  import { gsap, ease, onPage, reducedMotion } from '@lib/motion';
 
-  document.querySelectorAll<HTMLElement>('[data-section="quests-subnav"]').forEach((root) => {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-section="quests-subnav"]').forEach((root) => {
+      const reduce = reducedMotion();
 
-    // desktop dropdown: opens on hover (delay 0) / focus / click; chevron 0 -> 180deg, 100ms ease
-    const drop = root.querySelector<HTMLElement>('[data-drop]');
-    if (drop) {
-      const btn = drop.querySelector<HTMLButtonElement>('[data-toggle]')!;
-      const list = drop.querySelector<HTMLElement>('[data-droplist]')!;
-      const chev = drop.querySelector<SVGElement>('[data-chev]')!;
-      let open = false;
-      let openedAt = 0;
-      const set = (v: boolean) => {
-        if (v === open) return;
-        open = v;
-        if (v) openedAt = performance.now();
-        list.hidden = !v;
-        btn.setAttribute('aria-expanded', String(v));
-        gsap.to(chev, {
-          rotation: v ? 180 : 0,
-          duration: reduce ? 0 : 0.1,
-          ease: cssEase,
-          overwrite: true,
+      // desktop dropdown: opens on hover (delay 0) / focus / click; chevron 0 -> 180deg, 100ms ease
+      const drop = root.querySelector<HTMLElement>('[data-drop]');
+      if (drop) {
+        const btn = drop.querySelector<HTMLButtonElement>('[data-toggle]')!;
+        const list = drop.querySelector<HTMLElement>('[data-droplist]')!;
+        const chev = drop.querySelector<SVGElement>('[data-chev]')!;
+        let open = false;
+        let openedAt = 0;
+        const set = (v: boolean) => {
+          if (v === open) return;
+          open = v;
+          if (v) openedAt = performance.now();
+          list.hidden = !v;
+          btn.setAttribute('aria-expanded', String(v));
+          gsap.to(chev, {
+            rotation: v ? 180 : 0,
+            duration: reduce ? 0 : 0.1,
+            ease: ease.css,
+            overwrite: true,
+          });
+        };
+        drop.addEventListener('pointerenter', (e) => {
+          if (e.pointerType === 'mouse') set(true);
         });
-      };
-      drop.addEventListener('pointerenter', (e) => {
-        if (e.pointerType === 'mouse') set(true);
-      });
-      drop.addEventListener('pointerleave', (e) => {
-        if (e.pointerType === 'mouse') set(false);
-      });
-      btn.addEventListener('click', (e) => {
-        if ((e as PointerEvent).pointerType !== 'mouse' && performance.now() - openedAt > 300)
-          set(!open);
-      });
-      drop.addEventListener('focusin', () => set(true));
-      drop.addEventListener('focusout', (e) => {
-        if (!drop.contains(e.relatedTarget as Node)) set(false);
-      });
-      drop.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          set(false);
-          btn.focus();
-        }
-      });
-    }
-
-    // mobile dropdown: click toggles
-    const mob = root.querySelector<HTMLElement>('[data-mob]');
-    if (mob) {
-      const btn = mob.querySelector<HTMLButtonElement>('[data-mob-toggle]')!;
-      const list = mob.querySelector<HTMLElement>('[data-mob-list]')!;
-      const chev = mob.querySelector<SVGElement>('[data-mob-chev]')!;
-      const set = (v: boolean) => {
-        list.hidden = !v;
-        btn.setAttribute('aria-expanded', String(v));
-        gsap.to(chev, {
-          rotation: v ? 180 : 0,
-          duration: reduce ? 0 : 0.1,
-          ease: cssEase,
-          overwrite: true,
+        drop.addEventListener('pointerleave', (e) => {
+          if (e.pointerType === 'mouse') set(false);
         });
-      };
-      btn.addEventListener('click', () => set(list.hidden === true));
-      document.addEventListener('click', (e) => {
-        if (!mob.contains(e.target as Node)) set(false);
-      });
-      mob.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          set(false);
-          btn.focus();
-        }
-      });
-    }
+        btn.addEventListener('click', (e) => {
+          if ((e as PointerEvent).pointerType !== 'mouse' && performance.now() - openedAt > 300)
+            set(!open);
+        });
+        drop.addEventListener('focusin', () => set(true));
+        drop.addEventListener('focusout', (e) => {
+          if (!drop.contains(e.relatedTarget as Node)) set(false);
+        });
+        drop.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            set(false);
+            btn.focus();
+          }
+        });
+      }
+
+      // mobile dropdown: click toggles
+      const mob = root.querySelector<HTMLElement>('[data-mob]');
+      if (mob) {
+        const btn = mob.querySelector<HTMLButtonElement>('[data-mob-toggle]')!;
+        const list = mob.querySelector<HTMLElement>('[data-mob-list]')!;
+        const chev = mob.querySelector<SVGElement>('[data-mob-chev]')!;
+        const set = (v: boolean) => {
+          list.hidden = !v;
+          btn.setAttribute('aria-expanded', String(v));
+          gsap.to(chev, {
+            rotation: v ? 180 : 0,
+            duration: reduce ? 0 : 0.1,
+            ease: ease.css,
+            overwrite: true,
+          });
+        };
+        btn.addEventListener('click', () => set(list.hidden === true));
+        document.addEventListener('click', (e) => {
+          if (!mob.contains(e.target as Node)) set(false);
+        });
+        mob.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            set(false);
+            btn.focus();
+          }
+        });
+      }
+    });
   });
 </script>

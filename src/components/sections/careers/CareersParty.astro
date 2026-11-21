@@ -237,73 +237,74 @@ const names = [
   }
 </style>
 <script>
-  import gsap from 'gsap';
-  import { createCarousel, CSS_EASE } from '@lib/carousel';
-
-  const root = document.querySelector<HTMLElement>(
-    '[data-section="careers-party"] [data-carousel]',
-  );
-  if (root) {
-    const bullets = gsap.utils.toArray<HTMLElement>('[data-bullet]', root);
-    let progress: gsap.core.Tween | null = null;
-    const car = createCarousel(root, {
-      // Swiper "is-jobs": slidesPerView auto, spaceBetween 0, speed 600, loop, centred,
-      // autoplay 9000 (disableOnInteraction false, pauseOnMouseEnter true)
-      speed: 0.6,
-      autoplay: 9,
-      disableOnInteraction: false,
-      stateDuration: 0.8, // .swiper-slide opacity .8s / .jobs-slide_content-wr all .8s
-      pull: () => parseFloat(getComputedStyle(root).getPropertyValue('--pull')) || 0,
-      applyState: (slide, a) => {
-        slide.style.opacity = String(0.7 + 0.3 * a);
-        gsap.set(slide.querySelector('[data-slide-card]'), { scale: 0.8 + 0.2 * a });
-      },
-      onChange: (index, count) => {
-        // icon: transform .5s ease (0.8 <-> 1)
-        gsap.utils.toArray<HTMLElement>('[data-slide]', root).forEach((s, i) => {
-          gsap.to(s.querySelector('[data-slide-icon]'), {
-            scale: i === index ? 1 : 0.8,
-            duration: 0.5,
-            ease: CSS_EASE,
-            overwrite: true,
+  import { gsap, ease, onPage } from '@lib/motion';
+  import { createCarousel } from '@lib/carousel';
+  onPage(() => {
+    const root = document.querySelector<HTMLElement>(
+      '[data-section="careers-party"] [data-carousel]',
+    );
+    if (root) {
+      const bullets = gsap.utils.toArray<HTMLElement>('[data-bullet]', root);
+      let progress: gsap.core.Tween | null = null;
+      const car = createCarousel(root, {
+        // Swiper "is-jobs": slidesPerView auto, spaceBetween 0, speed 600, loop, centred,
+        // autoplay 9000 (disableOnInteraction false, pauseOnMouseEnter true)
+        speed: 0.6,
+        autoplay: 9,
+        disableOnInteraction: false,
+        stateDuration: 0.8, // .swiper-slide opacity .8s / .jobs-slide_content-wr all .8s
+        pull: () => parseFloat(getComputedStyle(root).getPropertyValue('--pull')) || 0,
+        applyState: (slide, a) => {
+          slide.style.opacity = String(0.7 + 0.3 * a);
+          gsap.set(slide.querySelector('[data-slide-card]'), { scale: 0.8 + 0.2 * a });
+        },
+        onChange: (index, count) => {
+          // icon: transform .5s ease (0.8 <-> 1)
+          gsap.utils.toArray<HTMLElement>('[data-slide]', root).forEach((s, i) => {
+            gsap.to(s.querySelector('[data-slide-icon]'), {
+              scale: i === index ? 1 : 0.8,
+              duration: 0.5,
+              ease: ease.css,
+              overwrite: true,
+            });
           });
-        });
-        // dynamic bullets (dynamicMainBullets 1): active 32x8, +-1 8x8, +-2 4x4, rest hidden; width transition .3s
-        bullets.forEach((b, i) => {
-          const d = Math.abs(i - index);
-          b.classList.toggle('is-active', d === 0);
-          b.setAttribute('aria-current', d === 0 ? 'true' : 'false');
-          if (d > 2) {
-            b.style.display = 'none';
-            return;
-          }
-          b.style.display = 'block';
-          gsap.to(b, {
-            width: d === 0 ? 32 : d === 1 ? 8 : 4,
-            height: d === 2 ? 4 : 8,
-            duration: 0.3,
-            ease: CSS_EASE,
-            overwrite: true,
+          // dynamic bullets (dynamicMainBullets 1): active 32x8, +-1 8x8, +-2 4x4, rest hidden; width transition .3s
+          bullets.forEach((b, i) => {
+            const d = Math.abs(i - index);
+            b.classList.toggle('is-active', d === 0);
+            b.setAttribute('aria-current', d === 0 ? 'true' : 'false');
+            if (d > 2) {
+              b.style.display = 'none';
+              return;
+            }
+            b.style.display = 'block';
+            gsap.to(b, {
+              width: d === 0 ? 32 : d === 1 ? 8 : 4,
+              height: d === 2 ? 4 : 8,
+              duration: 0.3,
+              ease: ease.css,
+              overwrite: true,
+            });
           });
-        });
-        void count;
-      },
-      onAutoplay: (state, delay) => {
-        // @keyframes swiperProgress: width 0 -> 2rem, 9s linear, restarted on every slide change, paused on hover
-        if (state === 'start') {
-          progress?.kill();
-          bullets.forEach((b) => gsap.set(b.firstElementChild, { width: 0 }));
-          const bar = root.querySelector('[data-bullet].is-active [data-bullet-progress]');
-          progress = bar
-            ? gsap.fromTo(bar, { width: 0 }, { width: 32, duration: delay, ease: 'none' })
-            : null;
-        } else if (state === 'pause') progress?.pause();
-        else if (state === 'resume') progress?.resume();
-      },
-    });
-    gsap.utils
-      .toArray<HTMLElement>('[data-slide-icon]', root)
-      .forEach((el, i) => gsap.set(el, { scale: i === 0 ? 1 : 0.8 }));
-    bullets.forEach((b, i) => b.addEventListener('click', () => car.goTo(i)));
-  }
+          void count;
+        },
+        onAutoplay: (state, delay) => {
+          // @keyframes swiperProgress: width 0 -> 2rem, 9s linear, restarted on every slide change, paused on hover
+          if (state === 'start') {
+            progress?.kill();
+            bullets.forEach((b) => gsap.set(b.firstElementChild, { width: 0 }));
+            const bar = root.querySelector('[data-bullet].is-active [data-bullet-progress]');
+            progress = bar
+              ? gsap.fromTo(bar, { width: 0 }, { width: 32, duration: delay, ease: 'none' })
+              : null;
+          } else if (state === 'pause') progress?.pause();
+          else if (state === 'resume') progress?.resume();
+        },
+      });
+      gsap.utils
+        .toArray<HTMLElement>('[data-slide-icon]', root)
+        .forEach((el, i) => gsap.set(el, { scale: i === 0 ? 1 : 0.8 }));
+      bullets.forEach((b, i) => b.addEventListener('click', () => car.goTo(i)));
+    }
+  });
 </script>

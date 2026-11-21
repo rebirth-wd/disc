@@ -233,115 +233,128 @@ const tiles = [
 </style>
 
 <script>
-  import gsap from 'gsap';
+  import { gsap, media, motion, onPage, playWhileInView, MOTION_REDUCE } from '@lib/motion';
 
-  document.querySelectorAll<HTMLElement>('[data-pipeline-loop="pipe"]').forEach((root) => {
-    const q = gsap.utils.selector(root);
-    const one = (s: string) => q<SVGElement>(s)[0];
-    const row = (k: string) => one(`[data-row="${k}"]`);
-    const tile = (k: string) => one(`[data-tile="${k}"]`);
-    const cursor = one('[data-cursor]');
-    const spark = one('[data-spark]') as unknown as SVGPathElement;
-    const sparkLen = spark.getTotalLength();
-    const tiles = q<SVGElement>('[data-tile]');
-    const origin = (el: SVGElement) => {
-      const b = (el as unknown as SVGGraphicsElement).getBBox();
-      return `${b.x + b.width / 2}px ${b.y + b.height / 2}px`;
-    };
-    tiles.forEach((t) => gsap.set(t, { svgOrigin: origin(t).replace(/px/g, '') }));
-    gsap.set(one('[data-pillbox]'), { svgOrigin: '454 191' });
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-pipeline-loop="pipe"]').forEach((root) => {
+      const q = gsap.utils.selector(root);
+      const one = (s: string) => q<SVGElement>(s)[0];
+      const row = (k: string) => one(`[data-row="${k}"]`);
+      const tile = (k: string) => one(`[data-tile="${k}"]`);
+      const cursor = one('[data-cursor]');
+      const spark = one('[data-spark]') as unknown as SVGPathElement;
+      const sparkLen = spark.getTotalLength();
+      const tiles = q<SVGElement>('[data-tile]');
+      const origin = (el: SVGElement) => {
+        const b = (el as unknown as SVGGraphicsElement).getBBox();
+        return `${b.x + b.width / 2}px ${b.y + b.height / 2}px`;
+      };
+      tiles.forEach((t) => gsap.set(t, { svgOrigin: origin(t).replace(/px/g, '') }));
+      gsap.set(one('[data-pillbox]'), { svgOrigin: '454 191' });
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      gsap.set(q('[data-done]'), { autoAlpha: 1 });
-      gsap.set(q('[data-row-label]'), { fill: '#ffffff' });
-      gsap.set(cursor, { x: 60, y: 276 });
-      return;
-    }
+      media(
+        root,
+        () => {
+          gsap.set(q('[data-done]'), { autoAlpha: 1 });
+          gsap.set(q('[data-row-label]'), { fill: '#ffffff' });
+          gsap.set(cursor, { x: 60, y: 276 });
+        },
+        MOTION_REDUCE,
+      );
 
-    const rowY: Record<string, number> = { scan: 148, patch: 177, backup: 206, uptime: 276 };
-    const tl = gsap.timeline({ repeat: -1, paused: true });
-    tl.set(cursor, { x: 40, y: 120 })
-      .set(tiles, { autoAlpha: 0, scale: 0.7 })
-      .set(one('[data-pillbox]'), { autoAlpha: 0, scale: 0.8 })
-      .set(q('[data-node]'), { autoAlpha: 0, x: -8 })
-      .set(q('[data-done]'), { autoAlpha: 0, scale: 0.4, transformOrigin: '50% 50%' })
-      .set(q('[data-spin]'), { autoAlpha: 0, rotation: 0 })
-      .set(q('[data-row-bg]'), { autoAlpha: 0 })
-      .set(q('[data-row-label]'), { fill: '#949ba4' })
-      .set(q('[data-pulse]'), { scale: 1, autoAlpha: 0, transformOrigin: '50% 50%' })
-      .set(q('[data-pulse-core]'), { fill: '#949ba4' })
-      .set(spark, { strokeDasharray: sparkLen, strokeDashoffset: sparkLen });
+      motion(root, () => {
+        const rowY: Record<string, number> = { scan: 148, patch: 177, backup: 206, uptime: 276 };
+        const tl = gsap.timeline({ repeat: -1, paused: true });
+        tl.set(cursor, { x: 40, y: 120 })
+          .set(tiles, { autoAlpha: 0, scale: 0.7 })
+          .set(one('[data-pillbox]'), { autoAlpha: 0, scale: 0.8 })
+          .set(q('[data-node]'), { autoAlpha: 0, x: -8 })
+          .set(q('[data-done]'), { autoAlpha: 0, scale: 0.4, transformOrigin: '50% 50%' })
+          .set(q('[data-spin]'), { autoAlpha: 0, rotation: 0 })
+          .set(q('[data-row-bg]'), { autoAlpha: 0 })
+          .set(q('[data-row-label]'), { fill: '#949ba4' })
+          .set(q('[data-pulse]'), { scale: 1, autoAlpha: 0, transformOrigin: '50% 50%' })
+          .set(q('[data-pulse-core]'), { fill: '#949ba4' })
+          .set(spark, { strokeDasharray: sparkLen, strokeDashoffset: sparkLen });
 
-    (['scan', 'patch', 'backup'] as const).forEach((k, i) => {
-      const t = 0.3 + i * 1.35;
-      const r = row(k);
-      tl.to(cursor, { x: 60, y: rowY[k], duration: 0.45, ease: 'power2.inOut' }, t)
-        .to(r.querySelector('[data-row-bg]'), { autoAlpha: 0.1, duration: 0.15 }, t + 0.4)
-        .to(r.querySelector('[data-row-label]'), { fill: '#ffffff', duration: 0.15 }, t + 0.4)
-        .set(r.querySelector('[data-spin]'), { autoAlpha: 1 }, t + 0.45)
-        .to(
-          r.querySelector('[data-spin]'),
-          { rotation: 720, svgOrigin: '0 0', duration: 0.7, ease: 'none' },
-          t + 0.45,
-        )
-        .set(r.querySelector('[data-spin]'), { autoAlpha: 0 }, t + 1.15)
-        .to(
-          r.querySelector('[data-done]'),
-          { autoAlpha: 1, scale: 1, duration: 0.3, ease: 'back.out(2.4)' },
-          t + 1.15,
-        )
-        .to(r.querySelector('[data-row-bg]'), { autoAlpha: 0, duration: 0.2 }, t + 1.3)
-        .to(tile(k), { autoAlpha: 1, scale: 1, duration: 0.4, ease: 'back.out(1.7)' }, t + 1.15);
+        (['scan', 'patch', 'backup'] as const).forEach((k, i) => {
+          const t = 0.3 + i * 1.35;
+          const r = row(k);
+          tl.to(cursor, { x: 60, y: rowY[k], duration: 0.45, ease: 'power2.inOut' }, t)
+            .to(r.querySelector('[data-row-bg]'), { autoAlpha: 0.1, duration: 0.15 }, t + 0.4)
+            .to(r.querySelector('[data-row-label]'), { fill: '#ffffff', duration: 0.15 }, t + 0.4)
+            .set(r.querySelector('[data-spin]'), { autoAlpha: 1 }, t + 0.45)
+            .to(
+              r.querySelector('[data-spin]'),
+              { rotation: 720, svgOrigin: '0 0', duration: 0.7, ease: 'none' },
+              t + 0.45,
+            )
+            .set(r.querySelector('[data-spin]'), { autoAlpha: 0 }, t + 1.15)
+            .to(
+              r.querySelector('[data-done]'),
+              { autoAlpha: 1, scale: 1, duration: 0.3, ease: 'back.out(2.4)' },
+              t + 1.15,
+            )
+            .to(r.querySelector('[data-row-bg]'), { autoAlpha: 0, duration: 0.2 }, t + 1.3)
+            .to(
+              tile(k),
+              { autoAlpha: 1, scale: 1, duration: 0.4, ease: 'back.out(1.7)' },
+              t + 1.15,
+            );
+        });
+
+        const u = 0.3 + 3 * 1.35; // 4.35
+        const ur = row('uptime');
+        tl.to(cursor, { x: 60, y: rowY.uptime, duration: 0.5, ease: 'power2.inOut' }, u)
+          .to(ur.querySelector('[data-row-bg]'), { autoAlpha: 0.1, duration: 0.15 }, u + 0.45)
+          .to(ur.querySelector('[data-row-label]'), { fill: '#57f287', duration: 0.15 }, u + 0.45)
+          .to(q('[data-pulse-core]'), { fill: '#57f287', duration: 0.15 }, u + 0.45)
+          .fromTo(
+            q('[data-pulse]'),
+            { scale: 0.5, autoAlpha: 0.9, stroke: '#57f287' },
+            { scale: 1.9, autoAlpha: 0, duration: 0.8, ease: 'power1.out', repeat: 4 },
+            u + 0.5,
+          )
+          .to(
+            q('[data-node]'),
+            { autoAlpha: 1, x: 0, duration: 0.3, stagger: 0.14, ease: 'power2.out' },
+            u + 0.6,
+          )
+          .to(
+            tile('uptime'),
+            { autoAlpha: 1, scale: 1, duration: 0.4, ease: 'back.out(1.7)' },
+            u + 0.9,
+          )
+          .to(spark, { strokeDashoffset: 0, duration: 0.9, ease: 'power1.inOut' }, u + 1.1)
+          .to(
+            one('[data-pillbox]'),
+            { autoAlpha: 1, scale: 1, duration: 0.45, ease: 'back.out(1.8)' },
+            u + 1.9,
+          )
+          .to(
+            tiles,
+            { y: -4, duration: 0.22, stagger: 0.08, yoyo: true, repeat: 1, ease: 'sine.inOut' },
+            u + 2.4,
+          )
+          // reset to the opening state
+          .to(
+            [...tiles, one('[data-pillbox]'), ...q('[data-node]'), ...q('[data-done]')],
+            { autoAlpha: 0, duration: 0.45, ease: 'power1.in' },
+            u + 4.6,
+          )
+          .to(q('[data-row-label]'), { fill: '#949ba4', duration: 0.45 }, u + 4.6)
+          .to(q('[data-pulse-core]'), { fill: '#949ba4', duration: 0.45 }, u + 4.6)
+          .to(ur.querySelector('[data-row-bg]'), { autoAlpha: 0, duration: 0.45 }, u + 4.6)
+          .to(cursor, { x: 40, y: 120, duration: 0.6, ease: 'power2.inOut' }, u + 4.6)
+          .to({}, { duration: 0.2 });
+
+        const section = root.closest<HTMLElement>('[data-feature-block]');
+        if (!section) {
+          tl.play();
+          return;
+        }
+        playWhileInView(section, tl);
+      });
     });
-
-    const u = 0.3 + 3 * 1.35; // 4.35
-    const ur = row('uptime');
-    tl.to(cursor, { x: 60, y: rowY.uptime, duration: 0.5, ease: 'power2.inOut' }, u)
-      .to(ur.querySelector('[data-row-bg]'), { autoAlpha: 0.1, duration: 0.15 }, u + 0.45)
-      .to(ur.querySelector('[data-row-label]'), { fill: '#57f287', duration: 0.15 }, u + 0.45)
-      .to(q('[data-pulse-core]'), { fill: '#57f287', duration: 0.15 }, u + 0.45)
-      .fromTo(
-        q('[data-pulse]'),
-        { scale: 0.5, autoAlpha: 0.9, stroke: '#57f287' },
-        { scale: 1.9, autoAlpha: 0, duration: 0.8, ease: 'power1.out', repeat: 4 },
-        u + 0.5,
-      )
-      .to(
-        q('[data-node]'),
-        { autoAlpha: 1, x: 0, duration: 0.3, stagger: 0.14, ease: 'power2.out' },
-        u + 0.6,
-      )
-      .to(tile('uptime'), { autoAlpha: 1, scale: 1, duration: 0.4, ease: 'back.out(1.7)' }, u + 0.9)
-      .to(spark, { strokeDashoffset: 0, duration: 0.9, ease: 'power1.inOut' }, u + 1.1)
-      .to(
-        one('[data-pillbox]'),
-        { autoAlpha: 1, scale: 1, duration: 0.45, ease: 'back.out(1.8)' },
-        u + 1.9,
-      )
-      .to(
-        tiles,
-        { y: -4, duration: 0.22, stagger: 0.08, yoyo: true, repeat: 1, ease: 'sine.inOut' },
-        u + 2.4,
-      )
-      // reset to the opening state
-      .to(
-        [...tiles, one('[data-pillbox]'), ...q('[data-node]'), ...q('[data-done]')],
-        { autoAlpha: 0, duration: 0.45, ease: 'power1.in' },
-        u + 4.6,
-      )
-      .to(q('[data-row-label]'), { fill: '#949ba4', duration: 0.45 }, u + 4.6)
-      .to(q('[data-pulse-core]'), { fill: '#949ba4', duration: 0.45 }, u + 4.6)
-      .to(ur.querySelector('[data-row-bg]'), { autoAlpha: 0, duration: 0.45 }, u + 4.6)
-      .to(cursor, { x: 40, y: 120, duration: 0.6, ease: 'power2.inOut' }, u + 4.6)
-      .to({}, { duration: 0.2 });
-
-    const section = root.closest<HTMLElement>('[data-feature-block]');
-    if (!section) {
-      tl.play();
-      return;
-    }
-    section.addEventListener('fb:enter', () => tl.play());
-    section.addEventListener('fb:leave', () => tl.pause());
-    if (section.dataset.inview === 'true') tl.play();
   });
 </script>

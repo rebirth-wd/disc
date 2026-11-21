@@ -196,58 +196,57 @@ const slides = [
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  import { createCarousel, CSS_EASE } from '@lib/carousel';
-  gsap.registerPlugin(ScrollTrigger);
+  import { gsap, ease, motion, onPage } from '@lib/motion';
+  import { createCarousel } from '@lib/carousel';
 
-  const root = document.querySelector<HTMLElement>('[data-section="careers-hero"]');
-  if (root) {
-    // Swiper "is-gallery": slidesPerView auto, centred, loop, speed 600, autoplay 5000 (pauseOnMouseEnter,
-    // disableOnInteraction = Swiper default true). Active photo grows 90% -> 100% (width/height .5s ease).
-    const gallery = root.querySelector<HTMLElement>('[data-carousel]')!;
-    createCarousel(gallery, {
-      speed: 0.6,
-      autoplay: 5,
-      disableOnInteraction: true,
-      stateDuration: 0.5,
-      applyState: (slide, a) => {
-        const m = slide.querySelector<HTMLElement>('[data-slide-media]')!;
-        const v = 90 + 10 * a + '%';
-        m.style.width = v;
-        m.style.height = v;
-      },
-    });
-
-    // arrow hover: .icon_dd_bg opacity .1 -> .3, 300ms ease
-    document.querySelectorAll<HTMLElement>('.careers-arrow').forEach((arrow) => {
-      if (arrow.dataset.hoverBound) return;
-      arrow.dataset.hoverBound = '1';
-      const bg = arrow.querySelector('.careers-arrow__bg');
-      arrow.addEventListener('mouseenter', () =>
-        gsap.to(bg, { opacity: 0.3, duration: 0.3, ease: CSS_EASE, overwrite: true }),
-      );
-      arrow.addEventListener('mouseleave', () =>
-        gsap.to(bg, { opacity: 0.1, duration: 0.3, ease: CSS_EASE, overwrite: true }),
-      );
-    });
-
-    // Scroll parallax on the copy container (smoothing 50):
-    // 60% -> 100% of the element's pass through the viewport: object A y 0 -> 40px, object B y 0 -> 200px.
-    const mm = gsap.matchMedia();
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
-      const tl = gsap.timeline({
-        defaults: { ease: 'none' },
-        scrollTrigger: {
-          trigger: root.querySelector('[data-hero-copy]'),
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 0.5,
+  onPage(() => {
+    const root = document.querySelector<HTMLElement>('[data-section="careers-hero"]');
+    if (root) {
+      // Swiper "is-gallery": slidesPerView auto, centred, loop, speed 600, autoplay 5000 (pauseOnMouseEnter,
+      // disableOnInteraction = Swiper default true). Active photo grows 90% -> 100% (width/height .5s ease).
+      const gallery = root.querySelector<HTMLElement>('[data-carousel]')!;
+      createCarousel(gallery, {
+        speed: 0.6,
+        autoplay: 5,
+        disableOnInteraction: true,
+        stateDuration: 0.5,
+        applyState: (slide, a) => {
+          const m = slide.querySelector<HTMLElement>('[data-slide-media]')!;
+          const v = 90 + 10 * a + '%';
+          m.style.width = v;
+          m.style.height = v;
         },
       });
-      tl.to({}, { duration: 0.6 })
-        .to(root.querySelector('[data-careers-float="a"]'), { y: 40, duration: 0.4 }, 0.6)
-        .to(root.querySelector('[data-careers-float="b"]'), { y: 200, duration: 0.4 }, 0.6);
-    });
-  }
+
+      // arrow hover: .icon_dd_bg opacity .1 -> .3, 300ms ease
+      document.querySelectorAll<HTMLElement>('.careers-arrow').forEach((arrow) => {
+        if (arrow.dataset.hoverBound) return;
+        arrow.dataset.hoverBound = '1';
+        const bg = arrow.querySelector('.careers-arrow__bg');
+        arrow.addEventListener('mouseenter', () =>
+          gsap.to(bg, { opacity: 0.3, duration: 0.3, ease: ease.css, overwrite: true }),
+        );
+        arrow.addEventListener('mouseleave', () =>
+          gsap.to(bg, { opacity: 0.1, duration: 0.3, ease: ease.css, overwrite: true }),
+        );
+      });
+
+      // Scroll parallax on the copy container (smoothing 50):
+      // 60% -> 100% of the element's pass through the viewport: object A y 0 -> 40px, object B y 0 -> 200px.
+      motion(root, () => {
+        const tl = gsap.timeline({
+          defaults: { ease: 'none' },
+          scrollTrigger: {
+            trigger: root.querySelector('[data-hero-copy]'),
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.5,
+          },
+        });
+        tl.to({}, { duration: 0.6 })
+          .to(root.querySelector('[data-careers-float="a"]'), { y: 40, duration: 0.4 }, 0.6)
+          .to(root.querySelector('[data-careers-float="b"]'), { y: 200, duration: 0.4 }, 0.6);
+      });
+    }
+  });
 </script>

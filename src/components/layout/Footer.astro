@@ -81,7 +81,7 @@ const socials = ['Chat', 'Photos', 'Community', 'Video', 'Feed'];
             data-lang-btn
             aria-haspopup="listbox"
             aria-expanded="false"
-            aria-labelledby="footer-lang-label footer__lang-name"
+            aria-labelledby="footer-lang-label footer-lang-name"
           >
             <span id="footer-lang-name" data-lang-name>
               English
@@ -579,94 +579,99 @@ const socials = ['Chat', 'Photos', 'Community', 'Video', 'Feed'];
 </style>
 
 <script>
-  import gsap from 'gsap';
+  import { gsap, media, onPage, reducedMotion, MQ } from '@lib/motion';
 
-  const root = document.querySelector<HTMLElement>('[data-section="global-footer"]');
-  if (root) {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const T = (s: number) => (reduce ? 0 : s);
+  onPage(() => {
+    const root = document.querySelector<HTMLElement>('[data-section="global-footer"]');
+    if (root) {
+      const reduce = reducedMotion();
+      const T = (s: number) => (reduce ? 0 : s);
 
-    // one icon row in the markup, mirrored for the <=991 layout
-    const src = root.querySelector('.footer__social--desk .footer__icons');
-    const dst = root.querySelector('[data-icons-clone]');
-    if (src && dst) dst.innerHTML = src.innerHTML;
+      // one icon row in the markup, mirrored for the <=991 layout
+      const src = root.querySelector('.footer__social--desk .footer__icons');
+      const dst = root.querySelector('[data-icons-clone]');
+      if (src && dst) dst.innerHTML = src.innerHTML;
 
-    /* language select: chevron 0 -> 180deg, 200ms */
-    const lang = root.querySelector<HTMLElement>('[data-lang]')!;
-    const btn = lang.querySelector<HTMLElement>('[data-lang-btn]')!;
-    const list = lang.querySelector<HTMLElement>('[data-lang-list]')!;
-    const arrow = lang.querySelector('[data-lang-arrow]');
-    const name = lang.querySelector<HTMLElement>('[data-lang-name]')!;
-    const setLang = (open: boolean) => {
-      list.hidden = !open;
-      btn.setAttribute('aria-expanded', String(open));
-      gsap.to(arrow, {
-        rotation: open ? 180 : 0,
-        transformOrigin: '50% 50%',
-        duration: T(0.2),
-        ease: 'none',
-        overwrite: true,
-      });
-    };
-    btn.addEventListener('click', () => setLang(list.hidden === true));
-    const pick = (li: HTMLElement) => {
-      list
-        .querySelectorAll('[role="option"]')
-        .forEach((o) => o.setAttribute('aria-selected', String(o === li)));
-      name.textContent = li.textContent;
-      setLang(false);
-      btn.focus();
-    };
-    list.addEventListener('click', (e) => {
-      const li = (e.target as HTMLElement).closest<HTMLElement>('[role="option"]');
-      if (li) pick(li);
-    });
-    list.addEventListener('keyup', (e) => {
-      if (e.key === 'Enter') {
+      /* language select: chevron 0 -> 180deg, 200ms */
+      const lang = root.querySelector<HTMLElement>('[data-lang]')!;
+      const btn = lang.querySelector<HTMLElement>('[data-lang-btn]')!;
+      const list = lang.querySelector<HTMLElement>('[data-lang-list]')!;
+      const arrow = lang.querySelector('[data-lang-arrow]');
+      const name = lang.querySelector<HTMLElement>('[data-lang-name]')!;
+      const setLang = (open: boolean) => {
+        list.hidden = !open;
+        btn.setAttribute('aria-expanded', String(open));
+        gsap.to(arrow, {
+          rotation: open ? 180 : 0,
+          transformOrigin: '50% 50%',
+          duration: T(0.2),
+          ease: 'none',
+          overwrite: true,
+        });
+      };
+      btn.addEventListener('click', () => setLang(list.hidden === true));
+      const pick = (li: HTMLElement) => {
+        list
+          .querySelectorAll('[role="option"]')
+          .forEach((o) => o.setAttribute('aria-selected', String(o === li)));
+        name.textContent = li.textContent;
+        setLang(false);
+        btn.focus();
+      };
+      list.addEventListener('click', (e) => {
         const li = (e.target as HTMLElement).closest<HTMLElement>('[role="option"]');
         if (li) pick(li);
-      }
-    });
-    document.addEventListener('click', (e) => {
-      if (!lang.contains(e.target as Node) && !list.hidden) setLang(false);
-    });
-    document.addEventListener('keyup', (e) => {
-      if (e.key === 'Escape' && !list.hidden) setLang(false);
-    });
-
-    /* <=767: column accordions: height 0 -> auto 200ms, chevron 180deg 200ms */
-    const mm = gsap.matchMedia();
-    mm.add('(max-width: 767px)', () => {
-      const offs: Array<() => void> = [];
-      root.querySelectorAll<HTMLElement>('[data-fcol]').forEach((col) => {
-        const toggle = col.querySelector<HTMLElement>('[data-fcol-toggle]')!;
-        const links = col.querySelector<HTMLElement>('[data-fcol-list]')!;
-        const chev = col.querySelector('[data-fcol-arrow]');
-        const on = () => {
-          const open = toggle.getAttribute('aria-expanded') !== 'true';
-          toggle.setAttribute('aria-expanded', String(open));
-          gsap.to(links, {
-            height: open ? 'auto' : 0,
-            duration: T(0.2),
-            ease: 'none',
-            overwrite: true,
-          });
-          gsap.to(chev, {
-            rotation: open ? 180 : 0,
-            transformOrigin: '50% 50%',
-            duration: T(0.2),
-            ease: 'none',
-            overwrite: true,
-          });
-        };
-        toggle.addEventListener('click', on);
-        offs.push(() => {
-          toggle.removeEventListener('click', on);
-          toggle.setAttribute('aria-expanded', 'false');
-          gsap.set([links, chev], { clearProps: 'all' });
-        });
       });
-      return () => offs.forEach((f) => f());
-    });
-  }
+      list.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') {
+          const li = (e.target as HTMLElement).closest<HTMLElement>('[role="option"]');
+          if (li) pick(li);
+        }
+      });
+      document.addEventListener('click', (e) => {
+        if (!lang.contains(e.target as Node) && !list.hidden) setLang(false);
+      });
+      document.addEventListener('keyup', (e) => {
+        if (e.key === 'Escape' && !list.hidden) setLang(false);
+      });
+
+      /* <=767: column accordions: height 0 -> auto 200ms, chevron 180deg 200ms */
+      media(
+        root,
+        () => {
+          const offs: Array<() => void> = [];
+          root.querySelectorAll<HTMLElement>('[data-fcol]').forEach((col) => {
+            const toggle = col.querySelector<HTMLElement>('[data-fcol-toggle]')!;
+            const links = col.querySelector<HTMLElement>('[data-fcol-list]')!;
+            const chev = col.querySelector('[data-fcol-arrow]');
+            const on = () => {
+              const open = toggle.getAttribute('aria-expanded') !== 'true';
+              toggle.setAttribute('aria-expanded', String(open));
+              gsap.to(links, {
+                height: open ? 'auto' : 0,
+                duration: T(0.2),
+                ease: 'none',
+                overwrite: true,
+              });
+              gsap.to(chev, {
+                rotation: open ? 180 : 0,
+                transformOrigin: '50% 50%',
+                duration: T(0.2),
+                ease: 'none',
+                overwrite: true,
+              });
+            };
+            toggle.addEventListener('click', on);
+            offs.push(() => {
+              toggle.removeEventListener('click', on);
+              toggle.setAttribute('aria-expanded', 'false');
+              gsap.set([links, chev], { clearProps: 'all' });
+            });
+          });
+          return () => offs.forEach((f) => f());
+        },
+        MQ.sm,
+      );
+    }
+  });
 </script>

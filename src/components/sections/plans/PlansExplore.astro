@@ -201,25 +201,27 @@ const rows = [
 </style>
 
 <script>
-  import gsap from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
+  import { gsap, motion, onPage, MQ } from '@lib/motion';
+
   // progress of the section container, 0% -> 25%: y 0 -> -100 (then holds)
-  const root = document.querySelector<HTMLElement>('[data-section="nitro-explore"]');
-  if (root) {
-    gsap.matchMedia().add('(prefers-reduced-motion: no-preference) and (min-width: 768px)', () => {
-      gsap
-        .timeline({
-          defaults: { ease: 'none' },
-          scrollTrigger: {
-            trigger: root.querySelector('[data-par-trigger="star"]'),
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 0.6,
-          },
-        })
-        .to(root.querySelector('[data-par="star"]'), { y: -100, duration: 0.25 }, 0)
-        .to({}, { duration: 0.75 }, 0.25);
-    });
-  }
+  onPage(() => {
+    motion(
+      document.querySelector<HTMLElement>('[data-section="nitro-explore"]'),
+      (root) => {
+        gsap
+          .timeline({
+            defaults: { ease: 'none' },
+            scrollTrigger: {
+              trigger: root.querySelector('[data-par-trigger="star"]'),
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 0.6,
+            },
+          })
+          .to(root.querySelector('[data-par="star"]'), { y: -100, duration: 0.25 }, 0)
+          .to({}, { duration: 0.75 }, 0.25);
+      },
+      MQ.md,
+    );
+  });
 </script>
