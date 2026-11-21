@@ -350,7 +350,7 @@ const tabs = [
 
 <script>
   import { gsap, ScrollTrigger, motion, onPage, reducedMotion, MQ } from '@lib/motion';
-  onPage(() => {
+  onPage((signal) => {
     const root = document.querySelector<HTMLElement>('[data-section="nitro-faq"]');
     if (root) {
       const reduce = reducedMotion();
@@ -373,16 +373,25 @@ const tabs = [
         ScrollTrigger.refresh();
       };
       items.forEach((item) =>
-        item.querySelector('[data-faq-toggle]')!.addEventListener('click', () => {
-          const open =
-            item.querySelector('[data-faq-toggle]')!.getAttribute('aria-expanded') !== 'true';
-          items.forEach((o) => o !== item && set(o, false));
-          set(item, open);
-        }),
+        item.querySelector('[data-faq-toggle]')!.addEventListener(
+          'click',
+          () => {
+            const open =
+              item.querySelector('[data-faq-toggle]')!.getAttribute('aria-expanded') !== 'true';
+            items.forEach((o) => o !== item && set(o, false));
+            set(item, open);
+          },
+          { signal },
+        ),
       );
-      document.addEventListener('click', (e) => {
-        if (!(e.target as Element).closest('[data-faq-item]')) items.forEach((o) => set(o, false));
-      });
+      document.addEventListener(
+        'click',
+        (e) => {
+          if (!(e.target as Element).closest('[data-faq-item]'))
+            items.forEach((o) => set(o, false));
+        },
+        { signal },
+      );
 
       // Tabs: instant pane swap (duration 0); link colours cross-fade via the 0.35s CSS transition.
       const tabsEl = root.querySelector<HTMLElement>('[data-faq-tabs]')!;
@@ -425,11 +434,15 @@ const tabs = [
           });
         }
       };
-      mobile.addEventListener('change', () => {
-        menuOpen = false;
-        gsap.set(tabsEl, { clearProps: 'height' });
-        gsap.set(arrow, { clearProps: 'transform' });
-      });
+      mobile.addEventListener(
+        'change',
+        () => {
+          menuOpen = false;
+          gsap.set(tabsEl, { clearProps: 'height' });
+          gsap.set(arrow, { clearProps: 'transform' });
+        },
+        { signal },
+      );
       const select = (i: number) => {
         tabs.forEach((t, k) => {
           t.classList.toggle('is-current', k === i);
@@ -441,26 +454,34 @@ const tabs = [
         ScrollTrigger.refresh();
       };
       tabs.forEach((t, i) => {
-        t.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const wasOpen = menuOpen;
-          select(i);
-          menu(!wasOpen);
-        });
-        t.addEventListener('keydown', (e) => {
-          const d =
-            e.key === 'ArrowRight' || e.key === 'ArrowDown'
-              ? 1
-              : e.key === 'ArrowLeft' || e.key === 'ArrowUp'
-                ? -1
-                : 0;
-          if (d) {
-            e.preventDefault();
-            const n = (i + d + tabs.length) % tabs.length;
-            select(n);
-            tabs[n].focus();
-          }
-        });
+        t.addEventListener(
+          'click',
+          (e) => {
+            e.stopPropagation();
+            const wasOpen = menuOpen;
+            select(i);
+            menu(!wasOpen);
+          },
+          { signal },
+        );
+        t.addEventListener(
+          'keydown',
+          (e) => {
+            const d =
+              e.key === 'ArrowRight' || e.key === 'ArrowDown'
+                ? 1
+                : e.key === 'ArrowLeft' || e.key === 'ArrowUp'
+                  ? -1
+                  : 0;
+            if (d) {
+              e.preventDefault();
+              const n = (i + d + tabs.length) % tabs.length;
+              select(n);
+              tabs[n].focus();
+            }
+          },
+          { signal },
+        );
       });
 
       // progress of the FAQ heading block, 0 -> 100%: padlock y 0 -> -130

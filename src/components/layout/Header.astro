@@ -412,7 +412,7 @@ const isActive = (id: string) => active === id;
 <script>
   import { gsap, ScrollTrigger, media, onPage, reducedMotion, MQ } from '@lib/motion';
 
-  onPage(() => {
+  onPage((signal) => {
     const root = document.querySelector<HTMLElement>('[data-section="global-header"]');
     if (!root) return;
     const T = (s: number) => (reducedMotion() ? 0 : s);
@@ -421,13 +421,20 @@ const isActive = (id: string) => active === id;
     /* ---- skip link: focus <main> ---- */
     const main = document.querySelector<HTMLElement>('main');
     if (main && !main.id) main.id = 'main';
-    root.querySelector('[data-skip]')?.addEventListener('click', (e) => {
-      if (!main) return;
-      e.preventDefault();
-      main.setAttribute('tabindex', '-1');
-      main.focus();
-      main.addEventListener('blur', () => main.removeAttribute('tabindex'), { once: true });
-    });
+    root.querySelector('[data-skip]')?.addEventListener(
+      'click',
+      (e) => {
+        if (!main) return;
+        e.preventDefault();
+        main.setAttribute('tabindex', '-1');
+        main.focus();
+        main.addEventListener('blur', () => main.removeAttribute('tabindex'), {
+          once: true,
+          signal,
+        });
+      },
+      { signal },
+    );
 
     /* ---- scrolled state ----
      >= 992: the white lockup swaps to the white pill once the page's
@@ -497,12 +504,16 @@ const isActive = (id: string) => active === id;
       },
       MQ.always,
     );
-    window.addEventListener('scroll', onScroll, { passive: true });
-    desktop.addEventListener('change', () => {
-      scrolled = null;
-      tinted = null;
-      onScroll();
-    });
+    window.addEventListener('scroll', onScroll, { passive: true, signal });
+    desktop.addEventListener(
+      'change',
+      () => {
+        scrolled = null;
+        tinted = null;
+        onScroll();
+      },
+      { signal },
+    );
     onScroll();
   });
 </script>

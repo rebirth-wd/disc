@@ -3,7 +3,7 @@
 // speed 600ms with the CSS `ease` curve, slideToClickedSlide, keyboard, grab cursor,
 // prev/next buttons, autoplay with pauseOnMouseEnter, optional dynamic bullets.
 import { Draggable } from 'gsap/Draggable';
-import { gsap, ease, reducedMotion } from './motion';
+import { gsap, ease, disposeOn, reducedMotion } from './motion';
 
 gsap.registerPlugin(Draggable);
 
@@ -26,7 +26,7 @@ export interface CarouselOptions {
   onAutoplay?: (state: 'start' | 'pause' | 'resume' | 'stop', delay: number) => void;
 }
 
-export function createCarousel(root: HTMLElement, opts: CarouselOptions) {
+export function createCarousel(root: HTMLElement, opts: CarouselOptions, signal: AbortSignal) {
   const viewport = root.querySelector<HTMLElement>('[data-carousel-viewport]')!;
   const slides = gsap.utils.toArray<HTMLElement>('[data-slide]', root);
   const probe = root.querySelector<HTMLElement>('[data-carousel-probe]');
@@ -126,86 +126,111 @@ export function createCarousel(root: HTMLElement, opts: CarouselOptions) {
   const proxy = document.createElement('div');
   let startPos = 0;
   let pressTime = 0;
-  Draggable.create(proxy, {
-    type: 'x',
-    trigger: viewport,
-    cursor: 'grab',
-    activeCursor: 'grabbing',
-    minimumMovement: 4,
-    onPress() {
-      gsap.killTweensOf(st);
-      gsap.set(proxy, { x: 0 });
-      this.update();
-      startPos = st.pos;
-      pressTime = performance.now();
-    },
-    onDrag() {
-      st.pos = startPos - this.x / slot;
-      render();
-    },
-    onDragEnd() {
-      const moved = st.pos - startPos;
-      const quick = performance.now() - pressTime < 300;
-      let target = Math.round(st.pos);
-      // Swiper: short swipes always advance, long swipes advance past 50% of the slide
-      if (quick && Math.abs(moved) > 0.02 && target === Math.round(startPos))
-        target = Math.round(startPos) + Math.sign(moved);
-      goTo(target, true);
-    },
-    onClick(e: Event) {
-      const slide = (e.target as HTMLElement).closest<HTMLElement>('[data-slide]');
-      if (!slide) return;
-      const i = slides.indexOf(slide);
-      if (i < 0 || i === active) return;
-      goTo(Math.round(st.pos) + Math.round(dist(i)), true); // slideToClickedSlide
-    },
-  });
+  disposeOn(
+    signal,
+    ...Draggable.create(proxy, {
+      type: 'x',
+      trigger: viewport,
+      cursor: 'grab',
+      activeCursor: 'grabbing',
+      minimumMovement: 4,
+      onPress() {
+        gsap.killTweensOf(st);
+        gsap.set(proxy, { x: 0 });
+        this.update();
+        startPos = st.pos;
+        pressTime = performance.now();
+      },
+      onDrag() {
+        st.pos = startPos - this.x / slot;
+        render();
+      },
+      onDragEnd() {
+        const moved = st.pos - startPos;
+        const quick = performance.now() - pressTime < 300;
+        let target = Math.round(st.pos);
+        // Swiper: short swipes always advance, long swipes advance past 50% of the slide
+        if (quick && Math.abs(moved) > 0.02 && target === Math.round(startPos))
+          target = Math.round(startPos) + Math.sign(moved);
+        goTo(target, true);
+      },
+      onClick(e: Event) {
+        const slide = (e.target as HTMLElement).closest<HTMLElement>('[data-slide]');
+        if (!slide) return;
+        const i = slides.indexOf(slide);
+        if (i < 0 || i === active) return;
+        goTo(Math.round(st.pos) + Math.round(dist(i)), true); // slideToClickedSlide
+      },
+    }),
+  );
 
-  prev?.addEventListener('click', (e) => {
-    e.preventDefault();
-    step(-1, true);
-  });
-  next?.addEventListener('click', (e) => {
-    e.preventDefault();
-    step(1, true);
-  });
+  prev?.addEventListener(
+    'click',
+    (e) => {
+      e.preventDefault();
+      step(-1, true);
+    },
+    { signal },
+  );
+  next?.addEventListener(
+    'click',
+    (e) => {
+      e.preventDefault();
+      step(1, true);
+    },
+    { signal },
+  );
 
   // keyboard: true (only while the carousel is on screen, as Swiper does)
-  new IntersectionObserver((en) => {
+  const io = new IntersectionObserver((en) => {
     inView = en[0].isIntersecting;
-  }).observe(root);
-  window.addEventListener('keydown', (e) => {
-    if (!inView || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
-    const t = e.target as HTMLElement | null;
-    if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
-    if (e.key === 'ArrowRight') step(1, true);
-    else if (e.key === 'ArrowLeft') step(-1, true);
   });
+  io.observe(root);
+  disposeOn(signal, io);
+  window.addEventListener(
+    'keydown',
+    (e) => {
+      if (!inView || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      const t = e.target as HTMLElement | null;
+      if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+      if (e.key === 'ArrowRight') step(1, true);
+      else if (e.key === 'ArrowLeft') step(-1, true);
+    },
+    { signal },
+  );
 
   // autoplay.pauseOnMouseEnter
-  root.addEventListener('pointerenter', (e) => {
-    if ((e as PointerEvent).pointerType !== 'mouse') return;
-    hovering = true;
-    if (timer) {
-      timer.pause();
-      opts.onAutoplay?.('pause', opts.autoplay!);
-    }
-  });
-  root.addEventListener('pointerleave', () => {
-    if (!hovering) return;
-    hovering = false;
-    if (timer) {
-      timer.resume();
-      opts.onAutoplay?.('resume', opts.autoplay!);
-    }
-  });
+  root.addEventListener(
+    'pointerenter',
+    (e) => {
+      if ((e as PointerEvent).pointerType !== 'mouse') return;
+      hovering = true;
+      if (timer) {
+        timer.pause();
+        opts.onAutoplay?.('pause', opts.autoplay!);
+      }
+    },
+    { signal },
+  );
+  root.addEventListener(
+    'pointerleave',
+    () => {
+      if (!hovering) return;
+      hovering = false;
+      if (timer) {
+        timer.resume();
+        opts.onAutoplay?.('resume', opts.autoplay!);
+      }
+    },
+    { signal },
+  );
 
   function measure() {
     slot = slides[0].offsetWidth;
     half = viewport.offsetWidth / 2;
     render();
   }
-  window.addEventListener('resize', measure);
+  window.addEventListener('resize', measure, { signal });
 
   slides.forEach((s, i) => {
     s.classList.toggle('is-active', i === 0);

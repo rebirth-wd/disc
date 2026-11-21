@@ -89,7 +89,7 @@ const SETS = 4; // the word set is rendered four times
 </style>
 
 <script>
-  import { gsap, motion, onPage, MQ } from '@lib/motion';
+  import { gsap, motion, onPage, disposeOn, MQ } from '@lib/motion';
 
   const SPEED = 2727.4 / 60; // px per second
 
@@ -101,7 +101,7 @@ const SETS = 4; // the word set is rendered four times
 
       motion(
         root,
-        () => {
+        (_root, _context, signal) => {
           let tween: gsap.core.Tween | undefined;
           const build = () => {
             const progress = tween ? tween.progress() : 0;
@@ -121,8 +121,8 @@ const SETS = 4; // the word set is rendered four times
           document.fonts?.ready.then(build);
           const ro = new ResizeObserver(build);
           ro.observe(sets[0]);
+          disposeOn(signal, ro);
           return () => {
-            ro.disconnect();
             tween?.kill();
             gsap.set(track, { clearProps: 'transform' });
           };

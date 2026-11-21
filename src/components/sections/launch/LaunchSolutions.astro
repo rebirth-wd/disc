@@ -290,7 +290,7 @@ const tabs = [
 <script>
   import { gsap, ScrollTrigger, ease, onPage, reducedMotion } from '@lib/motion';
 
-  onPage(() => {
+  onPage((signal) => {
     document.querySelectorAll<HTMLElement>('[data-section="quests-solutions"]').forEach((root) => {
       const tabs = [...root.querySelectorAll<HTMLElement>('[data-tab]')];
       const panes = [...root.querySelectorAll<HTMLElement>('[data-pane]')];
@@ -322,21 +322,25 @@ const tabs = [
         ScrollTrigger.refresh();
       };
       tabs.forEach((t, i) => {
-        t.addEventListener('click', () => select(i));
-        t.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            select(i);
-          }
-          if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            select((i + 1) % tabs.length, true);
-          }
-          if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            select((i - 1 + tabs.length) % tabs.length, true);
-          }
-        });
+        t.addEventListener('click', () => select(i), { signal });
+        t.addEventListener(
+          'keydown',
+          (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              select(i);
+            }
+            if (e.key === 'ArrowDown') {
+              e.preventDefault();
+              select((i + 1) % tabs.length, true);
+            }
+            if (e.key === 'ArrowUp') {
+              e.preventDefault();
+              select((i - 1 + tabs.length) % tabs.length, true);
+            }
+          },
+          { signal },
+        );
       });
     });
   });

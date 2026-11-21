@@ -276,7 +276,7 @@ const stats = [
 <script>
   import { gsap, ease, motion, onPage, MQ } from '@lib/motion';
 
-  onPage(() => {
+  onPage((signal) => {
     document.querySelectorAll<HTMLElement>('[data-section="quests-platform"]').forEach((root) => {
       // Source tooltips. display flex + opacity 0 -> 1 in 300ms ease
       // on hover (desktop) or click (all sizes); opacity -> 0 in 300ms ease, then display none.
@@ -306,22 +306,42 @@ const stats = [
             });
         };
         const desktop = window.matchMedia(MQ.lg);
-        btn.addEventListener('pointerenter', (e) => {
-          if (e.pointerType === 'mouse' && desktop.matches) set(true);
-        });
-        btn.addEventListener('pointerleave', (e) => {
-          if (e.pointerType === 'mouse' && desktop.matches) set(false);
-        });
-        btn.addEventListener('click', (e) => {
-          if ((e as PointerEvent).pointerType !== 'mouse' || !desktop.matches) set(!open);
-        });
-        btn.addEventListener('focus', () => {
-          if (btn.matches(':focus-visible')) set(true);
-        });
-        btn.addEventListener('blur', () => set(false));
-        btn.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') set(false);
-        });
+        btn.addEventListener(
+          'pointerenter',
+          (e) => {
+            if (e.pointerType === 'mouse' && desktop.matches) set(true);
+          },
+          { signal },
+        );
+        btn.addEventListener(
+          'pointerleave',
+          (e) => {
+            if (e.pointerType === 'mouse' && desktop.matches) set(false);
+          },
+          { signal },
+        );
+        btn.addEventListener(
+          'click',
+          (e) => {
+            if ((e as PointerEvent).pointerType !== 'mouse' || !desktop.matches) set(!open);
+          },
+          { signal },
+        );
+        btn.addEventListener(
+          'focus',
+          () => {
+            if (btn.matches(':focus-visible')) set(true);
+          },
+          { signal },
+        );
+        btn.addEventListener('blur', () => set(false), { signal });
+        btn.addEventListener(
+          'keydown',
+          (e) => {
+            if (e.key === 'Escape') set(false);
+          },
+          { signal },
+        );
       });
     });
 

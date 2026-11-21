@@ -204,35 +204,43 @@ const slides = [
   import { gsap, ease, motion, onPage } from '@lib/motion';
   import { createCarousel } from '@lib/carousel';
 
-  onPage(() => {
+  onPage((signal) => {
     const root = document.querySelector<HTMLElement>('[data-section="careers-hero"]');
     if (root) {
       // Swiper "is-gallery": slidesPerView auto, centred, loop, speed 600, autoplay 5000 (pauseOnMouseEnter,
       // disableOnInteraction = Swiper default true). Active photo grows 90% -> 100% (width/height .5s ease).
       const gallery = root.querySelector<HTMLElement>('[data-carousel]')!;
-      createCarousel(gallery, {
-        speed: 0.6,
-        autoplay: 5,
-        disableOnInteraction: true,
-        stateDuration: 0.5,
-        applyState: (slide, a) => {
-          const m = slide.querySelector<HTMLElement>('[data-slide-media]')!;
-          const v = 90 + 10 * a + '%';
-          m.style.width = v;
-          m.style.height = v;
+      createCarousel(
+        gallery,
+        {
+          speed: 0.6,
+          autoplay: 5,
+          disableOnInteraction: true,
+          stateDuration: 0.5,
+          applyState: (slide, a) => {
+            const m = slide.querySelector<HTMLElement>('[data-slide-media]')!;
+            const v = 90 + 10 * a + '%';
+            m.style.width = v;
+            m.style.height = v;
+          },
         },
-      });
+        signal,
+      );
 
       // arrow hover: .icon_dd_bg opacity .1 -> .3, 300ms ease
       document.querySelectorAll<HTMLElement>('.careers-arrow').forEach((arrow) => {
         if (arrow.dataset.hoverBound) return;
         arrow.dataset.hoverBound = '1';
         const bg = arrow.querySelector('.careers-arrow__bg');
-        arrow.addEventListener('mouseenter', () =>
-          gsap.to(bg, { opacity: 0.3, duration: 0.3, ease: ease.css, overwrite: true }),
+        arrow.addEventListener(
+          'mouseenter',
+          () => gsap.to(bg, { opacity: 0.3, duration: 0.3, ease: ease.css, overwrite: true }),
+          { signal },
         );
-        arrow.addEventListener('mouseleave', () =>
-          gsap.to(bg, { opacity: 0.1, duration: 0.3, ease: ease.css, overwrite: true }),
+        arrow.addEventListener(
+          'mouseleave',
+          () => gsap.to(bg, { opacity: 0.1, duration: 0.3, ease: ease.css, overwrite: true }),
+          { signal },
         );
       });
 

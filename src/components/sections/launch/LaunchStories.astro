@@ -522,10 +522,10 @@ const slides = [
 
 <script>
   import { Draggable } from 'gsap/Draggable';
-  import { gsap, ease, onPage, reducedMotion } from '@lib/motion';
+  import { gsap, ease, onPage, disposeOn, reducedMotion } from '@lib/motion';
   gsap.registerPlugin(Draggable);
 
-  onPage(() => {
+  onPage((signal) => {
     document
       .querySelectorAll<HTMLElement>('[data-section="quests-stories"] [data-carousel]')
       .forEach((root) => {
@@ -627,18 +627,26 @@ const slides = [
           if (hovering) auto.pause();
         };
         let hovering = false;
-        root.addEventListener('pointerenter', (e) => {
-          if (e.pointerType === 'mouse') {
-            hovering = true;
-            auto?.pause();
-          }
-        });
-        root.addEventListener('pointerleave', (e) => {
-          if (e.pointerType === 'mouse') {
-            hovering = false;
-            auto?.resume();
-          }
-        });
+        root.addEventListener(
+          'pointerenter',
+          (e) => {
+            if (e.pointerType === 'mouse') {
+              hovering = true;
+              auto?.pause();
+            }
+          },
+          { signal },
+        );
+        root.addEventListener(
+          'pointerleave',
+          (e) => {
+            if (e.pointerType === 'mouse') {
+              hovering = false;
+              auto?.resume();
+            }
+          },
+          { signal },
+        );
 
         let mover: gsap.core.Tween | null = null;
         const setActive = (idx: number) => {
@@ -667,82 +675,103 @@ const slides = [
           startAuto();
         };
 
-        root.querySelector('[data-next]')!.addEventListener('click', () => go(active + 1));
-        root.querySelector('[data-prev]')!.addEventListener('click', () => go(active - 1));
+        root
+          .querySelector('[data-next]')!
+          .addEventListener('click', () => go(active + 1), { signal });
+        root
+          .querySelector('[data-prev]')!
+          .addEventListener('click', () => go(active - 1), { signal });
         dots.forEach((dEl, i) => {
-          dEl.addEventListener('click', () => go(i));
-          dEl.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              go(i);
-            }
-          });
+          dEl.addEventListener('click', () => go(i), { signal });
+          dEl.addEventListener(
+            'keydown',
+            (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                go(i);
+              }
+            },
+            { signal },
+          );
         });
 
         // keyboard: arrows while the carousel is in the viewport (Swiper keyboard: true)
         let inView = false;
-        new IntersectionObserver(([en]) => {
+        const io = new IntersectionObserver(([en]) => {
           inView = en.isIntersecting;
-        }).observe(root);
-        document.addEventListener('keydown', (e) => {
-          if (!inView || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
-          const t = e.target as HTMLElement;
-          if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
-          if (e.key === 'ArrowRight') go(active + 1);
-          if (e.key === 'ArrowLeft') go(active - 1);
         });
+        io.observe(root);
+        disposeOn(signal, io);
+        document.addEventListener(
+          'keydown',
+          (e) => {
+            if (!inView || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+            const t = e.target as HTMLElement;
+            if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+            if (e.key === 'ArrowRight') go(active + 1);
+            if (e.key === 'ArrowLeft') go(active - 1);
+          },
+          { signal },
+        );
 
         // drag (grabCursor) + slideToClickedSlide
         const proxy = document.createElement('div');
         let startPos = 0;
-        Draggable.create(proxy, {
-          type: 'x',
-          trigger: view,
-          dragClickables: true,
-          minimumMovement: 4,
-          onPress() {
-            startPos = state.pos;
-          },
-          onDragStart() {
-            mover?.kill();
-            auto?.pause();
-          },
-          onDrag() {
-            state.pos = startPos - (this.x - this.startX) / pitch;
-            render();
-          },
-          onDragEnd() {
-            const moved = state.pos - startPos;
-            const target =
-              Math.abs(moved) > 0.12 && Math.abs(moved) < 0.5
-                ? startPos + Math.sign(moved)
-                : Math.round(state.pos);
-            if (touch) autoplayOn = false; // autoplay.disableOnInteraction on phone/tablet
-            go(Math.round(target));
-            gsap.set(proxy, { x: 0 });
-          },
-          onClick(e: PointerEvent) {
-            const slide = (e.target as HTMLElement).closest<HTMLElement>('[data-slide]');
-            if (!slide) return;
-            const i = slides.indexOf(slide);
-            if (i !== active) go(i);
-            else {
-              const href = slide.querySelector('a')!.getAttribute('href');
-              if (href && href !== '#') window.location.href = href;
-            }
-          },
-        });
+        disposeOn(
+          signal,
+          ...Draggable.create(proxy, {
+            type: 'x',
+            trigger: view,
+            dragClickables: true,
+            minimumMovement: 4,
+            onPress() {
+              startPos = state.pos;
+            },
+            onDragStart() {
+              mover?.kill();
+              auto?.pause();
+            },
+            onDrag() {
+              state.pos = startPos - (this.x - this.startX) / pitch;
+              render();
+            },
+            onDragEnd() {
+              const moved = state.pos - startPos;
+              const target =
+                Math.abs(moved) > 0.12 && Math.abs(moved) < 0.5
+                  ? startPos + Math.sign(moved)
+                  : Math.round(state.pos);
+              if (touch) autoplayOn = false; // autoplay.disableOnInteraction on phone/tablet
+              go(Math.round(target));
+              gsap.set(proxy, { x: 0 });
+            },
+            onClick(e: PointerEvent) {
+              const slide = (e.target as HTMLElement).closest<HTMLElement>('[data-slide]');
+              if (!slide) return;
+              const i = slides.indexOf(slide);
+              if (i !== active) go(i);
+              else {
+                const href = slide.querySelector('a')!.getAttribute('href');
+                if (href && href !== '#') window.location.href = href;
+              }
+            },
+          }),
+        );
         // native link clicks are handled above (prevents jumps on href="#")
         root.querySelectorAll('a').forEach((a) =>
-          a.addEventListener('click', (e) => {
-            if (a.getAttribute('href') === '#') e.preventDefault();
-          }),
+          a.addEventListener(
+            'click',
+            (e) => {
+              if (a.getAttribute('href') === '#') e.preventDefault();
+            },
+            { signal },
+          ),
         );
 
         slides.forEach((_, i) => paint(i, i === 0, true));
         paintDots();
         measure();
-        window.addEventListener('resize', measure);
+        window.addEventListener('resize', measure, { signal });
         startAuto();
       });
   });

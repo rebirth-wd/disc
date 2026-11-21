@@ -535,7 +535,7 @@ const socials = ['Chat', 'Photos', 'Community', 'Video', 'Feed'];
 <script>
   import { gsap, media, onPage, reducedMotion, MQ } from '@lib/motion';
 
-  onPage(() => {
+  onPage((signal) => {
     const root = document.querySelector<HTMLElement>('[data-section="global-footer"]');
     if (root) {
       const reduce = reducedMotion();
@@ -563,7 +563,7 @@ const socials = ['Chat', 'Photos', 'Community', 'Video', 'Feed'];
           overwrite: true,
         });
       };
-      btn.addEventListener('click', () => setLang(list.hidden === true));
+      btn.addEventListener('click', () => setLang(list.hidden === true), { signal });
       const pick = (li: HTMLElement) => {
         list
           .querySelectorAll('[role="option"]')
@@ -572,27 +572,43 @@ const socials = ['Chat', 'Photos', 'Community', 'Video', 'Feed'];
         setLang(false);
         btn.focus();
       };
-      list.addEventListener('click', (e) => {
-        const li = (e.target as HTMLElement).closest<HTMLElement>('[role="option"]');
-        if (li) pick(li);
-      });
-      list.addEventListener('keyup', (e) => {
-        if (e.key === 'Enter') {
+      list.addEventListener(
+        'click',
+        (e) => {
           const li = (e.target as HTMLElement).closest<HTMLElement>('[role="option"]');
           if (li) pick(li);
-        }
-      });
-      document.addEventListener('click', (e) => {
-        if (!lang.contains(e.target as Node) && !list.hidden) setLang(false);
-      });
-      document.addEventListener('keyup', (e) => {
-        if (e.key === 'Escape' && !list.hidden) setLang(false);
-      });
+        },
+        { signal },
+      );
+      list.addEventListener(
+        'keyup',
+        (e) => {
+          if (e.key === 'Enter') {
+            const li = (e.target as HTMLElement).closest<HTMLElement>('[role="option"]');
+            if (li) pick(li);
+          }
+        },
+        { signal },
+      );
+      document.addEventListener(
+        'click',
+        (e) => {
+          if (!lang.contains(e.target as Node) && !list.hidden) setLang(false);
+        },
+        { signal },
+      );
+      document.addEventListener(
+        'keyup',
+        (e) => {
+          if (e.key === 'Escape' && !list.hidden) setLang(false);
+        },
+        { signal },
+      );
 
       /* <=767: column accordions: height 0 -> auto 200ms, chevron 180deg 200ms */
       media(
         root,
-        () => {
+        (_root, _context, signal) => {
           const offs: Array<() => void> = [];
           root.querySelectorAll<HTMLElement>('[data-fcol]').forEach((col) => {
             const toggle = col.querySelector<HTMLElement>('[data-fcol-toggle]')!;
@@ -615,9 +631,8 @@ const socials = ['Chat', 'Photos', 'Community', 'Video', 'Feed'];
                 overwrite: true,
               });
             };
-            toggle.addEventListener('click', on);
+            toggle.addEventListener('click', on, { signal });
             offs.push(() => {
-              toggle.removeEventListener('click', on);
               toggle.setAttribute('aria-expanded', 'false');
               gsap.set([links, chev], { clearProps: 'all' });
             });

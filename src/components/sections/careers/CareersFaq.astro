@@ -222,7 +222,7 @@ const rest = faqs.slice(4);
 </style>
 <script>
   import { gsap, ease, onPage, reducedMotion } from '@lib/motion';
-  onPage(() => {
+  onPage((signal) => {
     const root = document.querySelector<HTMLElement>('[data-section="careers-faq"]');
     if (root) {
       const reduced = reducedMotion();
@@ -242,32 +242,41 @@ const rest = faqs.slice(4);
         });
       };
       items.forEach((item) => {
-        item.querySelector('[data-faq-toggle]')!.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const open =
-            item.querySelector('[data-faq-toggle]')!.getAttribute('aria-expanded') !== 'true';
-          items.forEach((o) => o !== item && set(o, false)); // one open at a time
-          set(item, open);
-        });
+        item.querySelector('[data-faq-toggle]')!.addEventListener(
+          'click',
+          (e) => {
+            e.stopPropagation();
+            const open =
+              item.querySelector('[data-faq-toggle]')!.getAttribute('aria-expanded') !== 'true';
+            items.forEach((o) => o !== item && set(o, false)); // one open at a time
+            set(item, open);
+          },
+          { signal },
+        );
         item
           .querySelector('[data-faq-panel]')!
-          .addEventListener('click', (e) => e.stopPropagation());
+          .addEventListener('click', (e) => e.stopPropagation(), { signal });
       });
-      document.addEventListener('click', () => items.forEach((o) => set(o, false))); // close on outside click
+      document.addEventListener('click', () => items.forEach((o) => set(o, false)), { signal }); // close on outside click
       document.addEventListener(
         'keydown',
         (e) => e.key === 'Escape' && items.forEach((o) => set(o, false)),
+        { signal },
       );
 
       // "See All" (click): the hidden list height 0 -> auto in 300ms, button wrapper display:none
       const all = root.querySelector<HTMLElement>('[data-faq-all]')!;
       const wrap = root.querySelector<HTMLElement>('[data-faq-all-wrap]')!;
-      root.querySelector('[data-faq-all-btn]')?.addEventListener('click', (e) => {
-        e.stopPropagation();
-        wrap.style.display = 'none';
-        all.querySelectorAll('[data-faq-toggle]').forEach((t) => t.removeAttribute('tabindex'));
-        gsap.to(all, { height: 'auto', duration: reduced ? 0 : 0.3, ease: 'none' });
-      });
+      root.querySelector('[data-faq-all-btn]')?.addEventListener(
+        'click',
+        (e) => {
+          e.stopPropagation();
+          wrap.style.display = 'none';
+          all.querySelectorAll('[data-faq-toggle]').forEach((t) => t.removeAttribute('tabindex'));
+          gsap.to(all, { height: 'auto', duration: reduced ? 0 : 0.3, ease: 'none' });
+        },
+        { signal },
+      );
     }
   });
 </script>

@@ -38,7 +38,11 @@ export const MQ = {
 export const reducedMotion = () => window.matchMedia(MOTION_REDUCE).matches;
 
 type Cleanup = () => void;
-type Setup<E extends Element> = (root: E, context: gsap.Context) => void | Cleanup;
+type Setup<E extends Element> = (
+  root: E,
+  context: gsap.Context,
+  signal: AbortSignal,
+) => void | Cleanup;
 
 const contexts = new Set<gsap.MatchMedia>();
 
@@ -46,12 +50,22 @@ const contexts = new Set<gsap.MatchMedia>();
  * Runs `setup` while `query` matches and reverts everything it created (tweens, timelines, ScrollTriggers)
  * when it stops matching or the page is swapped out. The context is scoped to `root`, so string
  * selectors inside `setup` resolve within it. A missing root does nothing.
+ *
+ * `signal` aborts when the context reverts, before the cleanup `setup` returns runs. Pass it to
+ * listeners and `disposeOn()` so they do not pile up when the query flips back and forth.
  */
 export function media<E extends Element>(root: E | null, setup: Setup<E>, query: string) {
   if (!root) return;
   const mm = gsap.matchMedia(root);
   contexts.add(mm);
-  mm.add(query, (context) => setup(root, context));
+  mm.add(query, (context) => {
+    const controller = new AbortController();
+    const cleanup = setup(root, context, controller.signal);
+    return () => {
+      controller.abort();
+      cleanup?.();
+    };
+  });
 }
 
 /** `media()` for animation: only runs without a reduced-motion preference, optionally also within `when`. */
@@ -69,12 +83,29 @@ export function playWhileInView(trigger: Element, ...animations: gsap.core.Anima
   });
 }
 
-const pages: Array<{ init: () => void; ran: boolean }> = [];
+type Disposable = { disconnect(): void } | { kill(): void };
+
+/**
+ * Disposes observers (`disconnect()`) and Draggable or ScrollTrigger instances (`kill()`) when `signal`
+ * aborts, or right away if it already has.
+ */
+export function disposeOn(signal: AbortSignal, ...items: Disposable[]) {
+  const dispose = () => items.forEach((item) => ('kill' in item ? item.kill() : item.disconnect()));
+  if (signal.aborted) dispose();
+  else signal.addEventListener('abort', dispose, { once: true });
+}
+
+const pages: Array<{
+  init: (signal: AbortSignal) => void;
+  ran: boolean;
+  controller?: AbortController;
+}> = [];
 
 const start = (page: (typeof pages)[number]) => {
   if (page.ran) return;
   page.ran = true;
-  page.init();
+  page.controller = new AbortController();
+  page.init(page.controller.signal);
 };
 
 // Astro's client router fires astro:page-load on the initial load and after every navigation, and
@@ -84,14 +115,18 @@ document.addEventListener('astro:page-load', () => pages.forEach(start));
 document.addEventListener('astro:before-swap', () => {
   contexts.forEach((mm) => mm.revert());
   contexts.clear();
-  pages.forEach((page) => (page.ran = false));
+  pages.forEach((page) => {
+    page.controller?.abort();
+    page.ran = false;
+  });
 });
 
 /**
  * Starts a component's script once the DOM is ready, and again after each client-side navigation.
- * An init that already ran for the current document is not run twice.
+ * An init that already ran for the current document is not run twice. `signal` aborts when the page is
+ * swapped out: pass it to every listener on document, window, a media query or an element.
  */
-export function onPage(init: () => void) {
+export function onPage(init: (signal: AbortSignal) => void) {
   const page = { init, ran: false };
   pages.push(page);
   if (document.readyState === 'loading')

@@ -336,7 +336,7 @@ const mobile = [
 <script>
   import { gsap, ease, onPage, reducedMotion } from '@lib/motion';
 
-  onPage(() => {
+  onPage((signal) => {
     document.querySelectorAll<HTMLElement>('[data-section="quests-subnav"]').forEach((root) => {
       const reduce = reducedMotion();
 
@@ -361,26 +361,46 @@ const mobile = [
             overwrite: true,
           });
         };
-        drop.addEventListener('pointerenter', (e) => {
-          if (e.pointerType === 'mouse') set(true);
-        });
-        drop.addEventListener('pointerleave', (e) => {
-          if (e.pointerType === 'mouse') set(false);
-        });
-        btn.addEventListener('click', (e) => {
-          if ((e as PointerEvent).pointerType !== 'mouse' && performance.now() - openedAt > 300)
-            set(!open);
-        });
-        drop.addEventListener('focusin', () => set(true));
-        drop.addEventListener('focusout', (e) => {
-          if (!drop.contains(e.relatedTarget as Node)) set(false);
-        });
-        drop.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') {
-            set(false);
-            btn.focus();
-          }
-        });
+        drop.addEventListener(
+          'pointerenter',
+          (e) => {
+            if (e.pointerType === 'mouse') set(true);
+          },
+          { signal },
+        );
+        drop.addEventListener(
+          'pointerleave',
+          (e) => {
+            if (e.pointerType === 'mouse') set(false);
+          },
+          { signal },
+        );
+        btn.addEventListener(
+          'click',
+          (e) => {
+            if ((e as PointerEvent).pointerType !== 'mouse' && performance.now() - openedAt > 300)
+              set(!open);
+          },
+          { signal },
+        );
+        drop.addEventListener('focusin', () => set(true), { signal });
+        drop.addEventListener(
+          'focusout',
+          (e) => {
+            if (!drop.contains(e.relatedTarget as Node)) set(false);
+          },
+          { signal },
+        );
+        drop.addEventListener(
+          'keydown',
+          (e) => {
+            if (e.key === 'Escape') {
+              set(false);
+              btn.focus();
+            }
+          },
+          { signal },
+        );
       }
 
       // mobile dropdown: click toggles
@@ -399,16 +419,24 @@ const mobile = [
             overwrite: true,
           });
         };
-        btn.addEventListener('click', () => set(list.hidden === true));
-        document.addEventListener('click', (e) => {
-          if (!mob.contains(e.target as Node)) set(false);
-        });
-        mob.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') {
-            set(false);
-            btn.focus();
-          }
-        });
+        btn.addEventListener('click', () => set(list.hidden === true), { signal });
+        document.addEventListener(
+          'click',
+          (e) => {
+            if (!mob.contains(e.target as Node)) set(false);
+          },
+          { signal },
+        );
+        mob.addEventListener(
+          'keydown',
+          (e) => {
+            if (e.key === 'Escape') {
+              set(false);
+              btn.focus();
+            }
+          },
+          { signal },
+        );
       }
     });
   });

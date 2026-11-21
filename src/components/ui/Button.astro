@@ -212,16 +212,20 @@ const wrapProps = glow
 <script>
   import { gsap, onPage } from '@lib/motion';
 
-  onPage(() => {
+  onPage((signal) => {
     // 200ms linear fade in and out
     document.querySelectorAll<HTMLElement>('[data-button-glow-host]').forEach((host) => {
       const glow = host.querySelector<HTMLElement>('[data-button-glow]');
       if (!glow) return;
-      host.addEventListener('mouseenter', () =>
-        gsap.to(glow, { opacity: 1, duration: 0.2, ease: 'none', overwrite: true }),
+      host.addEventListener(
+        'mouseenter',
+        () => gsap.to(glow, { opacity: 1, duration: 0.2, ease: 'none', overwrite: true }),
+        { signal },
       );
-      host.addEventListener('mouseleave', () =>
-        gsap.to(glow, { opacity: 0, duration: 0.2, ease: 'none', overwrite: true }),
+      host.addEventListener(
+        'mouseleave',
+        () => gsap.to(glow, { opacity: 0, duration: 0.2, ease: 'none', overwrite: true }),
+        { signal },
       );
     });
   });

@@ -232,7 +232,7 @@ const { label, items, variant = 'white', z = 1, id } = Astro.props;
 <script>
   import { gsap, ease, onPage, reducedMotion } from '@lib/motion';
 
-  onPage(() => {
+  onPage((signal) => {
     const all = Array.from(document.querySelectorAll<HTMLElement>('[data-services-dropdown]'));
     const setOpen = (dd: HTMLElement, open: boolean) => {
       const toggle = dd.querySelector<HTMLButtonElement>('.services-dropdown__toggle')!;
@@ -250,20 +250,28 @@ const { label, items, variant = 'white', z = 1, id } = Astro.props;
       });
     };
     all.forEach((dd) => {
-      dd.querySelector('.services-dropdown__toggle')!.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const willOpen =
-          dd.querySelector('.services-dropdown__toggle')!.getAttribute('aria-expanded') !== 'true';
-        all.forEach((o) => o !== dd && setOpen(o, false));
-        setOpen(dd, willOpen);
-      });
+      dd.querySelector('.services-dropdown__toggle')!.addEventListener(
+        'click',
+        (e) => {
+          e.stopPropagation();
+          const willOpen =
+            dd.querySelector('.services-dropdown__toggle')!.getAttribute('aria-expanded') !==
+            'true';
+          all.forEach((o) => o !== dd && setOpen(o, false));
+          setOpen(dd, willOpen);
+        },
+        { signal },
+      );
     });
-    document.addEventListener('click', (e) =>
-      all.forEach((dd) => !dd.contains(e.target as Node) && setOpen(dd, false)),
+    document.addEventListener(
+      'click',
+      (e) => all.forEach((dd) => !dd.contains(e.target as Node) && setOpen(dd, false)),
+      { signal },
     );
     document.addEventListener(
       'keydown',
       (e) => e.key === 'Escape' && all.forEach((dd) => setOpen(dd, false)),
+      { signal },
     );
   });
 </script>

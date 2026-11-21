@@ -329,7 +329,7 @@ const { items } = Astro.props;
 <script>
   import { gsap, ease, MQ, onPage, reducedMotion } from '@lib/motion';
 
-  onPage(() => {
+  onPage((signal) => {
     const burger = document.querySelector<HTMLElement>('[data-burger]');
     const panel = document.querySelector<HTMLElement>('[data-burger-panel]');
     const openBtn = document.querySelector<HTMLElement>('[data-burger-open]');
@@ -372,42 +372,58 @@ const { items } = Astro.props;
         if (!instant) openBtn!.focus({ preventScroll: true });
       }
     }
-    openBtn.addEventListener('click', () => toggleBurger(true));
-    closeBtn.addEventListener('click', () => toggleBurger(false));
-    burger.addEventListener('click', (e) => {
-      if (e.target === burger) toggleBurger(false);
-    });
+    openBtn.addEventListener('click', () => toggleBurger(true), { signal });
+    closeBtn.addEventListener('click', () => toggleBurger(false), { signal });
+    burger.addEventListener(
+      'click',
+      (e) => {
+        if (e.target === burger) toggleBurger(false);
+      },
+      { signal },
+    );
     burger
       .querySelectorAll('a[href]')
-      .forEach((a) => a.addEventListener('click', () => toggleBurger(false, true)));
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && burgerOpen) toggleBurger(false);
-    });
-    desktop.addEventListener('change', () => {
-      if (burgerOpen) toggleBurger(false, true);
-    });
+      .forEach((a) => a.addEventListener('click', () => toggleBurger(false, true), { signal }));
+    document.addEventListener(
+      'keydown',
+      (e) => {
+        if (e.key === 'Escape' && burgerOpen) toggleBurger(false);
+      },
+      { signal },
+    );
+    desktop.addEventListener(
+      'change',
+      () => {
+        if (burgerOpen) toggleBurger(false, true);
+      },
+      { signal },
+    );
 
     // accordions inside the burger: instant list toggle + 200ms arrow turn
     burger.querySelectorAll<HTMLElement>('[data-acc]').forEach((acc) => {
       const trig = acc.querySelector<HTMLElement>('[data-acc-trigger]')!;
       const list = acc.querySelector<HTMLElement>('[data-acc-list]')!;
       const arrow = acc.querySelector('[data-acc-arrow]');
-      trig.addEventListener('click', () => {
-        const open = list.hidden;
-        burger.querySelectorAll<HTMLElement>('[data-acc]').forEach((o) => {
-          if (o === acc) return;
-          o.querySelector<HTMLElement>('[data-acc-list]')!.hidden = true;
-          o.querySelector('[data-acc-trigger]')!.setAttribute('aria-expanded', 'false');
-          gsap.to(o.querySelector('[data-acc-arrow]'), {
-            rotation: 0,
-            duration: T(0.2),
-            ease: 'none',
+      trig.addEventListener(
+        'click',
+        () => {
+          const open = list.hidden;
+          burger.querySelectorAll<HTMLElement>('[data-acc]').forEach((o) => {
+            if (o === acc) return;
+            o.querySelector<HTMLElement>('[data-acc-list]')!.hidden = true;
+            o.querySelector('[data-acc-trigger]')!.setAttribute('aria-expanded', 'false');
+            gsap.to(o.querySelector('[data-acc-arrow]'), {
+              rotation: 0,
+              duration: T(0.2),
+              ease: 'none',
+            });
           });
-        });
-        list.hidden = !open;
-        trig.setAttribute('aria-expanded', String(open));
-        gsap.to(arrow, { rotation: open ? 180 : 0, duration: T(0.2), ease: 'none' });
-      });
+          list.hidden = !open;
+          trig.setAttribute('aria-expanded', String(open));
+          gsap.to(arrow, { rotation: open ? 180 : 0, duration: T(0.2), ease: 'none' });
+        },
+        { signal },
+      );
     });
   });
 </script>

@@ -34,9 +34,9 @@ const { w = 727, h = 554, class: cls = '' } = Astro.props;
 </style>
 
 <script>
-  import { onPage } from '@lib/motion';
+  import { onPage, disposeOn } from '@lib/motion';
 
-  onPage(() => {
+  onPage((signal) => {
     document.querySelectorAll<HTMLElement>('[data-loop-stage-wrap]').forEach((wrap) => {
       const w = Number(wrap.dataset.w) || 727;
       const apply = () => {
@@ -44,7 +44,9 @@ const { w = 727, h = 554, class: cls = '' } = Astro.props;
         if (cw) wrap.style.setProperty('--loop-stage-s', String(cw / w));
       };
       apply();
-      new ResizeObserver(apply).observe(wrap);
+      const ro = new ResizeObserver(apply);
+      ro.observe(wrap);
+      disposeOn(signal, ro);
     });
   });
 </script>

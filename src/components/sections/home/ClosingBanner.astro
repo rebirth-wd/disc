@@ -175,13 +175,13 @@ const stars = [
 </style>
 
 <script>
-  import { gsap, motion, onPage, reducedMotion } from '@lib/motion';
+  import { gsap, motion, onPage, disposeOn, reducedMotion } from '@lib/motion';
 
-  onPage(() => {
+  onPage((signal) => {
     document.querySelectorAll<HTMLElement>('[data-section="home-closing"]').forEach((root) => {
       const q = (s: string) => Array.from(root.querySelectorAll<SVGElement | HTMLElement>(s));
 
-      motion(root, () => {
+      motion(root, (_root, _context, signal) => {
         const loops: gsap.core.Animation[] = [];
 
         // — sway of the sprout. Period 6.5s;
@@ -307,7 +307,7 @@ const stars = [
           { rootMargin: '300px 0px' },
         );
         io.observe(root);
-        return () => io.disconnect();
+        disposeOn(signal, io);
       });
 
       // — click easter egg (6 clicks step through reactions, the last one ends in a puff and
@@ -376,13 +376,17 @@ const stars = [
             });
           }
         };
-        ghost.addEventListener('click', poke);
-        ghost.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            poke();
-          }
-        });
+        ghost.addEventListener('click', poke, { signal });
+        ghost.addEventListener(
+          'keydown',
+          (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              poke();
+            }
+          },
+          { signal },
+        );
       }
     });
   });

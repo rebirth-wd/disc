@@ -304,7 +304,7 @@ const { id, decor, columns } = Astro.props;
 <script>
   import { gsap, ease, MQ, onPage, reducedMotion } from '@lib/motion';
 
-  onPage(() => {
+  onPage((signal) => {
     const inQuad = 'power1.in';
     const swingTo = 'back.out(1.70158)';
     const T = (s: number) => (reducedMotion() ? 0 : s);
@@ -335,47 +335,75 @@ const { id, decor, columns } = Astro.props;
     const closeAll = (except?: HTMLElement) => dds.forEach((d) => d !== except && setDd(d, false));
     dds.forEach((dd) => {
       const trigger = dd.querySelector<HTMLAnchorElement>('[data-dd-trigger]')!;
-      dd.addEventListener('mouseenter', () => {
-        closeAll(dd);
-        setDd(dd, true);
-      });
-      dd.addEventListener('mouseleave', () => setDd(dd, false));
-      dd.addEventListener('focusin', () => {
-        closeAll(dd);
-        setDd(dd, true);
-      });
-      dd.addEventListener('focusout', (e) => {
-        if (!dd.contains(e.relatedTarget as Node)) setDd(dd, false);
-      });
-      trigger.addEventListener('click', (e) => {
-        if (trigger.getAttribute('href') !== '#') return; // real route: navigate
-        e.preventDefault();
-        const hoverable = window.matchMedia('(hover: hover)').matches;
-        if (!hoverable) {
-          const open = !dd.classList.contains('is-open');
+      dd.addEventListener(
+        'mouseenter',
+        () => {
           closeAll(dd);
-          setDd(dd, open);
-        }
-      });
-      trigger.addEventListener('keydown', (e) => {
-        if (e.key === ' ' || e.key === 'ArrowDown') {
-          e.preventDefault();
           setDd(dd, true);
-          dd.querySelector<HTMLElement>('.header__dd-link')?.focus();
-        }
-      });
+        },
+        { signal },
+      );
+      dd.addEventListener('mouseleave', () => setDd(dd, false), { signal });
+      dd.addEventListener(
+        'focusin',
+        () => {
+          closeAll(dd);
+          setDd(dd, true);
+        },
+        { signal },
+      );
+      dd.addEventListener(
+        'focusout',
+        (e) => {
+          if (!dd.contains(e.relatedTarget as Node)) setDd(dd, false);
+        },
+        { signal },
+      );
+      trigger.addEventListener(
+        'click',
+        (e) => {
+          if (trigger.getAttribute('href') !== '#') return; // real route: navigate
+          e.preventDefault();
+          const hoverable = window.matchMedia('(hover: hover)').matches;
+          if (!hoverable) {
+            const open = !dd.classList.contains('is-open');
+            closeAll(dd);
+            setDd(dd, open);
+          }
+        },
+        { signal },
+      );
+      trigger.addEventListener(
+        'keydown',
+        (e) => {
+          if (e.key === ' ' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            setDd(dd, true);
+            dd.querySelector<HTMLElement>('.header__dd-link')?.focus();
+          }
+        },
+        { signal },
+      );
     });
-    document.addEventListener('keydown', (e) => {
-      if (e.key !== 'Escape') return;
-      const open = dds.find((d) => d.classList.contains('is-open'));
-      if (!open) return;
-      open.querySelector<HTMLElement>('[data-dd-trigger]')?.focus();
-      setDd(open, false);
-      (document.activeElement as HTMLElement)?.blur();
-    });
-    document.addEventListener('click', (e) => {
-      if (!root.contains(e.target as Node)) closeAll();
-    });
-    desktop.addEventListener('change', () => closeAll());
+    document.addEventListener(
+      'keydown',
+      (e) => {
+        if (e.key !== 'Escape') return;
+        const open = dds.find((d) => d.classList.contains('is-open'));
+        if (!open) return;
+        open.querySelector<HTMLElement>('[data-dd-trigger]')?.focus();
+        setDd(open, false);
+        (document.activeElement as HTMLElement)?.blur();
+      },
+      { signal },
+    );
+    document.addEventListener(
+      'click',
+      (e) => {
+        if (!root.contains(e.target as Node)) closeAll();
+      },
+      { signal },
+    );
+    desktop.addEventListener('change', () => closeAll(), { signal });
   });
 </script>
