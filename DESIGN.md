@@ -47,16 +47,18 @@ Also loaded but not rendered on the homepage: gg sans (the product UI face), Not
 
 ### Type Scale
 
+Sizes are in `rem` so they follow the visitor's browser text size. The four display sizes are fluid: `clamp()` from their small size at 768px up to their full size at 1440px and wider (heading-lg reaches 48px at 1280px, matching the reference), so every layout at 1440px+ is unchanged. Letter-spacing on headings is -0.01em so it scales with the size.
+
 | Role | Family | Weight | Size | Line Height | Letter Spacing | Token |
 |------|--------|--------|------|-------------|----------------|-------|
-| body | ABC Ginto Discord | 400 | 16px | 1.5 | — | `--text-body` |
-| nav | ABC Ginto Discord | 500 | 16px | 1.2 | — | `--text-nav` |
-| label | ABC Ginto Discord | 400 | 16px | 1.25 | — | `--text-label` |
-| body-xl | ABC Ginto Discord | 400 | 20px | 1.3 | 0.32px | `--text-body-xl` |
-| heading | ABC Ginto Discord Nord | 800 | 36px | 0.93 | -0.36px | `--text-heading` |
-| heading-lg | ABC Ginto Discord Nord | 700 | 48px | 1.2 | -0.48px | `--text-heading-lg` |
-| display | ABC Ginto Discord Nord | 700 | 56px | 0.857 | -0.56px | `--text-display` |
-| marquee | ABC Ginto Discord Nord | 700 | 61px | 0.41 | -0.61px | `--text-marquee` |
+| body | ABC Ginto Discord | 400 | 1rem (16px) | 1.5 | — | `--text-body` |
+| nav | ABC Ginto Discord | 500 | 1rem (16px) | 1.2 | — | `--text-nav` |
+| label | ABC Ginto Discord | 400 | 1rem (16px) | 1.25 | — | `--text-label` |
+| body-xl | ABC Ginto Discord | 400 | 1.25rem (20px) | 1.3 | 0.016em | `--text-body-xl` |
+| heading | ABC Ginto Discord Nord | 800 | fluid 27→36px | 0.93 | -0.01em | `--text-heading` |
+| heading-lg | ABC Ginto Discord Nord | 700 | fluid 32→48px | 1.2 | -0.01em | `--text-heading-lg` |
+| display | ABC Ginto Discord Nord | 700 | fluid 36→56px | 0.857 | -0.01em | `--text-display` |
+| marquee | ABC Ginto Discord Nord | 700 | fluid 47→61px | 0.41 | -0.01em | `--text-marquee` |
 
 ## Tokens — Spacing & Shapes
 
@@ -259,28 +261,28 @@ Three visual signatures define the Discord homepage: (1) The glass slab — a 12
   --font-abc-ginto-discord: 'ABC Ginto Discord', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Typography — Scale */
-  --text-body: 16px;
+  --text-body: 1rem;
   --leading-body: 1.5;
-  --text-nav: 16px;
+  --text-nav: 1rem;
   --leading-nav: 1.2;
-  --text-label: 16px;
+  --text-label: 1rem;
   --leading-label: 1.25;
-  --text-body-xl: 20px;
+  --text-body-xl: 1.25rem;
   --leading-body-xl: 1.3;
-  --tracking-body-xl: 0.32px;
+  --tracking-body-xl: 0.016em;
   --tracking-button: 0.25px;
-  --text-heading: 36px;
+  --text-heading: clamp(1.6875rem, 1.0446rem + 1.3393vw, 2.25rem);
   --leading-heading: 0.93;
-  --tracking-heading: -0.36px;
-  --text-heading-lg: 48px;
+  --tracking-heading: -0.01em;
+  --text-heading-lg: clamp(2rem, 0.5rem + 3.125vw, 3rem);
   --leading-heading-lg: 1.2;
-  --tracking-heading-lg: -0.48px;
-  --text-display: 56px;
+  --tracking-heading-lg: -0.01em;
+  --text-display: clamp(2.25rem, 0.8214rem + 2.9762vw, 3.5rem);
   --leading-display: 0.857;
-  --tracking-display: -0.56px;
-  --text-marquee: 61px;
+  --tracking-display: -0.01em;
+  --text-marquee: clamp(2.9375rem, 1.9375rem + 2.0833vw, 3.8125rem);
   --leading-marquee: 0.41;
-  --tracking-marquee: -0.61px;
+  --tracking-marquee: -0.01em;
 
   /* Typography — Weights */
   --font-weight-regular: 400;
@@ -362,28 +364,28 @@ Three visual signatures define the Discord homepage: (1) The glass slab — a 12
   --font-abc-ginto-discord: 'ABC Ginto Discord', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Typography — Scale */
-  --text-body: 16px;
+  --text-body: 1rem;
   --leading-body: 1.5;
-  --text-nav: 16px;
+  --text-nav: 1rem;
   --leading-nav: 1.2;
-  --text-label: 16px;
+  --text-label: 1rem;
   --leading-label: 1.25;
-  --text-body-xl: 20px;
+  --text-body-xl: 1.25rem;
   --leading-body-xl: 1.3;
-  --tracking-body-xl: 0.32px;
+  --tracking-body-xl: 0.016em;
   --tracking-button: 0.25px;
-  --text-heading: 36px;
+  --text-heading: clamp(1.6875rem, 1.0446rem + 1.3393vw, 2.25rem);
   --leading-heading: 0.93;
-  --tracking-heading: -0.36px;
-  --text-heading-lg: 48px;
+  --tracking-heading: -0.01em;
+  --text-heading-lg: clamp(2rem, 0.5rem + 3.125vw, 3rem);
   --leading-heading-lg: 1.2;
-  --tracking-heading-lg: -0.48px;
-  --text-display: 56px;
+  --tracking-heading-lg: -0.01em;
+  --text-display: clamp(2.25rem, 0.8214rem + 2.9762vw, 3.5rem);
   --leading-display: 0.857;
-  --tracking-display: -0.56px;
-  --text-marquee: 61px;
+  --tracking-display: -0.01em;
+  --text-marquee: clamp(2.9375rem, 1.9375rem + 2.0833vw, 3.8125rem);
   --leading-marquee: 0.41;
-  --tracking-marquee: -0.61px;
+  --tracking-marquee: -0.01em;
 
   /* Spacing */
   --spacing-4: 4px;
