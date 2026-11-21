@@ -1,7 +1,9 @@
 ---
+import Section from '@components/layout/Section.astro';
 // careers-party:
 // centred intro + looping, centred card carousel (26 slides) with dynamic progress bullets.
 import CareersGlyph from '@components/graphics/icons/CareersGlyph.astro';
+import Heading from '@components/ui/Heading.astro';
 const names = [
   ['Headers', 'window'],
   ['Heros', 'star'],
@@ -32,26 +34,24 @@ const names = [
 ];
 ---
 
-<section
-  data-section="careers-party"
+<Section
+  section="careers-party"
   class="relative pt-[100px] md:pt-[120px] [@media(min-width:1440px)]:pt-[160px]"
+  container="ultra"
 >
-  <div class="px-[6vw] md:px-40 xl:px-[80px] [@media(min-width:1440px)]:px-[120px]">
-    <div class="relative z-2 mx-auto max-w-[944px] [@media(min-width:1440px)]:max-w-[1800px]">
-      <div class="relative mx-auto flex max-w-[697px] flex-col items-center [@media(min-width:1440px)]:max-w-[897px]">
-        <h2 class="mb-16 text-center font-abc-ginto-discord-nord text-[8.2vw] leading-none font-bold tracking-[-0.01em] text-white uppercase md:mb-24 md:text-[40px] md:tracking-[-0.02em] [@media(min-width:1440px)]:text-heading-lg">
-          Time to build? Find your stack here
-        </h2>
-        <p class="text-center font-abc-ginto-discord text-[16px] leading-[22px] text-white md:text-body-xl md:leading-[26px]">
-          High-performance, mobile-first components powered by Astro and Tailwind CSS – designed to
-          convert local visitors into customers, and to highlight what makes your business stand out
-          from the crowd.
-        </p>
-      </div>
-      <div class="hidden h-40 md:block xl:h-48"></div>
-    </div>
+  <div class="relative mx-auto flex max-w-[697px] flex-col items-center [@media(min-width:1440px)]:max-w-[897px]">
+    <Heading level={2} size="lg" class="mb-16 text-center md:mb-24">
+      Time to build? Find your stack here
+    </Heading>
+    <p class="text-center font-abc-ginto-discord text-[16px] leading-[22px] text-white md:text-body-xl md:leading-[26px]">
+      High-performance, mobile-first components powered by Astro and Tailwind CSS – designed to
+      convert local visitors into customers, and to highlight what makes your business stand out
+      from the crowd.
+    </p>
   </div>
+  <div class="hidden h-40 md:block xl:h-48"></div>
   <div
+    slot="after"
     data-carousel
     class="careers-party relative mt-[32px] md:mt-0"
     role="region"
@@ -137,7 +137,7 @@ const names = [
       </button>
     </div>
   </div>
-</section>
+</Section>
 <style>
   /* slot sizes 342x240 (mobile, max 87.7vw) / 460x280 (tablet) / 540x352 (>=1280) */
   .careers-party {

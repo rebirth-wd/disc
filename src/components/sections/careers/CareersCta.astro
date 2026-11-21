@@ -1,46 +1,45 @@
 ---
+import Section from '@components/layout/Section.astro';
 // careers-cta:
 // closing headline + CTA with two objects that drift in opposite directions on scroll.
 import Button from '@components/ui/Button.astro';
 import CareersObject from '@components/graphics/objects/CareersObject.astro';
 import Starfield from '@components/layout/Starfield.astro';
+import Heading from '@components/ui/Heading.astro';
 ---
 
-<section
-  data-section="careers-cta"
+<Section
+  section="careers-cta"
   class="careers-cta relative overflow-clip py-[150px] text-center md:py-[140px] [@media(min-width:1440px)]:py-[160px]"
+  container="ultra"
 >
-  <Starfield density={0.5} seed={41} class="careers-cta__stars" />
-  <div class="px-[6vw] md:px-40 xl:px-[80px] [@media(min-width:1440px)]:px-[120px]">
-    <div class="relative z-2 mx-auto max-w-[944px] [@media(min-width:1440px)]:max-w-[1800px]">
-      <div class="relative mx-auto flex max-w-full flex-col items-center md:max-w-[550px] [@media(min-width:1440px)]:max-w-[582px]">
-        <h2 class="mb-16 font-abc-ginto-discord-nord text-[32px] leading-none font-bold tracking-[-0.01em] text-white uppercase md:mb-24 md:text-[56px] md:tracking-[-0.03em] [@media(min-width:1440px)]:text-[72px] [@media(min-width:1440px)]:leading-[0.9]">
-          Start your project
-        </h2>
-        <p class="font-abc-ginto-discord text-[16px] leading-[22px] text-white md:text-body-xl md:leading-[26px]">
-          Modern websites, built to last. Start your project and see what makes Rebirth a special
-          place to build!
-        </p>
-        <div class="h-[32px] md:h-40"></div>
-        <div
-          data-careers-float="cta-a"
-          class="pointer-events-none absolute top-[-140px] left-[-8px] w-[120px] md:top-[-160px] md:left-[-101px] md:w-[144px] xl:top-[-100px] xl:left-[-259px] xl:w-[180px] [@media(min-width:1440px)]:left-[-334px] [@media(min-width:1440px)]:w-[200px]"
-        >
-          <CareersObject kind="cursor" class="h-auto w-full" />
-        </div>
-        <div
-          data-careers-float="cta-b"
-          class="pointer-events-none absolute top-[232px] right-[-16px] w-[120px] md:top-[228px] md:right-[-101px] md:w-[144px] xl:top-[200px] xl:right-[-207px] xl:w-[180px] [@media(min-width:1440px)]:top-[198px] [@media(min-width:1440px)]:right-[-300px] [@media(min-width:1440px)]:w-[200px]"
-        >
-          <CareersObject kind="cube" class="h-auto w-full" />
-        </div>
-        <Button variant="blurple" href="#" glow>
-          Learn More
-        </Button>
-      </div>
+  <Starfield slot="before" density={0.5} seed={41} class="careers-cta__stars" />
+  <div class="relative mx-auto flex max-w-full flex-col items-center md:max-w-[550px] [@media(min-width:1440px)]:max-w-[582px]">
+    <Heading level={2} size="xl" class="mb-16 md:mb-24">
+      Start your project
+    </Heading>
+    <p class="font-abc-ginto-discord text-[16px] leading-[22px] text-white md:text-body-xl md:leading-[26px]">
+      Modern websites, built to last. Start your project and see what makes Rebirth a special place
+      to build!
+    </p>
+    <div class="h-[32px] md:h-40"></div>
+    <div
+      data-careers-float="cta-a"
+      class="pointer-events-none absolute top-[-140px] left-[-8px] w-[120px] md:top-[-160px] md:left-[-101px] md:w-[144px] xl:top-[-100px] xl:left-[-259px] xl:w-[180px] [@media(min-width:1440px)]:left-[-334px] [@media(min-width:1440px)]:w-[200px]"
+    >
+      <CareersObject kind="cursor" class="h-auto w-full" />
     </div>
+    <div
+      data-careers-float="cta-b"
+      class="pointer-events-none absolute top-[232px] right-[-16px] w-[120px] md:top-[228px] md:right-[-101px] md:w-[144px] xl:top-[200px] xl:right-[-207px] xl:w-[180px] [@media(min-width:1440px)]:top-[198px] [@media(min-width:1440px)]:right-[-300px] [@media(min-width:1440px)]:w-[200px]"
+    >
+      <CareersObject kind="cube" class="h-auto w-full" />
+    </div>
+    <Button variant="blurple" href="#" glow>
+      Learn More
+    </Button>
   </div>
-</section>
+</Section>
 <style>
   .careers-cta {
     background: linear-gradient(180deg, #000 0%, #020208 22%, #0a0a22 62%, #11112e 100%);

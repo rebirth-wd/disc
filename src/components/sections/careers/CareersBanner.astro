@@ -1,59 +1,58 @@
 ---
+import Section from '@components/layout/Section.astro';
 // careers-banner:
 // rounded indigo banner card with heading, copy, CTA and four floating objects (two sharp, two far-field).
 import Button from '@components/ui/Button.astro';
 import CareersObject from '@components/graphics/objects/CareersObject.astro';
 import Starfield from '@components/layout/Starfield.astro';
+import Heading from '@components/ui/Heading.astro';
 ---
 
-<section
-  data-section="careers-banner"
+<Section
+  section="careers-banner"
   class="relative pt-[100px] md:pt-[120px] [@media(min-width:1440px)]:pt-[160px]"
+  container="narrow"
 >
-  <div class="px-[6vw] md:px-40 xl:px-[80px] [@media(min-width:1440px)]:px-[120px]">
-    <div class="relative z-2 mx-auto max-w-[944px] [@media(min-width:1440px)]:max-w-[1200px]">
-      <div
-        data-banner-card
-        class="careers-banner__card relative flex flex-col items-center overflow-clip rounded-[40px] px-24 py-[120px] md:rounded-[64px] md:px-48 [@media(min-width:1440px)]:rounded-[72px] [@media(min-width:1440px)]:px-[80px]"
-      >
-        <Starfield density={0.5} seed={23} class="opacity-40" />
-        <div class="relative w-full max-w-[477px] [@media(min-width:1440px)]:max-w-[678px]">
-          <h2 class="mb-24 text-center font-abc-ginto-discord-nord text-[8.2vw] leading-none font-bold tracking-[-0.01em] text-white uppercase md:text-[40px] [@media(min-width:1440px)]:text-heading-lg [@media(min-width:1440px)]:tracking-[-0.02em]">
-            Proudly built in Bundaberg
-          </h2>
-          <p class="text-center font-abc-ginto-discord text-[16px] leading-[22px] text-white md:text-body-xl md:leading-[26px]">
-            Websites in Bundaberg just got an upgrade. Want hosting, backups, security, and updates
-            managed for you, every month?
-          </p>
-          <div class="h-[32px] md:h-48"></div>
-          <div class="flex flex-col items-center">
-            <Button variant="blurple" size="lg" href="#" glow class="z-2">
-              Learn More
-            </Button>
-          </div>
-        </div>
-        <CareersObject
-          kind="gem"
-          class="absolute top-[-25px] left-[-10px] h-auto w-[163px] md:top-[-11px] md:left-[-23px] md:w-[184px] xl:left-[49px] xl:w-[206px] [@media(min-width:1440px)]:top-[-9px] [@media(min-width:1440px)]:left-[16px] [@media(min-width:1440px)]:w-[282px]"
-        />
-        <CareersObject
-          kind="orb"
-          class="absolute top-[403px] left-[213px] h-auto w-[117px] md:top-[300px] md:left-auto md:right-[1px] md:w-[136px] xl:top-[278px] xl:right-[84px] xl:w-[158px] [@media(min-width:1440px)]:top-[294px] [@media(min-width:1440px)]:right-[52px] [@media(min-width:1440px)]:w-[169px]"
-        />
-        <CareersObject
-          kind="cube"
-          blur
-          class="absolute top-[41px] right-[-12px] hidden h-auto w-[129px] md:block xl:right-[85px] [@media(min-width:1440px)]:top-[63px] [@media(min-width:1440px)]:right-[80px] [@media(min-width:1440px)]:w-[153px]"
-        />
-        <CareersObject
-          kind="cursor"
-          blur
-          class="absolute top-[341px] left-[9px] hidden h-auto w-[128px] md:block xl:left-[105px] [@media(min-width:1440px)]:top-[315px] [@media(min-width:1440px)]:left-[133px]"
-        />
+  <div
+    data-banner-card
+    class="careers-banner__card relative flex flex-col items-center overflow-clip rounded-[40px] px-24 py-[120px] md:rounded-[64px] md:px-48 [@media(min-width:1440px)]:rounded-[72px] [@media(min-width:1440px)]:px-[80px]"
+  >
+    <Starfield density={0.5} seed={23} class="opacity-40" />
+    <div class="relative w-full max-w-[477px] [@media(min-width:1440px)]:max-w-[678px]">
+      <Heading level={2} size="lg" class="mb-24 text-center">
+        Proudly built in Bundaberg
+      </Heading>
+      <p class="text-center font-abc-ginto-discord text-[16px] leading-[22px] text-white md:text-body-xl md:leading-[26px]">
+        Websites in Bundaberg just got an upgrade. Want hosting, backups, security, and updates
+        managed for you, every month?
+      </p>
+      <div class="h-[32px] md:h-48"></div>
+      <div class="flex flex-col items-center">
+        <Button variant="blurple" size="lg" href="#" glow class="z-2">
+          Learn More
+        </Button>
       </div>
     </div>
+    <CareersObject
+      kind="gem"
+      class="absolute top-[-25px] left-[-10px] h-auto w-[163px] md:top-[-11px] md:left-[-23px] md:w-[184px] xl:left-[49px] xl:w-[206px] [@media(min-width:1440px)]:top-[-9px] [@media(min-width:1440px)]:left-[16px] [@media(min-width:1440px)]:w-[282px]"
+    />
+    <CareersObject
+      kind="orb"
+      class="absolute top-[403px] left-[213px] h-auto w-[117px] md:top-[300px] md:left-auto md:right-[1px] md:w-[136px] xl:top-[278px] xl:right-[84px] xl:w-[158px] [@media(min-width:1440px)]:top-[294px] [@media(min-width:1440px)]:right-[52px] [@media(min-width:1440px)]:w-[169px]"
+    />
+    <CareersObject
+      kind="cube"
+      blur
+      class="absolute top-[41px] right-[-12px] hidden h-auto w-[129px] md:block xl:right-[85px] [@media(min-width:1440px)]:top-[63px] [@media(min-width:1440px)]:right-[80px] [@media(min-width:1440px)]:w-[153px]"
+    />
+    <CareersObject
+      kind="cursor"
+      blur
+      class="absolute top-[341px] left-[9px] hidden h-auto w-[128px] md:block xl:left-[105px] [@media(min-width:1440px)]:top-[315px] [@media(min-width:1440px)]:left-[133px]"
+    />
   </div>
-</section>
+</Section>
 <style>
   .careers-banner__card {
     background:

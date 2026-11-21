@@ -1,6 +1,8 @@
 ---
+import Section from '@components/layout/Section.astro';
 // "Designed for…" + 3 numbered step cards
 import LaunchMock from '@components/graphics/mocks/LaunchMock.astro';
+import Heading from '@components/ui/Heading.astro';
 const steps = [
   {
     h: '1. You share your goals',
@@ -16,36 +18,62 @@ const steps = [
 ] as const;
 ---
 
-<section data-section="quests-steps" class="launch-section launch-steps">
-  <div class="launch-pad">
-    <div class="launch-wrap">
-      <div class="launch-title">
-        <h2 class="launch-h2">Designed for busy owners</h2>
-        <p class="launch-lead launch-steps__lead">
-          A focused prototype can be ready in just a few days. Quick wins early, refinements along
-          the way, so you see progress fast.
-        </p>
-      </div>
-      <div class="launch-steps__grid">
-        {steps.map((s, i) => (
-          <article class:list={['launch-steps__step', i === 1 && 'launch-steps__step--alt']}>
-            <div class="launch-steps__step-media">
-              <LaunchMock variant={s.mock} />
-            </div>
-            <div class="launch-steps__step-text">
-              <div class="launch-steps__step-title">
-                <h3>{s.h}</h3>
-              </div>
-              <p>{s.p}</p>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
+<Section section="quests-steps" class="launch-steps" padding="section">
+  <div class="launch-steps__title">
+    <Heading level={2} size="lg" class="launch-steps__heading text-center">
+      Designed for busy owners
+    </Heading>
+    <p class="mx-auto text-center text-[16px] leading-[22px] text-white min-[480px]:text-body-xl min-[480px]:leading-[26px] launch-steps__lead">
+      A focused prototype can be ready in just a few days. Quick wins early, refinements along the
+      way, so you see progress fast.
+    </p>
   </div>
-</section>
+  <div class="launch-steps__grid">
+    {steps.map((s, i) => (
+      <article class:list={['launch-steps__step', i === 1 && 'launch-steps__step--alt']}>
+        <div class="launch-steps__step-media">
+          <LaunchMock variant={s.mock} />
+        </div>
+        <div class="launch-steps__step-text">
+          <div class="launch-steps__step-title">
+            <Heading level={3} size="sm">
+              {s.h}
+            </Heading>
+          </div>
+          <p>{s.p}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+</Section>
 
 <style>
+  .launch-steps__heading {
+    margin-bottom: var(--spacing-16);
+  }
+  @media (min-width: 992px) {
+    .launch-steps__heading {
+      margin-bottom: var(--spacing-20);
+    }
+  }
+  @media (min-width: 1440px) {
+    .launch-steps__heading {
+      margin-bottom: var(--spacing-24);
+    }
+  }
+  .launch-steps__title {
+    margin-bottom: 32px;
+  }
+  @media (min-width: 480px) {
+    .launch-steps__title {
+      margin-bottom: var(--spacing-48);
+    }
+  }
+  @media (min-width: 1440px) {
+    .launch-steps__title {
+      margin-bottom: var(--spacing-64);
+    }
+  }
   .launch-steps.launch-steps {
     padding-top: 0;
   }
@@ -86,13 +114,6 @@ const steps = [
   .launch-steps__step-title {
     margin-bottom: var(--spacing-16);
   }
-  .launch-steps__step h3 {
-    font-weight: var(--font-weight-bold);
-    font-size: 20px;
-    line-height: 22px;
-    letter-spacing: -0.2px;
-    color: var(--color-white);
-  }
   .launch-steps__step p {
     margin: 0;
     font-size: var(--text-body);
@@ -110,11 +131,6 @@ const steps = [
     }
     .launch-steps__step-text {
       padding: 0 17px;
-    }
-    .launch-steps__step h3 {
-      font-size: 32px;
-      line-height: 32px;
-      letter-spacing: -0.32px;
     }
     .launch-steps__step p {
       font-size: 18px;
@@ -171,11 +187,6 @@ const steps = [
     }
     .launch-steps__step-title {
       min-height: 64px;
-    }
-    .launch-steps__step h3 {
-      font-size: 28px;
-      line-height: 28px;
-      letter-spacing: -0.28px;
     }
   }
 </style>

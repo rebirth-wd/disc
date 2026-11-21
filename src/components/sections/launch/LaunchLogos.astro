@@ -1,4 +1,5 @@
 ---
+import Heading from '@components/ui/Heading.astro';
 // Partner strip.
 // Wordmarks are invented placeholder brands, drawn here; not real companies.
 const SETS = 5;
@@ -6,7 +7,9 @@ const SETS = 5;
 
 <section data-section="quests-logos" class="launch-logos">
   <div class="launch-logos__head">
-    <h2 class="launch-h2">Trusted by local brands</h2>
+    <Heading level={2} size="lg" class="launch-logos__title text-center">
+      Trusted by local brands
+    </Heading>
   </div>
   <div class="launch-logos__band" aria-hidden="true"></div>
   <div class="launch-logos__clip">
@@ -66,7 +69,7 @@ const SETS = 5;
     max-width: 1360px;
     padding: 0 var(--spacing-16) 24px;
   }
-  .launch-logos__head .launch-h2 {
+  .launch-logos__title {
     margin-bottom: var(--spacing-24);
   }
   .launch-logos__band {

@@ -1,4 +1,5 @@
 ---
+import Section from '@components/layout/Section.astro';
 // careers-cards: .
 import CareersGlyph from '@components/graphics/icons/CareersGlyph.astro';
 const cards = [
@@ -45,33 +46,29 @@ const cards = [
 ];
 ---
 
-<section data-section="careers-cards" class="relative">
-  <div class="px-[6vw] md:px-40 xl:px-[80px] [@media(min-width:1440px)]:px-[120px]">
-    <div class="relative z-2 mx-auto max-w-[944px] [@media(min-width:1440px)]:max-w-[1200px]">
-      <ul class="m-0 grid list-none grid-cols-1 gap-20 p-0 md:grid-cols-2">
-        {cards.map((c) => (
-          <li
-            data-card
-            class="flex flex-col items-start rounded-[48px] bg-white-10 p-48 text-left md:rounded-[56px] md:p-56"
-          >
-            <div class="mb-48 flex h-[72px] items-center">
-              <CareersGlyph name={c.icon} size={72} />
-            </div>
-            <h3 class="font-abc-ginto-discord text-[20px] leading-[24px] font-medium tracking-normal text-white normal-case xl:text-[24px] xl:leading-[28.8px]">
-              {c.title}
-            </h3>
-            <p class="mt-8 font-abc-ginto-discord text-[14px] leading-[18.2px] text-white opacity-50 md:text-[16px] md:leading-[20.8px] [@media(min-width:1440px)]:leading-[22.4px]">
-              {c.text}
-            </p>
-          </li>
-        ))}
-      </ul>
-      <div class="pt-40 text-center md:pt-[80px]">
-        <p class="font-abc-ginto-discord text-[16px] leading-[20.8px] tracking-[0.02em] text-white opacity-50 md:text-body-xl md:leading-[26px]">
-          Hosting, backups, security, and updates — managed for you, every month. Scope varies by
-          project and plan.
+<Section section="careers-cards" class="relative" container="narrow">
+  <ul class="m-0 grid list-none grid-cols-1 gap-20 p-0 md:grid-cols-2">
+    {cards.map((c) => (
+      <li
+        data-card
+        class="flex flex-col items-start rounded-[48px] bg-white-10 p-48 text-left md:rounded-[56px] md:p-56"
+      >
+        <div class="mb-48 flex h-[72px] items-center">
+          <CareersGlyph name={c.icon} size={72} />
+        </div>
+        <h3 class="font-abc-ginto-discord text-[20px] leading-[24px] font-medium tracking-normal text-white normal-case xl:text-[24px] xl:leading-[28.8px]">
+          {c.title}
+        </h3>
+        <p class="mt-8 font-abc-ginto-discord text-[14px] leading-[18.2px] text-white opacity-50 md:text-[16px] md:leading-[20.8px] [@media(min-width:1440px)]:leading-[22.4px]">
+          {c.text}
         </p>
-      </div>
-    </div>
+      </li>
+    ))}
+  </ul>
+  <div class="pt-40 text-center md:pt-[80px]">
+    <p class="font-abc-ginto-discord text-[16px] leading-[20.8px] tracking-[0.02em] text-white opacity-50 md:text-body-xl md:leading-[26px]">
+      Hosting, backups, security, and updates — managed for you, every month. Scope varies by
+      project and plan.
+    </p>
   </div>
-</section>
+</Section>

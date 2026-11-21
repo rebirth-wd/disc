@@ -1,5 +1,7 @@
 ---
+import Section from '@components/layout/Section.astro';
 import PlansObject from '@components/graphics/objects/PlansObject.astro';
+import Heading from '@components/ui/Heading.astro';
 const tabs = [
   {
     name: 'General',
@@ -92,87 +94,92 @@ const tabs = [
 ];
 ---
 
-<section data-section="nitro-faq" id="faq" class="plans-faq">
-  <div class="plans-pad">
-    <div class="plans-wrap plans-wrap--wide">
-      <div class="plans-faq__head" data-par-trigger="faq">
-        <h2 class="plans-h2">Questions?</h2>
-        <p class="plans-xl">Questions about Care? Check out our FAQ.</p>
-        <PlansObject name="padlock" par="key" class="plans-faq__lock" />
-      </div>
+<Section section="nitro-faq" id="faq" class="plans-faq" container="wide">
+  <div class="plans-faq__head" data-par-trigger="faq">
+    <Heading level={2} size="lg" italic class="plans-faq__title text-center">
+      Questions?
+    </Heading>
+    <p class="font-abc-ginto-discord text-[16px] leading-[22px] font-normal min-[480px]:text-body-xl min-[480px]:leading-[26px]">
+      Questions about Care? Check out our FAQ.
+    </p>
+    <PlansObject name="padlock" par="key" class="plans-faq__lock" />
+  </div>
 
-      <div class="plans-faq__tabs" role="tablist" data-faq-tabs>
-        {tabs.map((t, i) => (
-          <button
-            type="button"
-            role="tab"
-            id={`plans-faq-tab-${i}`}
-            aria-controls={`plans-faq-pane-${i}`}
-            aria-selected={i === 0 ? 'true' : 'false'}
-            tabindex={i === 0 ? 0 : -1}
-            class:list={['plans-faq__tab', i === 0 && 'is-current']}
-            data-faq-tab
-          >
-            <span>{t.name}</span>
-          </button>
-        ))}
-        <svg class="plans-faq__arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path
-            d="m4 6 4 4 4-4"
-            stroke="#fff"
-            stroke-opacity="0.5"
-            stroke-width="1.6"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </div>
+  <div class="plans-faq__tabs" role="tablist" data-faq-tabs>
+    {tabs.map((t, i) => (
+      <button
+        type="button"
+        role="tab"
+        id={`plans-faq-tab-${i}`}
+        aria-controls={`plans-faq-pane-${i}`}
+        aria-selected={i === 0 ? 'true' : 'false'}
+        tabindex={i === 0 ? 0 : -1}
+        class:list={['plans-faq__tab', i === 0 && 'is-current']}
+        data-faq-tab
+      >
+        <span>{t.name}</span>
+      </button>
+    ))}
+    <svg class="plans-faq__arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path
+        d="m4 6 4 4 4-4"
+        stroke="#fff"
+        stroke-opacity="0.5"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </div>
 
-      <div class="plans-faq__panes">
-        {tabs.map((t, i) => (
-          <div
-            class="plans-faq__pane"
-            role="tabpanel"
-            id={`plans-faq-pane-${i}`}
-            aria-labelledby={`plans-faq-tab-${i}`}
-            hidden={i !== 0}
-            data-faq-pane
-          >
-            {t.items.map(([q, a], j) => (
-              <div class="plans-faq__item" data-faq-item>
-                <button
-                  type="button"
-                  class="plans-faq__q"
-                  aria-expanded="false"
-                  aria-controls={`plans-faq-a-${i}-${j}`}
-                  data-faq-toggle
-                >
-                  <span class="plans-xl plans-xl--medium">{q}</span>
-                  <span class="plans-faq__icons" aria-hidden="true">
-                    <svg viewBox="0 0 16 16" fill="none">
-                      <path d="M1 8h14" stroke="#fff" stroke-width="2" />
-                    </svg>
-                    <svg viewBox="0 0 16 16" fill="none" data-faq-plus>
-                      <path d="M1 8h14M8 1v14" stroke="#fff" stroke-width="2" />
-                    </svg>
-                  </span>
-                </button>
-                <div class="plans-faq__a" id={`plans-faq-a-${i}-${j}`} hidden data-faq-panel>
-                  <p>{a}</p>
-                </div>
-              </div>
-            ))}
+  <div class="plans-faq__panes">
+    {tabs.map((t, i) => (
+      <div
+        class="plans-faq__pane"
+        role="tabpanel"
+        id={`plans-faq-pane-${i}`}
+        aria-labelledby={`plans-faq-tab-${i}`}
+        hidden={i !== 0}
+        data-faq-pane
+      >
+        {t.items.map(([q, a], j) => (
+          <div class="plans-faq__item" data-faq-item>
+            <button
+              type="button"
+              class="plans-faq__q"
+              aria-expanded="false"
+              aria-controls={`plans-faq-a-${i}-${j}`}
+              data-faq-toggle
+            >
+              <span class="plans-faq__question font-abc-ginto-discord text-[16px] leading-[22px] font-medium min-[480px]:text-body-xl min-[480px]:leading-[26px]">
+                {q}
+              </span>
+              <span class="plans-faq__icons" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none">
+                  <path d="M1 8h14" stroke="#fff" stroke-width="2" />
+                </svg>
+                <svg viewBox="0 0 16 16" fill="none" data-faq-plus>
+                  <path d="M1 8h14M8 1v14" stroke="#fff" stroke-width="2" />
+                </svg>
+              </span>
+            </button>
+            <div class="plans-faq__a" id={`plans-faq-a-${i}-${j}`} hidden data-faq-panel>
+              <p>{a}</p>
+            </div>
           </div>
         ))}
       </div>
-    </div>
+    ))}
   </div>
-</section>
+</Section>
 
 <style>
   .plans-faq {
     position: relative;
     padding-bottom: 160px;
+  }
+  .plans-faq__title {
+    margin-bottom: var(--spacing-24);
   }
   .plans-faq__head {
     position: relative;
@@ -245,7 +252,7 @@ const tabs = [
     text-align: left;
     padding: var(--spacing-40) var(--spacing-40) var(--spacing-40) 0;
   }
-  .plans-faq__q > .plans-xl {
+  .plans-faq__question {
     display: block;
   }
   .plans-faq__icons {
@@ -276,7 +283,7 @@ const tabs = [
     .plans-faq {
       padding-bottom: 120px;
     }
-    .plans-faq__head .plans-h2 {
+    .plans-faq__title {
       margin-bottom: var(--spacing-20);
     }
     .plans-faq__head :global(.plans-faq__lock) {

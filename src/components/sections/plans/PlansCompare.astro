@@ -1,6 +1,8 @@
 ---
+import Section from '@components/layout/Section.astro';
 import Button from '@components/ui/Button.astro';
 import PlansObject from '@components/graphics/objects/PlansObject.astro';
+import Heading from '@components/ui/Heading.astro';
 type Cell = boolean | string;
 type Row = [string, Cell, Cell];
 const groups: { title: string; link?: boolean; tall?: boolean; rows: Row[] }[] = [
@@ -53,124 +55,130 @@ const groups: { title: string; link?: boolean; tall?: boolean; rows: Row[] }[] =
 ];
 ---
 
-<section data-section="nitro-compare" id="compare" class="plans-compare">
-  <div class="plans-pad">
-    <div class="plans-wrap plans-wrap--wide">
-      <PlansObject name="cloud" par="windy" class="plans-compare__cloud" />
-      <h2 class="plans-h2 plans-compare__title" data-par-trigger="plan">
-        Pick your plan
-      </h2>
-      <PlansObject name="disks" par="battery" class="plans-compare__disks" />
+<Section section="nitro-compare" id="compare" class="plans-compare" container="wide">
+  <PlansObject name="cloud" par="windy" class="plans-compare__cloud" />
+  <Heading
+    level={2}
+    size="lg"
+    italic
+    class="plans-compare__title text-center"
+    data-par-trigger="plan"
+  >
+    Pick your plan
+  </Heading>
+  <PlansObject name="disks" par="battery" class="plans-compare__disks" />
 
-      <div class="plans-compare__table" role="table" aria-label="Care plan comparison">
-        <div class="plans-compare__head" role="row">
-          <div class="plans-compare__features" role="columnheader">
-            Features
-          </div>
-          <div class="plans-compare__plan" role="columnheader">
-            <h3 class="plans-compare__name">
-              Care
-              <br />
-              <span>Basic</span>
-            </h3>
-            <Button variant="ghost" size="sm" href="#">
-              Subscribe
-            </Button>
-          </div>
-          <div class="plans-compare__plan plans-compare__plan--care" role="columnheader">
-            <h3 class="plans-compare__name">
-              Care
-              <br />
-              <span aria-hidden="true" style="opacity:0">
-                -
-              </span>
-            </h3>
-            <Button size="sm" href="#">
-              Subscribe
-            </Button>
+  <div class="plans-compare__table" role="table" aria-label="Care plan comparison">
+    <div class="plans-compare__head" role="row">
+      <div class="plans-compare__features" role="columnheader">
+        Features
+      </div>
+      <div class="plans-compare__plan" role="columnheader">
+        <h3 class="plans-compare__name">
+          Care
+          <br />
+          <span>Basic</span>
+        </h3>
+        <Button variant="ghost" size="sm" href="#">
+          Subscribe
+        </Button>
+      </div>
+      <div class="plans-compare__plan plans-compare__plan--care" role="columnheader">
+        <h3 class="plans-compare__name">
+          Care
+          <br />
+          <span aria-hidden="true" style="opacity:0">
+            -
+          </span>
+        </h3>
+        <Button size="sm" href="#">
+          Subscribe
+        </Button>
+      </div>
+    </div>
+
+    {groups.map((g) => (
+      <>
+        <div class="plans-compare__group" role="row">
+          <div class="plans-compare__grouptitle" role="cell">
+            <Heading level={4} size="sm" italic>
+              {g.title}
+            </Heading>
+            {g.link && (
+              <div class="plans-compare__terms">
+                <a
+                  href="#faq"
+                  class="text-inherit no-underline shadow-[0_1px_0_0_var(--color-fog)] transition-[opacity,box-shadow] duration-250 ease-[ease] hover:opacity-75 hover:shadow-[0_0_0_0_transparent]"
+                >
+                  Terms and eligibility rules apply.
+                </a>
+              </div>
+            )}
           </div>
         </div>
-
-        {groups.map((g) => (
-          <>
-            <div class="plans-compare__group" role="row">
-              <div class="plans-compare__grouptitle" role="cell">
-                <div class="plans-h4">{g.title}</div>
-                {g.link && (
-                  <div class="plans-compare__terms">
-                    <a href="#faq" class="plans-link">
-                      Terms and eligibility rules apply.
-                    </a>
-                  </div>
+        {g.rows.map((r) => (
+          <div class:list={['plans-compare__row', g.tall && 'plans-compare__row--tall']} role="row">
+            <div class="plans-compare__label" role="cell">
+              <p class="break-words max-[389px]:hyphens-auto font-abc-ginto-discord text-[16px] leading-[22px] font-normal min-[480px]:text-body-xl min-[480px]:leading-[26px]">
+                {r[0]}
+              </p>
+            </div>
+            {[r[1], r[2]].map((c, i) => (
+              <div class="plans-compare__cell" role="cell">
+                {typeof c === 'string' ? (
+                  <span class="font-abc-ginto-discord text-[16px] leading-[22px] font-normal min-[480px]:text-body-xl min-[480px]:leading-[26px]">
+                    {c}
+                  </span>
+                ) : c ? (
+                  <svg
+                    class="plans-compare__yes"
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    role="img"
+                    aria-label="Included"
+                  >
+                    <path
+                      d="m6.5 14.5 5 5 10-11.5"
+                      stroke={i ? '#ff5ae0' : '#4aa3ff'}
+                      stroke-width="2.3"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    class="plans-compare__no"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    role="img"
+                    aria-label="Not included"
+                  >
+                    <path
+                      d="m5.5 5.5 13 13m0-13-13 13"
+                      stroke="#e3e4e8"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
                 )}
               </div>
-              <div role="cell"></div>
-              <div role="cell"></div>
-            </div>
-            {g.rows.map((r) => (
-              <div
-                class:list={['plans-compare__row', g.tall && 'plans-compare__row--tall']}
-                role="row"
-              >
-                <div class="plans-compare__label" role="cell">
-                  <p class="plans-xl">{r[0]}</p>
-                </div>
-                {[r[1], r[2]].map((c, i) => (
-                  <div class="plans-compare__cell" role="cell">
-                    {typeof c === 'string' ? (
-                      <span class="plans-xl">{c}</span>
-                    ) : c ? (
-                      <svg
-                        class="plans-compare__yes"
-                        viewBox="0 0 28 28"
-                        fill="none"
-                        role="img"
-                        aria-label="Included"
-                      >
-                        <path
-                          d="m6.5 14.5 5 5 10-11.5"
-                          stroke={i ? '#ff5ae0' : '#4aa3ff'}
-                          stroke-width="2.3"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                    ) : (
-                      <svg
-                        class="plans-compare__no"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        role="img"
-                        aria-label="Not included"
-                      >
-                        <path
-                          d="m5.5 5.5 13 13m0-13-13 13"
-                          stroke="#e3e4e8"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                        />
-                      </svg>
-                    )}
-                  </div>
-                ))}
-              </div>
             ))}
-          </>
-        ))}
-
-        <div class="plans-compare__col plans-compare__col--basic" aria-hidden="true">
-          <div></div>
-        </div>
-        <div class="plans-compare__col plans-compare__col--care" aria-hidden="true">
-          <div>
-            <i class="plans-compare__pop">POPULAR</i>
-            <b class="plans-compare__glowtop"></b>
           </div>
-        </div>
+        ))}
+      </>
+    ))}
+
+    <div class="plans-compare__col plans-compare__col--basic" aria-hidden="true">
+      <div></div>
+    </div>
+    <div class="plans-compare__col plans-compare__col--care" aria-hidden="true">
+      <div>
+        <i class="plans-compare__pop">POPULAR</i>
+        <b class="plans-compare__glowtop"></b>
       </div>
     </div>
   </div>
-</section>
+</Section>
 
 <style>
   .plans-compare {
@@ -179,15 +187,15 @@ const groups: { title: string; link?: boolean; tall?: boolean; rows: Row[] }[] =
     --col: 251px;
   }
   .plans-compare__title {
-    margin-bottom: 0 !important;
+    margin-bottom: 0;
   }
-  .plans-compare .plans-wrap :global(.plans-compare__cloud) {
+  .plans-compare__cloud {
     top: -246px;
     right: -50px;
     width: 250px;
     height: 250px;
   }
-  .plans-compare .plans-wrap :global(.plans-compare__disks) {
+  .plans-compare__disks {
     top: -25px;
     left: -26px;
     width: 250px;
@@ -265,6 +273,7 @@ const groups: { title: string; link?: boolean; tall?: boolean; rows: Row[] }[] =
     background: linear-gradient(90deg, #5a2a7c 0%, #2c1a5c 14%, #100c38 30%, rgba(8, 6, 30, 0) 48%);
   }
   .plans-compare__grouptitle {
+    grid-column: 1 / -1;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-4);
@@ -278,9 +287,6 @@ const groups: { title: string; link?: boolean; tall?: boolean; rows: Row[] }[] =
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   }
   .plans-compare__label {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
     padding: var(--spacing-48) 0;
   }
   .plans-compare__row--tall .plans-compare__label {
@@ -381,13 +387,13 @@ const groups: { title: string; link?: boolean; tall?: boolean; rows: Row[] }[] =
       padding-bottom: 200px;
       --col: 200px;
     }
-    .plans-compare .plans-wrap :global(.plans-compare__cloud) {
+    .plans-compare__cloud {
       top: -167px;
       right: -56px;
       width: 212px;
       height: 212px;
     }
-    .plans-compare .plans-wrap :global(.plans-compare__disks) {
+    .plans-compare__disks {
       top: 204px;
       left: -17px;
       width: 212px;
@@ -416,35 +422,22 @@ const groups: { title: string; link?: boolean; tall?: boolean; rows: Row[] }[] =
     .plans-compare {
       --col: 192px;
     }
-    .plans-compare .plans-wrap :global(.plans-compare__cloud) {
+    .plans-compare__cloud {
       top: -191px;
       right: -56px;
       width: 180px;
       height: 180px;
     }
-    .plans-compare .plans-wrap :global(.plans-compare__disks) {
+    .plans-compare__disks {
       top: 159px;
       left: -17px;
       width: 180px;
       height: 180px;
     }
   }
-  @media (max-width: 479px) {
+  @media (max-width: 767px) {
     .plans-compare {
-      padding-bottom: 86px;
       --col: 108px;
-    }
-    .plans-compare .plans-wrap :global(.plans-compare__cloud) {
-      display: none;
-    }
-    .plans-compare .plans-wrap :global(.plans-compare__disks) {
-      top: 66px;
-      left: -16px;
-      width: 127px;
-      height: 127px;
-    }
-    .plans-compare__table {
-      margin-top: 124px;
     }
     .plans-compare__head,
     .plans-compare__row,
@@ -470,6 +463,41 @@ const groups: { title: string; link?: boolean; tall?: boolean; rows: Row[] }[] =
       font-size: 9px;
       line-height: 12px;
     }
+    .plans-compare__col {
+      top: -29px;
+      bottom: -36px;
+      border-radius: 25px;
+    }
+    .plans-compare__col > div,
+    .plans-compare__glowtop {
+      border-radius: 24px;
+    }
+    .plans-compare__col--basic {
+      right: calc(var(--col) + var(--spacing-4));
+    }
+    .plans-compare__pop {
+      top: -12px;
+      width: 72px;
+      height: 27px;
+      border-radius: 8px;
+    }
+  }
+  @media (max-width: 479px) {
+    .plans-compare {
+      padding-bottom: 86px;
+    }
+    .plans-compare__cloud {
+      display: none;
+    }
+    .plans-compare__disks {
+      top: 66px;
+      left: -16px;
+      width: 127px;
+      height: 127px;
+    }
+    .plans-compare__table {
+      margin-top: 124px;
+    }
     .plans-compare__group {
       margin-left: -11px;
       padding: var(--spacing-16) 0 var(--spacing-16) 11px;
@@ -489,24 +517,6 @@ const groups: { title: string; link?: boolean; tall?: boolean; rows: Row[] }[] =
     }
     .plans-compare__row--tall .plans-compare__cell {
       padding-top: 0;
-    }
-    .plans-compare__col {
-      top: -29px;
-      bottom: -36px;
-      border-radius: 25px;
-    }
-    .plans-compare__col > div,
-    .plans-compare__glowtop {
-      border-radius: 24px;
-    }
-    .plans-compare__col--basic {
-      right: calc(var(--col) + var(--spacing-4));
-    }
-    .plans-compare__pop {
-      top: -12px;
-      width: 72px;
-      height: 27px;
-      border-radius: 8px;
     }
   }
 </style>

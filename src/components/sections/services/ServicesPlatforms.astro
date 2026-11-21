@@ -5,6 +5,7 @@
 import Button from '@components/ui/Button.astro';
 import ServicesDropdown from './ServicesDropdown.astro';
 import PlatformMock from '@components/graphics/mocks/PlatformMock.astro';
+import Heading from '@components/ui/Heading.astro';
 ---
 
 <section
@@ -17,11 +18,11 @@ import PlatformMock from '@components/graphics/mocks/PlatformMock.astro';
       <div class="services-platforms__group">
         <div class="services-platforms__layout services-platforms__layout--a" data-block="desktop">
           <div class="services-platforms__text">
-            <h2 class="services-platforms__h2">
+            <Heading level={2} size="lg" class="services-platforms__h2">
               Built for
               <br />
               desktop
-            </h2>
+            </Heading>
             <p class="services-platforms__p">
               Bold first impressions with stunning local imagery and clear messaging that grabs
               attention the moment someone lands on your site, on any screen.
@@ -74,11 +75,11 @@ import PlatformMock from '@components/graphics/mocks/PlatformMock.astro';
             <PlatformMock kind="phone" />
           </div>
           <div class="services-platforms__text">
-            <h2 class="services-platforms__h2">
+            <Heading level={2} size="lg" class="services-platforms__h2">
               Made for
               <br />
               mobile
-            </h2>
+            </Heading>
             <p class="services-platforms__p">
               Over half of mobile visitors abandon a site that takes more than three seconds to
               load. Ours are built to load in under a second.
@@ -103,7 +104,9 @@ import PlatformMock from '@components/graphics/mocks/PlatformMock.astro';
       </div>
       <div class="services-platforms__layout services-platforms__layout--c" data-block="edge">
         <div class="services-platforms__text">
-          <h2 class="services-platforms__h2">Edge-delivered</h2>
+          <Heading level={2} size="lg" class="services-platforms__h2">
+            Edge-delivered
+          </Heading>
           <p class="services-platforms__p">
             Your site is distributed across Cloudflare's network and served from the node closest to
             each visitor. Local customers get instant loads, and there is no origin server to fall
@@ -134,7 +137,9 @@ import PlatformMock from '@components/graphics/mocks/PlatformMock.astro';
           <PlatformMock kind="chat" />
         </div>
         <div class="services-platforms__text">
-          <h2 class="services-platforms__h2">AI-ready websites</h2>
+          <Heading level={2} size="lg" class="services-platforms__h2">
+            AI-ready websites
+          </Heading>
           <p class="services-platforms__p">
             A chatbot that actually knows your business: your services, your pricing, your suburbs,
             your FAQs. It answers after hours and guides visitors to the right page, every time.
@@ -189,14 +194,7 @@ import PlatformMock from '@components/graphics/mocks/PlatformMock.astro';
     text-align: center;
   }
   .services-platforms__h2 {
-    font-family: var(--font-abc-ginto-discord-nord);
-    font-weight: var(--font-weight-bold);
-    text-transform: uppercase;
-    color: var(--color-white);
-    font-size: min(8.2vw, 32px);
-    line-height: 1;
-    letter-spacing: -0.01em;
-    margin: 0 0 var(--spacing-16);
+    margin-bottom: var(--spacing-16);
   }
   .services-platforms__p {
     font-family: var(--font-abc-ginto-discord);
@@ -279,8 +277,6 @@ import PlatformMock from '@components/graphics/mocks/PlatformMock.astro';
       text-align: left;
     }
     .services-platforms__h2 {
-      font-size: 40px;
-      letter-spacing: -0.4px;
       margin-bottom: var(--spacing-20);
     }
     .services-platforms__p {
@@ -369,9 +365,6 @@ import PlatformMock from '@components/graphics/mocks/PlatformMock.astro';
       margin-bottom: 0;
     }
     .services-platforms__h2 {
-      font-size: var(--text-heading-lg);
-      line-height: 1;
-      letter-spacing: -0.96px;
       margin-bottom: var(--spacing-24);
     }
     .services-platforms__btns {

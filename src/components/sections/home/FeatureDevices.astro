@@ -22,7 +22,8 @@ import ParallaxFloat from '@components/graphics/objects/ParallaxFloat.astro';
   padLg={[164, 146]}
   padMd={[80, 146]}
   padSm={[120, 263]}
-  class="feature-devices feature-block--tight-gutter"
+  class="feature-devices"
+  tightGutter
 >
   <DeviceMosaic slot="media" />
   Your site is distributed across Cloudflare's network and served from the node closest to each
@@ -80,17 +81,7 @@ import ParallaxFloat from '@components/graphics/objects/ParallaxFloat.astro';
   </Fragment>
 </FeatureBlock>
 
-<style is:global>
-  section.feature-devices [data-feature-block-slab] {
-    background-image: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.2),
-      rgba(255, 255, 255, 0.12) 12%,
-      rgba(255, 255, 255, 0.04) 50%,
-      rgba(255, 255, 255, 0.08) 83%,
-      rgba(255, 255, 255, 0.2)
-    );
-  }
+<style>
   .feature-devices__glow {
     left: 0;
     top: -160px;

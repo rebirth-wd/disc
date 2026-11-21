@@ -2,8 +2,10 @@
 // Services banner: centered heading + line + dropdown CTA, two floating objects.
 // Motion (desktop ≥992 only): while the banner scrolls through the viewport (0→100%),
 // left object y 0→120px, right object y -100→30px, linear, smoothing 50. Dropdown chevron: see ServicesDropdown.
+import Section from '@components/layout/Section.astro';
 import ServicesDropdown from './ServicesDropdown.astro';
 import ServicesObject from '@components/graphics/objects/ServicesObject.astro';
+import Heading from '@components/ui/Heading.astro';
 const items = [
   'Portfolio',
   'Business landing page',
@@ -16,41 +18,37 @@ const items = [
 ].map((label) => ({ label }));
 ---
 
-<section data-section="download-banner" class="services-banner text-white">
-  <div class="services-banner__pad">
-    <div class="services-banner__container">
-      <div class="services-banner__box">
-        <h2 class="services-banner__h2">
-          Ready for <br />a rebirth?
-        </h2>
-        <div>
-          <p class="services-banner__p">
-            A focused prototype can be ready in just a few days. Tell us what you need.
-          </p>
-        </div>
-        <div class="services-banner__cta">
-          <ServicesDropdown
-            id="services-banner-start"
-            label="Start Your Project"
-            variant="blurple"
-            z={100}
-            items={items}
-          />
-        </div>
-        <ServicesObject
-          kind="flask"
-          class="services-banner__decor services-banner__decor-1"
-          data-services-banner-decor1
-        />
-        <ServicesObject
-          kind="bolt"
-          class="services-banner__decor services-banner__decor-2"
-          data-services-banner-decor2
-        />
-      </div>
+<Section section="download-banner" class="services-banner text-white" container="wide">
+  <div class="services-banner__box">
+    <Heading level={2} size="xl" class="services-banner__h2">
+      Ready for <br />a rebirth?
+    </Heading>
+    <div>
+      <p class="services-banner__p">
+        A focused prototype can be ready in just a few days. Tell us what you need.
+      </p>
     </div>
+    <div class="services-banner__cta">
+      <ServicesDropdown
+        id="services-banner-start"
+        label="Start Your Project"
+        variant="blurple"
+        z={100}
+        items={items}
+      />
+    </div>
+    <ServicesObject
+      kind="flask"
+      class="services-banner__decor services-banner__decor-1"
+      data-services-banner-decor1
+    />
+    <ServicesObject
+      kind="bolt"
+      class="services-banner__decor services-banner__decor-2"
+      data-services-banner-decor2
+    />
   </div>
-</section>
+</Section>
 
 <style>
   /* background: black at the top easing to indigo (#19174b centre / #121134 edges) at the bottom */
@@ -75,29 +73,13 @@ const items = [
         #19174b 100%
       );
   }
-  .services-banner__pad {
-    padding: 0 6vw;
-  }
-  .services-banner__container {
-    position: relative;
-    z-index: 2;
-    max-width: 944px;
-    margin: 0 auto;
-  }
   .services-banner__box {
     position: relative;
     max-width: 400px;
     margin: 0 auto;
   }
   .services-banner__h2 {
-    font-family: var(--font-abc-ginto-discord-nord);
-    font-weight: var(--font-weight-bold);
-    text-transform: uppercase;
-    color: var(--color-white);
-    font-size: 32px;
-    line-height: 1;
-    letter-spacing: -0.32px;
-    margin: 0 0 var(--spacing-16);
+    margin-bottom: var(--spacing-16);
   }
   .services-banner__p {
     font-family: var(--font-abc-ginto-discord);
@@ -134,15 +116,10 @@ const items = [
     .services-banner {
       padding: 140px 0 288px;
     }
-    .services-banner__pad {
-      padding: 0 var(--spacing-40);
-    }
     .services-banner__box {
       max-width: 590px;
     }
     .services-banner__h2 {
-      font-size: 56px;
-      letter-spacing: -1.68px;
       margin-bottom: var(--spacing-24);
     }
     .services-banner__p {
@@ -166,9 +143,6 @@ const items = [
     }
   }
   @media (min-width: 992px) {
-    .services-banner__pad {
-      padding: 0 80px;
-    }
     .services-banner :global(.services-banner__decor) {
       width: 180px;
       height: 180px;
@@ -185,19 +159,8 @@ const items = [
     .services-banner {
       padding: 160px 0 288px;
     }
-    .services-banner__pad {
-      padding: 0 120px;
-    }
-    .services-banner__container {
-      max-width: 1538px;
-    }
     .services-banner__box {
       max-width: 897px;
-    }
-    .services-banner__h2 {
-      font-size: 72px;
-      line-height: 0.9;
-      letter-spacing: -2.16px;
     }
     .services-banner :global(.services-banner__decor) {
       width: 200px;

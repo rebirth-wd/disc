@@ -1,6 +1,8 @@
 ---
+import Section from '@components/layout/Section.astro';
 // "Explore our…" accordion-style tabs + media pane
 import LaunchMock from '@components/graphics/mocks/LaunchMock.astro';
+import Heading from '@components/ui/Heading.astro';
 const tabs = [
   {
     t: 'AI Assistant',
@@ -25,63 +27,76 @@ const tabs = [
 ] as const;
 ---
 
-<section data-section="quests-solutions" class="launch-section launch-solutions">
-  <div class="launch-pad">
-    <div class="launch-solutions__head">
-      <h2 class="launch-h2">Explore our AI tools</h2>
-      <p class="launch-lead launch-solutions__lead">
-        Whether you need answers after hours, upkeep, or fresh content, our AI integrations keep
-        your site working at scale.
-      </p>
+<Section section="quests-solutions" class="launch-solutions" padding="section" container="none">
+  <div class="launch-solutions__head">
+    <Heading level={2} size="lg" class="launch-solutions__title text-center">
+      Explore our AI tools
+    </Heading>
+    <p class="mx-auto text-center text-[16px] leading-[22px] text-white min-[480px]:text-body-xl min-[480px]:leading-[26px] launch-solutions__lead">
+      Whether you need answers after hours, upkeep, or fresh content, our AI integrations keep your
+      site working at scale.
+    </p>
+  </div>
+  <div class="launch-solutions__tabs" data-tabs>
+    <div
+      class="launch-solutions__menu"
+      role="tablist"
+      aria-label="AI tools"
+      aria-orientation="vertical"
+    >
+      {tabs.map((tab, i) => (
+        <div
+          class:list={['launch-solutions__tab', i === 0 && 'is-current']}
+          data-tab
+          role="tab"
+          tabindex={i === 0 ? 0 : -1}
+          id={`launch-solutions-tab-${i}`}
+          aria-controls={`launch-solutions-pane-${i}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+        >
+          <div class="launch-solutions__toggle">
+            <span>{tab.t}</span>
+            <span class="launch-solutions__icon" aria-hidden="true">
+              <i class="launch-solutions__minus" data-minus></i>
+              <i class="launch-solutions__plus" data-plus></i>
+            </span>
+          </div>
+          <div class="launch-solutions__content" data-content>
+            <p>{tab.d}</p>
+          </div>
+        </div>
+      ))}
     </div>
-    <div class="launch-solutions__tabs" data-tabs>
-      <div
-        class="launch-solutions__menu"
-        role="tablist"
-        aria-label="AI tools"
-        aria-orientation="vertical"
-      >
-        {tabs.map((tab, i) => (
-          <div
-            class:list={['launch-solutions__tab', i === 0 && 'is-current']}
-            data-tab
-            role="tab"
-            tabindex={i === 0 ? 0 : -1}
-            id={`launch-solutions-tab-${i}`}
-            aria-controls={`launch-solutions-pane-${i}`}
-            aria-selected={i === 0 ? 'true' : 'false'}
-          >
-            <div class="launch-solutions__toggle">
-              <span>{tab.t}</span>
-              <span class="launch-solutions__icon" aria-hidden="true">
-                <i class="launch-solutions__minus" data-minus></i>
-                <i class="launch-solutions__plus" data-plus></i>
-              </span>
-            </div>
-            <div class="launch-solutions__content" data-content>
-              <p>{tab.d}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div class="launch-solutions__panes">
-        {tabs.map((tab, i) => (
-          <div
-            class:list={['launch-solutions__pane', i === 0 && 'is-active']}
-            data-pane
-            role="tabpanel"
-            id={`launch-solutions-pane-${i}`}
-            aria-labelledby={`launch-solutions-tab-${i}`}
-          >
-            <LaunchMock variant={tab.mock} size="pane" />
-          </div>
-        ))}
-      </div>
+    <div class="launch-solutions__panes">
+      {tabs.map((tab, i) => (
+        <div
+          class:list={['launch-solutions__pane', i === 0 && 'is-active']}
+          data-pane
+          role="tabpanel"
+          id={`launch-solutions-pane-${i}`}
+          aria-labelledby={`launch-solutions-tab-${i}`}
+        >
+          <LaunchMock variant={tab.mock} size="pane" />
+        </div>
+      ))}
     </div>
   </div>
-</section>
+</Section>
 
 <style>
+  .launch-solutions__title {
+    margin-bottom: var(--spacing-16);
+  }
+  @media (min-width: 992px) {
+    .launch-solutions__title {
+      margin-bottom: var(--spacing-20);
+    }
+  }
+  @media (min-width: 1440px) {
+    .launch-solutions__title {
+      margin-bottom: var(--spacing-24);
+    }
+  }
   .launch-solutions__head {
     display: flex;
     flex-direction: column;

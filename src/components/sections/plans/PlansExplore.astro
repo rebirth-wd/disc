@@ -1,6 +1,8 @@
 ---
+import Section from '@components/layout/Section.astro';
 import PlansDemo from '@components/graphics/loops/PlansDemo.astro';
 import PlansObject from '@components/graphics/objects/PlansObject.astro';
+import Heading from '@components/ui/Heading.astro';
 const rows = [
   {
     kind: 'posts',
@@ -27,48 +29,51 @@ const rows = [
 ] as const;
 ---
 
-<section data-section="nitro-explore" class="plans-explore">
-  <div class="plans-pad">
-    <div class="plans-wrap" data-par-trigger="star">
-      <h2 class="plans-h2">
-        Explore the
-        <br />
-        best of Care
-      </h2>
-      <div class="plans-explore__rows">
-        {rows.map((r, i) => (
-          <div
-            class:list={['plans-explore__row', i % 2 === 1 && 'plans-explore__row--flip']}
-            data-feature={r.kind}
-          >
-            <div class="plans-explore__text">
-              <h3 class:list={['plans-h3', 'narrow' in r && 'plans-explore__narrow']}>
-                {r.lines.map((l) => (
-                  <span>{l} </span>
-                ))}
-              </h3>
-              <p class="plans-xl">
-                {r.text}
-                {'note' in r && <em>{r.note}</em>}
-              </p>
-            </div>
-            <div class="plans-explore__media">
-              <PlansDemo kind={r.kind} />
-            </div>
+<Section section="nitro-explore" class="plans-explore">
+  <div data-par-trigger="star">
+    <Heading level={2} size="lg" italic class="plans-explore__title text-center">
+      Explore the
+      <br />
+      best of Care
+    </Heading>
+    <div class="plans-explore__rows">
+      {rows.map((r, i) => (
+        <div
+          class:list={['plans-explore__row', i % 2 === 1 && 'plans-explore__row--flip']}
+          data-feature={r.kind}
+        >
+          <div class="plans-explore__text">
+            <Heading
+              level={3}
+              size="md"
+              italic
+              class:list={['plans-explore__heading', 'narrow' in r && 'plans-explore__narrow']}
+            >
+              {r.lines.map((l) => (
+                <span>{l} </span>
+              ))}
+            </Heading>
+            <p class="font-abc-ginto-discord text-[16px] leading-[22px] font-normal min-[480px]:text-body-xl min-[480px]:leading-[26px]">
+              {r.text}
+              {'note' in r && <em>{r.note}</em>}
+            </p>
           </div>
-        ))}
-      </div>
-      <PlansObject name="pulse" par="star" class="plans-explore__pulse" />
+          <div class="plans-explore__media">
+            <PlansDemo kind={r.kind} />
+          </div>
+        </div>
+      ))}
     </div>
+    <PlansObject name="pulse" par="star" class="plans-explore__pulse" />
   </div>
-</section>
+</Section>
 
 <style>
   .plans-explore {
     position: relative;
     padding-bottom: 160px;
   }
-  .plans-explore .plans-h2 {
+  .plans-explore__title {
     margin-bottom: var(--spacing-64);
   }
   .plans-explore__rows {
@@ -91,10 +96,10 @@ const rows = [
     min-width: 0;
     max-width: 640px;
   }
-  .plans-explore__text .plans-h3 {
+  .plans-explore__heading {
     margin-bottom: var(--spacing-24);
   }
-  .plans-explore__text .plans-h3 span {
+  .plans-explore__heading span {
     display: block;
   }
   .plans-explore__narrow {
@@ -113,7 +118,7 @@ const rows = [
     border-radius: 96px;
     overflow: hidden;
   }
-  .plans-explore .plans-wrap :global(.plans-explore__pulse) {
+  .plans-explore__pulse {
     top: 0;
     left: 0;
     margin-top: -67px;
@@ -124,7 +129,7 @@ const rows = [
     .plans-explore {
       padding-bottom: 140px;
     }
-    .plans-explore .plans-h2 {
+    .plans-explore__title {
       margin-bottom: var(--spacing-48);
     }
     .plans-explore__rows {
@@ -137,7 +142,7 @@ const rows = [
       flex: none;
       width: 316px;
     }
-    .plans-explore__text .plans-h3 span {
+    .plans-explore__heading span {
       display: inline;
     }
     .plans-explore__media {
@@ -145,7 +150,7 @@ const rows = [
       height: 295px;
       border-radius: 56px;
     }
-    .plans-explore .plans-wrap :global(.plans-explore__pulse) {
+    .plans-explore__pulse {
       margin-top: -27px;
       width: 174px;
       height: 174px;
@@ -185,13 +190,13 @@ const rows = [
     .plans-explore {
       padding-bottom: 100px;
     }
-    .plans-explore .plans-h2 {
+    .plans-explore__title {
       margin-bottom: var(--spacing-40);
     }
-    .plans-explore__text .plans-h3 {
+    .plans-explore__heading {
       margin-bottom: var(--spacing-16);
     }
-    .plans-explore .plans-wrap :global(.plans-explore__pulse) {
+    .plans-explore__pulse {
       left: -21px;
       margin-top: -104px;
       width: 90px;

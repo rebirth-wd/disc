@@ -20,7 +20,9 @@ import ParallaxFloat from '@components/graphics/objects/ParallaxFloat.astro';
   padLg={[165, 164]}
   padMd={[130, 80]}
   padSm={[130, 108]}
-  class="feature-content feature-block--tight-gutter"
+  class="feature-content"
+  tightGutter
+  slabTexture="radial-gradient(45% 70% at 78% 0%, rgba(205, 150, 225, 0.45), rgba(205, 150, 225, 0) 70%), linear-gradient(95deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.13) 60%, rgba(255, 255, 255, 0.04) 100%)"
 >
   <ContentDeck slot="media" />
   Blog posts drafted, published, and pushed to your socials on schedule. Market shifts detected and
@@ -139,17 +141,7 @@ import ParallaxFloat from '@components/graphics/objects/ParallaxFloat.astro';
   </Fragment>
 </FeatureBlock>
 
-<style is:global>
-  section.feature-content [data-feature-block-slab] {
-    background-image:
-      radial-gradient(45% 70% at 78% 0%, rgba(205, 150, 225, 0.45), rgba(205, 150, 225, 0) 70%),
-      linear-gradient(
-        95deg,
-        rgba(255, 255, 255, 0.24) 0%,
-        rgba(255, 255, 255, 0.13) 60%,
-        rgba(255, 255, 255, 0.04) 100%
-      );
-  }
+<style>
   .feature-content__lock {
     left: calc(var(--feature-block-cx) - 41px);
     bottom: 37px;

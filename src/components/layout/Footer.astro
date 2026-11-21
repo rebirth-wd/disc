@@ -1,56 +1,10 @@
 ---
 // Global footer.
 // Motion: language chevron 180deg / 200ms; <=767px column accordions: height 0 -> auto 200ms + chevron 180deg / 200ms.
+import { footerColumns } from '@data/navigation';
 import LogoMark from './LogoMark.astro';
 
 const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
-const cols = [
-  {
-    title: 'Product',
-    links: [
-      ['Services', '/services'],
-      ['Plans', '/plans'],
-      ['Status', '#'],
-      ['Showcase', '#'],
-      ['Care Plans', '#'],
-    ],
-  },
-  {
-    title: 'Company',
-    links: [
-      ['About', '#'],
-      ['Careers', '/careers'],
-      ['Brand', '#'],
-      ['Newsroom', '#'],
-    ],
-  },
-  {
-    title: 'Resources',
-    links: [
-      ['Support', '#'],
-      ['Stack', '#'],
-      ['Blog', '#'],
-      ['Creators', '#'],
-      ['Community', '#'],
-      ['AI Toolkit', '#'],
-      ['Growth', '/launch'],
-      ['Bundaberg Web Design', '#'],
-      ['Feedback', '#'],
-    ],
-  },
-  {
-    title: 'Policies',
-    links: [
-      ['Terms', '#'],
-      ['Privacy', '#'],
-      ['Cookie Settings', '#'],
-      ['Guidelines', '#'],
-      ['Acknowledgements', '#'],
-      ['Licences', '#'],
-      ['Company Information', '#'],
-    ],
-  },
-];
 const langs = [
   'English',
   'English (AU)',
@@ -169,7 +123,7 @@ const socials = ['Chat', 'Photos', 'Community', 'Video', 'Feed'];
       </div>
 
       <div class="footer__menulabel">Menu</div>
-      {cols.map((c, i) => (
+      {footerColumns.map((c, i) => (
         <div class:list={['footer__col', `footer__col--${i + 1}`]} data-fcol>
           <h3 class="footer__heading">{c.title}</h3>
           <button
@@ -199,7 +153,7 @@ const socials = ['Chat', 'Photos', 'Community', 'Video', 'Feed'];
             </svg>
           </button>
           <nav class="footer__links" id={`footer-col-${i}`} data-fcol-list aria-label={c.title}>
-            {c.links.map(([label, href]) => (
+            {c.links.map(({ label, href }) => (
               <a href={href} class="footer__link">
                 {label}
               </a>

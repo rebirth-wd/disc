@@ -1,4 +1,6 @@
 ---
+import CheckItem from '@components/ui/CheckItem.astro';
+import Section from '@components/layout/Section.astro';
 import { Image } from 'astro:assets';
 import PlansDemo from '@components/graphics/loops/PlansDemo.astro';
 import p1 from '@assets/photos/plans-code-neon.jpg';
@@ -10,6 +12,7 @@ import p6 from '@assets/photos/plans-fans-datacenter.jpg';
 import p7 from '@assets/photos/plans-rack-green.jpg';
 import p8 from '@assets/photos/plans-studio-desk.jpg';
 import p9 from '@assets/photos/plans-laptop-magenta.jpg';
+import Heading from '@components/ui/Heading.astro';
 const tiles = [p1, p2, p3, p4, p5, p6, p7, p8, p9];
 const points = [
   'Trained on your services, pricing, suburbs and FAQs',
@@ -31,79 +34,70 @@ const cards = [
 ] as const;
 ---
 
-<section data-section="nitro-whatsnew" class="plans-whats-new">
-  <div class="plans-pad">
-    <div class="plans-wrap">
-      <h2 class="plans-h2">What’s new</h2>
-      <div class="plans-whats-new__grid">
-        <div class="plans-whats-new__banner">
-          <div class="plans-whats-new__collage" aria-hidden="true">
-            <div class="plans-whats-new__tiles">
-              {tiles.map((t) => (
-                <Image
-                  src={t}
-                  alt=""
-                  width={420}
-                  height={520}
-                  class="plans-whats-new__tile"
-                  loading="lazy"
-                />
-              ))}
-            </div>
-          </div>
-          <div class="plans-whats-new__body">
-            <div class="plans-whats-new__logo">
-              <svg viewBox="0 0 72 72" fill="none" aria-hidden="true">
-                <circle cx="36" cy="36" r="36" fill="#fff" />
-                <rect x="17" y="22" width="38" height="28" rx="11" fill="#012a20" />
-                <rect x="26" y="30" width="6" height="12" rx="3" fill="#57f287" />
-                <rect x="40" y="30" width="6" height="12" rx="3" fill="#57f287" />
-                <path d="M36 22v-8" stroke="#012a20" stroke-width="4" stroke-linecap="round" />
-                <circle cx="36" cy="12" r="4" fill="#012a20" />
-              </svg>
-              <span>AI Site Assistant</span>
-            </div>
-            {points.map((t, i) => (
-              <div class:list={['plans-check', i === points.length - 1 && 'plans-check--last']}>
-                <svg viewBox="0 0 24 25" fill="none" aria-hidden="true">
-                  <path
-                    d="m5.5 13 4.2 4.2L18.5 8"
-                    stroke="#fff"
-                    stroke-width="2.2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-                <span class="plans-xl">{t}</span>
-              </div>
-            ))}
-            <a href="#faq" class="plans-whats-new__terms">
-              Terms and eligibility rules apply.
-            </a>
-          </div>
+<Section section="nitro-whatsnew" class="plans-whats-new">
+  <Heading level={2} size="lg" italic class="plans-whats-new__title text-center">
+    What’s new
+  </Heading>
+  <div class="plans-whats-new__grid">
+    <div class="plans-whats-new__banner">
+      <div class="plans-whats-new__collage" aria-hidden="true">
+        <div class="plans-whats-new__tiles">
+          {tiles.map((t) => (
+            <Image
+              src={t}
+              alt=""
+              width={420}
+              height={520}
+              class="plans-whats-new__tile"
+              loading="lazy"
+            />
+          ))}
         </div>
-        {cards.map((c) => (
-          <article class="plans-whats-new__card">
-            <div class="plans-whats-new__media">
-              <PlansDemo kind={c.kind} />
-            </div>
-            <div class="plans-whats-new__text">
-              <h3 class="plans-h3">{c.title}</h3>
-              <p class="plans-xl">{c.text}</p>
-            </div>
-          </article>
+      </div>
+      <div class="plans-whats-new__body">
+        <div class="plans-whats-new__logo">
+          <svg viewBox="0 0 72 72" fill="none" aria-hidden="true">
+            <circle cx="36" cy="36" r="36" fill="#fff" />
+            <rect x="17" y="22" width="38" height="28" rx="11" fill="#012a20" />
+            <rect x="26" y="30" width="6" height="12" rx="3" fill="#57f287" />
+            <rect x="40" y="30" width="6" height="12" rx="3" fill="#57f287" />
+            <path d="M36 22v-8" stroke="#012a20" stroke-width="4" stroke-linecap="round" />
+            <circle cx="36" cy="12" r="4" fill="#012a20" />
+          </svg>
+          <span>AI Site Assistant</span>
+        </div>
+        {points.map((t, i) => (
+          <CheckItem last={i === points.length - 1}>{t}</CheckItem>
         ))}
+        <a href="#faq" class="plans-whats-new__terms">
+          Terms and eligibility rules apply.
+        </a>
       </div>
     </div>
+    {cards.map((c) => (
+      <article class="plans-whats-new__card">
+        <div class="plans-whats-new__media">
+          <PlansDemo kind={c.kind} />
+        </div>
+        <div class="plans-whats-new__text">
+          <Heading level={3} size="md" italic class="plans-whats-new__heading">
+            {c.title}
+          </Heading>
+          <p class="font-abc-ginto-discord text-[16px] leading-[22px] font-normal min-[480px]:text-body-xl min-[480px]:leading-[26px]">
+            {c.text}
+          </p>
+        </div>
+      </article>
+    ))}
   </div>
-</section>
+</Section>
 
 <style>
   .plans-whats-new {
     position: relative;
     padding-bottom: 160px;
   }
-  .plans-whats-new .plans-h2 {
+  .plans-whats-new__title {
     margin-bottom: 72px;
   }
   .plans-whats-new__grid {
@@ -214,14 +208,15 @@ const cards = [
     gap: var(--spacing-8);
     padding: 0 var(--spacing-24);
   }
-  .plans-whats-new__text .plans-h3 {
+  .plans-whats-new__heading {
+    margin-bottom: var(--spacing-16);
     white-space: nowrap;
   }
   @media (max-width: 1439px) {
     .plans-whats-new {
       padding-bottom: 120px;
     }
-    .plans-whats-new .plans-h2 {
+    .plans-whats-new__title {
       margin-bottom: 60px;
     }
     .plans-whats-new__banner {
@@ -249,7 +244,7 @@ const cards = [
     .plans-whats-new__text {
       padding: 0 var(--spacing-16);
     }
-    .plans-whats-new__text .plans-h3 {
+    .plans-whats-new__heading {
       white-space: normal;
     }
   }
@@ -266,7 +261,7 @@ const cards = [
     .plans-whats-new {
       padding-bottom: 100px;
     }
-    .plans-whats-new .plans-h2 {
+    .plans-whats-new__title {
       margin-bottom: var(--spacing-56);
     }
     .plans-whats-new__grid {

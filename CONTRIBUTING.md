@@ -41,14 +41,31 @@ docs/            Design system, decision log, credits, QA report
 
 ```
 src/components/
-  ui/          Button
-  layout/      Header, Footer, Starfield, LogoMark
+  ui/          Button, Heading, CheckItem
+  layout/      Header, HeaderDropdown, MobileMenu, Footer, Section, Starfield, LogoMark
   graphics/    art only, no page layout: objects/ loops/ characters/ mocks/ icons/
   sections/    one folder per page (home, services, plans, careers, launch), one file per page section
 ```
 
 A file that mixes section layout with art stays in `sections/`. Shared client code lives in `src/lib/`
-(for example `carousel.ts`).
+(for example `carousel.ts`). Navigation and footer links live in `src/data/navigation.ts`.
+
+Use the primitives; do not restyle them from a page. Placement (margin, alignment, width) goes in `class`.
+
+- `Button`: `variant` (`white` | `blurple` | `ghost`), `size` (`nav` | `sm` | `md` | `lg` | `xl`), `glow`, `block`,
+  `href` (renders `<a>`, otherwise `<button type="button">`), `class`, plus any anchor attribute. The icon goes in
+  the `icon` slot (give 24px svgs `width="24" height="24"`). Sizes are a fixed scale (nav 39px, sm 40, md 48,
+  lg 56, xl 56 and 65 from 1440px); if a design needs another height, raise it rather than add a class.
+- `Section`: `section` (the `data-section` value), `id`, `as`, `container` (`narrow` | `wide` | `ultra` | `none`),
+  `padding` (`none` | `section`), `class`. It supplies the one gutter schedule (6vw, 40px, 80px, 120px at 0, 480,
+  992 and 1440px) and the centred container; the `before` and `after` slots hold decor. Not used by the hero
+  sections of careers, services and launch, the services platforms section, the launch subnav, logos and CTA,
+  or any home section: they have their own geometry, so moving them would shift pixels.
+- `Heading`: `level` (1 to 4), `size` (`xl` page and closing headings, `lg` section headings, `md` and `sm`
+  sub-headings), `italic` (plans), `class`. No margin or alignment of its own.
+- Rules for sections: no `is:global`, no `!important`, and no `:global()` to reach into another component unless
+  that component forwards `...rest` for a scoped class. Tailwind utilities are layered and lose to unlayered
+  scoped CSS, so a component must not set `margin` on an element a parent places with utilities.
 
 ### Naming
 

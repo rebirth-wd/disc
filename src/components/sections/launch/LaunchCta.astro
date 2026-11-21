@@ -2,6 +2,7 @@
 // Closing CTA banner
 import Button from '@components/ui/Button.astro';
 import LaunchObject from '@components/graphics/objects/LaunchObject.astro';
+import Heading from '@components/ui/Heading.astro';
 ---
 
 <div data-section="quests-cta" id="launch-cta" class="launch-cta">
@@ -12,8 +13,10 @@ import LaunchObject from '@components/graphics/objects/LaunchObject.astro';
         <LaunchObject name="plane" class="launch-cta__plane" data-float="b" />
         <LaunchObject name="coin" class="launch-cta__coin" data-float="a" />
         <div class="launch-cta__body">
-          <h2 class="launch-h2 launch-cta__h2">Launch your site</h2>
-          <p class="launch-lead">
+          <Heading level={2} size="lg" class="launch-cta__h2 text-center">
+            Launch your site
+          </Heading>
+          <p class="mx-auto text-center text-[16px] leading-[22px] text-white min-[480px]:text-body-xl min-[480px]:leading-[26px]">
             Every Rebirth site is planned directly with the developer who writes the code. If you’re
             ready to start a project, get in touch and we’ll shape the direction together.
           </p>
@@ -27,6 +30,19 @@ import LaunchObject from '@components/graphics/objects/LaunchObject.astro';
 </div>
 
 <style>
+  .launch-cta__h2 {
+    margin-bottom: var(--spacing-16);
+  }
+  @media (min-width: 992px) {
+    .launch-cta__h2 {
+      margin-bottom: var(--spacing-20);
+    }
+  }
+  @media (min-width: 1440px) {
+    .launch-cta__h2 {
+      margin-bottom: var(--spacing-24);
+    }
+  }
   /* <=479px: a 56px spacer precedes before the CTA */
   .launch-cta {
     position: relative;

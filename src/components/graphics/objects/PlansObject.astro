@@ -1,16 +1,17 @@
 ---
+import type { HTMLAttributes } from 'astro/types';
 // Original floating decor objects (chunky faux-3D shapes with a smeared motion trail).
 // Each is a different, Rebirth-themed object.
-interface Props {
+interface Props extends HTMLAttributes<'div'> {
   name: 'shield' | 'bot' | 'cog' | 'pulse' | 'cloud' | 'disks' | 'padlock' | 'rocket' | 'calendar';
   par: string;
   class?: string;
 }
-const { name, par, class: cls = '' } = Astro.props;
+const { name, par, class: cls = '', ...rest } = Astro.props;
 const u = `no-${name}`;
 ---
 
-<div class:list={['plans-obj', cls]} data-par={par} aria-hidden="true">
+<div class:list={['plans-obj', cls]} data-par={par} aria-hidden="true" {...rest}>
   <svg viewBox="0 0 250 250" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient
@@ -364,3 +365,17 @@ const u = `no-${name}`;
     )}
   </svg>
 </div>
+
+<style>
+  .plans-obj {
+    position: absolute;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .plans-obj svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+</style>

@@ -52,6 +52,10 @@ interface Props {
   paragraphTracking?: string;
   /** backdrop blur of the slab in px (default: DESIGN.md --blur-glass 10px; block 2 uses 80px) */
   glassBlur?: number;
+  /** CSS background-image of the slab's glass texture; the default is a diagonal white sheen */
+  slabTexture?: string;
+  /** from 1440px, narrow the slab's padding and column gap so text and inset sit where the reference puts them */
+  tightGutter?: boolean;
   class?: string;
 }
 const {
@@ -68,6 +72,8 @@ const {
   textPadRight = 0,
   paragraphTracking = 'normal',
   glassBlur,
+  slabTexture,
+  tightGutter = false,
   class: className = '',
 } = Astro.props;
 
@@ -97,13 +103,14 @@ const vars = [
   `--feature-block-fill:${fill}`,
   `--feature-block-text-pr:${textPadRight}px`,
   `--feature-block-p-ls:${paragraphTracking}`,
+  ...(slabTexture ? [`--feature-block-slab-texture:${slabTexture}`] : []),
 ].join(';');
 ---
 
 <section
   data-section={`home-${name}`}
   data-feature-block
-  class:list={['feature-block', className]}
+  class:list={['feature-block', tightGutter && 'feature-block--tight-gutter', className]}
   style={vars}
 >
   <div class="feature-block__decor" aria-hidden="true">
@@ -182,13 +189,16 @@ const vars = [
     column-gap: 49px;
     min-height: 610px;
     padding: var(--card-padding) 52px var(--card-padding) var(--card-padding);
-    background-image: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.2),
-      rgba(255, 255, 255, 0.12) 12%,
-      rgba(255, 255, 255, 0.04) 50%,
-      rgba(255, 255, 255, 0.08) 83%,
-      rgba(255, 255, 255, 0.2)
+    background-image: var(
+      --feature-block-slab-texture,
+      linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0.12) 12%,
+        rgba(255, 255, 255, 0.04) 50%,
+        rgba(255, 255, 255, 0.08) 83%,
+        rgba(255, 255, 255, 0.2)
+      )
     );
     -webkit-backdrop-filter: blur(var(--feature-block-blur, var(--blur-glass)));
     backdrop-filter: blur(var(--feature-block-blur, var(--blur-glass)));
@@ -197,6 +207,16 @@ const vars = [
     flex-direction: row-reverse;
     column-gap: 42px;
     padding: var(--card-padding) 37px var(--card-padding) 50px;
+  }
+  @media (min-width: 1440px) {
+    /* measured: text x=273 / inset x=699 on the reversed blocks; inset x=248 / text x=1016 on the mirrored one */
+    .feature-block--tight-gutter .feature-block__slab.is-reverse {
+      padding-left: 53px;
+      padding-right: 34px;
+    }
+    .feature-block--tight-gutter .feature-block__slab:not(.is-reverse) {
+      column-gap: 41px;
+    }
   }
   .feature-block__media {
     position: relative;

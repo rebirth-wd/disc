@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import PlansPageStyles from '@components/sections/plans/PlansPageStyles.astro';
 import PlansHero from '@components/sections/plans/PlansHero.astro';
 import PlansTiers from '@components/sections/plans/PlansTiers.astro';
 import PlansWhatsNew from '@components/sections/plans/PlansWhatsNew.astro';
@@ -15,7 +14,6 @@ import PlansCta from '@components/sections/plans/PlansCta.astro';
   description="Hosting, backups, security, and updates — managed for you, every month."
   active="plans"
 >
-  <PlansPageStyles />
   <div class="plans-page">
     <PlansHero />
     <PlansTiers />
@@ -26,3 +24,12 @@ import PlansCta from '@components/sections/plans/PlansCta.astro';
     <PlansCta />
   </div>
 </BaseLayout>
+
+<style>
+  .plans-page {
+    position: relative;
+    background: var(--color-black);
+    color: var(--color-white);
+    overflow: clip;
+  }
+</style>

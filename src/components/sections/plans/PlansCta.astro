@@ -1,25 +1,24 @@
 ---
+import Section from '@components/layout/Section.astro';
 import Button from '@components/ui/Button.astro';
 import PlansObject from '@components/graphics/objects/PlansObject.astro';
+import Heading from '@components/ui/Heading.astro';
 ---
 
-<section data-section="nitro-cta" class="plans-cta">
-  <div class="plans-pad">
-    <div class="plans-wrap">
-      <div class="plans-cta__block">
-        <div class="plans-cta__inner">
-          <h2 class="plans-h1 plans-cta__title">
-            <span>Why wait</span> <span>any longer?</span>
-          </h2>
-          <Button href="#plans">Start now</Button>
-        </div>
-        <PlansObject name="rocket" par="flag" class="plans-cta__rocket" />
-        <PlansObject name="calendar" par="box" class="plans-cta__cal" />
-      </div>
+<Section section="nitro-cta" class="plans-cta">
+  <div class="plans-cta__block">
+    <div class="plans-cta__inner">
+      <Heading level={2} size="xl" italic class="plans-cta__title">
+        <span>Why wait</span> <span>any longer?</span>
+      </Heading>
+      <Button href="#plans">Start now</Button>
     </div>
+    <PlansObject name="rocket" par="flag" class="plans-cta__rocket" />
+    <PlansObject name="calendar" par="box" class="plans-cta__cal" />
   </div>
-  <div class="plans-cta__glow" aria-hidden="true"></div>
-</section>
+
+  <div slot="after" class="plans-cta__glow" aria-hidden="true"></div>
+</Section>
 
 <style>
   .plans-cta {
@@ -41,7 +40,7 @@ import PlansObject from '@components/graphics/objects/PlansObject.astro';
     align-items: center;
   }
   .plans-cta__title {
-    margin-bottom: 44px !important;
+    margin-bottom: 44px;
   }
   .plans-cta__title span {
     display: block;
@@ -87,7 +86,7 @@ import PlansObject from '@components/graphics/objects/PlansObject.astro';
       max-width: 640px;
     }
     .plans-cta__title {
-      margin-bottom: var(--spacing-36) !important;
+      margin-bottom: var(--spacing-36);
     }
     .plans-cta__block :global(.plans-cta__rocket) {
       top: -184px;
@@ -125,7 +124,7 @@ import PlansObject from '@components/graphics/objects/PlansObject.astro';
       padding: var(--spacing-56) 0 100px;
     }
     .plans-cta__title {
-      margin-bottom: 32px !important;
+      margin-bottom: 32px;
     }
     .plans-cta__block :global(.plans-cta__rocket) {
       top: -134px;

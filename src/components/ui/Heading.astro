@@ -1,0 +1,84 @@
+---
+// Display heading: Nord, bold, uppercase. `size` picks the type scale, `level` the tag. It has no margin and
+// no alignment of its own; sections place it (spacing, text-align) through `class`.
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'h1'> {
+  level: 1 | 2 | 3 | 4;
+  /** xl: page and closing headings. lg: section headings. md and sm: sub-headings. */
+  size: 'xl' | 'lg' | 'md' | 'sm';
+  /** Synthesised italic (the plans page style). */
+  italic?: boolean;
+  class?: string;
+}
+const { level, size, italic = false, class: cls = '', ...rest } = Astro.props;
+const Tag = `h${level}` as 'h1' | 'h2' | 'h3' | 'h4';
+---
+
+<Tag class:list={['heading', `heading--${size}`, italic && 'heading--italic', cls]} {...rest}>
+  <slot />
+</Tag>
+
+<style>
+  /* Sizes step at 480px and 1440px; below 480px the two largest scale with the viewport. rem follows the
+     browser's text size setting. */
+  .heading {
+    color: var(--color-white);
+    font-family: var(--font-abc-ginto-discord-nord);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+  }
+  .heading--italic {
+    font-style: italic;
+  }
+  .heading--xl {
+    font-size: 9.75vw;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .heading--lg {
+    font-size: 8.2vw;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .heading--md {
+    font-size: 1.5rem;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .heading--sm {
+    font-size: 1.25rem;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  @media (min-width: 480px) {
+    .heading--xl {
+      font-size: 3.5rem;
+    }
+    .heading--lg {
+      font-size: 2.5rem;
+    }
+    .heading--md {
+      font-size: 2rem;
+      line-height: 1;
+    }
+    .heading--sm {
+      font-size: 1.625rem;
+      line-height: 1;
+    }
+  }
+  @media (min-width: 1440px) {
+    .heading--xl {
+      font-size: 4.5rem;
+      line-height: 0.9;
+    }
+    .heading--lg {
+      font-size: 3rem;
+    }
+    .heading--md {
+      font-size: 2.25rem;
+    }
+    .heading--sm {
+      font-size: 1.75rem;
+    }
+  }
+</style>

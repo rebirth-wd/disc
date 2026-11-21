@@ -1,7 +1,9 @@
 ---
+import Section from '@components/layout/Section.astro';
 // "Join the platform…" three number blocks with source tooltips + two parallax objects
 //. Figures are placeholders.
 import LaunchObject from '@components/graphics/objects/LaunchObject.astro';
+import Heading from '@components/ui/Heading.astro';
 const stats = [
   {
     n: 'XX%',
@@ -21,54 +23,52 @@ const stats = [
 ];
 ---
 
-<section data-section="quests-platform" class="launch-section launch-platform">
-  <div class="launch-pad">
-    <div class="launch-wrap">
-      <div class="launch-platform__head">
-        <h2 class="launch-h2 launch-platform__h2">Launch on the stack the modern web runs on</h2>
-        <p class="launch-lead">
-          Pre-rendered static pages, minimal client JavaScript and clean, semantic markup. The SEO
-          groundwork is in the architecture.
-        </p>
-      </div>
-      <div class="launch-platform__rel">
-        <div class="launch-platform__grid">
-          {stats.map((s, i) => (
-            <div class="launch-platform__block">
-              <div class="launch-platform__num">{s.n}</div>
-              <div>
-                <div class="launch-platform__label">{s.label}</div>
-                <button
-                  type="button"
-                  class="launch-platform__src"
-                  data-source
-                  aria-describedby={`launch-platform-tip-${i}`}
-                  aria-expanded="false"
-                >
-                  <span>Source: ⓘ</span>
-                  <span class="launch-platform__anchor">
-                    <span
-                      class="launch-platform__tip"
-                      data-tip
-                      id={`launch-platform-tip-${i}`}
-                      role="tooltip"
-                      hidden
-                    >
-                      {s.src}
-                      <i></i>
-                    </span>
-                  </span>
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-        <LaunchObject name="cube" class="launch-platform__cube" data-float="b" />
-        <LaunchObject name="bolt" class="launch-platform__bolt" data-float="a" />
-      </div>
-    </div>
+<Section section="quests-platform" class="launch-platform" padding="section">
+  <div class="launch-platform__head">
+    <Heading level={2} size="lg" class="launch-platform__h2 text-center">
+      Launch on the stack the modern web runs on
+    </Heading>
+    <p class="mx-auto text-center text-[16px] leading-[22px] text-white min-[480px]:text-body-xl min-[480px]:leading-[26px]">
+      Pre-rendered static pages, minimal client JavaScript and clean, semantic markup. The SEO
+      groundwork is in the architecture.
+    </p>
   </div>
-</section>
+  <div class="launch-platform__rel">
+    <div class="launch-platform__grid">
+      {stats.map((s, i) => (
+        <div class="launch-platform__block">
+          <div class="launch-platform__num">{s.n}</div>
+          <div>
+            <div class="launch-platform__label">{s.label}</div>
+            <button
+              type="button"
+              class="launch-platform__src"
+              data-source
+              aria-describedby={`launch-platform-tip-${i}`}
+              aria-expanded="false"
+            >
+              <span>Source: ⓘ</span>
+              <span class="launch-platform__anchor">
+                <span
+                  class="launch-platform__tip"
+                  data-tip
+                  id={`launch-platform-tip-${i}`}
+                  role="tooltip"
+                  hidden
+                >
+                  {s.src}
+                  <i></i>
+                </span>
+              </span>
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+    <LaunchObject name="cube" class="launch-platform__cube" data-float="b" />
+    <LaunchObject name="bolt" class="launch-platform__bolt" data-float="a" />
+  </div>
+</Section>
 
 <style>
   .launch-platform__head {
@@ -78,7 +78,7 @@ const stats = [
     max-width: 752px;
     margin: 0 auto;
   }
-  .launch-platform__h2.launch-h2 {
+  .launch-platform__h2 {
     margin-bottom: var(--spacing-24);
   }
   .launch-platform__rel {

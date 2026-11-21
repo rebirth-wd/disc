@@ -21,7 +21,9 @@ import ParallaxFloat from '@components/graphics/objects/ParallaxFloat.astro';
   padLg={[235, 165]}
   padMd={[154, 130]}
   padSm={[144, 106]}
-  class="feature-leads feature-block--tight-gutter"
+  class="feature-leads"
+  tightGutter
+  slabTexture="radial-gradient(60% 80% at 18% 0%, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 70%), linear-gradient(95deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.16) 38%, rgba(255, 255, 255, 0.05) 62%, rgba(12, 12, 48, 0.4) 100%)"
 >
   <LeadFeed slot="media" />
   Every enquiry — chat, form, or call-back — gets read, summarised, and scored before it hits your
@@ -75,29 +77,7 @@ import ParallaxFloat from '@components/graphics/objects/ParallaxFloat.astro';
   </Fragment>
 </FeatureBlock>
 
-<style is:global>
-  /* glass texture of this slab: bright upper-left, navy towards the inset  */
-  section.feature-leads [data-feature-block-slab] {
-    background-image:
-      radial-gradient(60% 80% at 18% 0%, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 70%),
-      linear-gradient(
-        95deg,
-        rgba(255, 255, 255, 0.2) 0%,
-        rgba(255, 255, 255, 0.16) 38%,
-        rgba(255, 255, 255, 0.05) 62%,
-        rgba(12, 12, 48, 0.4) 100%
-      );
-  }
-  @media (min-width: 1440px) {
-    /* measured: text x=273 / inset x=699 on the reversed blocks; inset x=248 / text x=1016 on the mirrored one */
-    section.feature-block--tight-gutter .feature-block__slab.is-reverse {
-      padding-left: 53px;
-      padding-right: 34px;
-    }
-    section.feature-block--tight-gutter .feature-block__slab:not(.is-reverse) {
-      column-gap: 41px;
-    }
-  }
+<style>
   .feature-leads__coin {
     left: calc(var(--feature-block-cx) - 96px);
     bottom: -106px;

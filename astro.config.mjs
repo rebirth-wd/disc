@@ -6,6 +6,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   site: 'https://rebirthwebdesign.com.au',
+  // The site uses no sessions; without this the adapter provisions an unused KV namespace on deploy.
+  session: false,
   adapter: cloudflare({ imageService: 'compile' }),
   redirects: {
     '/download': { status: 301, destination: '/services' },

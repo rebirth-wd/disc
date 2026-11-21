@@ -11,6 +11,7 @@ import openOffice from '@assets/photos/careers-gallery-open-office.jpg';
 import pairing from '@assets/photos/careers-gallery-pairing.jpg';
 import teamReview from '@assets/photos/careers-gallery-team-review.jpg';
 import laptopDuo from '@assets/photos/careers-gallery-laptop-duo.jpg';
+import Heading from '@components/ui/Heading.astro';
 
 const slides = [
   { src: teamReview, alt: 'A small team reviewing a design together around one screen' },
@@ -33,9 +34,13 @@ const slides = [
       data-hero-copy
       class="relative mx-auto flex max-w-[624px] flex-col items-center [@media(min-width:1440px)]:max-w-[820px]"
     >
-      <h1 class="mx-auto mb-16 max-w-[297px] font-abc-ginto-discord-nord text-[9.75vw] leading-none font-bold tracking-[-0.03em] text-white uppercase md:mb-20 md:max-w-none md:text-[56px] [@media(min-width:1440px)]:mb-24 [@media(min-width:1440px)]:text-[72px] [@media(min-width:1440px)]:leading-[0.9]">
+      <Heading
+        level={1}
+        size="xl"
+        class="mx-auto mb-16 max-w-[297px] md:mb-20 md:max-w-none [@media(min-width:1440px)]:mb-24"
+      >
         Work with us
-      </h1>
+      </Heading>
       <p class="font-abc-ginto-discord text-[16px] leading-[22px] text-white md:text-body-xl md:leading-[26px]">
         Rebirth Online builds fast, secure, static-first websites on a modern, production-grade
         stack. You work with the person writing the code — not an account manager or an offshore
