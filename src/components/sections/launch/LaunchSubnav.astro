@@ -2,6 +2,7 @@
 // Secondary nav bar. Sticky under the header:
 // top 0 from 992px up, top 80px below. Desktop shows 4 glass tabs (one with a hover
 // dropdown); <=767px collapses into a single dropdown toggle.
+import Dropdown from '@components/ui/Dropdown.astro';
 const links = [
   { label: 'Your Launch', href: '/launch', current: true },
   {
@@ -26,17 +27,24 @@ const mobile = [
   <nav class="launch-subnav__links" aria-label="Launch pages">
     {links.map((l) =>
       l.drop ? (
-        <div class="launch-subnav__drop" data-drop>
+        <Dropdown
+          name="launch-subnav-drop"
+          opensOn="hover"
+          class="launch-subnav__drop"
+          listClass="launch-subnav__list"
+        >
           <button
+            slot="trigger"
             type="button"
             class="launch-subnav__tab launch-subnav__tab--toggle"
-            data-toggle
+            data-dropdown-trigger
             aria-expanded="false"
             aria-haspopup="true"
+            aria-controls="launch-subnav-drop-list"
           >
             <span>{l.label}</span>
             <svg
-              data-chev
+              data-dropdown-arrow
               width="16"
               height="16"
               viewBox="0 0 16 16"
@@ -52,16 +60,14 @@ const mobile = [
               />
             </svg>
           </button>
-          <div class="launch-subnav__list" data-droplist hidden>
-            <div class="launch-subnav__list-wr" data-dropwr>
-              {l.drop.map((d) => (
-                <a class="launch-subnav__droplink" data-droplink href={d.href}>
-                  {d.label}
-                </a>
-              ))}
-            </div>
+          <div class="launch-subnav__list-wr" data-dropwr>
+            {l.drop.map((d) => (
+              <a class="launch-subnav__droplink" data-droplink href={d.href}>
+                {d.label}
+              </a>
+            ))}
           </div>
-        </div>
+        </Dropdown>
       ) : (
         <a
           class="launch-subnav__tab launch-subnav__tab--desk"
@@ -74,17 +80,23 @@ const mobile = [
       ),
     )}
 
-    <div class="launch-subnav__mob" data-mob>
+    <Dropdown
+      name="launch-subnav-mob"
+      class="launch-subnav__mob"
+      listClass="launch-subnav__moblist"
+    >
       <button
+        slot="trigger"
         type="button"
         class="launch-subnav__tab launch-subnav__tab--mob"
-        data-mob-toggle
+        data-dropdown-trigger
         aria-expanded="false"
         aria-haspopup="true"
+        aria-controls="launch-subnav-mob-list"
       >
         <span>{links[0].label}</span>
         <svg
-          data-mob-chev
+          data-dropdown-arrow
           width="12"
           height="12"
           viewBox="0 0 16 16"
@@ -100,14 +112,12 @@ const mobile = [
           />
         </svg>
       </button>
-      <div class="launch-subnav__moblist" data-mob-list hidden>
-        {mobile.map((d) => (
-          <a class="launch-subnav__tab launch-subnav__tab--mobitem" href={d.href}>
-            <span>{d.label}</span>
-          </a>
-        ))}
-      </div>
-    </div>
+      {mobile.map((d) => (
+        <a class="launch-subnav__tab launch-subnav__tab--mobitem" href={d.href}>
+          <span>{d.label}</span>
+        </a>
+      ))}
+    </Dropdown>
   </nav>
 </div>
 
@@ -194,14 +204,14 @@ const mobile = [
     font-size: 11px;
     line-height: 17px;
   }
-  .launch-subnav__moblist {
+  :global(.launch-subnav__moblist) {
     position: absolute;
     top: 100%;
     left: 0;
     min-width: 100%;
     padding-top: 4px;
   }
-  .launch-subnav__moblist:not([hidden]) {
+  :global(.launch-subnav__moblist:not([hidden])) {
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -228,7 +238,7 @@ const mobile = [
     z-index: 900;
     border-radius: 6px;
   }
-  .launch-subnav__list {
+  :global(.launch-subnav__list) {
     position: absolute;
     top: 100%;
     left: 0;
@@ -322,7 +332,7 @@ const mobile = [
     .launch-subnav__tab--toggle svg {
       height: 25px;
     }
-    .launch-subnav__list {
+    :global(.launch-subnav__list) {
       padding-top: 8px;
     }
     .launch-subnav__droplink {
@@ -332,112 +342,3 @@ const mobile = [
     }
   }
 </style>
-
-<script>
-  import { gsap, ease, onPage, reducedMotion } from '@lib/motion';
-
-  onPage((signal) => {
-    document.querySelectorAll<HTMLElement>('[data-section="quests-subnav"]').forEach((root) => {
-      const reduce = reducedMotion();
-
-      // desktop dropdown: opens on hover (delay 0) / focus / click; chevron 0 -> 180deg, 100ms ease
-      const drop = root.querySelector<HTMLElement>('[data-drop]');
-      if (drop) {
-        const btn = drop.querySelector<HTMLButtonElement>('[data-toggle]')!;
-        const list = drop.querySelector<HTMLElement>('[data-droplist]')!;
-        const chev = drop.querySelector<SVGElement>('[data-chev]')!;
-        let open = false;
-        let openedAt = 0;
-        const set = (v: boolean) => {
-          if (v === open) return;
-          open = v;
-          if (v) openedAt = performance.now();
-          list.hidden = !v;
-          btn.setAttribute('aria-expanded', String(v));
-          gsap.to(chev, {
-            rotation: v ? 180 : 0,
-            duration: reduce ? 0 : 0.1,
-            ease: ease.css,
-            overwrite: true,
-          });
-        };
-        drop.addEventListener(
-          'pointerenter',
-          (e) => {
-            if (e.pointerType === 'mouse') set(true);
-          },
-          { signal },
-        );
-        drop.addEventListener(
-          'pointerleave',
-          (e) => {
-            if (e.pointerType === 'mouse') set(false);
-          },
-          { signal },
-        );
-        btn.addEventListener(
-          'click',
-          (e) => {
-            if ((e as PointerEvent).pointerType !== 'mouse' && performance.now() - openedAt > 300)
-              set(!open);
-          },
-          { signal },
-        );
-        drop.addEventListener('focusin', () => set(true), { signal });
-        drop.addEventListener(
-          'focusout',
-          (e) => {
-            if (!drop.contains(e.relatedTarget as Node)) set(false);
-          },
-          { signal },
-        );
-        drop.addEventListener(
-          'keydown',
-          (e) => {
-            if (e.key === 'Escape') {
-              set(false);
-              btn.focus();
-            }
-          },
-          { signal },
-        );
-      }
-
-      // mobile dropdown: click toggles
-      const mob = root.querySelector<HTMLElement>('[data-mob]');
-      if (mob) {
-        const btn = mob.querySelector<HTMLButtonElement>('[data-mob-toggle]')!;
-        const list = mob.querySelector<HTMLElement>('[data-mob-list]')!;
-        const chev = mob.querySelector<SVGElement>('[data-mob-chev]')!;
-        const set = (v: boolean) => {
-          list.hidden = !v;
-          btn.setAttribute('aria-expanded', String(v));
-          gsap.to(chev, {
-            rotation: v ? 180 : 0,
-            duration: reduce ? 0 : 0.1,
-            ease: ease.css,
-            overwrite: true,
-          });
-        };
-        btn.addEventListener('click', () => set(list.hidden === true), { signal });
-        document.addEventListener(
-          'click',
-          (e) => {
-            if (!mob.contains(e.target as Node)) set(false);
-          },
-          { signal },
-        );
-        mob.addEventListener(
-          'keydown',
-          (e) => {
-            if (e.key === 'Escape') {
-              set(false);
-              btn.focus();
-            }
-          },
-          { signal },
-        );
-      }
-    });
-  });
-</script>

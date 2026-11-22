@@ -1,7 +1,8 @@
 ---
 // Click-to-open dropdown button.
 // variant "white": 48px white toggle + white list (platform block). variant "blurple": 52px blurple toggle + indigo list (banner).
-// Motion: chevron rotates 0→180deg in 100ms easeIn on open, back in 100ms ease on close; list toggles instantly.
+// The arrow and list behaviour come from ui/Dropdown; the list toggles instantly.
+import Dropdown from '@components/ui/Dropdown.astro';
 interface Item {
   label: string;
   href?: string;
@@ -16,16 +17,21 @@ interface Props {
 const { label, items, variant = 'white', z = 1, id } = Astro.props;
 ---
 
-<div
+<Dropdown
+  name={id}
+  group="services"
   class:list={['services-dropdown', `services-dropdown--${variant}`]}
-  data-services-dropdown
+  listAs="nav"
+  listClass="services-dropdown__list"
+  listLabelledby={`${id}-toggle`}
   style={`z-index:${z}`}
 >
   <button
+    slot="trigger"
     type="button"
     class="services-dropdown__toggle"
     id={`${id}-toggle`}
-    aria-haspopup="menu"
+    data-dropdown-trigger
     aria-expanded="false"
     aria-controls={`${id}-list`}
   >
@@ -38,7 +44,7 @@ const { label, items, variant = 'white', z = 1, id } = Astro.props;
     {variant === 'blurple' && <span class="services-dropdown__glow" aria-hidden="true"></span>}
     <svg
       class="services-dropdown__arrow"
-      data-services-dropdown-arrow
+      data-dropdown-arrow
       viewBox="0 0 16 16"
       fill="none"
       aria-hidden="true"
@@ -52,14 +58,12 @@ const { label, items, variant = 'white', z = 1, id } = Astro.props;
       />
     </svg>
   </button>
-  <nav class="services-dropdown__list" id={`${id}-list`} aria-labelledby={`${id}-toggle`} hidden>
-    {items.map((it) => (
-      <a class="services-dropdown__link" href={it.href ?? '#'}>
-        {it.label}
-      </a>
-    ))}
-  </nav>
-</div>
+  {items.map((it) => (
+    <a class="services-dropdown__link" href={it.href ?? '#'}>
+      {it.label}
+    </a>
+  ))}
+</Dropdown>
 
 <style>
   .services-dropdown {
@@ -106,7 +110,7 @@ const { label, items, variant = 'white', z = 1, id } = Astro.props;
     z-index: 1;
     flex: none;
   }
-  .services-dropdown__list {
+  :global(.services-dropdown__list) {
     position: absolute;
     left: 0;
     width: 100%;
@@ -114,7 +118,7 @@ const { label, items, variant = 'white', z = 1, id } = Astro.props;
     padding: var(--spacing-8);
     text-align: left;
   }
-  .services-dropdown__list[hidden] {
+  :global(.services-dropdown__list[hidden]) {
     display: none;
   }
   .services-dropdown__link {
@@ -140,7 +144,7 @@ const { label, items, variant = 'white', z = 1, id } = Astro.props;
     width: 14px;
     height: 14px;
   }
-  .services-dropdown--white .services-dropdown__list {
+  .services-dropdown--white :global(.services-dropdown__list) {
     top: 100%;
     margin-top: 11px;
     min-width: max-content;
@@ -202,7 +206,7 @@ const { label, items, variant = 'white', z = 1, id } = Astro.props;
     width: 16px;
     height: 17px;
   }
-  .services-dropdown--blurple .services-dropdown__list {
+  .services-dropdown--blurple :global(.services-dropdown__list) {
     top: 0;
     margin-top: 60px;
     max-height: 260px;
@@ -228,50 +232,3 @@ const { label, items, variant = 'white', z = 1, id } = Astro.props;
     }
   }
 </style>
-
-<script>
-  import { gsap, ease, onPage, reducedMotion } from '@lib/motion';
-
-  onPage((signal) => {
-    const all = Array.from(document.querySelectorAll<HTMLElement>('[data-services-dropdown]'));
-    const setOpen = (dd: HTMLElement, open: boolean) => {
-      const toggle = dd.querySelector<HTMLButtonElement>('.services-dropdown__toggle')!;
-      const list = dd.querySelector<HTMLElement>('.services-dropdown__list')!;
-      const arrow = dd.querySelector<SVGElement>('[data-services-dropdown-arrow]')!;
-      if ((toggle.getAttribute('aria-expanded') === 'true') === open) return;
-      toggle.setAttribute('aria-expanded', String(open));
-      list.hidden = !open;
-      dd.classList.toggle('is-open', open);
-      gsap.to(arrow, {
-        rotation: open ? 180 : 0,
-        duration: reducedMotion() ? 0 : 0.1,
-        ease: open ? ease.in : ease.css,
-        overwrite: true,
-      });
-    };
-    all.forEach((dd) => {
-      dd.querySelector('.services-dropdown__toggle')!.addEventListener(
-        'click',
-        (e) => {
-          e.stopPropagation();
-          const willOpen =
-            dd.querySelector('.services-dropdown__toggle')!.getAttribute('aria-expanded') !==
-            'true';
-          all.forEach((o) => o !== dd && setOpen(o, false));
-          setOpen(dd, willOpen);
-        },
-        { signal },
-      );
-    });
-    document.addEventListener(
-      'click',
-      (e) => all.forEach((dd) => !dd.contains(e.target as Node) && setOpen(dd, false)),
-      { signal },
-    );
-    document.addEventListener(
-      'keydown',
-      (e) => e.key === 'Escape' && all.forEach((dd) => setOpen(dd, false)),
-      { signal },
-    );
-  });
-</script>

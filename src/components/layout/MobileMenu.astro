@@ -1,5 +1,6 @@
 ---
 // Mobile menu: the full-height dialog opened by the burger button in the header bar (under 992px).
+import Dropdown from '@components/ui/Dropdown.astro';
 import LogoMark from './LogoMark.astro';
 import type { NavItem } from '@data/navigation';
 interface Props {
@@ -41,16 +42,23 @@ const { items } = Astro.props;
             </a>
           </li>
         ) : (
-          <li class="header__burger-item" data-acc>
+          <Dropdown
+            as="li"
+            name={`header-acc-${it.id}`}
+            group="burger"
+            class="header__burger-item"
+            listClass="header__burger-sub"
+          >
             <button
+              slot="trigger"
               type="button"
               class="header__burger-trigger"
-              data-acc-trigger
+              data-dropdown-trigger
               aria-expanded="false"
-              aria-controls={`header-acc-${it.id}`}
+              aria-controls={`header-acc-${it.id}-list`}
             >
               <span>{it.label}</span>
-              <span class="header__burger-arrow" data-acc-arrow>
+              <span class="header__burger-arrow" data-dropdown-arrow>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                   <path
                     d="M12 6L8 10L4 6"
@@ -63,26 +71,24 @@ const { items } = Astro.props;
                 </svg>
               </span>
             </button>
-            <div class="header__burger-sub" id={`header-acc-${it.id}`} data-acc-list hidden>
-              {it.columns.flat().map((list, gi) => (
-                <div class="header__burger-group">
-                  {gi === 0 && (
-                    <a href={it.href} class="header__burger-grouptitle">
-                      {it.label}
+            {it.columns.flat().map((list, gi) => (
+              <div class="header__burger-group">
+                {gi === 0 && (
+                  <a href={it.href} class="header__burger-grouptitle">
+                    {it.label}
+                  </a>
+                )}
+                <div class="header__burger-sublinks">
+                  <div class="header__burger-subtitle">{list.title}</div>
+                  {list.links.map((l) => (
+                    <a href={l.href} class="header__burger-sublink">
+                      {l.label}
                     </a>
-                  )}
-                  <div class="header__burger-sublinks">
-                    <div class="header__burger-subtitle">{list.title}</div>
-                    {list.links.map((l) => (
-                      <a href={l.href} class="header__burger-sublink">
-                        {l.label}
-                      </a>
-                    ))}
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </li>
+              </div>
+            ))}
+          </Dropdown>
         ),
       )}
     </ul>
@@ -210,7 +216,7 @@ const { items } = Astro.props;
     width: 16px;
     height: 16px;
   }
-  .header__burger-sub {
+  :global(.header__burger-sub) {
     padding-top: var(--spacing-8);
   }
   .header__burger-group {
@@ -398,32 +404,5 @@ const { items } = Astro.props;
       },
       { signal },
     );
-
-    // accordions inside the burger: instant list toggle + 200ms arrow turn
-    burger.querySelectorAll<HTMLElement>('[data-acc]').forEach((acc) => {
-      const trig = acc.querySelector<HTMLElement>('[data-acc-trigger]')!;
-      const list = acc.querySelector<HTMLElement>('[data-acc-list]')!;
-      const arrow = acc.querySelector('[data-acc-arrow]');
-      trig.addEventListener(
-        'click',
-        () => {
-          const open = list.hidden;
-          burger.querySelectorAll<HTMLElement>('[data-acc]').forEach((o) => {
-            if (o === acc) return;
-            o.querySelector<HTMLElement>('[data-acc-list]')!.hidden = true;
-            o.querySelector('[data-acc-trigger]')!.setAttribute('aria-expanded', 'false');
-            gsap.to(o.querySelector('[data-acc-arrow]'), {
-              rotation: 0,
-              duration: T(0.2),
-              ease: 'none',
-            });
-          });
-          list.hidden = !open;
-          trig.setAttribute('aria-expanded', String(open));
-          gsap.to(arrow, { rotation: open ? 180 : 0, duration: T(0.2), ease: 'none' });
-        },
-        { signal },
-      );
-    });
   });
 </script>

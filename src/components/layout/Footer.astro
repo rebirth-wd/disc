@@ -1,7 +1,8 @@
 ---
 // Global footer.
-// Motion: language chevron 180deg / 200ms; <=767px column accordions: height 0 -> auto 200ms + chevron 180deg / 200ms.
+// Motion: <=767px column accordions: height 0 -> auto 200ms + chevron 180deg / 200ms.
 import { footerColumns } from '@data/navigation';
+import Dropdown from '@components/ui/Dropdown.astro';
 import LogoMark from './LogoMark.astro';
 
 const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
@@ -28,20 +29,25 @@ const socials = ['Chat', 'Photos', 'Community', 'Video', 'Feed'];
         <div class="footer__label" id="footer-lang-label">
           Language
         </div>
-        <div class="footer__lang" data-lang>
+        <Dropdown
+          name="footer-lang"
+          class="footer__lang"
+          listAs="ul"
+          listClass="footer__lang-list"
+          listLabelledby="footer-lang-label"
+        >
           <button
+            slot="trigger"
             type="button"
             class="footer__lang-btn"
-            data-lang-btn
-            aria-haspopup="listbox"
+            data-dropdown-trigger
             aria-expanded="false"
+            aria-controls="footer-lang-list"
             aria-labelledby="footer-lang-label footer-lang-name"
           >
-            <span id="footer-lang-name" data-lang-name>
-              English
-            </span>
+            <span id="footer-lang-name">English</span>
             <svg
-              data-lang-arrow
+              data-dropdown-arrow
               width="24"
               height="24"
               viewBox="0 0 24 24"
@@ -57,25 +63,10 @@ const socials = ['Chat', 'Photos', 'Community', 'Video', 'Feed'];
               />
             </svg>
           </button>
-          <ul
-            class="footer__lang-list"
-            data-lang-list
-            role="listbox"
-            aria-labelledby="footer-lang-label"
-            hidden
-          >
-            {langs.map((l, i) => (
-              <li
-                role="option"
-                tabindex="0"
-                aria-selected={i === 0 ? 'true' : 'false'}
-                class="footer__lang-item"
-              >
-                {l}
-              </li>
-            ))}
-          </ul>
-        </div>
+          {langs.map((l) => (
+            <li class="footer__lang-item">{l}</li>
+          ))}
+        </Dropdown>
         <div class="footer__social footer__social--desk">
           <div class="footer__label">Social</div>
           <div class="footer__icons">
@@ -282,7 +273,7 @@ const socials = ['Chat', 'Photos', 'Community', 'Video', 'Feed'];
     outline: 2px solid var(--color-blurple);
     outline-offset: 4px;
   }
-  .footer__lang-list {
+  :global(.footer__lang-list) {
     position: absolute;
     left: 0;
     right: 0;
@@ -302,10 +293,8 @@ const socials = ['Chat', 'Photos', 'Community', 'Video', 'Feed'];
     font-size: 16px;
     line-height: 24px;
   }
-  .footer__lang-item:hover,
-  .footer__lang-item:focus-visible {
+  .footer__lang-item:hover {
     background: var(--color-white-10);
-    outline: none;
   }
 
   .footer__social--desk {
@@ -535,7 +524,7 @@ const socials = ['Chat', 'Photos', 'Community', 'Video', 'Feed'];
 <script>
   import { gsap, media, onPage, reducedMotion, MQ } from '@lib/motion';
 
-  onPage((signal) => {
+  onPage(() => {
     const root = document.querySelector<HTMLElement>('[data-section="global-footer"]');
     if (root) {
       const reduce = reducedMotion();
@@ -545,65 +534,6 @@ const socials = ['Chat', 'Photos', 'Community', 'Video', 'Feed'];
       const src = root.querySelector('.footer__social--desk .footer__icons');
       const dst = root.querySelector('[data-icons-clone]');
       if (src && dst) dst.innerHTML = src.innerHTML;
-
-      /* language select: chevron 0 -> 180deg, 200ms */
-      const lang = root.querySelector<HTMLElement>('[data-lang]')!;
-      const btn = lang.querySelector<HTMLElement>('[data-lang-btn]')!;
-      const list = lang.querySelector<HTMLElement>('[data-lang-list]')!;
-      const arrow = lang.querySelector('[data-lang-arrow]');
-      const name = lang.querySelector<HTMLElement>('[data-lang-name]')!;
-      const setLang = (open: boolean) => {
-        list.hidden = !open;
-        btn.setAttribute('aria-expanded', String(open));
-        gsap.to(arrow, {
-          rotation: open ? 180 : 0,
-          transformOrigin: '50% 50%',
-          duration: T(0.2),
-          ease: 'none',
-          overwrite: true,
-        });
-      };
-      btn.addEventListener('click', () => setLang(list.hidden === true), { signal });
-      const pick = (li: HTMLElement) => {
-        list
-          .querySelectorAll('[role="option"]')
-          .forEach((o) => o.setAttribute('aria-selected', String(o === li)));
-        name.textContent = li.textContent;
-        setLang(false);
-        btn.focus();
-      };
-      list.addEventListener(
-        'click',
-        (e) => {
-          const li = (e.target as HTMLElement).closest<HTMLElement>('[role="option"]');
-          if (li) pick(li);
-        },
-        { signal },
-      );
-      list.addEventListener(
-        'keyup',
-        (e) => {
-          if (e.key === 'Enter') {
-            const li = (e.target as HTMLElement).closest<HTMLElement>('[role="option"]');
-            if (li) pick(li);
-          }
-        },
-        { signal },
-      );
-      document.addEventListener(
-        'click',
-        (e) => {
-          if (!lang.contains(e.target as Node) && !list.hidden) setLang(false);
-        },
-        { signal },
-      );
-      document.addEventListener(
-        'keyup',
-        (e) => {
-          if (e.key === 'Escape' && !list.hidden) setLang(false);
-        },
-        { signal },
-      );
 
       /* <=767: column accordions: height 0 -> auto 200ms, chevron 180deg 200ms */
       media(

@@ -3,6 +3,7 @@ import Section from '@components/layout/Section.astro';
 // careers-faq: heading left, accordion right,
 // "See All" reveals the remaining questions.
 import Button from '@components/ui/Button.astro';
+import Accordion from '@components/ui/Accordion.astro';
 import Heading from '@components/ui/Heading.astro';
 const faqs = [
   [
@@ -54,13 +55,14 @@ const faqs = [
     'The person writing the code — not an account manager, not an offshore team. One Bundaberg-based developer who knows your entire stack.',
   ],
 ];
-const first = faqs.slice(0, 4);
-const rest = faqs.slice(4);
+const items = faqs.map(([question, answer]) => ({ question, answer }));
+const first = items.slice(0, 4);
+const rest = items.slice(4);
 ---
 
 <Section
   section="careers-faq"
-  class="relative mt-[30px] py-[100px] md:py-[120px] [@media(min-width:1440px)]:py-[160px]"
+  class="careers-faq relative mt-[30px] py-[100px] md:py-[120px] [@media(min-width:1440px)]:py-[160px]"
   container="wide"
 >
   <div class="[@media(min-width:1440px)]:flex [@media(min-width:1440px)]:gap-[134px]">
@@ -74,41 +76,19 @@ const rest = faqs.slice(4);
       <div class="h-40 xl:h-48"></div>
     </div>
     <div class="xl:mt-[-40px] [@media(min-width:1440px)]:flex-1">
-      {first.map(([q, a]) => (
-        <div data-faq class="careers-faq__item">
-          <button type="button" data-faq-toggle class="careers-faq__toggle" aria-expanded="false">
-            <span class="careers-faq__icons" aria-hidden="true">
-              <i class="careers-faq__minus"></i>
-              <i data-faq-plus class="careers-faq__plus"></i>
-            </span>
-            <span>{q}</span>
-          </button>
-          <div data-faq-panel class="careers-faq__panel" hidden>
-            <p>{a}</p>
-          </div>
-        </div>
-      ))}
+      <Accordion name="careers-faq" group="careers-faq" items={first}>
+        <Fragment slot="icon">
+          <i class="careers-faq__minus"></i>
+          <i data-accordion-plus class="careers-faq__plus"></i>
+        </Fragment>
+      </Accordion>
       <div data-faq-all class="careers-faq__all" style="height:0px">
-        {rest.map(([q, a]) => (
-          <div data-faq class="careers-faq__item">
-            <button
-              type="button"
-              data-faq-toggle
-              class="careers-faq__toggle"
-              aria-expanded="false"
-              tabindex="-1"
-            >
-              <span class="careers-faq__icons" aria-hidden="true">
-                <i class="careers-faq__minus"></i>
-                <i data-faq-plus class="careers-faq__plus"></i>
-              </span>
-              <span>{q}</span>
-            </button>
-            <div data-faq-panel class="careers-faq__panel" hidden>
-              <p>{a}</p>
-            </div>
-          </div>
-        ))}
+        <Accordion name="careers-faq-more" group="careers-faq" items={rest} focusable={false}>
+          <Fragment slot="icon">
+            <i class="careers-faq__minus"></i>
+            <i data-accordion-plus class="careers-faq__plus"></i>
+          </Fragment>
+        </Accordion>
       </div>
       <div
         data-faq-all-wrap
@@ -121,7 +101,7 @@ const rest = faqs.slice(4);
 </Section>
 <style>
   /* 2px hairline (rgba(255,255,255,.1)) under each question — a divider the style docs did not sample */
-  .careers-faq__item {
+  .careers-faq :global(.accordion__item) {
     position: relative;
     z-index: 1;
     display: block;
@@ -131,7 +111,7 @@ const rest = faqs.slice(4);
     font-family: var(--font-abc-ginto-discord);
     text-align: left;
   }
-  .careers-faq__toggle {
+  .careers-faq :global(.accordion__toggle) {
     position: relative;
     display: block;
     width: 100%;
@@ -147,18 +127,18 @@ const rest = faqs.slice(4);
     font-weight: var(--font-weight-medium);
     text-align: left;
   }
-  .careers-faq__toggle:focus-visible {
+  .careers-faq :global(.accordion__toggle:focus-visible) {
     outline: 2px solid var(--color-blurple);
     outline-offset: 4px;
     border-radius: 24px;
   }
   @media (min-width: 768px) {
-    .careers-faq__toggle {
+    .careers-faq :global(.accordion__toggle) {
       font-size: 20px;
       line-height: 1.4;
     }
   }
-  .careers-faq__icons {
+  .careers-faq :global(.accordion__icons) {
     position: absolute;
     top: 34px;
     right: 0;
@@ -169,7 +149,7 @@ const rest = faqs.slice(4);
     justify-content: center;
   }
   @media (min-width: 768px) {
-    .careers-faq__icons {
+    .careers-faq :global(.accordion__icons) {
       top: 36px;
     }
   }
@@ -195,21 +175,18 @@ const rest = faqs.slice(4);
     height: 16px;
     background: var(--color-white);
   }
-  .careers-faq__panel {
+  .careers-faq :global(.accordion__panel) {
     padding-right: 16px;
     padding-bottom: 16px;
   }
-  .careers-faq__panel[hidden] {
-    display: none;
-  }
-  .careers-faq__panel p {
+  .careers-faq :global(.accordion__panel p) {
     margin: -16px 0 0;
     color: #b2b2b2;
     font-size: 16px;
     line-height: 1.4;
   }
   @media (min-width: 768px) {
-    .careers-faq__panel p {
+    .careers-faq :global(.accordion__panel p) {
       font-size: 20px;
       line-height: 28px;
     }
@@ -221,49 +198,10 @@ const rest = faqs.slice(4);
   }
 </style>
 <script>
-  import { gsap, ease, onPage, reducedMotion } from '@lib/motion';
+  import { gsap, onPage, reducedMotion } from '@lib/motion';
   onPage((signal) => {
     const root = document.querySelector<HTMLElement>('[data-section="careers-faq"]');
     if (root) {
-      const reduced = reducedMotion();
-      const items = gsap.utils.toArray<HTMLElement>('[data-faq]', root);
-      // the answer shows/hides instantly (no height tween);
-      // the vertical bar of the plus fades out in 250ms ease on open and back in over 500ms ease on close.
-      const set = (item: HTMLElement, open: boolean) => {
-        const toggle = item.querySelector<HTMLElement>('[data-faq-toggle]')!;
-        if ((toggle.getAttribute('aria-expanded') === 'true') === open) return;
-        toggle.setAttribute('aria-expanded', String(open));
-        item.querySelector<HTMLElement>('[data-faq-panel]')!.hidden = !open;
-        gsap.to(item.querySelector('[data-faq-plus]'), {
-          opacity: open ? 0 : 1,
-          duration: reduced ? 0 : open ? 0.25 : 0.5,
-          ease: ease.css,
-          overwrite: true,
-        });
-      };
-      items.forEach((item) => {
-        item.querySelector('[data-faq-toggle]')!.addEventListener(
-          'click',
-          (e) => {
-            e.stopPropagation();
-            const open =
-              item.querySelector('[data-faq-toggle]')!.getAttribute('aria-expanded') !== 'true';
-            items.forEach((o) => o !== item && set(o, false)); // one open at a time
-            set(item, open);
-          },
-          { signal },
-        );
-        item
-          .querySelector('[data-faq-panel]')!
-          .addEventListener('click', (e) => e.stopPropagation(), { signal });
-      });
-      document.addEventListener('click', () => items.forEach((o) => set(o, false)), { signal }); // close on outside click
-      document.addEventListener(
-        'keydown',
-        (e) => e.key === 'Escape' && items.forEach((o) => set(o, false)),
-        { signal },
-      );
-
       // "See All" (click): the hidden list height 0 -> auto in 300ms, button wrapper display:none
       const all = root.querySelector<HTMLElement>('[data-faq-all]')!;
       const wrap = root.querySelector<HTMLElement>('[data-faq-all-wrap]')!;
@@ -272,8 +210,10 @@ const rest = faqs.slice(4);
         (e) => {
           e.stopPropagation();
           wrap.style.display = 'none';
-          all.querySelectorAll('[data-faq-toggle]').forEach((t) => t.removeAttribute('tabindex'));
-          gsap.to(all, { height: 'auto', duration: reduced ? 0 : 0.3, ease: 'none' });
+          all
+            .querySelectorAll('[data-accordion-toggle]')
+            .forEach((t) => t.removeAttribute('tabindex'));
+          gsap.to(all, { height: 'auto', duration: reducedMotion() ? 0 : 0.3, ease: 'none' });
         },
         { signal },
       );

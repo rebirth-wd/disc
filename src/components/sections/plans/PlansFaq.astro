@@ -1,6 +1,7 @@
 ---
 import Section from '@components/layout/Section.astro';
 import PlansObject from '@components/graphics/objects/PlansObject.astro';
+import Accordion from '@components/ui/Accordion.astro';
 import Heading from '@components/ui/Heading.astro';
 const tabs = [
   {
@@ -142,32 +143,21 @@ const tabs = [
         hidden={i !== 0}
         data-faq-pane
       >
-        {t.items.map(([q, a], j) => (
-          <div class="plans-faq__item" data-faq-item>
-            <button
-              type="button"
-              class="plans-faq__q"
-              aria-expanded="false"
-              aria-controls={`plans-faq-a-${i}-${j}`}
-              data-faq-toggle
-            >
-              <span class="plans-faq__question font-abc-ginto-discord text-[16px] leading-[22px] font-medium min-[480px]:text-body-xl min-[480px]:leading-[26px]">
-                {q}
-              </span>
-              <span class="plans-faq__icons" aria-hidden="true">
-                <svg viewBox="0 0 16 16" fill="none">
-                  <path d="M1 8h14" stroke="#fff" stroke-width="2" />
-                </svg>
-                <svg viewBox="0 0 16 16" fill="none" data-faq-plus>
-                  <path d="M1 8h14M8 1v14" stroke="#fff" stroke-width="2" />
-                </svg>
-              </span>
-            </button>
-            <div class="plans-faq__a" id={`plans-faq-a-${i}-${j}`} hidden data-faq-panel>
-              <p>{a}</p>
-            </div>
-          </div>
-        ))}
+        <Accordion
+          name={`plans-faq-${i}`}
+          group="plans-faq"
+          items={t.items.map(([question, answer]) => ({ question, answer }))}
+          questionClass="font-abc-ginto-discord text-[16px] leading-[22px] font-medium min-[480px]:text-body-xl min-[480px]:leading-[26px]"
+        >
+          <Fragment slot="icon">
+            <svg viewBox="0 0 16 16" fill="none">
+              <path d="M1 8h14" stroke="#fff" stroke-width="2" />
+            </svg>
+            <svg viewBox="0 0 16 16" fill="none" data-accordion-plus>
+              <path d="M1 8h14M8 1v14" stroke="#fff" stroke-width="2" />
+            </svg>
+          </Fragment>
+        </Accordion>
       </div>
     ))}
   </div>
@@ -224,7 +214,7 @@ const tabs = [
     color: var(--color-black);
   }
   .plans-faq__tab:focus-visible,
-  .plans-faq__q:focus-visible {
+  .plans-faq :global(.accordion__toggle:focus-visible) {
     outline: 2px solid var(--color-signal-green);
     outline-offset: 2px;
   }
@@ -236,11 +226,11 @@ const tabs = [
   .plans-faq__arrow {
     display: none;
   }
-  .plans-faq__item {
+  .plans-faq :global(.accordion__item) {
     position: relative;
     border-bottom: 2px solid var(--color-white-10);
   }
-  .plans-faq__q {
+  .plans-faq :global(.accordion__toggle) {
     appearance: none;
     border: 0;
     background: none;
@@ -252,10 +242,10 @@ const tabs = [
     text-align: left;
     padding: var(--spacing-40) var(--spacing-40) var(--spacing-40) 0;
   }
-  .plans-faq__question {
+  .plans-faq :global(.accordion__question) {
     display: block;
   }
-  .plans-faq__icons {
+  .plans-faq :global(.accordion__icons) {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -264,16 +254,16 @@ const tabs = [
     display: flex;
     align-items: center;
   }
-  .plans-faq__icons svg {
+  .plans-faq :global(.accordion__icons svg) {
     position: absolute;
     width: 16px;
     height: 16px;
   }
-  .plans-faq__a {
+  .plans-faq :global(.accordion__panel) {
     margin-top: calc(var(--spacing-8) * -1);
     padding: 0 var(--spacing-16) var(--spacing-48) 0;
   }
-  .plans-faq__a p {
+  .plans-faq :global(.accordion__panel p) {
     margin: 0;
     font-size: var(--text-body-xl);
     line-height: 28px;
@@ -335,13 +325,13 @@ const tabs = [
     .plans-faq {
       padding-bottom: 100px;
     }
-    .plans-faq__q {
+    .plans-faq :global(.accordion__toggle) {
       padding: 32px var(--spacing-40) 32px 0;
     }
-    .plans-faq__a {
+    .plans-faq :global(.accordion__panel) {
       padding-bottom: 32px;
     }
-    .plans-faq__a p {
+    .plans-faq :global(.accordion__panel p) {
       font-size: var(--text-body);
       line-height: 22.4px;
     }
@@ -350,49 +340,11 @@ const tabs = [
 
 <script>
   import { gsap, ScrollTrigger, motion, onPage, reducedMotion, MQ } from '@lib/motion';
+  import { closeAccordions } from '@lib/accordion';
   onPage((signal) => {
     const root = document.querySelector<HTMLElement>('[data-section="nitro-faq"]');
     if (root) {
       const reduce = reducedMotion();
-      const items = Array.from(root.querySelectorAll<HTMLElement>('[data-faq-item]'));
-      // Panel opens/closes instantly (display toggle), only one open at a time, closes on outside click.
-      // open: plus opacity 1 -> 0, 250ms ease. close: plus opacity -> 1, 500ms ease.
-      const ease = 'power1.out';
-      const set = (item: HTMLElement, open: boolean) => {
-        const btn = item.querySelector<HTMLElement>('[data-faq-toggle]')!,
-          panel = item.querySelector<HTMLElement>('[data-faq-panel]')!;
-        if ((btn.getAttribute('aria-expanded') === 'true') === open) return;
-        btn.setAttribute('aria-expanded', String(open));
-        panel.hidden = !open;
-        gsap.to(item.querySelector('[data-faq-plus]'), {
-          opacity: open ? 0 : 1,
-          duration: reduce ? 0 : open ? 0.25 : 0.5,
-          ease,
-          overwrite: true,
-        });
-        ScrollTrigger.refresh();
-      };
-      items.forEach((item) =>
-        item.querySelector('[data-faq-toggle]')!.addEventListener(
-          'click',
-          () => {
-            const open =
-              item.querySelector('[data-faq-toggle]')!.getAttribute('aria-expanded') !== 'true';
-            items.forEach((o) => o !== item && set(o, false));
-            set(item, open);
-          },
-          { signal },
-        ),
-      );
-      document.addEventListener(
-        'click',
-        (e) => {
-          if (!(e.target as Element).closest('[data-faq-item]'))
-            items.forEach((o) => set(o, false));
-        },
-        { signal },
-      );
-
       // Tabs: instant pane swap (duration 0); link colours cross-fade via the 0.35s CSS transition.
       const tabsEl = root.querySelector<HTMLElement>('[data-faq-tabs]')!;
       const tabs = Array.from(root.querySelectorAll<HTMLElement>('[data-faq-tab]')),
@@ -450,7 +402,7 @@ const tabs = [
           t.tabIndex = k === i ? 0 : -1;
         });
         panes.forEach((p, k) => (p.hidden = k !== i));
-        items.forEach((o) => set(o, false));
+        closeAccordions(root);
         ScrollTrigger.refresh();
       };
       tabs.forEach((t, i) => {

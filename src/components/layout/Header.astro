@@ -51,14 +51,14 @@ const isActive = (id: string) => active === id;
                   slot="trigger"
                   href={it.href}
                   class="header__dd-trigger"
-                  data-dd-trigger
+                  data-dropdown-trigger
                   aria-haspopup="true"
                   aria-expanded="false"
-                  aria-controls={`header-dd-${it.id}`}
+                  aria-controls={`header-dd-${it.id}-list`}
                   aria-current={isActive(it.id) ? 'page' : undefined}
                 >
                   <span>{it.label}</span>
-                  <span class="header__dd-arrow" data-dd-arrow>
+                  <span class="header__dd-arrow" data-dropdown-arrow>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                       <path
                         d="M12 6L8 10L4 6"

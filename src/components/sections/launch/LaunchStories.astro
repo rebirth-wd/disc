@@ -11,6 +11,7 @@ import pyramid from '@assets/photos/launch-pyramid.jpg';
 import room from '@assets/photos/launch-room.jpg';
 import tubes from '@assets/photos/launch-tubes.jpg';
 import tower from '@assets/photos/launch-tower.jpg';
+import Carousel from '@components/ui/Carousel.astro';
 import Heading from '@components/ui/Heading.astro';
 const slides = [
   {
@@ -66,91 +67,86 @@ const slides = [
   <Heading level={2} size="lg" class="launch-stories__h2 text-center">
     Launch success stories
   </Heading>
-  <div
+  <Carousel
+    label="Success stories"
     class="launch-stories__car"
-    data-carousel
-    role="region"
-    aria-roledescription="carousel"
-    aria-label="Success stories"
+    viewportClass="launch-stories__car-view"
   >
-    <div class="launch-stories__car-fade" aria-hidden="true"></div>
-    <div class="launch-stories__car-fade launch-stories__car-fade--r" aria-hidden="true"></div>
-    <div class="launch-stories__car-view" data-view>
-      <div class="launch-stories__car-wrap" data-wrapper>
-        {slides.map((s, i) => (
-          <div
-            class:list={['launch-stories__slide', i === 0 && 'is-active']}
-            data-slide
-            role="group"
-            aria-roledescription="slide"
-            aria-label={`${i + 1} / ${slides.length}`}
-          >
-            <div class="launch-stories__slide-inner" data-inner>
-              <Image
-                src={s.img}
-                alt=""
-                widths={[520, 972]}
-                sizes="486px"
-                class="launch-stories__slide-img"
-                loading="eager"
-                draggable="false"
-              />
-              <div class="launch-stories__slide-grad"></div>
-              <div class="launch-stories__slide-text">
-                <div class="launch-stories__slide-tagwr" data-tagwr>
-                  <div class="launch-stories__tag" data-tag-idle>
-                    <div>{s.tag}</div>
-                  </div>
-                  <div class="launch-stories__tag launch-stories__tag--active" data-tag-active>
-                    <div>{s.tag}</div>
-                  </div>
+    <Fragment slot="before">
+      <div class="launch-stories__car-fade" aria-hidden="true"></div>
+      <div class="launch-stories__car-fade launch-stories__car-fade--r" aria-hidden="true"></div>
+    </Fragment>
+    <div class="launch-stories__car-wrap">
+      {slides.map((s, i) => (
+        <div
+          class:list={['launch-stories__slide', i === 0 && 'is-active']}
+          data-slide
+          role="group"
+          aria-roledescription="slide"
+          aria-label={`${i + 1} / ${slides.length}`}
+        >
+          <div class="launch-stories__slide-inner" data-inner>
+            <Image
+              src={s.img}
+              alt=""
+              widths={[520, 972]}
+              sizes="486px"
+              class="launch-stories__slide-img"
+              loading="eager"
+              draggable="false"
+            />
+            <div class="launch-stories__slide-grad"></div>
+            <div class="launch-stories__slide-text">
+              <div class="launch-stories__slide-tagwr" data-tagwr>
+                <div class="launch-stories__tag" data-tag-idle>
+                  <div>{s.tag}</div>
                 </div>
-                <div class="launch-stories__slide-copy" data-copy>
-                  {s.text}
-                </div>
-                <div class="launch-stories__slide-more" data-more>
-                  <div>Learn more</div>
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                    <circle cx="9" cy="9" r="9" fill="#fff" />
-                    <path
-                      d="M5 9h7M9.5 6l3 3-3 3"
-                      stroke="#9b2f80"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
+                <div class="launch-stories__tag launch-stories__tag--active" data-tag-active>
+                  <div>{s.tag}</div>
                 </div>
               </div>
-              <a
-                class="launch-stories__slide-link"
-                href="#"
-                aria-label={s.tag}
-                tabindex={i === 0 ? 0 : -1}
-                aria-hidden={i === 0 ? 'false' : 'true'}
-                draggable="false"
-              ></a>
+              <div class="launch-stories__slide-copy" data-copy>
+                {s.text}
+              </div>
+              <div class="launch-stories__slide-more" data-more>
+                <div>Learn more</div>
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="9" fill="#fff" />
+                  <path
+                    d="M5 9h7M9.5 6l3 3-3 3"
+                    stroke="#9b2f80"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
             </div>
+            <a class="launch-stories__slide-link" href="#" aria-label={s.tag} draggable="false"></a>
           </div>
-        ))}
-      </div>
-    </div>
-    <div class="launch-stories__car-dots" data-dots>
-      {slides.map((_, i) => (
-        <div
-          class:list={['launch-stories__dot', i === 0 && 'is-active']}
-          data-bullet
-          role="button"
-          tabindex="0"
-          aria-label={`Go to slide ${i + 1}`}
-        >
-          <div class="launch-stories__dot-bar" data-progress></div>
         </div>
       ))}
     </div>
-    <div class="launch-stories__car-arrows">
-      <button type="button" class="launch-stories__arrow" data-prev aria-label="Previous slide">
-        <span class="launch-stories__arrow-bg" data-bg></span>
+    <div slot="after" class="launch-stories__car-dots">
+      {slides.map((_, i) => (
+        <button
+          type="button"
+          class:list={['launch-stories__dot', i === 0 && 'is-active']}
+          data-bullet
+          aria-label={`Go to slide ${i + 1}`}
+        >
+          <span class="launch-stories__dot-bar" data-progress></span>
+        </button>
+      ))}
+    </div>
+    <div slot="after" class="launch-stories__car-arrows">
+      <button
+        type="button"
+        class="launch-stories__arrow"
+        data-carousel-prev
+        aria-label="Previous slide"
+      >
+        <span class="launch-stories__arrow-bg"></span>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
             d="m14.5 6-6 6 6 6"
@@ -161,8 +157,13 @@ const slides = [
           />
         </svg>
       </button>
-      <button type="button" class="launch-stories__arrow" data-next aria-label="Next slide">
-        <span class="launch-stories__arrow-bg" data-bg></span>
+      <button
+        type="button"
+        class="launch-stories__arrow"
+        data-carousel-next
+        aria-label="Next slide"
+      >
+        <span class="launch-stories__arrow-bg"></span>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
             d="m9.5 6 6 6-6 6"
@@ -174,7 +175,7 @@ const slides = [
         </svg>
       </button>
     </div>
-  </div>
+  </Carousel>
 </Section>
 
 <style>
@@ -185,7 +186,7 @@ const slides = [
     max-width: 320px;
     margin: 0 auto;
   }
-  .launch-stories__car {
+  :global(.launch-stories__car) {
     position: relative;
     margin: var(--spacing-48) auto 0;
     max-width: 1440px;
@@ -195,13 +196,12 @@ const slides = [
     --rad: 40px;
     --inner: 80%;
   }
-  .launch-stories__car-view {
+  :global(.launch-stories__car-view) {
     position: relative;
     height: var(--h);
     cursor: grab;
-    touch-action: pan-y;
   }
-  .launch-stories__car-view:active {
+  :global(.launch-stories__car-view):active {
     cursor: grabbing;
   }
   .launch-stories__car-wrap {
@@ -362,6 +362,8 @@ const slides = [
     flex: none;
     width: 8px;
     height: 8px;
+    padding: 0;
+    border: 0;
     border-radius: 4px;
     background-color: var(--color-white-10);
     overflow: hidden;
@@ -380,6 +382,7 @@ const slides = [
     width: 32px;
   }
   .launch-stories__dot-bar {
+    display: block;
     width: 0;
     height: 8px;
     border-radius: 4px;
@@ -436,7 +439,7 @@ const slides = [
     .launch-stories__h2 {
       max-width: none;
     }
-    .launch-stories__car {
+    :global(.launch-stories__car) {
       margin-top: 80px;
       --inner: 70%;
     }
@@ -449,7 +452,7 @@ const slides = [
     }
   }
   @media (min-width: 568px) {
-    .launch-stories__car {
+    :global(.launch-stories__car) {
       --w: 308px;
       --h: 353px;
       --overlap: 32px;
@@ -460,7 +463,7 @@ const slides = [
     }
   }
   @media (min-width: 768px) {
-    .launch-stories__car {
+    :global(.launch-stories__car) {
       --w: 486px;
       --h: 558px;
     }
@@ -484,7 +487,7 @@ const slides = [
     }
   }
   @media (min-width: 992px) {
-    .launch-stories__car {
+    :global(.launch-stories__car) {
       --inner: 80%;
     }
     .launch-stories__tag {
@@ -495,10 +498,10 @@ const slides = [
     }
   }
   @media (min-width: 1440px) {
-    .launch-stories__car {
+    :global(.launch-stories__car) {
       --rad: 72px;
     }
-    .launch-stories__car-view {
+    :global(.launch-stories__car-view) {
       overflow: hidden;
     }
     .launch-stories__car-fade {
@@ -521,48 +524,21 @@ const slides = [
 </style>
 
 <script>
-  import { Draggable } from 'gsap/Draggable';
-  import { gsap, ease, onPage, disposeOn, reducedMotion } from '@lib/motion';
-  gsap.registerPlugin(Draggable);
+  import { gsap, ease, onPage, reducedMotion } from '@lib/motion';
+  import { createCarousel } from '@lib/carousel';
 
   onPage((signal) => {
     document
       .querySelectorAll<HTMLElement>('[data-section="quests-stories"] [data-carousel]')
       .forEach((root) => {
-        const view = root.querySelector<HTMLElement>('[data-view]')!;
         const slides = [...root.querySelectorAll<HTMLElement>('[data-slide]')];
         const dots = [...root.querySelectorAll<HTMLElement>('[data-bullet]')];
-        const N = slides.length;
-        const reduce = reducedMotion();
-        const touch = window.matchMedia('(hover: none)').matches;
-        const SPEED = reduce ? 0 : 0.8; // Swiper speed: 800
-        const DELAY = 9; // Swiper autoplay.delay: 9000
-        const state = { pos: 0 };
-        let active = 0;
-        let pitch = 454;
-        const wrapIdx = gsap.utils.wrap(0, N);
-        const wrapD = gsap.utils.wrap(-N / 2, N / 2);
-
-        const measure = () => {
-          const cs = getComputedStyle(root);
-          // <568px slidesPerView 1.36 / spaceBetween -16
-          if (window.innerWidth < 568)
-            root.style.setProperty('--w', `${(root.clientWidth + 16 * 0.36) / 1.36}px`);
-          else root.style.removeProperty('--w');
-          pitch = slides[0].offsetWidth - parseFloat(cs.getPropertyValue('--overlap'));
-          render();
-        };
-        const render = () =>
-          slides.forEach((s, i) => gsap.set(s, { x: wrapD(i - state.pos) * pitch }));
 
         // per-slide state transitions : slide opacity .8s; inner 80% -> 100% .8s;
         // tag wrapper / copy translate .4s; tag cross-fade & copy opacity .5s; "learn more" opacity .3s — all `ease`
-        const paint = (i: number, on: boolean, instant = false) => {
-          const s = slides[i];
-          const d = (v: number) => (instant || reduce ? 0 : v);
-          const cs = getComputedStyle(root);
-          const inner = cs.getPropertyValue('--inner').trim() || '80%';
-          s.classList.toggle('is-active', on);
+        const paint = (s: HTMLElement, on: boolean, instant: boolean) => {
+          const d = (v: number) => (instant ? 0 : v);
+          const inner = getComputedStyle(root).getPropertyValue('--inner').trim() || '80%';
           const o = { ease: ease.css, overwrite: 'auto' as const };
           gsap.to(s, { opacity: on ? 1 : 0.2, duration: d(0.8), ...o });
           gsap.to(s.querySelector('[data-inner]'), {
@@ -585,13 +561,10 @@ const slides = [
           gsap.to(s.querySelector('[data-copy]'), { y: on ? 0 : 60, duration: d(0.4), ...o });
           gsap.to(s.querySelector('[data-copy]'), { opacity: on ? 1 : 0, duration: d(0.5), ...o });
           gsap.to(s.querySelector('[data-more]'), { opacity: on ? 1 : 0, duration: d(0.3), ...o });
-          const link = s.querySelector<HTMLAnchorElement>('a')!;
-          link.tabIndex = on ? 0 : -1;
-          link.setAttribute('aria-hidden', on ? 'false' : 'true');
         };
 
         // dynamic bullets: active 32px, +-1 8px, +-2 4px, rest hidden (no wrap, like Swiper's realIndex)
-        const paintDots = () =>
+        const paintDots = (active: number) =>
           dots.forEach((dEl, i) => {
             const k = Math.abs(i - active);
             dEl.classList.toggle('is-active', k === 0);
@@ -606,173 +579,36 @@ const slides = [
             }
             gsap.to(dEl, {
               width: k === 0 ? 32 : k === 1 ? 8 : 4,
-              duration: reduce ? 0 : 0.3,
+              duration: reducedMotion() ? 0 : 0.3,
               ease: ease.css,
               overwrite: true,
             });
           });
 
-        // autoplay + progress bar: width 0 -> 32px over 9s linear, pauses while hovered
-        let auto: gsap.core.Tween | null = null;
-        let autoplayOn = !reduce;
-        const startAuto = () => {
-          auto?.kill();
-          dots.forEach((dEl) => gsap.set(dEl.querySelector('[data-progress]'), { width: 0 }));
-          if (!autoplayOn) return;
-          auto = gsap.fromTo(
-            dots[active].querySelector('[data-progress]'),
-            { width: 0 },
-            { width: 32, duration: DELAY, ease: 'none', onComplete: () => go(active + 1) },
-          );
-          if (hovering) auto.pause();
-        };
-        let hovering = false;
-        root.addEventListener(
-          'pointerenter',
-          (e) => {
-            if (e.pointerType === 'mouse') {
-              hovering = true;
-              auto?.pause();
-            }
-          },
-          { signal },
-        );
-        root.addEventListener(
-          'pointerleave',
-          (e) => {
-            if (e.pointerType === 'mouse') {
-              hovering = false;
-              auto?.resume();
-            }
-          },
-          { signal },
-        );
-
-        let mover: gsap.core.Tween | null = null;
-        const setActive = (idx: number) => {
-          const next = wrapIdx(idx);
-          if (next === active) return;
-          paint(active, false);
-          active = next;
-          paint(active, true);
-          paintDots();
-        };
-        // move by the shortest way round to logical index `to` (may be outside 0..N-1)
-        const go = (to: number, dur = SPEED) => {
-          const target = state.pos + wrapD(to - state.pos);
-          setActive(Math.round(target));
-          mover?.kill();
-          mover = gsap.to(state, {
-            pos: target,
-            duration: dur,
-            ease: ease.css,
-            onUpdate: render,
-            onComplete: () => {
-              state.pos = wrapIdx(state.pos);
-              render();
-            },
-          });
-          startAuto();
-        };
-
-        root
-          .querySelector('[data-next]')!
-          .addEventListener('click', () => go(active + 1), { signal });
-        root
-          .querySelector('[data-prev]')!
-          .addEventListener('click', () => go(active - 1), { signal });
-        dots.forEach((dEl, i) => {
-          dEl.addEventListener('click', () => go(i), { signal });
-          dEl.addEventListener(
-            'keydown',
-            (e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                go(i);
-              }
-            },
-            { signal },
-          );
-        });
-
-        // keyboard: arrows while the carousel is in the viewport (Swiper keyboard: true)
-        let inView = false;
-        const io = new IntersectionObserver(([en]) => {
-          inView = en.isIntersecting;
-        });
-        io.observe(root);
-        disposeOn(signal, io);
-        document.addEventListener(
-          'keydown',
-          (e) => {
-            if (!inView || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
-            const t = e.target as HTMLElement;
-            if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
-            if (e.key === 'ArrowRight') go(active + 1);
-            if (e.key === 'ArrowLeft') go(active - 1);
-          },
-          { signal },
-        );
-
-        // drag (grabCursor) + slideToClickedSlide
-        const proxy = document.createElement('div');
-        let startPos = 0;
-        disposeOn(
-          signal,
-          ...Draggable.create(proxy, {
-            type: 'x',
-            trigger: view,
+        // Swiper: speed 800, autoplay.delay 9000, progress bar 0 -> 32px over the delay
+        createCarousel(
+          root,
+          {
+            speed: 0.8,
+            autoplay: 9,
             dragClickables: true,
-            minimumMovement: 4,
-            onPress() {
-              startPos = state.pos;
+            followActiveLink: true,
+            // < 568px slidesPerView 1.36 / spaceBetween -16; the pitch is the slide width minus the overlap
+            slot: () => {
+              if (window.innerWidth < 568)
+                root.style.setProperty('--w', `${(root.clientWidth + 16 * 0.36) / 1.36}px`);
+              else root.style.removeProperty('--w');
+              return (
+                slides[0].offsetWidth -
+                parseFloat(getComputedStyle(root).getPropertyValue('--overlap'))
+              );
             },
-            onDragStart() {
-              mover?.kill();
-              auto?.pause();
-            },
-            onDrag() {
-              state.pos = startPos - (this.x - this.startX) / pitch;
-              render();
-            },
-            onDragEnd() {
-              const moved = state.pos - startPos;
-              const target =
-                Math.abs(moved) > 0.12 && Math.abs(moved) < 0.5
-                  ? startPos + Math.sign(moved)
-                  : Math.round(state.pos);
-              if (touch) autoplayOn = false; // autoplay.disableOnInteraction on phone/tablet
-              go(Math.round(target));
-              gsap.set(proxy, { x: 0 });
-            },
-            onClick(e: PointerEvent) {
-              const slide = (e.target as HTMLElement).closest<HTMLElement>('[data-slide]');
-              if (!slide) return;
-              const i = slides.indexOf(slide);
-              if (i !== active) go(i);
-              else {
-                const href = slide.querySelector('a')!.getAttribute('href');
-                if (href && href !== '#') window.location.href = href;
-              }
-            },
-          }),
+            paintSlide: paint,
+            bullets: { items: dots, bar: (d) => d.querySelector('[data-progress]') },
+            onChange: paintDots,
+          },
+          signal,
         );
-        // native link clicks are handled above (prevents jumps on href="#")
-        root.querySelectorAll('a').forEach((a) =>
-          a.addEventListener(
-            'click',
-            (e) => {
-              if (a.getAttribute('href') === '#') e.preventDefault();
-            },
-            { signal },
-          ),
-        );
-
-        slides.forEach((_, i) => paint(i, i === 0, true));
-        paintDots();
-        measure();
-        window.addEventListener('resize', measure, { signal });
-        startAuto();
       });
   });
 </script>

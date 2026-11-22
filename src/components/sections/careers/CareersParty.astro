@@ -3,6 +3,7 @@ import Section from '@components/layout/Section.astro';
 // careers-party:
 // centred intro + looping, centred card carousel (26 slides) with dynamic progress bullets.
 import CareersGlyph from '@components/graphics/icons/CareersGlyph.astro';
+import Carousel from '@components/ui/Carousel.astro';
 import Heading from '@components/ui/Heading.astro';
 const names = [
   ['Headers', 'window'],
@@ -50,38 +51,41 @@ const names = [
     </p>
   </div>
   <div class="hidden h-40 md:block xl:h-48"></div>
-  <div
+  <Carousel
     slot="after"
-    data-carousel
+    label="What we build"
     class="careers-party relative mt-[32px] md:mt-0"
-    role="region"
-    aria-roledescription="carousel"
-    aria-label="What we build"
+    viewportClass="careers-party__viewport relative w-full overflow-hidden"
+    arrows={{
+      prev: 'Previous',
+      next: 'Next',
+      class:
+        'pointer-events-none absolute inset-x-[2vw] inset-y-0 z-3 hidden items-center justify-between md:flex',
+    }}
+    probe
   >
-    <div data-carousel-viewport class="careers-party__viewport relative w-full overflow-hidden">
-      <i data-carousel-probe class="absolute h-0 w-0" aria-hidden="true"></i>
-      {names.map(([name, icon], i) => (
-        <div
-          data-slide
-          class="careers-party__slide"
-          role="group"
-          aria-roledescription="slide"
-          aria-label={`${i + 1} / ${names.length}`}
-        >
-          <div data-slide-card class="careers-party__card">
-            <div class="careers-party__content">
-              <div data-slide-icon class="careers-party__icon">
-                <CareersGlyph name={icon} badge={i % 6} size={120} class="h-full w-full" />
-              </div>
-              <h3 class="font-abc-ginto-discord text-[20px] leading-[24px] font-medium tracking-normal text-white normal-case md:text-[24px] md:leading-[28.8px]">
-                {name}
-              </h3>
+    {names.map(([name, icon], i) => (
+      <div
+        data-slide
+        class="careers-party__slide"
+        role="group"
+        aria-roledescription="slide"
+        aria-label={`${i + 1} / ${names.length}`}
+      >
+        <div data-slide-card class="careers-party__card">
+          <div class="careers-party__content">
+            <div data-slide-icon class="careers-party__icon">
+              <CareersGlyph name={icon} badge={i % 6} size={120} class="h-full w-full" />
             </div>
+            <h3 class="font-abc-ginto-discord text-[20px] leading-[24px] font-medium tracking-normal text-white normal-case md:text-[24px] md:leading-[28.8px]">
+              {name}
+            </h3>
           </div>
         </div>
-      ))}
-    </div>
+      </div>
+    ))}
     <div
+      slot="after"
       data-bullets
       class="absolute inset-x-0 bottom-[-30px] mx-auto flex h-[8px] w-[160px] items-center justify-center gap-8"
     >
@@ -96,51 +100,11 @@ const names = [
         </button>
       ))}
     </div>
-    <div class="pointer-events-none absolute inset-x-[2vw] inset-y-0 z-3 hidden items-center justify-between md:flex">
-      <button type="button" data-carousel-prev class="careers-arrow" aria-label="Previous">
-        <span class="careers-arrow__bg" aria-hidden="true"></span>
-        <svg
-          class="relative"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path
-            d="M14.5 6 8.5 12l6 6"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </button>
-      <button type="button" data-carousel-next class="careers-arrow" aria-label="Next">
-        <span class="careers-arrow__bg" aria-hidden="true"></span>
-        <svg
-          class="relative"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path
-            d="m9.5 6 6 6-6 6"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </button>
-    </div>
-  </div>
+  </Carousel>
 </Section>
 <style>
   /* slot sizes 342x240 (mobile, max 87.7vw) / 460x280 (tablet) / 540x352 (>=1280) */
-  .careers-party {
+  :global(.careers-party) {
     --slot-w: min(342px, 87.7vw);
     --slot-h: 240px;
     --pad: 24px;
@@ -148,28 +112,27 @@ const names = [
     --pull: 0px;
   }
   @media (min-width: 569px) {
-    .careers-party {
+    :global(.careers-party) {
       --pull: 48px;
     }
   }
   @media (min-width: 768px) {
-    .careers-party {
+    :global(.careers-party) {
       --slot-w: 460px;
       --slot-h: 280px;
       --pad: 36px;
     }
   }
   @media (min-width: 1280px) {
-    .careers-party {
+    :global(.careers-party) {
       --slot-w: 540px;
       --slot-h: 352px;
       --pad: 40px;
       --inset: 64px;
     }
   }
-  .careers-party__viewport {
+  :global(.careers-party__viewport) {
     height: calc(var(--slot-h) + var(--pad) * 2);
-    touch-action: pan-y;
   }
   .careers-party__slide {
     position: absolute;
@@ -238,31 +201,32 @@ const names = [
 </style>
 <script>
   import { gsap, ease, onPage } from '@lib/motion';
-  import { createCarousel } from '@lib/carousel';
+  import { createCarousel, tweenSlideState } from '@lib/carousel';
   onPage((signal) => {
     const root = document.querySelector<HTMLElement>(
       '[data-section="careers-party"] [data-carousel]',
     );
     if (root) {
+      const slides = gsap.utils.toArray<HTMLElement>('[data-slide]', root);
       const bullets = gsap.utils.toArray<HTMLElement>('[data-bullet]', root);
-      let progress: gsap.core.Tween | null = null;
-      const car = createCarousel(
+      createCarousel(
         root,
         {
-          // Swiper "is-jobs": slidesPerView auto, spaceBetween 0, speed 600, loop, centred,
-          // autoplay 9000 (disableOnInteraction false, pauseOnMouseEnter true)
+          // slidesPerView auto, spaceBetween 0, speed 600, loop, centred, autoplay 9000 (paused while
+          // hovered, keeps running after interaction)
           speed: 0.6,
           autoplay: 9,
-          disableOnInteraction: false,
-          stateDuration: 0.8, // .swiper-slide opacity .8s / .jobs-slide_content-wr all .8s
+          hideOffscreen: true,
           pull: () => parseFloat(getComputedStyle(root).getPropertyValue('--pull')) || 0,
-          applyState: (slide, a) => {
+          // slide opacity and card scale .8s ease
+          paintSlide: tweenSlideState((slide, a) => {
             slide.style.opacity = String(0.7 + 0.3 * a);
             gsap.set(slide.querySelector('[data-slide-card]'), { scale: 0.8 + 0.2 * a });
-          },
-          onChange: (index, count) => {
+          }, 0.8),
+          bullets: { items: bullets, bar: (b) => b.querySelector('[data-bullet-progress]') },
+          onChange: (index) => {
             // icon: transform .5s ease (0.8 <-> 1)
-            gsap.utils.toArray<HTMLElement>('[data-slide]', root).forEach((s, i) => {
+            slides.forEach((s, i) => {
               gsap.to(s.querySelector('[data-slide-icon]'), {
                 scale: i === index ? 1 : 0.8,
                 duration: 0.5,
@@ -288,27 +252,13 @@ const names = [
                 overwrite: true,
               });
             });
-            void count;
-          },
-          onAutoplay: (state, delay) => {
-            // @keyframes swiperProgress: width 0 -> 2rem, 9s linear, restarted on every slide change, paused on hover
-            if (state === 'start') {
-              progress?.kill();
-              bullets.forEach((b) => gsap.set(b.firstElementChild, { width: 0 }));
-              const bar = root.querySelector('[data-bullet].is-active [data-bullet-progress]');
-              progress = bar
-                ? gsap.fromTo(bar, { width: 0 }, { width: 32, duration: delay, ease: 'none' })
-                : null;
-            } else if (state === 'pause') progress?.pause();
-            else if (state === 'resume') progress?.resume();
           },
         },
         signal,
       );
-      gsap.utils
-        .toArray<HTMLElement>('[data-slide-icon]', root)
-        .forEach((el, i) => gsap.set(el, { scale: i === 0 ? 1 : 0.8 }));
-      bullets.forEach((b, i) => b.addEventListener('click', () => car.goTo(i), { signal }));
+      slides.forEach((s, i) =>
+        gsap.set(s.querySelector('[data-slide-icon]'), { scale: i === 0 ? 1 : 0.8 }),
+      );
     }
   });
 </script>

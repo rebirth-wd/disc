@@ -14,7 +14,7 @@ structure, wave table) and `docs/DECISIONS.md` (entries 17–21 cover the restru
 | 2 | Routes, role-based folders, content-based names (8–10) | committed | `27024a6` |
 | 3 | `src/lib/motion.ts`, every script migrated (21) | committed | `9c1f121` |
 | 4 | One Button, Section, Heading, Header split, navigation data (12, 16, 22) | committed | `2189259`, `4eba080` |
-| 5 | One Accordion, one Dropdown, one Carousel (17, 18) | not started | |
+| 5 | One Accordion, one Dropdown, one Carousel (17, 18) | 5a (signal lifecycle) committed; 5b (the three components) built, awaiting review | `fabc8fd` (5a) |
 | 6 | One star system; objects + Parallax wrapper (19, 20) | not started | |
 | 7 | Content into `src/data`, site config, per-page SEO (13–15) | not started (only `src/data/navigation.ts` exists) | |
 | 8 | Font token rename, remaining px→rem font sizes (23, 26) | not started | |
@@ -90,18 +90,17 @@ Node `>=22.23.4` is required (`.nvmrc`).
 
 ## Carried forward (known issues and open items)
 
-For wave 5:
-- Two carousel engines: `src/lib/carousel.ts` (careers) and a private one in `LaunchStories.astro`. Each
-  calls `gsap.registerPlugin(Draggable)`; after merging there should be one, in `src/lib/`.
-- Two FAQ implementations (`CareersFaq`, `PlansFaq`) and several dropdowns (services dropdown, launch subnav,
-  footer language select, header dropdowns).
-- `.careers-arrow` is a shared class defined in `CareersHero` and used by `CareersParty`.
-- Listeners not removed on page swap (must be fixed before the client router goes on in wave 10): Header
-  (`keydown`/`click` on document, `scroll` on window, a media-query listener), Footer (`click`, `keyup`),
-  services dropdown (`click`, `keydown`), both FAQs (`click`, `keydown`, a media-query listener),
-  launch subnav (`click`), both carousels (`keydown`, `resize`, an IntersectionObserver, Draggable instances
-  never killed), tweens created inside event handlers, and the closing-banner easter-egg click handler.
-  Decide once whether `onPage()` re-init is enough or registrations need an AbortController.
+Known issues:
+- Carousels need a visible pause control (WCAG 2.2.2); user to decide.
+
+Wave 5 (done):
+- One Accordion (`ui/Accordion.astro`, `src/lib/accordion.ts`), one Dropdown (`ui/Dropdown.astro`,
+  `src/lib/dropdown.ts`) and one Carousel (`ui/Carousel.astro`, `src/lib/carousel.ts`, the only
+  `gsap.registerPlugin(Draggable)`). `.careers-arrow` is now `.carousel__arrow` in `ui/Carousel.astro`.
+- Every listener, observer, Draggable and carousel tween ends with the page's AbortSignal, so the client router
+  can go on in wave 10 without piled-up listeners.
+- Still outside the shared components by design: the careers "See All" reveal, the plans tabs and mobile tab
+  menu, the mobile menu dialog itself, the footer column accordions.
 
 For wave 6:
 - Star components: `layout/Starfield`, `graphics/objects/FeatureStars`, `graphics/objects/Twinkles`, plus
@@ -120,6 +119,9 @@ For wave 9:
 - Sections still on their own markup, not `Section`: careers hero, services hero and platforms, launch
   hero, subnav, logos and CTA, and all home sections.
 - Token names still carry the reference brand (`--font-abc-ginto-discord…`); wave 8 renames them.
+
+For wave 10:
+- Marquee: `document.fonts.ready.then(build)` can rebuild a tween after its breakpoint context reverts.
 
 For the final wave:
 - `data-section` values still use the old names (`nitro-*`, `quests-*`, `download-*`) because both gates key
