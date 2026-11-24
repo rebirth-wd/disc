@@ -6,7 +6,8 @@
  */
 import FeatureBlock from './FeatureBlock.astro';
 import LeadFeed from '@components/graphics/loops/LeadFeed.astro';
-import FeatureStars from '@components/graphics/objects/FeatureStars.astro';
+import Twinkles from '@components/graphics/stars/Twinkles.astro';
+import { FEATURE_STARS } from './featureStars';
 import ParallaxFloat from '@components/graphics/objects/ParallaxFloat.astro';
 ---
 
@@ -29,7 +30,7 @@ import ParallaxFloat from '@components/graphics/objects/ParallaxFloat.astro';
   Every enquiry — chat, form, or call-back — gets read, summarised, and scored before it hits your
   inbox. You see who's ready to buy and who's browsing.
   <Fragment slot="decor">
-    <FeatureStars />
+    <Twinkles stars={FEATURE_STARS} origin="percent" sparkle="tapered" blur play="in-view" />
     <!-- coin: y -240 → 100, CSS ease, trigger starts 448.5px above the next section's top -->
     <ParallaxFloat
       class="feature-leads__coin"

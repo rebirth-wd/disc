@@ -21,7 +21,8 @@ Repo `rebirth-wd/disc`, branch `restructure`. Do not merge to `main`.
 | 5a | AbortSignal lifecycle | committed `fabc8fd` |
 | 5b | One Accordion, Dropdown, Carousel | committed `01ed127` |
 | 5c | Restore original carousel autoplay timing | committed `fb71bca`; all five gates pass on the VPS |
-| 6 | One star system; objects + Parallax wrapper (review items 19, 20) | not started; draft design below |
+| 6a | One star system: `graphics/stars/` (Starfield, Twinkles), `lib/twinkle.ts` (item 19) | committed (see git log); Hero and ClosingBanner keep their own stars (different eases/sequences) |
+| 6b | Objects + Parallax wrapper (item 20) | not started; draft design below |
 | 7 | Content into `src/data`, site config, per-page SEO (13–15) | not started |
 | 8 | Font token rename, px→rem font sizes (23, 26) | not started (Haiku) |
 | 9 | Colour/breakpoint/type/z-index tokens, single token source, hard-coded heights (24, 25, 27–29, 32) | not started |

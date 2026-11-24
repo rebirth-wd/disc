@@ -7,7 +7,8 @@
  */
 import FeatureBlock from './FeatureBlock.astro';
 import DeviceMosaic from '@components/graphics/loops/DeviceMosaic.astro';
-import FeatureStars from '@components/graphics/objects/FeatureStars.astro';
+import Twinkles from '@components/graphics/stars/Twinkles.astro';
+import { FEATURE_STARS } from './featureStars';
 import ParallaxFloat from '@components/graphics/objects/ParallaxFloat.astro';
 ---
 
@@ -30,7 +31,7 @@ import ParallaxFloat from '@components/graphics/objects/ParallaxFloat.astro';
   visitor. Instant loads on any phone, tablet, laptop or desktop.
   <Fragment slot="decor">
     <div class="feature-devices__glow"></div>
-    <FeatureStars />
+    <Twinkles stars={FEATURE_STARS} origin="percent" sparkle="tapered" blur play="in-view" />
     <!-- y -60 → 170, linear, trigger 475.5px above this section's top -->
     <ParallaxFloat
       class="feature-devices__globe"

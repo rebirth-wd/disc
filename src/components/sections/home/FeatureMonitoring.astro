@@ -3,7 +3,7 @@
 import FeatureBlock from './FeatureBlock.astro';
 import PipelineLoop from '@components/graphics/loops/PipelineLoop.astro';
 import FeatureObjects from '@components/graphics/objects/FeatureObjects.astro';
-import Twinkles from '@components/graphics/objects/Twinkles.astro';
+import Twinkles from '@components/graphics/stars/Twinkles.astro';
 ---
 
 <FeatureBlock
@@ -23,6 +23,9 @@ import Twinkles from '@components/graphics/objects/Twinkles.astro';
   without anyone remembering to run them.
   <Fragment slot="decor">
     <Twinkles
+      origin="centre"
+      sparkle="straight"
+      play="always-md"
       stars={[
         [1334, -45, 20, 1],
         [319, -18, 20, 2],

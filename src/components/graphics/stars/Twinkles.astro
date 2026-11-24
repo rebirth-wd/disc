@@ -1,0 +1,104 @@
+---
+import type { TwinkleSequence } from '@lib/twinkle';
+
+// Hand-placed twinkling stars for a section's decor layer; y is px from the section top.
+interface Props {
+  stars: [x: number, y: number, size: number, sequence: TwinkleSequence][];
+  /** 'percent': x is px at a 1680 viewport, placed as a % of the width. 'centre': x is px from the 1680 centre line. */
+  origin: 'percent' | 'centre';
+  /** Stars 20px and up are plus sparkles; the two arm shapes differ. */
+  sparkle: 'tapered' | 'straight';
+  blur?: boolean;
+  /** 'in-view': runs only while the layer is on screen, at every width. 'always-md': runs from 768px up. */
+  play: 'in-view' | 'always-md';
+}
+const { stars, origin, sparkle, blur = false, play } = Astro.props;
+
+const left = (x: number) =>
+  origin === 'percent' ? `${((x / 1680) * 100).toFixed(3)}%` : `calc(50% + ${x - 840}px)`;
+---
+
+<div
+  class:list={['twinkles', `twinkles--${sparkle}`, blur && 'twinkles--blur']}
+  data-twinkles={play}
+>
+  {stars.map(([x, y, size, sequence]) => (
+    <i
+      class:list={['twinkles__star', size >= 20 && 'is-plus']}
+      data-sequence={sequence}
+      style={`left:${left(x)};top:${y}px;width:${size}px;height:${size}px;`}
+    />
+  ))}
+</div>
+
+<style>
+  .twinkles {
+    inset: 0;
+  }
+  .twinkles__star {
+    position: absolute;
+    display: block;
+    background: var(--color-white);
+  }
+  .twinkles--blur .twinkles__star {
+    filter: blur(1px);
+  }
+  .twinkles--tapered .twinkles__star.is-plus {
+    clip-path: polygon(
+      44% 0,
+      56% 0,
+      60% 40%,
+      100% 44%,
+      100% 56%,
+      60% 60%,
+      56% 100%,
+      44% 100%,
+      40% 60%,
+      0 56%,
+      0 44%,
+      40% 40%
+    );
+  }
+  .twinkles--straight .twinkles__star.is-plus {
+    clip-path: polygon(
+      42% 0,
+      58% 0,
+      58% 42%,
+      100% 42%,
+      100% 58%,
+      58% 58%,
+      58% 100%,
+      42% 100%,
+      42% 58%,
+      0 58%,
+      0 42%,
+      42% 42%
+    );
+  }
+</style>
+
+<script>
+  import { motion, onPage, playWhileInView, MQ } from '@lib/motion';
+  import { twinkleTimeline, type TwinkleSequence } from '@lib/twinkle';
+
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-twinkles]').forEach((root) => {
+      const inView = root.dataset.twinkles === 'in-view';
+      motion(
+        root,
+        () => {
+          const tls = Array.from(root.querySelectorAll<HTMLElement>('.twinkles__star')).map((el) =>
+            twinkleTimeline(el, Number(el.dataset.sequence) as TwinkleSequence, inView),
+          );
+          if (!inView) return;
+          const st = playWhileInView(root, ...tls);
+          return () => {
+            st.kill();
+            tls.forEach((tl) => tl.kill());
+          };
+        },
+        inView ? undefined : MQ.md,
+      );
+    });
+  });
+</script>

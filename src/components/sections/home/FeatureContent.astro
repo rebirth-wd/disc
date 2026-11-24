@@ -6,7 +6,8 @@
  */
 import FeatureBlock from './FeatureBlock.astro';
 import ContentDeck from '@components/graphics/loops/ContentDeck.astro';
-import FeatureStars from '@components/graphics/objects/FeatureStars.astro';
+import Twinkles from '@components/graphics/stars/Twinkles.astro';
+import { FEATURE_STARS } from './featureStars';
 import ParallaxFloat from '@components/graphics/objects/ParallaxFloat.astro';
 ---
 
@@ -28,7 +29,7 @@ import ParallaxFloat from '@components/graphics/objects/ParallaxFloat.astro';
   Blog posts drafted, published, and pushed to your socials on schedule. Market shifts detected and
   site copy adjusted to match what people are actually searching for.
   <Fragment slot="decor">
-    <FeatureStars />
+    <Twinkles stars={FEATURE_STARS} origin="percent" sparkle="tapered" blur play="in-view" />
     <!-- near object: y -100 → 200, linear, trigger 475.5px above the next section's top -->
     <ParallaxFloat
       class="feature-content__lock"
