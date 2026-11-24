@@ -97,7 +97,8 @@ export function createCarousel(
   let timer: gsap.core.Tween | null = null;
   let bar: gsap.core.Tween | null = null;
   // Autoplay runs only while none of these hold it.
-  const holds = { hover: false, drag: false, focus: false, inView: false };
+  const holds = { hover: false, drag: false, focus: false };
+  let inView = false;
 
   const mod = (v: number) => ((v % N) + N) % N;
   const dist = (i: number) => {
@@ -156,7 +157,7 @@ export function createCarousel(
   }
 
   const sync = () => {
-    const held = holds.hover || holds.drag || holds.focus || !holds.inView;
+    const held = holds.hover || holds.drag || holds.focus;
     [timer, bar].forEach((t) => (held ? t?.pause() : t?.resume()));
   };
   const clearBars = () =>
@@ -280,17 +281,16 @@ export function createCarousel(
     b.addEventListener('click', () => goToIndex(i), { signal }),
   );
 
-  // Arrow keys work while the carousel is on screen, and autoplay runs only then.
+  // Arrow keys work only while the carousel is on screen; autoplay ignores visibility.
   const io = new IntersectionObserver((entries) => {
-    holds.inView = entries[entries.length - 1].isIntersecting;
-    sync();
+    inView = entries[entries.length - 1].isIntersecting;
   });
   io.observe(root);
   disposeOn(signal, io);
   window.addEventListener(
     'keydown',
     (e) => {
-      if (!holds.inView || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      if (!inView || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
       const t = e.target as HTMLElement | null;
       if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
       if (e.key === 'ArrowRight') step(1, true);
