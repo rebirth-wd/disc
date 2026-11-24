@@ -230,6 +230,14 @@ import { whatsNewCards, whatsNewPoints, whatsNewTiles } from '@data/plans';
       opacity: 0.8;
     }
   }
+  /* Two card columns share 100vw - 100px; "REPAIRS" is 5.3em and the text box is 80px narrower than its card, so
+     below 600px the heading shrinks until the word fits and the grid stops growing past the viewport (the extra
+     selector outranks Heading's own size rule). */
+  @media (min-width: 480px) and (max-width: 599px) {
+    .plans-whats-new__text .plans-whats-new__heading {
+      font-size: min(2rem, calc((100vw - 260px) / 11));
+    }
+  }
   @media (max-width: 479px) {
     .plans-whats-new {
       padding-bottom: 100px;

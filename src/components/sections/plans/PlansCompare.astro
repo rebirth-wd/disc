@@ -433,6 +433,13 @@ import { compareGroups } from '@data/plans';
       border-radius: 8px;
     }
   }
+  /* The Subscribe buttons are 98-100px wide, so the plan columns cannot go narrower; below 360px this gives
+     the labels 74px instead of 58px at 320px. */
+  @media (max-width: 359px) {
+    .plans-compare {
+      --col: 100px;
+    }
+  }
   @media (max-width: 479px) {
     .plans-compare {
       padding-bottom: 86px;

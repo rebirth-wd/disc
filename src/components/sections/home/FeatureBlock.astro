@@ -187,7 +187,6 @@ const vars = [
     display: flex;
     align-items: center;
     column-gap: 49px;
-    min-height: 610px;
     padding: var(--card-padding) 52px var(--card-padding) var(--card-padding);
     background-image: var(
       --feature-block-slab-texture,
@@ -255,7 +254,6 @@ const vars = [
       --feature-block-cur-pb: var(--feature-block-pb-lg);
     }
     .feature-block__slab {
-      min-height: 0;
       column-gap: 34.6px;
       padding: 20px 60px 20px 20px;
       border-radius: 88px;
@@ -347,6 +345,10 @@ const vars = [
     }
     .feature-block__gutter {
       padding: 0 24px;
+    }
+    /* The text box is 100vw - 115px wide and "SOMETHING" is 7.9em: the heading shrinks below 331px so the word fits. */
+    .feature-block__heading {
+      font-size: min(1.6875rem, calc((100vw - 116px) / 8));
     }
   }
 </style>
