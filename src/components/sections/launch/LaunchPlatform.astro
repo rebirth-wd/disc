@@ -7,7 +7,7 @@ import Heading from '@components/ui/Heading.astro';
 import { launchPlatformStats } from '@data/launch';
 ---
 
-<Section section="quests-platform" class="launch-platform" padding="section">
+<Section section="launch-platform" class="launch-platform" padding="section">
   <div class="launch-platform__head">
     <Heading level={2} size="lg" class="launch-platform__h2 text-center">
       Launch on the stack the modern web runs on
@@ -260,7 +260,7 @@ import { launchPlatformStats } from '@data/launch';
   import { gsap, ease, motion, onPage, MQ } from '@lib/motion';
 
   onPage((signal) => {
-    document.querySelectorAll<HTMLElement>('[data-section="quests-platform"]').forEach((root) => {
+    document.querySelectorAll<HTMLElement>('[data-section="launch-platform"]').forEach((root) => {
       // Source tooltips. display flex + opacity 0 -> 1 in 300ms ease
       // on hover (desktop) or click (all sizes); opacity -> 0 in 300ms ease, then display none.
       root.querySelectorAll<HTMLButtonElement>('[data-source]').forEach((btn) => {
@@ -330,7 +330,7 @@ import { launchPlatformStats } from '@data/launch';
 
     // Scroll parallax (desktop only, smoothing 80), keyed to the section's in-view progress:
     // object A y -40 -> 0 over 20% -> 80%; object B y 0 -> 40 over 45% -> 100%.
-    document.querySelectorAll<HTMLElement>('[data-section="quests-platform"]').forEach((root) => {
+    document.querySelectorAll<HTMLElement>('[data-section="launch-platform"]').forEach((root) => {
       motion(
         root,
         () => {

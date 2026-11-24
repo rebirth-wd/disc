@@ -6,7 +6,7 @@ import Heading from '@components/ui/Heading.astro';
 import { plansFaq } from '@data/faqs';
 ---
 
-<Section section="nitro-faq" id="faq" class="plans-faq" container="wide">
+<Section section="plans-faq" id="faq" class="plans-faq" container="wide">
   <div class="plans-faq__head" data-par-trigger="faq">
     <Heading level={2} size="lg" italic class="plans-faq__title text-center">
       Questions?
@@ -254,7 +254,7 @@ import { plansFaq } from '@data/faqs';
   import { parallax } from '@lib/parallax';
   import { closeAccordions } from '@lib/accordion';
   onPage((signal) => {
-    const root = document.querySelector<HTMLElement>('[data-section="nitro-faq"]');
+    const root = document.querySelector<HTMLElement>('[data-section="plans-faq"]');
     if (root) {
       const reduce = reducedMotion();
       // Tabs: instant pane swap (duration 0); link colours cross-fade via the 0.35s CSS transition.

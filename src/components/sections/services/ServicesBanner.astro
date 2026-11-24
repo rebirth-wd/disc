@@ -9,7 +9,7 @@ import Heading from '@components/ui/Heading.astro';
 import { serviceTypes } from '@data/services';
 ---
 
-<Section section="download-banner" class="services-banner text-white" container="wide">
+<Section section="services-banner" class="services-banner text-white" container="wide">
   <div class="services-banner__box">
     <Heading level={2} size="xl" class="services-banner__h2">
       Ready for <br />a rebirth?
@@ -171,7 +171,7 @@ import { serviceTypes } from '@data/services';
   import { gsap, media, motion, onPage, MQ } from '@lib/motion';
 
   onPage(() => {
-    const root = document.querySelector<HTMLElement>('[data-section="download-banner"]');
+    const root = document.querySelector<HTMLElement>('[data-section="services-banner"]');
     media(
       root,
       () => {

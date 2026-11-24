@@ -11,7 +11,7 @@ import ServicesObject from '@components/graphics/objects/ServicesObject.astro';
 import Heading from '@components/ui/Heading.astro';
 ---
 
-<section data-section="download-hero" data-nav-trigger class="services-hero bg-black text-white">
+<section data-section="services-hero" data-nav-trigger class="services-hero bg-black text-white">
   <div class="services-hero__bg" aria-hidden="true"></div>
   <div class="services-hero__pad">
     <div class="services-hero__container">
@@ -379,7 +379,7 @@ import Heading from '@components/ui/Heading.astro';
   import { gsap, ScrollTrigger, motion, onPage, MQ } from '@lib/motion';
 
   onPage(() => {
-    const root = document.querySelector<HTMLElement>('[data-section="download-hero"]');
+    const root = document.querySelector<HTMLElement>('[data-section="services-hero"]');
     // Scroll parallax on the title layout: progress runs from start "top bottom" to end "bottom top". Keyframes: 65% → y 0, 100% → y 150 / 120 (linear).
     motion(
       root,

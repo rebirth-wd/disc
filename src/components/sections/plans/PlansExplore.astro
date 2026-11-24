@@ -6,7 +6,7 @@ import Heading from '@components/ui/Heading.astro';
 import { planHighlights } from '@data/plans';
 ---
 
-<Section section="nitro-explore" class="plans-explore">
+<Section section="plans-explore" class="plans-explore">
   <div data-par-trigger="star">
     <Heading level={2} size="lg" italic class="plans-explore__title text-center">
       Explore the
@@ -188,7 +188,7 @@ import { planHighlights } from '@data/plans';
   // progress of the section container, 0% -> 25%: y 0 -> -100 (then holds)
   onPage(() => {
     motion(
-      document.querySelector<HTMLElement>('[data-section="nitro-explore"]'),
+      document.querySelector<HTMLElement>('[data-section="plans-explore"]'),
       (root) => {
         gsap
           .timeline({

@@ -28,7 +28,7 @@ Repo `rebirth-wd/disc`, branch `restructure`. Do not merge to `main`.
 | 9a | Single token source; colour, breakpoint (px), type, z-index tokens (24, 25, 27–29) | committed (see git log; DECISIONS 26) |
 | 9b | Heights, Section adoption, "For wave 9" fixes, per-page theme-color (32) | committed (see git log; DECISIONS 27) |
 | 10 | Lazy motion, images, view transitions, smoke tests (30, 31, 33, 34) | committed (see git log; DECISIONS 28; view transitions deliberately off) |
-| Final | Rename `data-section` values + keys in `qa/motion-baseline.json`, delete/rewrite `tools/qa`, `tools/previews`, full review | not started |
+| Final | Rename `data-section` values + keys in `qa/motion-baseline.json`, delete `tools/qa`, `tools/previews`, full review | committed (see git log; DECISIONS 29). Restructure complete; not merged, not pushed |
 
 ### Gate result on `01ed127` (Mac, 2026-11-24)
 

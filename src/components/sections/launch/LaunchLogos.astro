@@ -5,7 +5,7 @@ import Heading from '@components/ui/Heading.astro';
 const SETS = 5;
 ---
 
-<section data-section="quests-logos" class="launch-logos">
+<section data-section="launch-logos" class="launch-logos">
   <div class="launch-logos__head">
     <Heading level={2} size="lg" class="launch-logos__title text-center">
       Trusted by local brands
@@ -246,7 +246,7 @@ const SETS = 5;
   };
 
   onPage(() => {
-    document.querySelectorAll<HTMLElement>('[data-section="quests-logos"]').forEach((root) => {
+    document.querySelectorAll<HTMLElement>('[data-section="launch-logos"]').forEach((root) => {
       motion(root, run(3650 / 70), MQ.lg);
       motion(root, run(780 / 20), MQ.mdOnly);
       motion(root, run(930 / 20), MQ.sm);

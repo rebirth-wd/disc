@@ -9,7 +9,7 @@ import { tierFeatures } from '@data/plans';
 const { basic, care } = tierFeatures;
 ---
 
-<Section section="nitro-plans" id="plans" class="plans-tiers">
+<Section section="plans-tiers" id="plans" class="plans-tiers">
   <div class="plans-tiers__grid">
     <article class="plans-tiers__card plans-tiers__card--basic" data-plan="basic">
       <Heading level={2} size="md" italic class="mb-16">
@@ -197,7 +197,7 @@ const { basic, care } = tierFeatures;
   // progress of the premium card through the viewport, 55% -> 100%: y 0 -> 120
   onPage(() => {
     motion(
-      document.querySelector<HTMLElement>('[data-section="nitro-plans"]'),
+      document.querySelector<HTMLElement>('[data-section="plans-tiers"]'),
       (root) => {
         gsap
           .timeline({

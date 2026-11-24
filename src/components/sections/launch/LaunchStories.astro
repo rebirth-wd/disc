@@ -9,7 +9,7 @@ import { launchStories } from '@data/slides';
 ---
 
 <Section
-  section="quests-stories"
+  section="launch-stories"
   id="launch-stories"
   class="launch-stories"
   padding="section"
@@ -479,7 +479,7 @@ import { launchStories } from '@data/slides';
 
   onPage((signal) => {
     document
-      .querySelectorAll<HTMLElement>('[data-section="quests-stories"] [data-carousel]')
+      .querySelectorAll<HTMLElement>('[data-section="launch-stories"] [data-carousel]')
       .forEach((root) => {
         const slides = [...root.querySelectorAll<HTMLElement>('[data-slide]')];
         const dots = [...root.querySelectorAll<HTMLElement>('[data-bullet]')];

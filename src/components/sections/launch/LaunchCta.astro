@@ -5,7 +5,7 @@ import LaunchObject from '@components/graphics/objects/LaunchObject.astro';
 import Heading from '@components/ui/Heading.astro';
 ---
 
-<div data-section="quests-cta" id="launch-cta" class="launch-cta">
+<div data-section="launch-cta" id="launch-cta" class="launch-cta">
   <div class="launch-cta__glow" aria-hidden="true"></div>
   <div class="launch-cta__pad">
     <div class="launch-cta__wrap">
@@ -177,7 +177,7 @@ import Heading from '@components/ui/Heading.astro';
   // Scroll parallax (desktop only, smoothing 75), keyed to the section's in-view progress:
   // object A y -40 -> 10 over 0% -> 55%; object B y 0 -> 55 over 22% -> 80%.
   onPage(() => {
-    document.querySelectorAll<HTMLElement>('[data-section="quests-cta"]').forEach((root) => {
+    document.querySelectorAll<HTMLElement>('[data-section="launch-cta"]').forEach((root) => {
       motion(
         root,
         () => {

@@ -6,7 +6,7 @@ import Heading from '@components/ui/Heading.astro';
 import { launchSolutions } from '@data/launch';
 ---
 
-<Section section="quests-solutions" class="launch-solutions" padding="section" container="none">
+<Section section="launch-solutions" class="launch-solutions" padding="section" container="none">
   <div class="launch-solutions__head">
     <Heading level={2} size="lg" class="launch-solutions__title text-center">
       Explore our AI tools
@@ -270,7 +270,7 @@ import { launchSolutions } from '@data/launch';
   import { gsap, ScrollTrigger, ease, onPage, reducedMotion } from '@lib/motion';
 
   onPage((signal) => {
-    document.querySelectorAll<HTMLElement>('[data-section="quests-solutions"]').forEach((root) => {
+    document.querySelectorAll<HTMLElement>('[data-section="launch-solutions"]').forEach((root) => {
       const tabs = [...root.querySelectorAll<HTMLElement>('[data-tab]')];
       const panes = [...root.querySelectorAll<HTMLElement>('[data-pane]')];
       const reduce = reducedMotion();

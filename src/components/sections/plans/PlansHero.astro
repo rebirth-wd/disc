@@ -5,7 +5,7 @@ import PlansObject from '@components/graphics/objects/PlansObject.astro';
 import Heading from '@components/ui/Heading.astro';
 ---
 
-<Section section="nitro-hero" data-nav-trigger class="plans-hero">
+<Section section="plans-hero" data-nav-trigger class="plans-hero">
   <div class="plans-hero__block" data-par-trigger="hero">
     <PlansObject name="shield" par="bolt" class="plans-hero__shield" />
     <Heading level={1} size="xl" italic class="plans-hero__title">
@@ -169,7 +169,7 @@ import Heading from '@components/ui/Heading.astro';
   // scroll progress of the hero block, start offset 30%, 56% -> 100%: shield y 0->160, bot y 0->140, smoothing 75
   onPage(() => {
     motion(
-      document.querySelector<HTMLElement>('[data-section="nitro-hero"]'),
+      document.querySelector<HTMLElement>('[data-section="plans-hero"]'),
       (root) => {
         const block = root.querySelector('[data-par-trigger="hero"]');
         const tl = gsap.timeline({

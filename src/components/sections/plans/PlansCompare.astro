@@ -6,7 +6,7 @@ import Heading from '@components/ui/Heading.astro';
 import { compareGroups } from '@data/plans';
 ---
 
-<Section section="nitro-compare" id="compare" class="plans-compare" container="wide">
+<Section section="plans-compare" id="compare" class="plans-compare" container="wide">
   <PlansObject name="cloud" par="windy" class="plans-compare__cloud" />
   <Heading
     level={2}
@@ -485,7 +485,7 @@ import { compareGroups } from '@data/plans';
 
   // progress of the h2 through the viewport, 0 -> 100%: cloud y 0 -> 180, disks y 0 -> -200
   onPage(() => {
-    const root = document.querySelector<HTMLElement>('[data-section="nitro-compare"]');
+    const root = document.querySelector<HTMLElement>('[data-section="plans-compare"]');
     const trigger = root?.querySelector('[data-par-trigger="plan"]') ?? null;
     parallax(root?.querySelector('[data-par="windy"]') ?? null, { to: 180, trigger, scrub: 0.6 });
     parallax(root?.querySelector('[data-par="battery"]') ?? null, {

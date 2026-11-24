@@ -37,7 +37,7 @@ src/
   styles/        global.css and the token files
   assets/        Images processed by Astro
 public/          Files served as-is (favicon, robots.txt)
-tools/           QA scripts and per-section preview pages (reference material, not part of the build)
+tools/smoke/     Smoke test (npm run test:smoke); the layout and motion gates live in qa/
 docs/            Design system, decision log, credits, QA report
 ```
 

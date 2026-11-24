@@ -16,7 +16,7 @@ const cards = [
 ];
 ---
 
-<section data-section="quests-hero" data-nav-trigger class="launch-hero">
+<section data-section="launch-hero" data-nav-trigger class="launch-hero">
   <div class="launch-hero__bg" aria-hidden="true">
     <div class="launch-hero__cards">
       {cards.map((c) => (
@@ -236,7 +236,7 @@ const cards = [
   // Scroll parallax (desktop only): object y 0 -> 100px across 60% -> 100% of the
   // section's in-view progress, smoothing 80.
   onPage(() => {
-    document.querySelectorAll<HTMLElement>('[data-section="quests-hero"]').forEach((root) => {
+    document.querySelectorAll<HTMLElement>('[data-section="launch-hero"]').forEach((root) => {
       motion(
         root,
         () => {

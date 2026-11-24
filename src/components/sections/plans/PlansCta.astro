@@ -5,7 +5,7 @@ import PlansObject from '@components/graphics/objects/PlansObject.astro';
 import Heading from '@components/ui/Heading.astro';
 ---
 
-<Section section="nitro-cta" class="plans-cta">
+<Section section="plans-cta" class="plans-cta">
   <div class="plans-cta__block">
     <div class="plans-cta__inner">
       <Heading level={2} size="xl" italic class="plans-cta__title">
@@ -150,7 +150,7 @@ import Heading from '@components/ui/Heading.astro';
 
   // progress of the section (start offset 75%), 0 -> 100%: rocket y 0 -> 150, calendar y 0 -> -150
   onPage(() => {
-    const root = document.querySelector<HTMLElement>('[data-section="nitro-cta"]');
+    const root = document.querySelector<HTMLElement>('[data-section="plans-cta"]');
     const options = {
       trigger: root,
       start: () => `top+=${(root?.offsetHeight ?? 0) * 0.75} bottom`,
