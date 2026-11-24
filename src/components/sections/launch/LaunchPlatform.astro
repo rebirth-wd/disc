@@ -12,7 +12,7 @@ import { launchPlatformStats } from '@data/launch';
     <Heading level={2} size="lg" class="launch-platform__h2 text-center">
       Launch on the stack the modern web runs on
     </Heading>
-    <p class="mx-auto text-center text-[1rem] leading-[22px] text-white min-[480px]:text-body-xl min-[480px]:leading-[26px]">
+    <p class="mx-auto text-center text-body leading-[22px] text-white xs:text-body-xl xs:leading-[26px]">
       Pre-rendered static pages, minimal client JavaScript and clean, semantic markup. The SEO
       groundwork is in the architecture.
     </p>
@@ -85,10 +85,10 @@ import { launchPlatformStats } from '@data/launch';
     min-height: 212px;
     padding: 32px;
     border-radius: var(--spacing-48);
-    background-color: rgb(31, 29, 93);
+    background-color: var(--color-dusk-indigo);
     background-image: radial-gradient(
       130% 90% at 50% 118%,
-      #5865f2 0%,
+      var(--color-blurple) 0%,
       #4c57d8 30%,
       rgba(50, 54, 145, 0.6) 62%,
       rgba(31, 29, 93, 0) 100%
@@ -101,7 +101,7 @@ import { launchPlatformStats } from '@data/launch';
     font-weight: var(--font-weight-bold);
     font-size: var(--text-display);
     line-height: 0.96;
-    letter-spacing: -0.01em;
+    letter-spacing: var(--tracking-display);
     color: var(--color-white);
   }
   .launch-platform__label {

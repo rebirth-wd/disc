@@ -86,9 +86,9 @@ import Heading from '@components/ui/Heading.astro';
       linear-gradient(
         90deg,
         rgba(0, 0, 0, 0.32) 0%,
-        rgba(0, 0, 0, 0.08) 28%,
-        rgba(0, 0, 0, 0) 50%,
-        rgba(0, 0, 0, 0.08) 72%,
+        var(--color-black-8) 28%,
+        var(--color-black-0) 50%,
+        var(--color-black-8) 72%,
         rgba(0, 0, 0, 0.32) 100%
       ),
       linear-gradient(
@@ -103,7 +103,7 @@ import Heading from '@components/ui/Heading.astro';
         #121534 700px,
         #0b0d22 800px,
         #030308 1000px,
-        #000 1100px
+        var(--color-black) 1100px
       );
   }
   .services-hero__pad {
@@ -198,7 +198,7 @@ import Heading from '@components/ui/Heading.astro';
     width: 150%;
     height: 71px;
     border-radius: 100%;
-    background-color: #1f1d5d;
+    background-color: var(--color-dusk-indigo);
     filter: blur(30px);
     opacity: 0;
     transition: opacity 0.5s ease;

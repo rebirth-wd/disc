@@ -83,8 +83,7 @@ Pages are prerendered. To render a route on demand, opt in per route with `expor
 
 ## Styling rules
 
-`docs/DESIGN.md` and the token files (`src/styles/theme.css`, `src/styles/variables.css`,
-`src/tokens/tokens.json`) govern all styling and take precedence over any other guidance. Use the tokens
+`docs/DESIGN.md` and the token file (`src/styles/theme.css`) govern all styling and take precedence over any other guidance. Use the tokens
 (Tailwind utilities generated from `theme.css`, or `var(--...)`) and follow the Do's and Don'ts in the design
 doc. Do not edit the token files to make a component fit; raise it instead.
 

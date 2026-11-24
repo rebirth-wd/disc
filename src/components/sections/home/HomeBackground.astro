@@ -23,7 +23,9 @@ const pct = (k: number) => +((k / (K - 1)) * 100).toFixed(3);
 const layers = cols.map((stops, k) => {
   const grad = `linear-gradient(to bottom, ${stops.map(([p, c]) => `${c} ${p}%`).join(', ')})`;
   const mask =
-    k === 0 ? '' : `linear-gradient(to right, transparent ${pct(k - 1)}%, #000 ${pct(k)}%)`;
+    k === 0
+      ? ''
+      : `linear-gradient(to right, transparent ${pct(k - 1)}%, var(--color-black) ${pct(k)}%)`;
   return `background-image:${grad};${mask ? `-webkit-mask-image:${mask};mask-image:${mask};` : ''}`;
 });
 const bands = [21, 34, 55, 89, 144, 233, 377, 610];

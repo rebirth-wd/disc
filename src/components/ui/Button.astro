@@ -108,7 +108,7 @@ const wrapProps = glow
   }
   /* The translucent edge is measured on the reference, not in the style docs */
   .button--ghost {
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid var(--color-white-30);
     background-color: var(--color-white-10);
     color: var(--color-white);
   }
@@ -119,7 +119,7 @@ const wrapProps = glow
     inset: 0;
     border-radius: inherit;
     opacity: 0;
-    background: linear-gradient(transparent 0, rgb(31, 29, 93) 130%);
+    background: linear-gradient(transparent 0, var(--color-dusk-indigo) 130%);
     transition: opacity var(--transition-control);
   }
   @media (hover: hover) {
@@ -201,7 +201,7 @@ const wrapProps = glow
     top: 45px;
     height: 70px;
     border-radius: 50%;
-    background-color: rgb(31, 29, 93);
+    background-color: var(--color-dusk-indigo);
     filter: blur(30px);
     opacity: 0;
     pointer-events: none;

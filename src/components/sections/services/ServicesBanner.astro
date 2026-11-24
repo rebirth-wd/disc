@@ -45,15 +45,15 @@ import { serviceTypes } from '@data/services';
   /* background: black at the top easing to indigo (#19174b centre / #121134 edges) at the bottom */
   .services-banner {
     position: relative;
-    z-index: 98;
+    z-index: var(--z-banner);
     padding: 150px 0 240px;
     text-align: center;
     background:
-      linear-gradient(90deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.3)),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.3), var(--color-black-0) 50%, rgba(0, 0, 0, 0.3)),
       linear-gradient(
         180deg,
-        #000 0%,
-        #000 8%,
+        var(--color-black) 0%,
+        var(--color-black) 8%,
         #020206 14%,
         #04040d 27%,
         #080717 41%,
@@ -83,7 +83,7 @@ import { serviceTypes } from '@data/services';
     display: inline-flex;
     margin-top: 32px;
     position: relative;
-    z-index: 100;
+    z-index: var(--z-above-banner);
   }
   .services-banner :global(.services-banner__decor) {
     position: absolute;

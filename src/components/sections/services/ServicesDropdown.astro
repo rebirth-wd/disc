@@ -198,7 +198,7 @@ const { label, items, variant = 'white', z = 1, id } = Astro.props;
     width: 200%;
     height: 70px;
     border-radius: 50%;
-    background-color: #1f1d5d;
+    background-color: var(--color-dusk-indigo);
     filter: blur(30px);
     pointer-events: none;
   }
@@ -213,7 +213,7 @@ const { label, items, variant = 'white', z = 1, id } = Astro.props;
     overflow: auto;
     border-radius: 12px;
     background-color: #30305f;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 6px 10px var(--color-black-8);
   }
   .services-dropdown--blurple .services-dropdown__link {
     border-radius: 12px;

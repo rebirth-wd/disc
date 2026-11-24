@@ -122,11 +122,11 @@ const { items } = Astro.props;
     transition: background-color 0.5s;
   }
   .header__burger-close:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: var(--color-white-30);
   }
   .header__burger-close {
     display: flex;
-    background: rgba(255, 255, 255, 0.3);
+    background: var(--color-white-30);
     transition-duration: 0.4s;
   }
   .header__burger-close:focus-visible,
@@ -139,7 +139,7 @@ const { items } = Astro.props;
     display: none;
     position: fixed;
     inset: 0;
-    z-index: 100;
+    z-index: var(--z-menu);
     height: 100dvh;
     opacity: 0;
     background: rgba(0, 0, 0, 0.8);
@@ -203,13 +203,13 @@ const { items } = Astro.props;
     text-align: left;
     cursor: pointer;
     font-family: inherit;
-    font-size: 1rem;
+    font-size: var(--text-nav);
     line-height: 1;
     font-weight: var(--font-weight-medium);
   }
   .header__burger-trigger {
     padding-right: var(--spacing-16);
-    line-height: 1.2;
+    line-height: var(--leading-nav);
   }
   .header__burger-arrow {
     display: flex;
@@ -269,7 +269,7 @@ const { items } = Astro.props;
     inset: -48px 0 auto 0;
     height: 32px;
     pointer-events: none;
-    background: linear-gradient(180deg, rgba(88, 101, 242, 0) 43%, var(--color-blurple) 77%);
+    background: linear-gradient(180deg, var(--color-blurple-0) 43%, var(--color-blurple) 77%);
   }
   .header__burger-cta {
     display: flex;

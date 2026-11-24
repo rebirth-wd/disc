@@ -76,7 +76,7 @@ const stars = [
     margin: 0;
     font-size: var(--text-heading-lg);
     line-height: var(--leading-heading-lg);
-    letter-spacing: -0.01em;
+    letter-spacing: var(--tracking-heading-lg);
   }
   .closing-banner__cta {
     margin-top: 94px;
@@ -86,7 +86,7 @@ const stars = [
   /* character block: 59rem wide (64rem ≥1440), 1024:484, centred, 130px under the button */
   .closing-banner__stage {
     position: relative;
-    z-index: 100;
+    z-index: var(--z-above-banner);
     width: 100%;
     max-width: 944px;
     aspect-ratio: 1024 / 484;

@@ -164,14 +164,14 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
     /* footer gradient: #1a185e (top) -> #5562ed (bottom), black base */
     --footer-top: #1a185e;
     position: relative;
-    z-index: 98;
+    z-index: var(--z-footer);
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: var(--spacing-20);
     background-color: var(--color-black);
     background-image:
-      radial-gradient(120% 70% at 50% 45%, rgba(88, 101, 242, 0.12), rgba(88, 101, 242, 0) 70%),
+      radial-gradient(120% 70% at 50% 45%, rgba(88, 101, 242, 0.12), var(--color-blurple-0) 70%),
       linear-gradient(
         180deg,
         var(--footer-top) 0%,
@@ -254,7 +254,7 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
     cursor: pointer;
     text-align: left;
     font-family: inherit;
-    font-size: 1rem;
+    font-size: var(--text-body);
     line-height: 24px;
     font-weight: var(--font-weight-regular);
     transition: all 0.3s;
@@ -280,7 +280,7 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
     padding: 17.5px var(--spacing-16);
     border-radius: var(--radius-lg);
     cursor: pointer;
-    font-size: 1rem;
+    font-size: var(--text-body);
     line-height: 24px;
   }
   .footer__lang-item:hover {
@@ -368,7 +368,7 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
   }
   @media (max-width: 991px) {
     .footer {
-      z-index: 10;
+      z-index: var(--z-footer-tablet);
       overflow: clip;
     }
     .footer__grid {
@@ -412,7 +412,7 @@ const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
   }
   @media (max-width: 767px) {
     .footer {
-      z-index: 97;
+      z-index: var(--z-footer-phone);
     }
     .footer__container {
       padding: 0 var(--spacing-24);

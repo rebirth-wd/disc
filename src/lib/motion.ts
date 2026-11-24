@@ -3,6 +3,7 @@
 import gsap from 'gsap';
 import { CustomEase } from 'gsap/CustomEase';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { breakpoints } from './breakpoints';
 
 gsap.registerPlugin(ScrollTrigger, CustomEase);
 
@@ -25,12 +26,12 @@ export const ease = {
 export const MOTION_OK = '(prefers-reduced-motion: no-preference)';
 export const MOTION_REDUCE = '(prefers-reduced-motion: reduce)';
 
-/** Breakpoints in use (the site's tablet and desktop switch widths). */
+/** Media queries for the tablet and desktop switch widths, built from `breakpoints`. */
 export const MQ = {
-  md: '(min-width: 768px)',
-  lg: '(min-width: 992px)',
-  mdOnly: '(min-width: 768px) and (max-width: 991px)',
-  sm: '(max-width: 767px)',
+  md: `(min-width: ${breakpoints.md}px)`,
+  lg: `(min-width: ${breakpoints.desktop}px)`,
+  mdOnly: `(min-width: ${breakpoints.md}px) and (max-width: ${breakpoints.desktop - 1}px)`,
+  sm: `(max-width: ${breakpoints.md - 1}px)`,
   always: 'all',
 } as const;
 

@@ -19,7 +19,7 @@ const { last = false, glow = false } = Astro.props;
       stroke-linejoin="round"
     />
   </svg>
-  <span class="font-body text-[1rem] leading-[22px] font-normal min-[480px]:text-body-xl min-[480px]:leading-[26px]">
+  <span class="font-body text-body leading-[22px] font-normal xs:text-body-xl xs:leading-[26px]">
     <slot />
   </span>
   {glow && <i class="check-item__glow" />}

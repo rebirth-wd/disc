@@ -10,7 +10,7 @@ Routes: `/`, `/services`, `/plans`, `/careers`, `/launch`. The old URLs `/downlo
 
 See `CONTRIBUTING.md` for commands, folder conventions and standards.
 
-- `docs/DESIGN.md`, `src/styles/theme.css`, `src/styles/variables.css`, `src/tokens/tokens.json` - governing style docs (unmodified).
+- `docs/DESIGN.md`, `src/styles/theme.css` - governing style docs (theme.css is the single token source).
 - `docs/DECISIONS.md` - every ambiguity resolved during the build.
 - `docs/QA-REPORT.md` - final measurements and known gaps. `docs/CREDITS.md` - Unsplash credits. `docs/source-copy.md` - source text for the page copy.
 - `tools/previews/` - per-section preview pages (reference material, excluded from the build; copy one into `src/pages/` to use it).

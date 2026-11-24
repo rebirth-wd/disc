@@ -70,14 +70,14 @@ import { compareGroups } from '@data/plans';
         {g.rows.map((r) => (
           <div class:list={['plans-compare__row', g.tall && 'plans-compare__row--tall']} role="row">
             <div class="plans-compare__label" role="cell">
-              <p class="break-words max-[389px]:hyphens-auto font-body text-[1rem] leading-[22px] font-normal min-[480px]:text-body-xl min-[480px]:leading-[26px]">
+              <p class="break-words max-[389px]:hyphens-auto font-body text-body leading-[22px] font-normal xs:text-body-xl xs:leading-[26px]">
                 {r[0]}
               </p>
             </div>
             {[r[1], r[2]].map((c, i) => (
               <div class="plans-compare__cell" role="cell">
                 {typeof c === 'string' ? (
-                  <span class="font-body text-[1rem] leading-[22px] font-normal min-[480px]:text-body-xl min-[480px]:leading-[26px]">
+                  <span class="font-body text-body leading-[22px] font-normal xs:text-body-xl xs:leading-[26px]">
                     {c}
                   </span>
                 ) : c ? (
@@ -287,7 +287,7 @@ import { compareGroups } from '@data/plans';
     background: linear-gradient(180deg, #5969f4 2%, #68bdff 36%, #e0e4ff 100%);
   }
   .plans-compare__col--care > div {
-    background: #000
+    background: var(--color-black)
       linear-gradient(
         180deg,
         rgba(255, 112, 249, 0.2),
@@ -328,7 +328,7 @@ import { compareGroups } from '@data/plans';
     letter-spacing: 0.24px;
     color: var(--color-white);
     background:
-      linear-gradient(86deg, rgba(255, 255, 255, 0.2) 11%, rgba(255, 255, 255, 0.04)),
+      linear-gradient(86deg, var(--surface-glass-block) 11%, var(--color-white-4)),
       rgba(120, 90, 150, 0.9);
     backdrop-filter: blur(120px);
     -webkit-backdrop-filter: blur(120px);
@@ -402,7 +402,7 @@ import { compareGroups } from '@data/plans';
     .plans-compare__features {
       position: absolute;
       top: 168px;
-      font-size: 1rem;
+      font-size: var(--text-label);
       line-height: 20px;
     }
     .plans-compare__name {

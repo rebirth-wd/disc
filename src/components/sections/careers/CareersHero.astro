@@ -12,34 +12,34 @@ import { careersGallery } from '@data/slides';
 <section
   data-section="careers-hero"
   data-nav-trigger
-  class="careers-hero relative flex flex-col items-center pt-[130px] text-center md:pt-[156px] [@media(min-width:1440px)]:pt-176"
+  class="careers-hero relative flex flex-col items-center pt-[130px] text-center md:pt-[156px] wide:pt-176"
 >
   <div class="relative w-full max-w-[1320px] px-20 xl:px-40">
     <div
       data-hero-copy
-      class="relative mx-auto flex max-w-[624px] flex-col items-center [@media(min-width:1440px)]:max-w-[820px]"
+      class="relative mx-auto flex max-w-[624px] flex-col items-center wide:max-w-[820px]"
     >
       <Heading
         level={1}
         size="xl"
-        class="mx-auto mb-16 max-w-[297px] md:mb-20 md:max-w-none [@media(min-width:1440px)]:mb-24"
+        class="mx-auto mb-16 max-w-[297px] md:mb-20 md:max-w-none wide:mb-24"
       >
         Work with us
       </Heading>
-      <p class="font-body text-[1rem] leading-[22px] text-white md:text-body-xl md:leading-[26px]">
+      <p class="font-body text-body leading-[22px] text-white md:text-body-xl md:leading-[26px]">
         Rebirth Online builds fast, secure, static-first websites on a modern, production-grade
         stack. You work with the person writing the code — not an account manager or an offshore
         team.
       </p>
       <div
         data-careers-float="a"
-        class="pointer-events-none absolute top-[187px] left-[-43px] z-3 w-[128px] md:top-[129px] md:left-[-93px] md:w-[160px] xl:top-[52px] xl:left-[-192px] xl:w-[223px] [@media(min-width:1440px)]:top-[131px] [@media(min-width:1440px)]:left-[-213px] [@media(min-width:1440px)]:w-[240px]"
+        class="pointer-events-none absolute top-[187px] left-[-43px] z-3 w-[128px] md:top-[129px] md:left-[-93px] md:w-[160px] xl:top-[52px] xl:left-[-192px] xl:w-[223px] wide:top-[131px] wide:left-[-213px] wide:w-[240px]"
       >
         <CareersObject kind="gem" class="h-auto w-full" />
       </div>
       <div
         data-careers-float="b"
-        class="pointer-events-none absolute top-[-75px] right-[-22px] w-[80px] md:top-[-91px] md:right-[-70px] md:w-[96px] xl:top-[-80px] xl:right-[-175px] xl:w-[136px] [@media(min-width:1440px)]:top-[-107px] [@media(min-width:1440px)]:right-[-197px] [@media(min-width:1440px)]:w-[160px]"
+        class="pointer-events-none absolute top-[-75px] right-[-22px] w-[80px] md:top-[-91px] md:right-[-70px] md:w-[96px] xl:top-[-80px] xl:right-[-175px] xl:w-[136px] wide:top-[-107px] wide:right-[-197px] wide:w-[160px]"
       >
         <CareersObject kind="orb" class="h-auto w-full" />
       </div>
@@ -76,7 +76,7 @@ import { careersGallery } from '@data/slides';
             alt={s.alt}
             sizes="(min-width: 1280px) 800px, 80vw"
             loading={i < 2 || i === careersGallery.length - 1 ? 'eager' : 'lazy'}
-            class="h-full w-full rounded-[56px] md:rounded-[96px] [@media(min-width:1440px)]:rounded-[80px]"
+            class="h-full w-full rounded-[56px] md:rounded-[96px] wide:rounded-[80px]"
           />
         </div>
       </div>
@@ -88,7 +88,7 @@ import { careersGallery } from '@data/slides';
   /* blurple sky fading to the black careers canvas */
   .careers-hero {
     background:
-      radial-gradient(120% 46% at 50% 0%, rgba(88, 101, 242, 0.55) 0%, rgba(88, 101, 242, 0) 100%),
+      radial-gradient(120% 46% at 50% 0%, rgba(88, 101, 242, 0.55) 0%, var(--color-blurple-0) 100%),
       linear-gradient(
         180deg,
         #4752c4 0%,
@@ -96,7 +96,7 @@ import { careersGallery } from '@data/slides';
         #272a7c 28%,
         #141545 40%,
         #06061a 50%,
-        #000 58%
+        var(--color-black) 58%
       );
   }
   .careers-hero__gallery-slide {

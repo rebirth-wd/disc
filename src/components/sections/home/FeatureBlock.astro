@@ -193,11 +193,11 @@ const vars = [
       --feature-block-slab-texture,
       linear-gradient(
         135deg,
-        rgba(255, 255, 255, 0.2),
+        var(--surface-glass-block),
         rgba(255, 255, 255, 0.12) 12%,
-        rgba(255, 255, 255, 0.04) 50%,
+        var(--color-white-4) 50%,
         rgba(255, 255, 255, 0.08) 83%,
-        rgba(255, 255, 255, 0.2)
+        var(--surface-glass-block)
       )
     );
     -webkit-backdrop-filter: blur(var(--feature-block-blur, var(--blur-glass)));
@@ -337,7 +337,7 @@ const vars = [
       line-height: 0.9;
     }
     .feature-block__paragraph {
-      font-size: 1rem;
+      font-size: var(--text-body);
       line-height: 20.8px;
     }
   }

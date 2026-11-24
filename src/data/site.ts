@@ -5,6 +5,8 @@ export const site = {
   /** Must match what the sitemap and canonical URLs are built from. */
   url: 'https://rebirthwebdesign.com.au',
   description: 'Rebirth Web Design — fast, secure, static-first websites.',
+  /** Equals --color-deep-indigo, the page canvas; a meta tag cannot read a CSS variable. */
+  themeColor: '#1a2081',
 } as const;
 
 export const languages: readonly string[] = [

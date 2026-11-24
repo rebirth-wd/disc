@@ -11,7 +11,7 @@ import Heading from '@components/ui/Heading.astro';
     <Heading level={1} size="xl" italic class="plans-hero__title">
       <span>Your site,</span> <span>looked after</span> <span>every month</span>
     </Heading>
-    <p class="font-body text-[1rem] leading-[22px] font-normal min-[480px]:text-body-xl min-[480px]:leading-[26px] plans-hero__lead">
+    <p class="font-body text-body leading-[22px] font-normal xs:text-body-xl xs:leading-[26px] plans-hero__lead">
       Tired of chasing updates, backups and patches? We get it. Join a care plan, and we manage the
       lot for you, every month.
     </p>
@@ -53,7 +53,7 @@ import Heading from '@components/ui/Heading.astro';
         #2c1767 44%,
         #120a35 58%,
         #05030f 70%,
-        #000 80%
+        var(--color-black) 80%
       );
   }
   .plans-hero__block {

@@ -56,7 +56,7 @@ import { whatsNewCards, whatsNewPoints, whatsNewTiles } from '@data/plans';
           <Heading level={3} size="md" italic class="plans-whats-new__heading">
             {c.title}
           </Heading>
-          <p class="font-body text-[1rem] leading-[22px] font-normal min-[480px]:text-body-xl min-[480px]:leading-[26px]">
+          <p class="font-body text-body leading-[22px] font-normal xs:text-body-xl xs:leading-[26px]">
             {c.text}
           </p>
         </div>
@@ -84,7 +84,7 @@ import { whatsNewCards, whatsNewPoints, whatsNewTiles } from '@data/plans';
     overflow: clip;
     border-radius: 96px;
     padding: 190px 120px;
-    background: #012a20;
+    background: var(--color-midnight-green);
   }
   .plans-whats-new__collage {
     position: absolute;
@@ -114,8 +114,8 @@ import { whatsNewCards, whatsNewPoints, whatsNewTiles } from '@data/plans';
     background:
       linear-gradient(
         90deg,
-        #012a20 0%,
-        #012a20 34%,
+        var(--color-midnight-green) 0%,
+        var(--color-midnight-green) 34%,
         rgba(1, 42, 32, 0.78) 52%,
         rgba(1, 42, 32, 0.25) 72%,
         rgba(1, 42, 32, 0) 88%
@@ -123,8 +123,8 @@ import { whatsNewCards, whatsNewPoints, whatsNewTiles } from '@data/plans';
       linear-gradient(
         180deg,
         rgba(0, 0, 0, 0.25),
-        rgba(0, 0, 0, 0) 30%,
-        rgba(0, 0, 0, 0) 70%,
+        var(--color-black-0) 30%,
+        var(--color-black-0) 70%,
         rgba(0, 0, 0, 0.35)
       );
   }
@@ -259,7 +259,7 @@ import { whatsNewCards, whatsNewPoints, whatsNewTiles } from '@data/plans';
         180deg,
         rgba(1, 42, 32, 0) 0%,
         rgba(1, 42, 32, 0.55) 22%,
-        #012a20 40%
+        var(--color-midnight-green) 40%
       );
     }
     .plans-whats-new__logo {

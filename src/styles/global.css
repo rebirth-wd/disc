@@ -1,7 +1,6 @@
-/* Order matters: Tailwind, then the governing style docs (theme.css = Tailwind @theme, variables.css = :root). */
+/* Order matters: Tailwind, then the single token source (theme.css). */
 @import 'tailwindcss';
 @import './theme.css';
-@import './variables.css';
 
 /* Display is Unbounded and body is DM Sans, both self-hosted from @fontsource-variable. The style docs
    name proprietary families we are not licensed for; these licence-free substitutes stand in (DESIGN.md, DECISIONS.md #4). */
