@@ -19,8 +19,8 @@ Repo `rebirth-wd/disc`, branch `restructure`. Do not merge to `main`.
 |---|---|---|
 | 1–4 | Foundations, routes/folders, `motion.ts`, Button/Section/Heading/Header | committed |
 | 5a | AbortSignal lifecycle | committed `fabc8fd` |
-| 5b | One Accordion, Dropdown, Carousel | committed `01ed127` (not reviewed by an orchestrator; see 5c) |
-| 5c | Restore original carousel autoplay timing | done and gated, uncommitted at hand-over, see below |
+| 5b | One Accordion, Dropdown, Carousel | committed `01ed127` |
+| 5c | Restore original carousel autoplay timing | committed `fb71bca`; all five gates pass on the VPS |
 | 6 | One star system; objects + Parallax wrapper (review items 19, 20) | not started; draft design below |
 | 7 | Content into `src/data`, site config, per-page SEO (13–15) | not started |
 | 8 | Font token rename, px→rem font sizes (23, 26) | not started (Haiku) |

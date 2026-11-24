@@ -14,7 +14,7 @@ structure, wave table) and `docs/DECISIONS.md` (entries 17–21 cover the restru
 | 2 | Routes, role-based folders, content-based names (8–10) | committed | `27024a6` |
 | 3 | `src/lib/motion.ts`, every script migrated (21) | committed | `9c1f121` |
 | 4 | One Button, Section, Heading, Header split, navigation data (12, 16, 22) | committed | `2189259`, `4eba080` |
-| 5 | One Accordion, one Dropdown, one Carousel (17, 18) | 5a (signal lifecycle) committed; 5b (the three components) built, awaiting review | `fabc8fd` (5a) |
+| 5 | One Accordion, one Dropdown, one Carousel (17, 18) | committed | `fabc8fd` (5a), `01ed127` (5b), `fb71bca` (5c) |
 | 6 | One star system; objects + Parallax wrapper (19, 20) | not started | |
 | 7 | Content into `src/data`, site config, per-page SEO (13–15) | not started (only `src/data/navigation.ts` exists) | |
 | 8 | Font token rename, remaining px→rem font sizes (23, 26) | not started | |
