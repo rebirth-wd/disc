@@ -3,11 +3,10 @@
 @import './theme.css';
 @import './variables.css';
 
-/* The style docs name the proprietary families 'ABC Ginto Discord Nord' / 'ABC Ginto Discord'.
-   They are not licensed for this project, so the DESIGN.md substitutes (Unbounded, DM Sans)
-   are registered under those names. Tokens stay untouched. See DECISIONS.md #4. */
+/* Display is Unbounded and body is DM Sans, both self-hosted from @fontsource-variable. The style docs
+   name proprietary families we are not licensed for; these licence-free substitutes stand in (DESIGN.md, DECISIONS.md #4). */
 @font-face {
-  font-family: 'ABC Ginto Discord Nord';
+  font-family: 'Unbounded';
   src: url('@fontsource-variable/unbounded/files/unbounded-latin-wght-normal.woff2')
     format('woff2-variations');
   font-weight: 200 900;
@@ -15,7 +14,7 @@
   font-display: swap;
 }
 @font-face {
-  font-family: 'ABC Ginto Discord';
+  font-family: 'DM Sans';
   src: url('@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2')
     format('woff2-variations');
   font-weight: 100 1000;
@@ -31,7 +30,7 @@
     margin: 0;
     background: var(--surface-deep-indigo-canvas);
     color: var(--color-white);
-    font-family: var(--font-abc-ginto-discord);
+    font-family: var(--font-body);
     font-size: var(--text-body);
     line-height: var(--leading-body);
     font-weight: var(--font-weight-regular);
@@ -42,7 +41,7 @@
   h2,
   h3,
   h4 {
-    font-family: var(--font-abc-ginto-discord-nord);
+    font-family: var(--font-display);
     text-transform: uppercase;
     letter-spacing: -0.01em;
     margin: 0;

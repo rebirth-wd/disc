@@ -7,7 +7,7 @@ interface Props {
 const { kind, class: cls = '' } = Astro.props;
 const small = kind === 'repairs' || kind === 'faster';
 const vb = small ? '0 0 526 459' : '0 0 666 521';
-const F = 'font-family:var(--font-abc-ginto-discord);font-weight:500';
+const F = 'font-family:var(--font-body);font-weight:500';
 ---
 
 <div class:list={['nd', `nd--${kind}`, cls]} data-demo={kind}>
@@ -99,7 +99,7 @@ const F = 'font-family:var(--font-abc-ginto-discord);font-weight:500';
           text-anchor="middle"
           font-size="64"
           fill="#fff"
-          style="font-family:var(--font-abc-ginto-discord-nord);font-weight:700;font-style:italic"
+          style="font-family:var(--font-display);font-weight:700;font-style:italic"
         >
           38
         </text>

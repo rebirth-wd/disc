@@ -70,14 +70,14 @@ import { compareGroups } from '@data/plans';
         {g.rows.map((r) => (
           <div class:list={['plans-compare__row', g.tall && 'plans-compare__row--tall']} role="row">
             <div class="plans-compare__label" role="cell">
-              <p class="break-words max-[389px]:hyphens-auto font-abc-ginto-discord text-[16px] leading-[22px] font-normal min-[480px]:text-body-xl min-[480px]:leading-[26px]">
+              <p class="break-words max-[389px]:hyphens-auto font-body text-[1rem] leading-[22px] font-normal min-[480px]:text-body-xl min-[480px]:leading-[26px]">
                 {r[0]}
               </p>
             </div>
             {[r[1], r[2]].map((c, i) => (
               <div class="plans-compare__cell" role="cell">
                 {typeof c === 'string' ? (
-                  <span class="font-abc-ginto-discord text-[16px] leading-[22px] font-normal min-[480px]:text-body-xl min-[480px]:leading-[26px]">
+                  <span class="font-body text-[1rem] leading-[22px] font-normal min-[480px]:text-body-xl min-[480px]:leading-[26px]">
                     {c}
                   </span>
                 ) : c ? (
@@ -170,10 +170,10 @@ import { compareGroups } from '@data/plans';
     padding-bottom: 19px;
   }
   .plans-compare__features {
-    font-family: var(--font-abc-ginto-discord-nord);
+    font-family: var(--font-display);
     font-weight: var(--font-weight-bold);
     font-style: italic;
-    font-size: 24px;
+    font-size: 1.5rem;
     line-height: 28px;
     letter-spacing: 0.24px;
     text-transform: uppercase;
@@ -197,10 +197,10 @@ import { compareGroups } from '@data/plans';
     z-index: 3;
   }
   .plans-compare__name {
-    font-family: var(--font-abc-ginto-discord-nord);
+    font-family: var(--font-display);
     font-weight: var(--font-weight-bold);
     font-style: italic;
-    font-size: 32px;
+    font-size: 2rem;
     line-height: 32px;
     letter-spacing: normal;
     text-transform: uppercase;
@@ -209,7 +209,7 @@ import { compareGroups } from '@data/plans';
   }
   .plans-compare__name span {
     display: block;
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 18.2px;
   }
   .plans-compare__group {
@@ -320,9 +320,9 @@ import { compareGroups } from '@data/plans';
     width: 82px;
     height: 33.75px;
     border-radius: 10px;
-    font-family: var(--font-abc-ginto-discord);
+    font-family: var(--font-body);
     font-style: normal;
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 12px;
     font-weight: var(--font-weight-medium);
     letter-spacing: 0.24px;
@@ -402,16 +402,16 @@ import { compareGroups } from '@data/plans';
     .plans-compare__features {
       position: absolute;
       top: 168px;
-      font-size: 16px;
+      font-size: 1rem;
       line-height: 20px;
     }
     .plans-compare__name {
-      font-size: 18px;
+      font-size: 1.125rem;
       line-height: 19.5px;
       margin-bottom: 52px;
     }
     .plans-compare__name span {
-      font-size: 9px;
+      font-size: 0.5625rem;
       line-height: 12px;
     }
     .plans-compare__col {
@@ -455,7 +455,7 @@ import { compareGroups } from '@data/plans';
       min-height: 0;
     }
     .plans-compare__terms {
-      font-size: 14px;
+      font-size: 0.875rem;
       line-height: 18px;
       margin-top: var(--spacing-8);
     }

@@ -24,7 +24,7 @@ Repo `rebirth-wd/disc`, branch `restructure`. Do not merge to `main`.
 | 6a | One star system: `graphics/stars/` (Starfield, Twinkles), `lib/twinkle.ts` (item 19) | committed (see git log); Hero and ClosingBanner keep their own stars (different eases/sequences) |
 | 6b | `graphics/Parallax.astro` + `lib/parallax.ts` (item 20) | committed (see git log); PlansFaq/Compare/Cta migrated; offset-keyframe timelines, FeatureBlock, FeatureObjects, CareersCta, ServicesBanner kept as is (see DECISIONS 23) |
 | 7 | Content into `src/data`, site config, per-page SEO (13–15) | committed (see git log; DECISIONS 24) |
-| 8 | Font token rename, px→rem font sizes (23, 26) | not started (Haiku) |
+| 8 | Font token rename, px→rem font sizes (23, 26) | committed (see git log; DECISIONS 25) |
 | 9 | Colour/breakpoint/type/z-index tokens, single token source, hard-coded heights (24, 25, 27–29, 32) | not started |
 | 10 | Lazy motion, images, view transitions, smoke tests (30, 31, 33, 34) | not started |
 | Final | Rename `data-section` values + keys in `qa/motion-baseline.json`, delete/rewrite `tools/qa`, `tools/previews`, full review | not started |
