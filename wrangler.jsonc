@@ -6,5 +6,8 @@
   "compatibility_date": "2026-11-01",
   "assets": {
     "directory": "./dist"
-  }
+  },
+  // Worker Previews (branch builds via `npx wrangler preview`). Static assets only,
+  // no bindings, so nothing to isolate; block is required but can be empty.
+  "previews": {}
 }
