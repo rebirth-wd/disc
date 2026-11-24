@@ -2,28 +2,18 @@
 // Global footer.
 // Motion: <=767px column accordions: height 0 -> auto 200ms + chevron 180deg / 200ms.
 import { footerColumns } from '@data/navigation';
+import { site, languages, socialLabels } from '@data/site';
 import Dropdown from '@components/ui/Dropdown.astro';
 import LogoMark from './LogoMark.astro';
 
 const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
-const langs = [
-  'English',
-  'English (AU)',
-  'English (UK)',
-  'Deutsch',
-  'Español',
-  'Français',
-  'Italiano',
-  '日本語',
-];
-const socials = ['Chat', 'Photos', 'Community', 'Video', 'Feed'];
 ---
 
 <footer class:list={['footer', isHome && 'footer--home']} data-section="global-footer">
   <div class="footer__container">
     <div class="footer__grid">
       <div class="footer__left">
-        <a href="/" class="footer__logo" aria-label="Rebirth Web Design — home">
+        <a href="/" class="footer__logo" aria-label={`${site.name} — home`}>
           <LogoMark size={44} />
         </a>
         <div class="footer__label" id="footer-lang-label">
@@ -63,14 +53,14 @@ const socials = ['Chat', 'Photos', 'Community', 'Video', 'Feed'];
               />
             </svg>
           </button>
-          {langs.map((l) => (
+          {languages.map((l) => (
             <li class="footer__lang-item">{l}</li>
           ))}
         </Dropdown>
         <div class="footer__social footer__social--desk">
           <div class="footer__label">Social</div>
           <div class="footer__icons">
-            {socials.map((s, i) => (
+            {socialLabels.map((s, i) => (
               <a href="#" class="footer__icon" aria-label={s}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                   {i === 0 && (

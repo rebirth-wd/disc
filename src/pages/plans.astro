@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { pages } from '@data/pages';
 import PlansHero from '@components/sections/plans/PlansHero.astro';
 import PlansTiers from '@components/sections/plans/PlansTiers.astro';
 import PlansWhatsNew from '@components/sections/plans/PlansWhatsNew.astro';
@@ -9,11 +10,7 @@ import PlansFaq from '@components/sections/plans/PlansFaq.astro';
 import PlansCta from '@components/sections/plans/PlansCta.astro';
 ---
 
-<BaseLayout
-  title="Care Plans — Rebirth Web Design"
-  description="Hosting, backups, security, and updates — managed for you, every month."
-  active="plans"
->
+<BaseLayout page={pages['/plans']} active="plans">
   <div class="plans-page">
     <PlansHero />
     <PlansTiers />

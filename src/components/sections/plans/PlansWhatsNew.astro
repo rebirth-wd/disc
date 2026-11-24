@@ -3,35 +3,8 @@ import CheckItem from '@components/ui/CheckItem.astro';
 import Section from '@components/layout/Section.astro';
 import { Image } from 'astro:assets';
 import PlansDemo from '@components/graphics/loops/PlansDemo.astro';
-import p1 from '@assets/photos/plans-code-neon.jpg';
-import p2 from '@assets/photos/plans-laptop-glow.jpg';
-import p3 from '@assets/photos/plans-servers-green.jpg';
-import p4 from '@assets/photos/plans-setup-rgb.jpg';
-import p5 from '@assets/photos/plans-keyboard-violet.jpg';
-import p6 from '@assets/photos/plans-fans-datacenter.jpg';
-import p7 from '@assets/photos/plans-rack-green.jpg';
-import p8 from '@assets/photos/plans-studio-desk.jpg';
-import p9 from '@assets/photos/plans-laptop-magenta.jpg';
 import Heading from '@components/ui/Heading.astro';
-const tiles = [p1, p2, p3, p4, p5, p6, p7, p8, p9];
-const points = [
-  'Trained on your services, pricing, suburbs and FAQs',
-  'Answers visitor questions after hours',
-  'Guides every visitor to the right page',
-  'Works from your information, not the internet’s',
-];
-const cards = [
-  {
-    kind: 'repairs',
-    title: 'Site repairs',
-    text: 'Your site monitors and repairs itself, with scanning, patching and uptime alerts.',
-  },
-  {
-    kind: 'faster',
-    title: 'Faster pages',
-    text: 'Audited against Google’s own metrics, with the fixes applied, not just reported.',
-  },
-] as const;
+import { whatsNewCards, whatsNewPoints, whatsNewTiles } from '@data/plans';
 ---
 
 <Section section="nitro-whatsnew" class="plans-whats-new">
@@ -42,7 +15,7 @@ const cards = [
     <div class="plans-whats-new__banner">
       <div class="plans-whats-new__collage" aria-hidden="true">
         <div class="plans-whats-new__tiles">
-          {tiles.map((t) => (
+          {whatsNewTiles.map((t) => (
             <Image
               src={t}
               alt=""
@@ -66,15 +39,15 @@ const cards = [
           </svg>
           <span>AI Site Assistant</span>
         </div>
-        {points.map((t, i) => (
-          <CheckItem last={i === points.length - 1}>{t}</CheckItem>
+        {whatsNewPoints.map((t, i) => (
+          <CheckItem last={i === whatsNewPoints.length - 1}>{t}</CheckItem>
         ))}
         <a href="#faq" class="plans-whats-new__terms">
           Terms and eligibility rules apply.
         </a>
       </div>
     </div>
-    {cards.map((c) => (
+    {whatsNewCards.map((c) => (
       <article class="plans-whats-new__card">
         <div class="plans-whats-new__media">
           <PlansDemo kind={c.kind} />

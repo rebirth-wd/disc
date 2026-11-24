@@ -3,9 +3,10 @@ import cloudflare from '@astrojs/cloudflare';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
+import { site } from './src/data/site.ts';
 
 export default defineConfig({
-  site: 'https://rebirthwebdesign.com.au',
+  site: site.url,
   // The site uses no sessions; without this the adapter provisions an unused KV namespace on deploy.
   session: false,
   adapter: cloudflare({ imageService: 'compile' }),

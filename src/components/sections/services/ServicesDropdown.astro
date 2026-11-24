@@ -9,7 +9,7 @@ interface Item {
 }
 interface Props {
   label: string;
-  items: Item[];
+  items: readonly Item[];
   variant?: 'white' | 'blurple';
   z?: number;
   id: string;

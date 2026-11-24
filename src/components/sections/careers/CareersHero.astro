@@ -5,24 +5,8 @@ import Button from '@components/ui/Button.astro';
 import Carousel from '@components/ui/Carousel.astro';
 import CareersObject from '@components/graphics/objects/CareersObject.astro';
 import CareersPhoto from './CareersPhoto.astro';
-import neonStudio from '@assets/photos/careers-gallery-neon-studio.jpg';
-import neonDesk from '@assets/photos/careers-gallery-neon-desk.jpg';
-import nightOffice from '@assets/photos/careers-gallery-night-office.jpg';
-import openOffice from '@assets/photos/careers-gallery-open-office.jpg';
-import pairing from '@assets/photos/careers-gallery-pairing.jpg';
-import teamReview from '@assets/photos/careers-gallery-team-review.jpg';
-import laptopDuo from '@assets/photos/careers-gallery-laptop-duo.jpg';
 import Heading from '@components/ui/Heading.astro';
-
-const slides = [
-  { src: teamReview, alt: 'A small team reviewing a design together around one screen' },
-  { src: neonStudio, alt: 'A studio desk lit by violet neon signs' },
-  { src: openOffice, alt: 'People working on laptops in an open-plan office' },
-  { src: neonDesk, alt: 'A workstation glowing with neon light in a dark room' },
-  { src: pairing, alt: 'Two colleagues talking a build through at a laptop' },
-  { src: nightOffice, alt: 'A quiet desk with a laptop and monitor at night' },
-  { src: laptopDuo, alt: 'Two colleagues sharing a laptop by a bright window' },
-];
+import { careersGallery } from '@data/slides';
 ---
 
 <section
@@ -78,20 +62,20 @@ const slides = [
         'pointer-events-none absolute inset-x-[2vw] top-0 z-3 hidden h-[496px] items-center justify-between md:flex',
     }}
   >
-    {slides.map((s, i) => (
+    {careersGallery.map((s, i) => (
       <div
         data-slide
         class="careers-hero__gallery-slide absolute top-0 left-1/2 flex h-full items-center justify-center"
         role="group"
         aria-roledescription="slide"
-        aria-label={`${i + 1} / ${slides.length}`}
+        aria-label={`${i + 1} / ${careersGallery.length}`}
       >
         <div data-slide-media class="careers-hero__gallery-media h-[90%] w-[90%]">
           <CareersPhoto
-            src={s.src}
+            src={s.image}
             alt={s.alt}
             sizes="(min-width: 1280px) 800px, 80vw"
-            loading={i < 2 || i === slides.length - 1 ? 'eager' : 'lazy'}
+            loading={i < 2 || i === careersGallery.length - 1 ? 'eager' : 'lazy'}
             class="h-full w-full rounded-[56px] md:rounded-[96px] [@media(min-width:1440px)]:rounded-[80px]"
           />
         </div>

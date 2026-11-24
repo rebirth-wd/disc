@@ -4,14 +4,9 @@ import Section from '@components/layout/Section.astro';
 import Button from '@components/ui/Button.astro';
 import PlansObject from '@components/graphics/objects/PlansObject.astro';
 import Heading from '@components/ui/Heading.astro';
-const basic = ['Managed edge hosting', 'Daily backups', 'Security patches'];
-const care = [
-  'AI Site Assistant*',
-  'AI performance tuning',
-  'Uptime alerts',
-  'Monthly content edits',
-  'AI lead scoring and more!',
-];
+import { tierFeatures } from '@data/plans';
+
+const { basic, care } = tierFeatures;
 ---
 
 <Section section="nitro-plans" id="plans" class="plans-tiers">

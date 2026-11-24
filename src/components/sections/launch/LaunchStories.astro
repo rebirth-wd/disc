@@ -3,58 +3,9 @@ import Section from '@components/layout/Section.astro';
 // Success-stories carousel.
 // Re-implemented with GSAP + Draggable. Card copy is Lorem Ipsum by brief.
 import { Image } from 'astro:assets';
-import glow from '@assets/photos/launch-glow-laptop.jpg';
-import macbook from '@assets/photos/launch-macbook.jpg';
-import curve from '@assets/photos/launch-violet-curve.jpg';
-import pink from '@assets/photos/launch-pink-laptop.jpg';
-import pyramid from '@assets/photos/launch-pyramid.jpg';
-import room from '@assets/photos/launch-room.jpg';
-import tubes from '@assets/photos/launch-tubes.jpg';
-import tower from '@assets/photos/launch-tower.jpg';
 import Carousel from '@components/ui/Carousel.astro';
 import Heading from '@components/ui/Heading.astro';
-const slides = [
-  {
-    img: glow,
-    tag: 'Lorem Ipsum',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-  },
-  {
-    img: room,
-    tag: 'Dolor Sit Amet',
-    text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-  },
-  {
-    img: pink,
-    tag: 'Consectetur',
-    text: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur sint.',
-  },
-  {
-    img: pyramid,
-    tag: 'Adipiscing Elit',
-    text: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-  },
-  {
-    img: macbook,
-    tag: 'Sed Do Eiusmod',
-    text: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam.',
-  },
-  {
-    img: tower,
-    tag: 'Tempor',
-    text: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni.',
-  },
-  {
-    img: curve,
-    tag: 'Incididunt',
-    text: 'Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non.',
-  },
-  {
-    img: tubes,
-    tag: 'Magna Aliqua',
-    text: 'Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.',
-  },
-];
+import { launchStories } from '@data/slides';
 ---
 
 <Section
@@ -77,17 +28,17 @@ const slides = [
       <div class="launch-stories__car-fade launch-stories__car-fade--r" aria-hidden="true"></div>
     </Fragment>
     <div class="launch-stories__car-wrap">
-      {slides.map((s, i) => (
+      {launchStories.map((s, i) => (
         <div
           class:list={['launch-stories__slide', i === 0 && 'is-active']}
           data-slide
           role="group"
           aria-roledescription="slide"
-          aria-label={`${i + 1} / ${slides.length}`}
+          aria-label={`${i + 1} / ${launchStories.length}`}
         >
           <div class="launch-stories__slide-inner" data-inner>
             <Image
-              src={s.img}
+              src={s.image}
               alt=""
               widths={[520, 972]}
               sizes="486px"
@@ -128,7 +79,7 @@ const slides = [
       ))}
     </div>
     <div slot="after" class="launch-stories__car-dots">
-      {slides.map((_, i) => (
+      {launchStories.map((_, i) => (
         <button
           type="button"
           class:list={['launch-stories__dot', i === 0 && 'is-active']}

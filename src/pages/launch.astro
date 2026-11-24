@@ -1,6 +1,7 @@
 ---
 // /launch — "Launch your website with us". Copy from docs/source-copy.md. Sections live in src/components/sections/launch/.
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { pages } from '@data/pages';
 import LaunchSubnav from '@components/sections/launch/LaunchSubnav.astro';
 import LaunchHero from '@components/sections/launch/LaunchHero.astro';
 import LaunchSteps from '@components/sections/launch/LaunchSteps.astro';
@@ -12,7 +13,7 @@ import LaunchStories from '@components/sections/launch/LaunchStories.astro';
 import LaunchCta from '@components/sections/launch/LaunchCta.astro';
 ---
 
-<BaseLayout title="Launch your site — Rebirth Web Design" active="launch">
+<BaseLayout page={pages['/launch']} active="launch">
   <!--
     --launch-canvas is the page canvas every edge-fade in the sections blends into.
     DESIGN.md gives the canvas as Deep Indigo; the page itself is #000.

@@ -3,30 +3,7 @@ import Section from '@components/layout/Section.astro';
 import PlansDemo from '@components/graphics/loops/PlansDemo.astro';
 import PlansObject from '@components/graphics/objects/PlansObject.astro';
 import Heading from '@components/ui/Heading.astro';
-const rows = [
-  {
-    kind: 'posts',
-    lines: ['Fresh posts', 'on schedule'],
-    narrow: true,
-    text: 'Blog posts drafted, published and pushed to your socials on schedule, every single month.',
-  },
-  {
-    kind: 'inbox',
-    lines: ['Every enquiry', 'read and scored'],
-    text: 'Chat, form or call-back, each lead is summarised and scored before it hits your inbox.',
-  },
-  {
-    kind: 'chat',
-    lines: ['A chatbot that', 'knows your', 'business'],
-    text: 'It answers after hours and guides visitors to the right page, never reading off a script*.',
-    note: '*Scripts not included, sorry',
-  },
-  {
-    kind: 'speed',
-    lines: ['Loads in under', 'a second'],
-    text: 'Static pages served from the edge, built to turn casual traffic into customers.',
-  },
-] as const;
+import { planHighlights } from '@data/plans';
 ---
 
 <Section section="nitro-explore" class="plans-explore">
@@ -37,7 +14,7 @@ const rows = [
       best of Care
     </Heading>
     <div class="plans-explore__rows">
-      {rows.map((r, i) => (
+      {planHighlights.map((r, i) => (
         <div
           class:list={['plans-explore__row', i % 2 === 1 && 'plans-explore__row--flip']}
           data-feature={r.kind}

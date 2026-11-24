@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { pages } from '@data/pages';
 import CareersHero from '@components/sections/careers/CareersHero.astro';
 import CareersValues from '@components/sections/careers/CareersValues.astro';
 import CareersBanner from '@components/sections/careers/CareersBanner.astro';
@@ -10,7 +11,7 @@ import CareersFaq from '@components/sections/careers/CareersFaq.astro';
 import CareersCta from '@components/sections/careers/CareersCta.astro';
 ---
 
-<BaseLayout title="Work with Rebirth — Rebirth Web Design" active="careers">
+<BaseLayout page={pages['/careers']} active="careers">
   <div data-page="careers" class="bg-black text-white">
     <CareersHero />
     <CareersValues />

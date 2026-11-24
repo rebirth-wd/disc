@@ -3,28 +3,7 @@ import Section from '@components/layout/Section.astro';
 // "Explore our…" accordion-style tabs + media pane
 import LaunchMock from '@components/graphics/mocks/LaunchMock.astro';
 import Heading from '@components/ui/Heading.astro';
-const tabs = [
-  {
-    t: 'AI Assistant',
-    d: 'A chatbot that actually knows your business — your services, your pricing, your FAQs — not a generic bot reading off a script.',
-    mock: 'chat',
-  },
-  {
-    t: 'AI Site Maintenance',
-    d: 'Your site monitors and repairs itself: security patching, uptime alerts, and backups that run without anyone remembering.',
-    mock: 'maintain',
-  },
-  {
-    t: 'AI Content',
-    d: 'Blog posts drafted, published, and pushed to your socials on schedule, with site copy adjusted to what people are searching for.',
-    mock: 'content',
-  },
-  {
-    t: 'AI Lead Capture',
-    d: 'Every enquiry — chat, form, or call-back request — gets read, summarised, and scored before it hits your inbox.',
-    mock: 'leads',
-  },
-] as const;
+import { launchSolutions } from '@data/launch';
 ---
 
 <Section section="quests-solutions" class="launch-solutions" padding="section" container="none">
@@ -44,7 +23,7 @@ const tabs = [
       aria-label="AI tools"
       aria-orientation="vertical"
     >
-      {tabs.map((tab, i) => (
+      {launchSolutions.map((tab, i) => (
         <div
           class:list={['launch-solutions__tab', i === 0 && 'is-current']}
           data-tab
@@ -55,20 +34,20 @@ const tabs = [
           aria-selected={i === 0 ? 'true' : 'false'}
         >
           <div class="launch-solutions__toggle">
-            <span>{tab.t}</span>
+            <span>{tab.title}</span>
             <span class="launch-solutions__icon" aria-hidden="true">
               <i class="launch-solutions__minus" data-minus></i>
               <i class="launch-solutions__plus" data-plus></i>
             </span>
           </div>
           <div class="launch-solutions__content" data-content>
-            <p>{tab.d}</p>
+            <p>{tab.text}</p>
           </div>
         </div>
       ))}
     </div>
     <div class="launch-solutions__panes">
-      {tabs.map((tab, i) => (
+      {launchSolutions.map((tab, i) => (
         <div
           class:list={['launch-solutions__pane', i === 0 && 'is-active']}
           data-pane

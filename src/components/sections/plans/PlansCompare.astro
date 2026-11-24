@@ -3,56 +3,7 @@ import Section from '@components/layout/Section.astro';
 import Button from '@components/ui/Button.astro';
 import PlansObject from '@components/graphics/objects/PlansObject.astro';
 import Heading from '@components/ui/Heading.astro';
-type Cell = boolean | string;
-type Row = [string, Cell, Cell];
-const groups: { title: string; link?: boolean; tall?: boolean; rows: Row[] }[] = [
-  {
-    title: 'Care Rewards',
-    link: true,
-    tall: true,
-    rows: [
-      ['AI Site Assistant (Starter Edition)', false, true],
-      ['Monthly performance tuning', false, true],
-      ['Monthly content refresh', false, true],
-    ],
-  },
-  {
-    title: 'Always online',
-    rows: [
-      ['Managed edge hosting', true, true],
-      ['Uptime monitoring with instant alerts', false, true],
-      ['Self-repairing site checks', false, true],
-      ['Tested preview deploys', false, true],
-    ],
-  },
-  {
-    title: 'Keep your site safe',
-    rows: [
-      ['Daily automatic backups', true, true],
-      ['Security scanning and patching, plus framework updates', true, true],
-      ['Version control', true, true],
-      ['Dependency updates on a schedule', false, true],
-      ['20+ tested integrations', false, true],
-    ],
-  },
-  {
-    title: 'No limits, all fast',
-    rows: [
-      ['Speed Multiplier', false, true],
-      ['Monthly Reports', false, true],
-      ['Backup retention', '30 days', '1 year'],
-      ['Core Web Vitals audits', true, true],
-      ['SSL certificate', true, true],
-      ['AI lead scoring', false, true],
-      ['2 content edits + 30% off extra edits', false, true],
-      ['3 blog posts drafted', false, true],
-      ['Market-shift suggestions, and copy changes', false, true],
-      ['Priority Support', false, true],
-      ['Direct line to the developer, same day', false, true],
-      ['AI tools in your workplace', false, true],
-    ],
-  },
-];
+import { compareGroups } from '@data/plans';
 ---
 
 <Section section="nitro-compare" id="compare" class="plans-compare" container="wide">
@@ -97,7 +48,7 @@ const groups: { title: string; link?: boolean; tall?: boolean; rows: Row[] }[] =
       </div>
     </div>
 
-    {groups.map((g) => (
+    {compareGroups.map((g) => (
       <>
         <div class="plans-compare__group" role="row">
           <div class="plans-compare__grouptitle" role="cell">

@@ -1,24 +1,8 @@
 ---
 import Section from '@components/layout/Section.astro';
 import Heading from '@components/ui/Heading.astro';
+import { launchImpactCards } from '@data/launch';
 // "Drive impact…" three glass cards
-const cards = [
-  {
-    icon: 'speed',
-    h: 'Built on Astro for raw speed',
-    p: 'Astro ships zero unnecessary JavaScript, so your site loads in a blink for every visitor, on any device they use.',
-  },
-  {
-    icon: 'branch',
-    h: 'Version-controlled with GitHub',
-    p: 'Every change to your site is tracked, backed up, and reversible, start to finish.',
-  },
-  {
-    icon: 'globe',
-    h: 'Powered by Cloudflare’s edge',
-    p: 'Your site is distributed across Cloudflare’s network and served from the node closest to each of your visitors.',
-  },
-];
 ---
 
 <Section section="quests-impact" class="launch-impact" padding="section">
@@ -26,7 +10,7 @@ const cards = [
     Modern technology, proven at scale
   </Heading>
   <div class="launch-impact__grid">
-    {cards.map((c) => (
+    {launchImpactCards.map((c) => (
       <article class="launch-impact__card">
         <svg class="launch-impact__icon" viewBox="0 0 120 90" fill="none" aria-hidden="true">
           {c.icon === 'speed' && (
@@ -63,8 +47,8 @@ const cards = [
             </>
           )}
         </svg>
-        <h3>{c.h}</h3>
-        <p>{c.p}</p>
+        <h3>{c.title}</h3>
+        <p>{c.text}</p>
       </article>
     ))}
   </div>

@@ -5,59 +5,9 @@ import Section from '@components/layout/Section.astro';
 import Button from '@components/ui/Button.astro';
 import Accordion from '@components/ui/Accordion.astro';
 import Heading from '@components/ui/Heading.astro';
-const faqs = [
-  [
-    'Why choose Rebirth Online for my project? What makes a static-first website different?',
-    'I focus on fast, modern static websites built with Astro and Tailwind CSS—delivering standout design, blazing speed, and 90+ Lighthouse scores out of the box. Every site is mobile-first, accessible, SEO-ready, and tailored to your vision without unnecessary complexity or bloat.',
-  ],
-  [
-    'What kinds of projects do you take on?',
-    'My core expertise is in high-quality static sites: portfolios, business landing pages, marketing sites, documentation hubs, and personal brands. I’m also open to light dynamic features (e.g., forms, search, or simple APIs) when they add real value, all while keeping performance and maintainability first.',
-  ],
-  [
-    'How long does it take to build a website?',
-    'A focused prototype can be ready in just a few days. Full custom sites typically take 2–4 weeks from kickoff to launch, depending on scope and feedback rounds. I work iteratively—quick wins early, refinements along the way—so you see progress fast.',
-  ],
-  [
-    'What do you need from me to get started?',
-    'Clear goals, any existing branding/assets (logo, colors, photos), content (or a plan for it), and reference sites you love. If you’re not sure about any of that, I can guide you through discovery and help shape the direction.',
-  ],
-  [
-    'How much does a website cost?',
-    'Pricing is custom and transparent based on your needs. Paid projects start in the mid-four-figure range for bespoke, high-performance sites. I’ll provide a detailed quote after our initial discussion.',
-  ],
-  [
-    'Do you offer maintenance or updates after launch, or do I manage the site myself?',
-    'Yes. I can hand off the full source code for you or your team to manage, or I can provide ongoing support (updates, new sections, performance tweaks) on a monthly retainer or per-request basis—whatever fits your workflow best.',
-  ],
-  [
-    'What is my site actually built on?',
-    'Astro — the framework behind IKEA, Microsoft, Porsche, Visa, NBC News, and The Guardian. It ships zero unnecessary JavaScript, so your site loads in a blink.',
-  ],
-  [
-    'Where is my code kept, and what happens if something breaks after a change?',
-    'On GitHub. Every change to your site is tracked, backed up, and reversible — the same professional workflow that runs the world’s biggest software.',
-  ],
-  [
-    'Who hosts the site?',
-    'Cloudflare. Your site is distributed across its network and served from the node closest to each visitor, with no origin server to fall over under traffic.',
-  ],
-  [
-    'Will my site rank on Google?',
-    'Google weighs Core Web Vitals and crawlable, semantic HTML in its rankings. Astro outputs both by default. The SEO groundwork is in the architecture, not bolted on afterward.',
-  ],
-  [
-    'How secure is a static site?',
-    'Most website hacks happen through databases and plugins. Your site doesn’t use either, so there’s simply far less that can be broken into. Fewer weak points, fewer things to worry about.',
-  ],
-  [
-    'Who will I be working with?',
-    'The person writing the code — not an account manager, not an offshore team. One Bundaberg-based developer who knows your entire stack.',
-  ],
-];
-const items = faqs.map(([question, answer]) => ({ question, answer }));
-const first = items.slice(0, 4);
-const rest = items.slice(4);
+import { careersFaq } from '@data/faqs';
+const first = careersFaq.slice(0, 4);
+const rest = careersFaq.slice(4);
 ---
 
 <Section

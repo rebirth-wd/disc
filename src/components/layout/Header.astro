@@ -3,6 +3,7 @@
 // fixed white nav button right, scrolled pill state, burger menu under 992px.
 import Button from '@components/ui/Button.astro';
 import { navigation } from '@data/navigation';
+import { site } from '@data/site';
 import HeaderDropdown from './HeaderDropdown.astro';
 import LogoMark from './LogoMark.astro';
 import MobileMenu from './MobileMenu.astro';
@@ -21,7 +22,7 @@ const isActive = (id: string) => active === id;
         Skip to main content
       </a>
 
-      <a href="/" class="header__brand" data-brand aria-label="Rebirth Web Design — home">
+      <a href="/" class="header__brand" data-brand aria-label={`${site.name} — home`}>
         <span class="header__brand-light" data-brand-light>
           <LogoMark size={28} />
           <span class="header__brand-word">Rebirth</span>

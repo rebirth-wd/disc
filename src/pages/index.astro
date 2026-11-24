@@ -6,6 +6,7 @@
 // create a stacking context: the closing banner's character block (z-index 100) has to beat the footer
 // (z-index 98) in the root context.
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { pages } from '@data/pages';
 import HomeBackground from '@components/sections/home/HomeBackground.astro';
 import Hero from '@components/sections/home/Hero.astro';
 import FeatureAssistant from '@components/sections/home/FeatureAssistant.astro';
@@ -18,7 +19,7 @@ import FeatureDevices from '@components/sections/home/FeatureDevices.astro';
 import ClosingBanner from '@components/sections/home/ClosingBanner.astro';
 ---
 
-<BaseLayout title="Rebirth Web Design — High-performance websites" active="index">
+<BaseLayout page={pages['/']} active="index">
   <div class="home-root">
     <HomeBackground />
     <Hero />

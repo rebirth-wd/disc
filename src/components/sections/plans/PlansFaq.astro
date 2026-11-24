@@ -3,96 +3,7 @@ import Section from '@components/layout/Section.astro';
 import PlansObject from '@components/graphics/objects/PlansObject.astro';
 import Accordion from '@components/ui/Accordion.astro';
 import Heading from '@components/ui/Heading.astro';
-const tabs = [
-  {
-    name: 'General',
-    items: [
-      [
-        'What’s Care?',
-        'Care is a monthly plan that keeps your Rebirth site hosted, backed up, secured and updated, with AI features that answer visitors, tune performance and keep your content current.',
-      ],
-      [
-        'Does Rebirth Care include the AI Site Assistant?',
-        'Yes. Care members get an AI Site Assistant (Starter Edition) trained on your services, your pricing, your suburbs and your FAQs. It answers after hours and guides visitors to the right page.',
-      ],
-      [
-        'What are Care Rewards?',
-        'Care Rewards is the set of extras included with a Care plan: the AI Site Assistant, monthly performance tuning and a monthly content refresh. Terms and eligibility rules apply.',
-      ],
-      [
-        'How does Care work?',
-        'Once you join, hosting, backups, security and updates are managed for you, every month. Patches and framework updates are tested against a preview deploy before they ever hit production.',
-      ],
-      [
-        'What’s the difference between Care and Care Basic?',
-        'Care is our most popular plan and unlocks every perk. Care Basic covers the essentials that keep a site online: managed edge hosting, daily backups and security patches.',
-      ],
-      [
-        'How much does Care cost?',
-        'Placeholder pricing only: Care Basic is $XX / month and Care is $XX / month. Lorem ipsum dolor sit amet, a detailed quote follows our initial discussion.',
-      ],
-      [
-        'Where can I join Care?',
-        'Get in touch through the contact page or call us. You work with the person writing the code, not an account manager, and we can add a plan to any site we build.',
-      ],
-    ],
-  },
-  {
-    name: 'Payments',
-    items: [
-      [
-        'What payment methods do you accept?',
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Payment methods are confirmed on your quote.',
-      ],
-      [
-        'Do you offer Care and Care Basic on yearly billing?',
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      ],
-    ],
-  },
-  {
-    name: 'Hosting and Updates',
-    items: [
-      [
-        'Where is my site hosted?',
-        'Your site is distributed across Cloudflare’s network and served from the node closest to each visitor, with no origin server to fall over under traffic.',
-      ],
-      [
-        'Do you keep backups?',
-        'Yes. Every change is tracked in version control, backed up and reversible, and backups run without anyone remembering to run them.',
-      ],
-      [
-        'How are updates tested?',
-        'Astro, dependencies and integrations are kept current. Updates are applied deliberately and tested against a preview deploy first.',
-      ],
-      [
-        'Can I move an existing site onto Care?',
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. We will review your stack and tell you what fits.',
-      ],
-      [
-        'Does Rebirth offer plan promotions?',
-        'A limited number of pro-bono or heavily discounted sites are offered each year. Lorem ipsum dolor sit amet.',
-      ],
-    ],
-  },
-  {
-    name: 'Other',
-    items: [
-      [
-        'My Care plan comes with content edits. What are those?',
-        'Small changes to copy, images or sections that keep your site matching what people are actually searching for.',
-      ],
-      [
-        'Are plans lock-in?',
-        'Lorem ipsum dolor sit amet. You can take the full source code for you or your team to manage at any time.',
-      ],
-      [
-        'Why is my site not updating?',
-        'Changes are tested on a preview deploy before production. If something looks stuck, call us and you get the developer directly.',
-      ],
-    ],
-  },
-];
+import { plansFaq } from '@data/faqs';
 ---
 
 <Section section="nitro-faq" id="faq" class="plans-faq" container="wide">
@@ -107,7 +18,7 @@ const tabs = [
   </div>
 
   <div class="plans-faq__tabs" role="tablist" data-faq-tabs>
-    {tabs.map((t, i) => (
+    {plansFaq.map((t, i) => (
       <button
         type="button"
         role="tab"
@@ -134,7 +45,7 @@ const tabs = [
   </div>
 
   <div class="plans-faq__panes">
-    {tabs.map((t, i) => (
+    {plansFaq.map((t, i) => (
       <div
         class="plans-faq__pane"
         role="tabpanel"
@@ -146,7 +57,7 @@ const tabs = [
         <Accordion
           name={`plans-faq-${i}`}
           group="plans-faq"
-          items={t.items.map(([question, answer]) => ({ question, answer }))}
+          items={t.items}
           questionClass="font-abc-ginto-discord text-[16px] leading-[22px] font-medium min-[480px]:text-body-xl min-[480px]:leading-[26px]"
         >
           <Fragment slot="icon">

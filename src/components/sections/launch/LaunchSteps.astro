@@ -3,19 +3,7 @@ import Section from '@components/layout/Section.astro';
 // "Designed for…" + 3 numbered step cards
 import LaunchMock from '@components/graphics/mocks/LaunchMock.astro';
 import Heading from '@components/ui/Heading.astro';
-const steps = [
-  {
-    h: '1. You share your goals',
-    p: 'Clear goals, existing branding, content and reference sites you love.',
-    mock: 'brief',
-  },
-  { h: '2. We build fast', p: 'A focused prototype is ready in just a few days.', mock: 'build' },
-  {
-    h: '3. And launch in weeks',
-    p: 'Full custom sites typically take 2–4 weeks, kickoff to launch.',
-    mock: 'launch',
-  },
-] as const;
+import { launchSteps } from '@data/launch';
 ---
 
 <Section section="quests-steps" class="launch-steps" padding="section">
@@ -29,7 +17,7 @@ const steps = [
     </p>
   </div>
   <div class="launch-steps__grid">
-    {steps.map((s, i) => (
+    {launchSteps.map((s, i) => (
       <article class:list={['launch-steps__step', i === 1 && 'launch-steps__step--alt']}>
         <div class="launch-steps__step-media">
           <LaunchMock variant={s.mock} />
@@ -37,10 +25,10 @@ const steps = [
         <div class="launch-steps__step-text">
           <div class="launch-steps__step-title">
             <Heading level={3} size="sm">
-              {s.h}
+              {s.title}
             </Heading>
           </div>
-          <p>{s.p}</p>
+          <p>{s.text}</p>
         </div>
       </article>
     ))}

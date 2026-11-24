@@ -5,34 +5,7 @@ import Section from '@components/layout/Section.astro';
 import CareersGlyph from '@components/graphics/icons/CareersGlyph.astro';
 import Carousel from '@components/ui/Carousel.astro';
 import Heading from '@components/ui/Heading.astro';
-const names = [
-  ['Headers', 'window'],
-  ['Heros', 'star'],
-  ['Features', 'spark'],
-  ['Content', 'layers'],
-  ['Call-to-Action', 'bolt'],
-  ['Pricing', 'tag'],
-  ['Testimonials', 'chat'],
-  ['Contact Forms', 'mail'],
-  ['Footers', 'cube'],
-  ['AI Assistant', 'chat'],
-  ['AI Site Maintenance', 'shield'],
-  ['AI Performance Tuning', 'gauge'],
-  ['AI Content', 'code'],
-  ['AI Lead Capture & Qualification', 'pin'],
-  ['AI in Your Workplace', 'rocket'],
-  ['Astro Builds', 'rocket'],
-  ['GitHub Workflow', 'layers'],
-  ['Cloudflare Hosting', 'globe'],
-  ['Tailwind CSS', 'window'],
-  ['Core Web Vitals', 'gauge'],
-  ['Local SEO', 'pin'],
-  ['Static-first Security', 'shield'],
-  ['Edge Delivery', 'globe'],
-  ['Managed Updates', 'heart'],
-  ['Backups', 'cube'],
-  ['Blog & Socials', 'mail'],
-];
+import { careersParty } from '@data/slides';
 ---
 
 <Section
@@ -64,13 +37,13 @@ const names = [
     }}
     probe
   >
-    {names.map(([name, icon], i) => (
+    {careersParty.map(({ label, icon }, i) => (
       <div
         data-slide
         class="careers-party__slide"
         role="group"
         aria-roledescription="slide"
-        aria-label={`${i + 1} / ${names.length}`}
+        aria-label={`${i + 1} / ${careersParty.length}`}
       >
         <div data-slide-card class="careers-party__card">
           <div class="careers-party__content">
@@ -78,7 +51,7 @@ const names = [
               <CareersGlyph name={icon} badge={i % 6} size={120} class="h-full w-full" />
             </div>
             <h3 class="font-abc-ginto-discord text-[20px] leading-[24px] font-medium tracking-normal text-white normal-case md:text-[24px] md:leading-[28.8px]">
-              {name}
+              {label}
             </h3>
           </div>
         </div>
@@ -89,7 +62,7 @@ const names = [
       data-bullets
       class="absolute inset-x-0 bottom-[-30px] mx-auto flex h-[8px] w-[160px] items-center justify-center gap-8"
     >
-      {names.map((_, i) => (
+      {careersParty.map((_, i) => (
         <button
           type="button"
           data-bullet

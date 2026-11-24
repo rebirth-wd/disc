@@ -6,16 +6,7 @@ import Section from '@components/layout/Section.astro';
 import ServicesDropdown from './ServicesDropdown.astro';
 import ServicesObject from '@components/graphics/objects/ServicesObject.astro';
 import Heading from '@components/ui/Heading.astro';
-const items = [
-  'Portfolio',
-  'Business landing page',
-  'Marketing site',
-  'Documentation hub',
-  'Personal brand',
-  'AI Tools',
-  'Maintenance',
-  'Something else',
-].map((label) => ({ label }));
+import { serviceTypes } from '@data/services';
 ---
 
 <Section section="download-banner" class="services-banner text-white" container="wide">
@@ -34,7 +25,7 @@ const items = [
         label="Start Your Project"
         variant="blurple"
         z={100}
-        items={items}
+        items={serviceTypes}
       />
     </div>
     <ServicesObject

@@ -4,23 +4,7 @@ import Section from '@components/layout/Section.astro';
 //. Figures are placeholders.
 import LaunchObject from '@components/graphics/objects/LaunchObject.astro';
 import Heading from '@components/ui/Heading.astro';
-const stats = [
-  {
-    n: 'XX%',
-    label: 'Performance Score',
-    src: 'Placeholder figure, to be replaced with measured data',
-  },
-  {
-    n: '0.0s',
-    label: 'Median Load Time',
-    src: 'Placeholder figure, to be replaced with measured data',
-  },
-  {
-    n: 'XXX+',
-    label: 'Edge locations worldwide',
-    src: 'Placeholder figure, to be replaced with measured data',
-  },
-];
+import { launchPlatformStats } from '@data/launch';
 ---
 
 <Section section="quests-platform" class="launch-platform" padding="section">
@@ -35,9 +19,9 @@ const stats = [
   </div>
   <div class="launch-platform__rel">
     <div class="launch-platform__grid">
-      {stats.map((s, i) => (
+      {launchPlatformStats.map((s, i) => (
         <div class="launch-platform__block">
-          <div class="launch-platform__num">{s.n}</div>
+          <div class="launch-platform__num">{s.value}</div>
           <div>
             <div class="launch-platform__label">{s.label}</div>
             <button
@@ -56,7 +40,7 @@ const stats = [
                   role="tooltip"
                   hidden
                 >
-                  {s.src}
+                  {s.source}
                   <i></i>
                 </span>
               </span>
