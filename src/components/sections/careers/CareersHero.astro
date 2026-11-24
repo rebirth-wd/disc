@@ -76,6 +76,7 @@ import { careersGallery } from '@data/slides';
             alt={s.alt}
             sizes="(min-width: 1280px) 800px, 80vw"
             loading={i < 2 || i === careersGallery.length - 1 ? 'eager' : 'lazy'}
+            fetchpriority={i === 0 ? 'high' : undefined}
             class="h-full w-full rounded-[56px] md:rounded-[96px] wide:rounded-[80px]"
           />
         </div>

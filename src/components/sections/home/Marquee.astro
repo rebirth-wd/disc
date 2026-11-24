@@ -117,8 +117,11 @@ const SETS = 4; // the word set is rendered four times
             tween.progress(progress);
           };
           build();
-          // fonts change the word widths → rebuild with the same phase
-          document.fonts?.ready.then(build);
+          // fonts change the word widths → rebuild with the same phase, unless this breakpoint context has
+          // already reverted (a late rebuild would leave a tween nobody kills)
+          document.fonts?.ready.then(() => {
+            if (!signal.aborted) build();
+          });
           const ro = new ResizeObserver(build);
           ro.observe(sets[0]);
           disposeOn(signal, ro);

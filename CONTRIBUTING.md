@@ -16,9 +16,13 @@ and the Cloudflare adapter for deployment to Workers with static assets. Node ve
 | `npm run lint`         | ESLint                                                   |
 | `npm run format`       | Prettier, write                                          |
 | `npm run format:check` | Prettier, verify only (what CI runs)                     |
+| `npm run test:smoke`   | Smoke test of `dist/client` (run `npm run build` first)  |
 | `npm run deploy`       | Build, then `wrangler deploy` (needs a Cloudflare login) |
 
 CI runs check, lint, format:check and build on every push to `main` and on every pull request. All four must pass.
+CI does not run Playwright, so `npm run test:smoke` (the five routes, the three old-URL redirects, one h1, title,
+description and canonical per page, no horizontal overflow from 320 to 1680px; about 10 seconds, needs
+`npx playwright install chromium` once) is run by hand after a build.
 
 ## Folder conventions
 

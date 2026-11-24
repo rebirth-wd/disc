@@ -14,7 +14,8 @@
     "format:check": "prettier --check .",
     "verify": "node qa/verify.mjs",
     "verify:baseline": "node qa/verify.mjs baseline",
-    "verify:motion": "node qa/verify-motion.mjs"
+    "verify:motion": "node qa/verify-motion.mjs",
+    "test:smoke": "node tools/smoke/smoke.mjs"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.4.9",

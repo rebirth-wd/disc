@@ -27,7 +27,7 @@ Repo `rebirth-wd/disc`, branch `restructure`. Do not merge to `main`.
 | 8 | Font token rename, px→rem font sizes (23, 26) | committed (see git log; DECISIONS 25) |
 | 9a | Single token source; colour, breakpoint (px), type, z-index tokens (24, 25, 27–29) | committed (see git log; DECISIONS 26) |
 | 9b | Heights, Section adoption, "For wave 9" fixes, per-page theme-color (32) | committed (see git log; DECISIONS 27) |
-| 10 | Lazy motion, images, view transitions, smoke tests (30, 31, 33, 34) | not started |
+| 10 | Lazy motion, images, view transitions, smoke tests (30, 31, 33, 34) | committed (see git log; DECISIONS 28; view transitions deliberately off) |
 | Final | Rename `data-section` values + keys in `qa/motion-baseline.json`, delete/rewrite `tools/qa`, `tools/previews`, full review | not started |
 
 ### Gate result on `01ed127` (Mac, 2026-11-24)
