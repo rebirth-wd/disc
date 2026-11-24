@@ -522,27 +522,18 @@ const groups: { title: string; link?: boolean; tall?: boolean; rows: Row[] }[] =
 </style>
 
 <script>
-  import { gsap, motion, onPage, MQ } from '@lib/motion';
+  import { onPage } from '@lib/motion';
+  import { parallax } from '@lib/parallax';
 
   // progress of the h2 through the viewport, 0 -> 100%: cloud y 0 -> 180, disks y 0 -> -200
   onPage(() => {
-    motion(
-      document.querySelector<HTMLElement>('[data-section="nitro-compare"]'),
-      (root) => {
-        gsap
-          .timeline({
-            defaults: { ease: 'none', duration: 1 },
-            scrollTrigger: {
-              trigger: root.querySelector('[data-par-trigger="plan"]'),
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: 0.6,
-            },
-          })
-          .to(root.querySelector('[data-par="windy"]'), { y: 180 }, 0)
-          .to(root.querySelector('[data-par="battery"]'), { y: -200 }, 0);
-      },
-      MQ.md,
-    );
+    const root = document.querySelector<HTMLElement>('[data-section="nitro-compare"]');
+    const trigger = root?.querySelector('[data-par-trigger="plan"]') ?? null;
+    parallax(root?.querySelector('[data-par="windy"]') ?? null, { to: 180, trigger, scrub: 0.6 });
+    parallax(root?.querySelector('[data-par="battery"]') ?? null, {
+      to: -200,
+      trigger,
+      scrub: 0.6,
+    });
   });
 </script>

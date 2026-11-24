@@ -339,7 +339,8 @@ const tabs = [
 </style>
 
 <script>
-  import { gsap, ScrollTrigger, motion, onPage, reducedMotion, MQ } from '@lib/motion';
+  import { gsap, ScrollTrigger, onPage, reducedMotion, MQ } from '@lib/motion';
+  import { parallax } from '@lib/parallax';
   import { closeAccordions } from '@lib/accordion';
   onPage((signal) => {
     const root = document.querySelector<HTMLElement>('[data-section="nitro-faq"]');
@@ -437,22 +438,11 @@ const tabs = [
       });
 
       // progress of the FAQ heading block, 0 -> 100%: padlock y 0 -> -130
-      motion(
-        root,
-        () => {
-          gsap.to(root.querySelector('[data-par="key"]'), {
-            y: -130,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: root.querySelector('[data-par-trigger="faq"]'),
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: 0.6,
-            },
-          });
-        },
-        MQ.md,
-      );
+      parallax(root.querySelector('[data-par="key"]'), {
+        to: -130,
+        trigger: root.querySelector('[data-par-trigger="faq"]'),
+        scrub: 0.6,
+      });
     }
   });
 </script>

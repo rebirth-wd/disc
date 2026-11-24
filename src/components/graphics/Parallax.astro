@@ -81,62 +81,24 @@ const {
 </style>
 
 <script>
-  import { gsap, ease, motion, onPage, MQ } from '@lib/motion';
+  import { ease, onPage } from '@lib/motion';
+  import { parallax } from '@lib/parallax';
 
   onPage(() => {
     document.querySelectorAll<HTMLElement>('[data-parallax-float]').forEach((el, i) => {
-      const trigger = el.previousElementSibling as HTMLElement | null;
-      const inner = el.querySelector<HTMLElement>('[data-parallax-float-inner]');
-      const from = Number(el.dataset.from);
-      const to = Number(el.dataset.to);
-
-      // scroll parallax — runs on ≥768 only
-      motion(
-        el,
-        () => {
-          if (!trigger) return;
-          const tween = gsap.fromTo(
-            el,
-            { y: from },
-            {
-              y: to,
-              // CSS `ease` — the easing between the coin's two keyframes
-              ease: el.dataset.ease === 'ease' ? ease.css : 'none',
-              scrollTrigger: { trigger, start: 'top bottom', end: 'bottom top', scrub: 0.8 },
-            },
-          );
-          return () => {
-            tween.scrollTrigger?.kill();
-            tween.kill();
-            gsap.set(el, { clearProps: 'transform' });
-          };
+      parallax(el, {
+        from: Number(el.dataset.from),
+        to: Number(el.dataset.to),
+        // CSS `ease`: the easing between the coin's two keyframes
+        ease: el.dataset.ease === 'ease' ? ease.css : 'none',
+        trigger: el.previousElementSibling,
+        float: {
+          target: el.querySelector('[data-parallax-float-inner]'),
+          y: Number(el.dataset.floatY) || 0,
+          rotation: Number(el.dataset.floatRot) || 0,
+          duration: Number(el.dataset.floatDur) || 3.6,
+          delay: -i * 0.9,
         },
-        MQ.md,
-      );
-
-      // idle float
-      motion(el, () => {
-        if (!inner) return;
-        const dy = Number(el.dataset.floatY) || 0;
-        const rot = Number(el.dataset.floatRot) || 0;
-        const dur = Number(el.dataset.floatDur) || 3.6;
-        const tween = gsap.fromTo(
-          inner,
-          { y: -dy, rotation: -rot },
-          {
-            y: dy,
-            rotation: rot,
-            duration: dur,
-            ease: 'sine.inOut',
-            repeat: -1,
-            yoyo: true,
-            delay: -i * 0.9,
-          },
-        );
-        return () => {
-          tween.kill();
-          gsap.set(inner, { clearProps: 'transform' });
-        };
       });
     });
   });

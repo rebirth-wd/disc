@@ -145,27 +145,18 @@ import Heading from '@components/ui/Heading.astro';
 </style>
 
 <script>
-  import { gsap, motion, onPage, MQ } from '@lib/motion';
+  import { onPage } from '@lib/motion';
+  import { parallax } from '@lib/parallax';
 
   // progress of the section (start offset 75%), 0 -> 100%: rocket y 0 -> 150, calendar y 0 -> -150
   onPage(() => {
-    motion(
-      document.querySelector<HTMLElement>('[data-section="nitro-cta"]'),
-      (root) => {
-        gsap
-          .timeline({
-            defaults: { ease: 'none', duration: 1 },
-            scrollTrigger: {
-              trigger: root,
-              start: () => `top+=${root.offsetHeight * 0.75} bottom`,
-              end: 'bottom top',
-              scrub: 0.6,
-            },
-          })
-          .to(root.querySelector('[data-par="flag"]'), { y: 150 }, 0)
-          .to(root.querySelector('[data-par="box"]'), { y: -150 }, 0);
-      },
-      MQ.md,
-    );
+    const root = document.querySelector<HTMLElement>('[data-section="nitro-cta"]');
+    const options = {
+      trigger: root,
+      start: () => `top+=${(root?.offsetHeight ?? 0) * 0.75} bottom`,
+      scrub: 0.6,
+    };
+    parallax(root?.querySelector('[data-par="flag"]') ?? null, { ...options, to: 150 });
+    parallax(root?.querySelector('[data-par="box"]') ?? null, { ...options, to: -150 });
   });
 </script>

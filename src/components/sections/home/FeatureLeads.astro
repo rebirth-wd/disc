@@ -8,7 +8,7 @@ import FeatureBlock from './FeatureBlock.astro';
 import LeadFeed from '@components/graphics/loops/LeadFeed.astro';
 import Twinkles from '@components/graphics/stars/Twinkles.astro';
 import { FEATURE_STARS } from './featureStars';
-import ParallaxFloat from '@components/graphics/objects/ParallaxFloat.astro';
+import Parallax from '@components/graphics/Parallax.astro';
 ---
 
 <FeatureBlock
@@ -32,7 +32,7 @@ import ParallaxFloat from '@components/graphics/objects/ParallaxFloat.astro';
   <Fragment slot="decor">
     <Twinkles stars={FEATURE_STARS} origin="percent" sparkle="tapered" blur play="in-view" />
     <!-- coin: y -240 → 100, CSS ease, trigger starts 448.5px above the next section's top -->
-    <ParallaxFloat
+    <Parallax
       class="feature-leads__coin"
       from={-240}
       to={100}
@@ -74,7 +74,7 @@ import ParallaxFloat from '@components/graphics/objects/ParallaxFloat.astro';
           />
         </g>
       </svg>
-    </ParallaxFloat>
+    </Parallax>
   </Fragment>
 </FeatureBlock>
 
