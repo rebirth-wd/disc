@@ -1,0 +1,327 @@
+---
+// Secondary nav bar. Sticky under the header:
+// top 0 from 992px up, top 80px below. Desktop shows 4 glass tabs (one with a hover
+// dropdown); <=767px collapses into a single dropdown toggle.
+import Dropdown from '@components/ui/Dropdown.astro';
+import { launchSubnavLinks, launchSubnavMobile } from '@data/launch';
+---
+
+<div data-section="launch-subnav" class="launch-subnav">
+  <nav class="launch-subnav__links" aria-label="Launch pages">
+    {launchSubnavLinks.map((l) =>
+      l.drop ? (
+        <Dropdown
+          name="launch-subnav-drop"
+          opensOn="hover"
+          class="launch-subnav__drop"
+          listClass="launch-subnav__list"
+        >
+          <button
+            slot="trigger"
+            type="button"
+            class="launch-subnav__tab launch-subnav__tab--toggle"
+            data-dropdown-trigger
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-controls="launch-subnav-drop-list"
+          >
+            <span>{l.label}</span>
+            <svg
+              data-dropdown-arrow
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="m4 6 4 4 4-4"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <div class="launch-subnav__list-wr" data-dropwr>
+            {l.drop.map((d) => (
+              <a class="launch-subnav__droplink" data-droplink href={d.href}>
+                {d.label}
+              </a>
+            ))}
+          </div>
+        </Dropdown>
+      ) : (
+        <a
+          class="launch-subnav__tab launch-subnav__tab--desk"
+          data-sublink
+          href={l.href}
+          aria-current={l.current ? 'page' : undefined}
+        >
+          <span>{l.label}</span>
+        </a>
+      ),
+    )}
+
+    <Dropdown
+      name="launch-subnav-mob"
+      class="launch-subnav__mob"
+      listClass="launch-subnav__moblist"
+    >
+      <button
+        slot="trigger"
+        type="button"
+        class="launch-subnav__tab launch-subnav__tab--mob"
+        data-dropdown-trigger
+        aria-expanded="false"
+        aria-haspopup="true"
+        aria-controls="launch-subnav-mob-list"
+      >
+        <span>{launchSubnavLinks[0].label}</span>
+        <svg
+          data-dropdown-arrow
+          width="12"
+          height="12"
+          viewBox="0 0 16 16"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="m3 6 5 5 5-5"
+            stroke="currentColor"
+            stroke-width="2.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+      {launchSubnavMobile.map((d) => (
+        <a class="launch-subnav__tab launch-subnav__tab--mobitem" href={d.href}>
+          <span>{d.label}</span>
+        </a>
+      ))}
+    </Dropdown>
+  </nav>
+</div>
+
+<style>
+  .launch-subnav {
+    position: sticky;
+    top: 80px;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 15px;
+  }
+  .launch-subnav__links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    max-width: 672px;
+    margin: 0 auto;
+  }
+  /* gradient tile stand-in */
+  .launch-subnav {
+    --launch-subnav-tab-glow: radial-gradient(
+      120% 150% at 50% 118%,
+      #8f97ff 0%,
+      var(--color-blurple) 42%,
+      #4049c0 100%
+    );
+  }
+
+  .launch-subnav__tab {
+    position: relative;
+    display: none;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    margin: 0;
+    cursor: pointer;
+    color: var(--color-white);
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-bold);
+    background-color: rgba(255, 255, 255, 0.01);
+    -webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(30px);
+    border-radius: 6px;
+    transition: opacity 0.35s;
+    overflow: hidden;
+  }
+  .launch-subnav__tab:focus-visible,
+  .launch-subnav__droplink:focus-visible {
+    outline: 2px solid var(--color-white);
+    outline-offset: 2px;
+  }
+  .launch-subnav__tab[aria-current='page'],
+  .launch-subnav__tab--mob {
+    background-image: var(--launch-subnav-tab-glow);
+  }
+  @media (hover: hover) {
+    .launch-subnav__tab--desk:hover,
+    .launch-subnav__tab--toggle:hover,
+    .launch-subnav__tab--mobitem:hover {
+      background-image: var(--launch-subnav-tab-glow);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+
+  /* <=767: one dropdown toggle */
+  .launch-subnav__mob {
+    position: relative;
+    display: block;
+  }
+  .launch-subnav__tab--mob {
+    display: flex;
+    gap: 8px;
+    min-width: 160px;
+    padding: 11px 20px;
+    font-size: 0.6875rem;
+    line-height: 17px;
+  }
+  :global(.launch-subnav__moblist) {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 100%;
+    padding-top: 4px;
+  }
+  :global(.launch-subnav__moblist:not([hidden])) {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .launch-subnav__tab--mobitem {
+    display: flex;
+    padding: 11px 19px;
+    font-size: 0.6875rem;
+    line-height: 15px;
+    background-color: #7a7eb4;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  @media (min-width: 480px) {
+    .launch-subnav__tab--mob {
+      min-width: 140px;
+    }
+  }
+
+  /* 768+: four tabs */
+  .launch-subnav__drop {
+    position: relative;
+    display: none;
+    z-index: var(--z-dropdown);
+    border-radius: 6px;
+  }
+  :global(.launch-subnav__list) {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding-top: 4px;
+  }
+  .launch-subnav__list-wr {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 6px;
+    border-radius: 11px;
+    background-color: var(--color-white-10);
+    -webkit-backdrop-filter: blur(50px);
+    backdrop-filter: blur(50px);
+  }
+  .launch-subnav__droplink {
+    display: block;
+    padding: 11px 12px;
+    border-radius: 6px;
+    color: var(--color-white);
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-medium);
+    font-size: 0.875rem;
+    line-height: 20px;
+    transition: opacity 0.35s;
+  }
+  @media (hover: hover) {
+    .launch-subnav__droplink:hover {
+      background-image: var(--launch-subnav-tab-glow);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .launch-subnav {
+      padding-top: 20px;
+    }
+    .launch-subnav__mob {
+      display: none;
+    }
+    .launch-subnav__drop {
+      display: block;
+    }
+    .launch-subnav__tab--desk {
+      display: block;
+      min-height: 38px;
+      padding: 12px 24px;
+      font-size: 0.625rem;
+      line-height: 17px;
+    }
+    .launch-subnav__tab--toggle {
+      display: flex;
+      gap: 8px;
+      min-height: 38px;
+      padding: 12px 24px 11px;
+      font-size: 0.6875rem;
+      line-height: 15px;
+      overflow: visible;
+    }
+  }
+  @media (min-width: 992px) {
+    .launch-subnav {
+      top: 0;
+      padding-top: 15px;
+    }
+    .launch-subnav__links {
+      max-width: 608px;
+    }
+    .launch-subnav__tab--desk {
+      font-size: 0.6875rem;
+      line-height: 15px;
+    }
+  }
+  @media (min-width: 1280px) {
+    .launch-subnav__links {
+      max-width: 960px;
+    }
+    .launch-subnav__tab--desk {
+      min-height: 55px;
+      padding: 15.5px 32px;
+      font-size: 0.875rem;
+      line-height: 24px;
+    }
+    .launch-subnav__tab--toggle {
+      min-height: 55px;
+      padding: 15px 32px;
+      font-size: 0.875rem;
+      line-height: 24px;
+    }
+    .launch-subnav__tab--toggle svg {
+      height: 25px;
+    }
+    :global(.launch-subnav__list) {
+      padding-top: 8px;
+    }
+    .launch-subnav__droplink {
+      padding: 11px 14px;
+      font-size: var(--text-body);
+      line-height: 24px;
+    }
+  }
+</style>

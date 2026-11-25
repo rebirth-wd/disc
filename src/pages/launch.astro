@@ -1,0 +1,59 @@
+---
+// /launch — "Launch your website with us". Copy from docs/source-copy.md. Sections live in src/components/sections/launch/.
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { pages } from '@data/pages';
+import LaunchSubnav from '@components/sections/launch/LaunchSubnav.astro';
+import LaunchHero from '@components/sections/launch/LaunchHero.astro';
+import LaunchSteps from '@components/sections/launch/LaunchSteps.astro';
+import LaunchSolutions from '@components/sections/launch/LaunchSolutions.astro';
+import LaunchImpact from '@components/sections/launch/LaunchImpact.astro';
+import LaunchPlatform from '@components/sections/launch/LaunchPlatform.astro';
+import LaunchLogos from '@components/sections/launch/LaunchLogos.astro';
+import LaunchStories from '@components/sections/launch/LaunchStories.astro';
+import LaunchCta from '@components/sections/launch/LaunchCta.astro';
+---
+
+<BaseLayout page={pages['/launch']} active="launch">
+  <!--
+    --launch-canvas is the page canvas every edge-fade in the sections blends into.
+    DESIGN.md gives the canvas as Deep Indigo; the page itself is #000.
+    Change this one value to switch.
+  -->
+  <div class="launch-page" data-page="launch">
+    <div class="launch-spacer" data-section="launch-spacer" aria-hidden="true"></div>
+    <LaunchSubnav />
+    <LaunchHero />
+    <LaunchSteps />
+    <LaunchSolutions />
+    <LaunchImpact />
+    <LaunchPlatform />
+    <LaunchLogos />
+    <LaunchStories />
+    <LaunchCta />
+  </div>
+</BaseLayout>
+
+<style>
+  .launch-page {
+    --launch-canvas: var(--color-black);
+    position: relative;
+    background: var(--launch-canvas);
+    color: var(--color-white);
+  }
+  /* 80px header spacer, removed below 992px */
+  .launch-spacer {
+    display: none;
+    height: 80px;
+  }
+  @media (min-width: 992px) {
+    .launch-spacer {
+      display: block;
+    }
+  }
+  /* padding-top 80px at <=479px */
+  @media (max-width: 479px) {
+    .launch-page {
+      padding-top: 80px;
+    }
+  }
+</style>

@@ -1,0 +1,58 @@
+---
+// A trigger plus the list it opens (@lib/dropdown does the opening, closing and keyboard handling). The
+// trigger goes in the `trigger` slot: a button or link with data-dropdown-trigger, aria-expanded="false",
+// aria-controls="<name>-list" and, for the arrow that turns, an element with data-dropdown-arrow.
+// The default slot is the list's content. The page styles the root and list through `class` and `listClass`.
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'div'> {
+  /** Prefix of the list id (`<name>-list`) the trigger's aria-controls points at. */
+  name: string;
+  /** `hover` opens on mouse hover and keyboard focus (a touch tap toggles); `click` toggles on click. */
+  opensOn?: 'click' | 'hover';
+  /** Fade the list in and out instead of showing and hiding it instantly. */
+  fade?: boolean;
+  /** Dropdowns with the same group are open one at a time. */
+  group?: string;
+  as?: 'div' | 'li';
+  listAs?: 'div' | 'nav' | 'ul';
+  listClass?: string;
+  /** Id of the element that names the list (aria-labelledby). */
+  listLabelledby?: string;
+}
+const {
+  name,
+  opensOn = 'click',
+  fade = false,
+  group,
+  as: Tag = 'div',
+  listAs: ListTag = 'div',
+  listClass,
+  listLabelledby,
+  ...rest
+} = Astro.props;
+---
+
+<Tag
+  data-dropdown
+  data-dropdown-opens-on={opensOn}
+  data-dropdown-fade={fade ? '' : undefined}
+  data-dropdown-group={group}
+  {...rest}
+>
+  <slot name="trigger" />
+  <ListTag
+    class={listClass}
+    id={`${name}-list`}
+    data-dropdown-list
+    aria-labelledby={listLabelledby}
+    hidden={!fade}
+  >
+    <slot />
+  </ListTag>
+</Tag>
+
+<script>
+  import { onPage } from '@lib/motion';
+  import { initDropdowns } from '@lib/dropdown';
+  onPage(initDropdowns);
+</script>

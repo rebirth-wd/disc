@@ -1,0 +1,232 @@
+---
+// The one button. Specs: DESIGN.md "Primary CTA Button (White)", "Secondary CTA Button (Blurple)", "Nav Button".
+// Colour comes from `variant`, geometry from `size`; nothing else restyles it. `class` is for placement only.
+import type { HTMLAttributes } from 'astro/types';
+// `type` is owned by the primitive: links get none, buttons are always type="button".
+interface Props extends Omit<HTMLAttributes<'a'>, 'type'> {
+  variant?: 'white' | 'blurple' | 'ghost';
+  size?: 'nav' | 'sm' | 'md' | 'lg' | 'xl';
+  /** Blurred dark ellipse that fades in under the button on hover. */
+  glow?: boolean;
+  /** Fill the width of the parent. */
+  block?: boolean;
+  href?: string;
+  class?: string;
+}
+const {
+  variant = 'white',
+  size = 'md',
+  glow = false,
+  block = false,
+  href,
+  class: cls = '',
+  ...rest
+} = Astro.props;
+const Tag = href ? 'a' : 'button';
+const hasIcon = Astro.slots.has('icon');
+// The glow needs a clipping host; `class` then places the host instead of the button.
+const Wrap = glow ? 'span' : Fragment;
+const wrapProps = glow
+  ? { class: `button-glow-host ${cls}`.trim(), 'data-button-glow-host': '' }
+  : {};
+---
+
+<Wrap {...wrapProps}>
+  <Tag
+    href={href}
+    type={href ? undefined : 'button'}
+    class:list={[
+      'button',
+      `button--${variant}`,
+      `button--${size}`,
+      block && 'button--block',
+      glow && 'button--glow',
+      !glow && cls,
+    ]}
+    {...rest}
+  >
+    {hasIcon && (
+      <span class="button__icon" aria-hidden="true">
+        <slot name="icon" />
+      </span>
+    )}
+    <span class="button__label">
+      <slot />
+    </span>
+  </Tag>
+  {glow && <span data-button-glow class="button-glow-host__glow" aria-hidden="true" />}
+</Wrap>
+
+<style>
+  .button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-8);
+    box-sizing: border-box;
+    border: 0;
+    padding: 0 var(--spacing-24);
+    border-radius: var(--radius-buttons);
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    font-family: var(--font-body);
+    transition:
+      background-color var(--transition-control),
+      color var(--transition-control);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .button:focus-visible {
+    outline: 2px solid var(--color-signal-green);
+    outline-offset: 3px;
+  }
+  .button--block {
+    display: flex;
+    width: 100%;
+  }
+  /* Above the glow and the veil, which are both positioned */
+  .button__label,
+  .button__icon {
+    position: relative;
+    z-index: 3;
+  }
+  .button__icon {
+    display: flex;
+    flex: none;
+    width: 24px;
+    height: 24px;
+  }
+
+  .button--white {
+    background-color: var(--surface-white-control);
+    color: var(--color-not-quite-black);
+  }
+  .button--blurple {
+    background-color: var(--surface-blurple-action);
+    color: var(--color-white);
+  }
+  /* The translucent edge is measured on the reference, not in the style docs */
+  .button--ghost {
+    border: 1px solid var(--color-white-30);
+    background-color: var(--color-white-10);
+    color: var(--color-white);
+  }
+  /* Blurple hover: a dark gradient veil fading in over the fill. With `glow` the ellipse replaces it. */
+  .button--blurple:not(.button--glow)::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    background: linear-gradient(transparent 0, var(--color-dusk-indigo) 130%);
+    transition: opacity var(--transition-control);
+  }
+  @media (hover: hover) {
+    .button--white:hover,
+    .button--ghost:hover {
+      background-color: var(--color-fog);
+      color: var(--color-not-quite-black);
+    }
+    .button--blurple:not(.button--glow):hover::after {
+      opacity: 1;
+    }
+  }
+
+  /* Nav button: 39px, 16px radius, 16/500 */
+  .button--nav {
+    height: 39px;
+    padding: 0 var(--spacing-16);
+    border-radius: var(--radius-nav-controls);
+    font-size: var(--text-nav);
+    line-height: var(--leading-nav);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--tracking-button);
+  }
+  .button--white.button--nav {
+    color: var(--color-black);
+  }
+  @media (hover: hover) {
+    .button--white.button--nav:hover {
+      color: var(--color-black);
+    }
+  }
+  /* Dense contexts such as tables */
+  .button--sm {
+    height: 40px;
+    padding: 0 var(--spacing-16);
+    font-size: 0.875rem;
+    line-height: 20px;
+    font-weight: var(--font-weight-medium);
+  }
+  .button--md,
+  .button--lg {
+    font-size: var(--text-body);
+    line-height: 24px;
+    font-weight: var(--font-weight-medium);
+  }
+  .button--md {
+    height: 48px;
+  }
+  .button--lg {
+    height: 56px;
+  }
+  /* Large CTA: 65px, 20/400 from 1440px; 56px, 18/400 below */
+  .button--xl {
+    height: 56px;
+    font-size: 1.125rem;
+    line-height: 24px;
+    font-weight: var(--font-weight-regular);
+    letter-spacing: var(--tracking-button);
+  }
+  @media (min-width: 1440px) {
+    .button--xl {
+      height: 65px;
+      font-size: var(--text-body-xl);
+      line-height: 26px;
+    }
+  }
+
+  .button-glow-host {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    border-radius: var(--radius-buttons);
+    overflow: clip;
+  }
+  .button-glow-host__glow {
+    position: absolute;
+    left: -50%;
+    right: -50%;
+    top: 45px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--color-dusk-indigo);
+    filter: blur(30px);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+</style>
+
+<script>
+  import { gsap, onPage } from '@lib/motion';
+
+  onPage((signal) => {
+    // 200ms linear fade in and out
+    document.querySelectorAll<HTMLElement>('[data-button-glow-host]').forEach((host) => {
+      const glow = host.querySelector<HTMLElement>('[data-button-glow]');
+      if (!glow) return;
+      host.addEventListener(
+        'mouseenter',
+        () => gsap.to(glow, { opacity: 1, duration: 0.2, ease: 'none', overwrite: true }),
+        { signal },
+      );
+      host.addEventListener(
+        'mouseleave',
+        () => gsap.to(glow, { opacity: 0, duration: 0.2, ease: 'none', overwrite: true }),
+        { signal },
+      );
+    });
+  });
+</script>

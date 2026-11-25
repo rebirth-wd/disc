@@ -1,0 +1,32 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { pages } from '@data/pages';
+import PlansHero from '@components/sections/plans/PlansHero.astro';
+import PlansTiers from '@components/sections/plans/PlansTiers.astro';
+import PlansWhatsNew from '@components/sections/plans/PlansWhatsNew.astro';
+import PlansExplore from '@components/sections/plans/PlansExplore.astro';
+import PlansCompare from '@components/sections/plans/PlansCompare.astro';
+import PlansFaq from '@components/sections/plans/PlansFaq.astro';
+import PlansCta from '@components/sections/plans/PlansCta.astro';
+---
+
+<BaseLayout page={pages['/plans']} active="plans">
+  <div class="plans-page">
+    <PlansHero />
+    <PlansTiers />
+    <PlansWhatsNew />
+    <PlansExplore />
+    <PlansCompare />
+    <PlansFaq />
+    <PlansCta />
+  </div>
+</BaseLayout>
+
+<style>
+  .plans-page {
+    position: relative;
+    background: var(--color-black);
+    color: var(--color-white);
+    overflow: clip;
+  }
+</style>

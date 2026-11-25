@@ -1,0 +1,209 @@
+---
+import Section from '@components/layout/Section.astro';
+import PlansDemo from '@components/graphics/loops/PlansDemo.astro';
+import PlansObject from '@components/graphics/objects/PlansObject.astro';
+import Heading from '@components/ui/Heading.astro';
+import { planHighlights } from '@data/plans';
+---
+
+<Section section="plans-explore" class="plans-explore">
+  <div data-par-trigger="star">
+    <Heading level={2} size="lg" italic class="plans-explore__title text-center">
+      Explore the
+      <br />
+      best of Care
+    </Heading>
+    <div class="plans-explore__rows">
+      {planHighlights.map((r, i) => (
+        <div
+          class:list={['plans-explore__row', i % 2 === 1 && 'plans-explore__row--flip']}
+          data-feature={r.kind}
+        >
+          <div class="plans-explore__text">
+            <Heading
+              level={3}
+              size="md"
+              italic
+              class:list={['plans-explore__heading', 'narrow' in r && 'plans-explore__narrow']}
+            >
+              {r.lines.map((l) => (
+                <span>{l} </span>
+              ))}
+            </Heading>
+            <p class="font-body text-body leading-[22px] font-normal xs:text-body-xl xs:leading-[26px]">
+              {r.text}
+              {'note' in r && <em>{r.note}</em>}
+            </p>
+          </div>
+          <div class="plans-explore__media">
+            <PlansDemo kind={r.kind} />
+          </div>
+        </div>
+      ))}
+    </div>
+    <PlansObject name="pulse" par="star" class="plans-explore__pulse" />
+  </div>
+</Section>
+
+<style>
+  .plans-explore {
+    position: relative;
+    padding-bottom: 160px;
+  }
+  .plans-explore__title {
+    margin-bottom: var(--spacing-64);
+  }
+  .plans-explore__rows {
+    display: flex;
+    flex-direction: column;
+    gap: 120px;
+  }
+  .plans-explore__row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 80px;
+  }
+  .plans-explore__row--flip {
+    flex-direction: row-reverse;
+  }
+  .plans-explore__text {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 640px;
+  }
+  .plans-explore__heading {
+    margin-bottom: var(--spacing-24);
+  }
+  .plans-explore__heading span {
+    display: block;
+  }
+  .plans-explore__narrow {
+    max-width: 336px;
+  }
+  .plans-explore__text em {
+    display: block;
+    margin-top: var(--spacing-16);
+    font-style: italic;
+  }
+  .plans-explore__media {
+    position: relative;
+    flex: none;
+    width: 666px;
+    height: 521px;
+    border-radius: 96px;
+    overflow: hidden;
+  }
+  .plans-explore__pulse {
+    top: 0;
+    left: 0;
+    margin-top: -67px;
+    width: 216px;
+    height: 216px;
+  }
+  @media (max-width: 1439px) {
+    .plans-explore {
+      padding-bottom: 140px;
+    }
+    .plans-explore__title {
+      margin-bottom: var(--spacing-48);
+    }
+    .plans-explore__rows {
+      gap: 100px;
+    }
+    .plans-explore__row {
+      gap: var(--spacing-56);
+    }
+    .plans-explore__text {
+      flex: none;
+      width: 316px;
+    }
+    .plans-explore__heading span {
+      display: inline;
+    }
+    .plans-explore__media {
+      width: 378px;
+      height: 295px;
+      border-radius: 56px;
+    }
+    .plans-explore__pulse {
+      margin-top: -27px;
+      width: 174px;
+      height: 174px;
+    }
+  }
+  @media (max-width: 991px) {
+    .plans-explore__rows {
+      gap: var(--spacing-56);
+    }
+    .plans-explore__row {
+      gap: 32px;
+    }
+    .plans-explore__media {
+      width: 340px;
+      height: 266px;
+    }
+  }
+  @media (max-width: 767px) {
+    .plans-explore__row,
+    .plans-explore__row--flip {
+      flex-direction: column-reverse;
+      align-items: stretch;
+      gap: 32px;
+    }
+    .plans-explore__text {
+      width: auto;
+      max-width: none;
+    }
+    .plans-explore__media {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 343 / 309;
+      border-radius: 52px;
+    }
+  }
+  @media (max-width: 479px) {
+    .plans-explore {
+      padding-bottom: 100px;
+    }
+    .plans-explore__title {
+      margin-bottom: var(--spacing-40);
+    }
+    .plans-explore__heading {
+      margin-bottom: var(--spacing-16);
+    }
+    .plans-explore__pulse {
+      left: -21px;
+      margin-top: -104px;
+      width: 90px;
+      height: 90px;
+    }
+  }
+</style>
+
+<script>
+  import { gsap, motion, onPage, MQ } from '@lib/motion';
+
+  // progress of the section container, 0% -> 25%: y 0 -> -100 (then holds)
+  onPage(() => {
+    motion(
+      document.querySelector<HTMLElement>('[data-section="plans-explore"]'),
+      (root) => {
+        gsap
+          .timeline({
+            defaults: { ease: 'none' },
+            scrollTrigger: {
+              trigger: root.querySelector('[data-par-trigger="star"]'),
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 0.6,
+            },
+          })
+          .to(root.querySelector('[data-par="star"]'), { y: -100, duration: 0.25 }, 0)
+          .to({}, { duration: 0.75 }, 0.25);
+      },
+      MQ.md,
+    );
+  });
+</script>

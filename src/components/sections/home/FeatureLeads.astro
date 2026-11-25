@@ -1,0 +1,105 @@
+---
+/**
+ * text left, fuchsia inset right.
+ * Decor: the blurred coin behind the slab's lower-left corner (it belongs to the next
+ * section but paints behind this slab; the shell isolates sections, so it lives here).
+ */
+import FeatureBlock from './FeatureBlock.astro';
+import LeadFeed from '@components/graphics/loops/LeadFeed.astro';
+import Twinkles from '@components/graphics/stars/Twinkles.astro';
+import { FEATURE_STARS } from './featureStars';
+import Parallax from '@components/graphics/Parallax.astro';
+---
+
+<FeatureBlock
+  name="leads"
+  heading="Know who's<br>ready to<br>buy now"
+  reverse
+  sectionHeight={936}
+  padTop={190}
+  insetFill="fuchsia"
+  textPadRight={4}
+  padLg={[235, 165]}
+  padMd={[154, 130]}
+  padSm={[144, 106]}
+  class="feature-leads"
+  tightGutter
+  slabTexture="radial-gradient(60% 80% at 18% 0%, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 70%), linear-gradient(95deg, var(--surface-glass-block) 0%, rgba(255, 255, 255, 0.16) 38%, rgba(255, 255, 255, 0.05) 62%, rgba(12, 12, 48, 0.4) 100%)"
+>
+  <LeadFeed slot="media" />
+  Every enquiry — chat, form, or call-back — gets read, summarised, and scored before it hits your
+  inbox. You see who's ready to buy and who's browsing.
+  <Fragment slot="decor">
+    <Twinkles stars={FEATURE_STARS} origin="percent" sparkle="tapered" blur play="in-view" />
+    <!-- coin: y -240 → 100, CSS ease, trigger starts 448.5px above the next section's top -->
+    <Parallax
+      class="feature-leads__coin"
+      from={-240}
+      to={100}
+      ease="ease"
+      triggerTop="calc(100% - 448.5px)"
+      floatY={6}
+      floatRot={4}
+      floatDur={4.2}
+    >
+      <svg viewBox="0 0 210 210">
+        <defs>
+          <linearGradient id="feature-leads-coin-a" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#b9a8ff" />
+            <stop offset="1" stop-color="#6a4be0" />
+          </linearGradient>
+          <linearGradient id="feature-leads-coin-b" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#8f8bff" />
+            <stop offset="1" stop-color="#5865f2" />
+          </linearGradient>
+        </defs>
+        <g transform="rotate(-20 105 105)">
+          <ellipse cx="113" cy="110" rx="78" ry="92" fill="#a05bd8" />
+          <ellipse cx="100" cy="104" rx="78" ry="92" fill="url(#feature-leads-coin-a)" />
+          <ellipse cx="100" cy="104" rx="60" ry="72" fill="url(#feature-leads-coin-b)" />
+          <path
+            d="M100 58a40 46 0 1 1-34 22"
+            fill="none"
+            stroke="#e9e4ff"
+            stroke-width="12"
+            stroke-linecap="round"
+          />
+          <path
+            d="M84 110l12 14 24-30"
+            fill="none"
+            stroke="#e9e4ff"
+            stroke-width="11"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </g>
+      </svg>
+    </Parallax>
+  </Fragment>
+</FeatureBlock>
+
+<style>
+  .feature-leads__coin {
+    left: calc(var(--feature-block-cx) - 96px);
+    bottom: -106px;
+    width: 210px;
+    height: 211px;
+    filter: blur(5px);
+  }
+  @media (max-width: 1439px) {
+    .feature-leads__coin {
+      bottom: -128px;
+      width: 142px;
+      height: 143px;
+      filter: blur(4px);
+    }
+  }
+  @media (max-width: 767px) {
+    .feature-leads__coin {
+      left: -52px;
+      bottom: -100px;
+      width: 132px;
+      height: 133px;
+    }
+  }
+</style>

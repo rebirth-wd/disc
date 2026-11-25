@@ -1,0 +1,180 @@
+---
+import Section from '@components/layout/Section.astro';
+// "Designed for…" + 3 numbered step cards
+import LaunchMock from '@components/graphics/mocks/LaunchMock.astro';
+import Heading from '@components/ui/Heading.astro';
+import { launchSteps } from '@data/launch';
+---
+
+<Section section="launch-steps" class="launch-steps" padding="section">
+  <div class="launch-steps__title">
+    <Heading level={2} size="lg" class="launch-steps__heading text-center">
+      Designed for busy owners
+    </Heading>
+    <p class="mx-auto text-center text-body leading-[22px] text-white xs:text-body-xl xs:leading-[26px] launch-steps__lead">
+      A focused prototype can be ready in just a few days. Quick wins early, refinements along the
+      way, so you see progress fast.
+    </p>
+  </div>
+  <div class="launch-steps__grid">
+    {launchSteps.map((s, i) => (
+      <article class:list={['launch-steps__step', i === 1 && 'launch-steps__step--alt']}>
+        <div class="launch-steps__step-media">
+          <LaunchMock variant={s.mock} />
+        </div>
+        <div class="launch-steps__step-text">
+          <div class="launch-steps__step-title">
+            <Heading level={3} size="sm">
+              {s.title}
+            </Heading>
+          </div>
+          <p>{s.text}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+</Section>
+
+<style>
+  .launch-steps__heading {
+    margin-bottom: var(--spacing-16);
+  }
+  @media (min-width: 992px) {
+    .launch-steps__heading {
+      margin-bottom: var(--spacing-20);
+    }
+  }
+  @media (min-width: 1440px) {
+    .launch-steps__heading {
+      margin-bottom: var(--spacing-24);
+    }
+  }
+  .launch-steps__title {
+    margin-bottom: 32px;
+  }
+  @media (min-width: 480px) {
+    .launch-steps__title {
+      margin-bottom: var(--spacing-48);
+    }
+  }
+  @media (min-width: 1440px) {
+    .launch-steps__title {
+      margin-bottom: var(--spacing-64);
+    }
+  }
+  .launch-steps.launch-steps {
+    padding-top: 0;
+  }
+  .launch-steps__lead {
+    max-width: 400px;
+  }
+  .launch-steps__grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-16);
+  }
+  .launch-steps__step {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-24);
+    align-items: center;
+    padding: 16px 16px 32px;
+    border-radius: 40px;
+    background-color: rgb(56, 31, 44);
+    background-image: linear-gradient(
+      180deg,
+      #3d2030 0%,
+      #4b2239 34%,
+      #8b306f 62%,
+      #d542af 84%,
+      #fc4bd0 100%
+    );
+  }
+  .launch-steps__step-media {
+    position: relative;
+    aspect-ratio: 357.3 / 358.4;
+    border-radius: 32px;
+    overflow: hidden;
+  }
+  .launch-steps__step-text {
+    padding: 0 var(--spacing-16);
+  }
+  .launch-steps__step-title {
+    margin-bottom: var(--spacing-16);
+  }
+  .launch-steps__step p {
+    margin: 0;
+    font-size: var(--text-body);
+    line-height: 1.278;
+    color: var(--color-white);
+  }
+  @media (min-width: 480px) {
+    .launch-steps__step {
+      padding: var(--spacing-40);
+      gap: 32px;
+      border-radius: 64px;
+    }
+    .launch-steps__step-media {
+      border-radius: 54px;
+    }
+    .launch-steps__step-text {
+      padding: 0 17px;
+    }
+    .launch-steps__step p {
+      font-size: 1.125rem;
+      line-height: 23px;
+    }
+  }
+  @media (min-width: 992px) {
+    .launch-steps__lead {
+      max-width: 620px;
+    }
+    .launch-steps__step {
+      grid-template-columns: 1fr 393px;
+    }
+    .launch-steps__step-media {
+      order: 2;
+    }
+    .launch-steps__step--alt .launch-steps__step-media {
+      order: 0;
+    }
+    .launch-steps__step--alt {
+      grid-template-columns: 1fr 393px;
+    }
+    .launch-steps__step-text {
+      padding: 0;
+    }
+  }
+  @media (min-width: 1440px) {
+    .launch-steps.launch-steps {
+      padding-bottom: 80px;
+    }
+    .launch-steps__lead {
+      max-width: 740px;
+    }
+    .launch-steps__grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .launch-steps__step,
+    .launch-steps__step--alt {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 32px;
+      padding: 16px 16px 40px;
+      border-radius: 56px;
+    }
+    .launch-steps__step-media,
+    .launch-steps__step--alt .launch-steps__step-media {
+      order: 0;
+      border-radius: var(--spacing-48);
+    }
+    .launch-steps__step-text {
+      padding: 0 var(--spacing-16);
+    }
+    .launch-steps__step-title {
+      min-height: 64px;
+    }
+  }
+</style>

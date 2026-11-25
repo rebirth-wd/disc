@@ -1,0 +1,564 @@
+---
+import Section from '@components/layout/Section.astro';
+// Success-stories carousel.
+// Re-implemented with GSAP + Draggable. Card copy is Lorem Ipsum by brief.
+import { Image } from 'astro:assets';
+import Carousel from '@components/ui/Carousel.astro';
+import Heading from '@components/ui/Heading.astro';
+import { launchStories } from '@data/slides';
+---
+
+<Section
+  section="launch-stories"
+  id="launch-stories"
+  class="launch-stories"
+  padding="section"
+  container="none"
+>
+  <Heading level={2} size="lg" class="launch-stories__h2 text-center">
+    Launch success stories
+  </Heading>
+  <Carousel
+    label="Success stories"
+    class="launch-stories__car"
+    viewportClass="launch-stories__car-view"
+  >
+    <Fragment slot="before">
+      <div class="launch-stories__car-fade" aria-hidden="true"></div>
+      <div class="launch-stories__car-fade launch-stories__car-fade--r" aria-hidden="true"></div>
+    </Fragment>
+    <div class="launch-stories__car-wrap">
+      {launchStories.map((s, i) => (
+        <div
+          class:list={['launch-stories__slide', i === 0 && 'is-active']}
+          data-slide
+          role="group"
+          aria-roledescription="slide"
+          aria-label={`${i + 1} / ${launchStories.length}`}
+        >
+          <div class="launch-stories__slide-inner" data-inner>
+            <Image
+              src={s.image}
+              alt=""
+              widths={[520, 972]}
+              sizes="486px"
+              class="launch-stories__slide-img"
+              loading="eager"
+              draggable="false"
+            />
+            <div class="launch-stories__slide-grad"></div>
+            <div class="launch-stories__slide-text">
+              <div class="launch-stories__slide-tagwr" data-tagwr>
+                <div class="launch-stories__tag" data-tag-idle>
+                  <div>{s.tag}</div>
+                </div>
+                <div class="launch-stories__tag launch-stories__tag--active" data-tag-active>
+                  <div>{s.tag}</div>
+                </div>
+              </div>
+              <div class="launch-stories__slide-copy" data-copy>
+                {s.text}
+              </div>
+              <div class="launch-stories__slide-more" data-more>
+                <div>Learn more</div>
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <circle cx="9" cy="9" r="9" fill="#fff" />
+                  <path
+                    d="M5 9h7M9.5 6l3 3-3 3"
+                    stroke="#9b2f80"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+            </div>
+            <a class="launch-stories__slide-link" href="#" aria-label={s.tag} draggable="false"></a>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div slot="after" class="launch-stories__car-dots">
+      {launchStories.map((_, i) => (
+        <button
+          type="button"
+          class:list={['launch-stories__dot', i === 0 && 'is-active']}
+          data-bullet
+          aria-label={`Go to slide ${i + 1}`}
+        >
+          <span class="launch-stories__dot-bar" data-progress></span>
+        </button>
+      ))}
+    </div>
+    <div slot="after" class="launch-stories__car-arrows">
+      <button
+        type="button"
+        class="launch-stories__arrow"
+        data-carousel-prev
+        aria-label="Previous slide"
+      >
+        <span class="launch-stories__arrow-bg"></span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="m14.5 6-6 6 6 6"
+            stroke="#fff"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="launch-stories__arrow"
+        data-carousel-next
+        aria-label="Next slide"
+      >
+        <span class="launch-stories__arrow-bg"></span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="m9.5 6 6 6-6 6"
+            stroke="#fff"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+  </Carousel>
+</Section>
+
+<style>
+  .launch-stories {
+    overflow: hidden;
+  }
+  .launch-stories__h2 {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+  :global(.launch-stories__car) {
+    position: relative;
+    margin: var(--spacing-48) auto 0;
+    max-width: 1440px;
+    --w: 256px;
+    --h: 354px;
+    --overlap: 16px;
+    --rad: 40px;
+    --inner: 80%;
+  }
+  :global(.launch-stories__car-view) {
+    position: relative;
+    height: var(--h);
+    cursor: grab;
+  }
+  :global(.launch-stories__car-view):active {
+    cursor: grabbing;
+  }
+  .launch-stories__car-wrap {
+    position: absolute;
+    inset: 0;
+  }
+  .launch-stories__slide {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: var(--w);
+    height: var(--h);
+    margin: calc(var(--h) / -2) 0 0 calc(var(--w) / -2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100px;
+    opacity: 0.2;
+    user-select: none;
+  }
+  .launch-stories__slide.is-active {
+    opacity: 1;
+    z-index: 1;
+  }
+  .launch-stories__slide-inner {
+    position: relative;
+    width: var(--inner);
+    height: 80%;
+    border-radius: var(--rad);
+    overflow: hidden;
+  }
+  .launch-stories__slide.is-active .launch-stories__slide-inner {
+    width: 100%;
+    height: 100%;
+  }
+  .launch-stories__slide-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+  .launch-stories__slide-grad {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(var(--color-black-0) 28%, rgba(155, 47, 128, 0.97) 57%);
+  }
+  .launch-stories__slide-text {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: var(--spacing-8);
+    padding: 0 24px 36px;
+  }
+  .launch-stories__slide-tagwr {
+    position: relative;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(82px);
+  }
+  .launch-stories__slide.is-active .launch-stories__slide-tagwr {
+    transform: none;
+  }
+  .launch-stories__tag {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+    padding: 8px 12px;
+    border-radius: 15px;
+    overflow: clip;
+    background-color: rgba(255, 255, 255, 0.24);
+    -webkit-backdrop-filter: blur(130px);
+    backdrop-filter: blur(130px);
+    font-weight: var(--font-weight-medium);
+    font-size: 4.1vw;
+    line-height: 1.4;
+    color: var(--color-white);
+    white-space: nowrap;
+  }
+  .launch-stories__tag--active {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+  }
+  .launch-stories__slide.is-active .launch-stories__tag {
+    opacity: 0;
+  }
+  .launch-stories__slide.is-active .launch-stories__tag--active {
+    opacity: 1;
+  }
+  .launch-stories__slide-copy {
+    align-self: stretch;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 99%;
+    margin-top: -8px;
+    padding-top: 8px;
+    overflow: hidden;
+    font-size: 0.875rem;
+    line-height: 16px;
+    color: #f2f3f5;
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  .launch-stories__slide-more {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-8);
+    margin-top: 8px;
+    font-size: var(--text-body);
+    line-height: 24px;
+    color: var(--color-white);
+    opacity: 0;
+  }
+  .launch-stories__slide.is-active .launch-stories__slide-copy,
+  .launch-stories__slide.is-active .launch-stories__slide-more {
+    opacity: 1;
+    transform: none;
+  }
+  .launch-stories__slide-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+  .launch-stories__slide-link:focus-visible {
+    outline: 2px solid var(--color-white);
+    outline-offset: -6px;
+    border-radius: var(--rad);
+  }
+
+  .launch-stories__car-dots {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -30px;
+    width: 160px;
+    height: 8px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-8);
+  }
+  .launch-stories__dot {
+    display: none;
+    flex: none;
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background-color: var(--color-white-10);
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .launch-stories__dot.is-near {
+    display: block;
+  }
+  .launch-stories__dot.is-far {
+    display: block;
+    width: 4px;
+    height: 4px;
+  }
+  .launch-stories__dot.is-active {
+    display: block;
+    width: 32px;
+  }
+  .launch-stories__dot-bar {
+    display: block;
+    width: 0;
+    height: 8px;
+    border-radius: 4px;
+    background-color: var(--color-white);
+  }
+
+  .launch-stories__car-arrows {
+    display: none;
+    position: absolute;
+    inset: 0;
+    margin: 0 2%;
+    z-index: 3;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+  }
+  .launch-stories__arrow {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-lg);
+    background: none;
+    cursor: pointer;
+    pointer-events: auto;
+    z-index: 5;
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+  }
+  .launch-stories__arrow svg {
+    position: relative;
+  }
+  .launch-stories__arrow-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-lg);
+    background-color: var(--color-white);
+    opacity: 0.1;
+    transition: opacity 0.3s;
+  }
+  .launch-stories__arrow:focus-visible {
+    outline: 2px solid var(--color-white);
+    outline-offset: 2px;
+  }
+  .launch-stories__car-fade {
+    display: none;
+  }
+
+  @media (min-width: 480px) {
+    .launch-stories__h2 {
+      max-width: none;
+    }
+    :global(.launch-stories__car) {
+      margin-top: 80px;
+      --inner: 70%;
+    }
+    .launch-stories__car-arrows {
+      display: flex;
+    }
+    .launch-stories__tag {
+      font-size: var(--text-body);
+      line-height: 24px;
+    }
+  }
+  @media (min-width: 568px) {
+    :global(.launch-stories__car) {
+      --w: 308px;
+      --h: 353px;
+      --overlap: 32px;
+      --rad: 64px;
+    }
+    .launch-stories__slide-text {
+      padding: 0 30px 36px;
+    }
+  }
+  @media (min-width: 768px) {
+    :global(.launch-stories__car) {
+      --w: 486px;
+      --h: 558px;
+    }
+    .launch-stories__slide-grad {
+      background-image: linear-gradient(var(--color-black-0) 39%, rgba(155, 47, 128, 0.97) 74%);
+    }
+    .launch-stories__slide-text {
+      padding: 0 57px 57px;
+    }
+    .launch-stories__tag {
+      margin-bottom: 0;
+      padding: 13px 19px;
+      line-height: 29px;
+    }
+    .launch-stories__slide-copy {
+      width: 352px;
+      line-height: 18px;
+    }
+    .launch-stories__slide-more {
+      margin-top: 0;
+    }
+  }
+  @media (min-width: 992px) {
+    :global(.launch-stories__car) {
+      --inner: 80%;
+    }
+    .launch-stories__tag {
+      font-size: var(--text-body-xl);
+    }
+    .launch-stories__slide-copy {
+      font-size: var(--text-body);
+    }
+  }
+  @media (min-width: 1440px) {
+    :global(.launch-stories__car) {
+      --rad: 72px;
+    }
+    :global(.launch-stories__car-view) {
+      overflow: hidden;
+    }
+    .launch-stories__car-fade {
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -2%;
+      width: 10%;
+      z-index: 3;
+      pointer-events: none;
+      filter: blur(20px);
+      background: var(--launch-canvas);
+    }
+    .launch-stories__car-fade--r {
+      left: auto;
+      right: -2%;
+    }
+  }
+</style>
+
+<script>
+  import { gsap, ease, onPage, reducedMotion } from '@lib/motion';
+  import { createCarousel } from '@lib/carousel';
+
+  onPage((signal) => {
+    document
+      .querySelectorAll<HTMLElement>('[data-section="launch-stories"] [data-carousel]')
+      .forEach((root) => {
+        const slides = [...root.querySelectorAll<HTMLElement>('[data-slide]')];
+        const dots = [...root.querySelectorAll<HTMLElement>('[data-bullet]')];
+
+        // per-slide state transitions : slide opacity .8s; inner 80% -> 100% .8s;
+        // tag wrapper / copy translate .4s; tag cross-fade & copy opacity .5s; "learn more" opacity .3s — all `ease`
+        const paint = (s: HTMLElement, on: boolean, instant: boolean) => {
+          const d = (v: number) => (instant ? 0 : v);
+          const inner = getComputedStyle(root).getPropertyValue('--inner').trim() || '80%';
+          const o = { ease: ease.css, overwrite: 'auto' as const };
+          gsap.to(s, { opacity: on ? 1 : 0.2, duration: d(0.8), ...o });
+          gsap.to(s.querySelector('[data-inner]'), {
+            width: on ? '100%' : inner,
+            height: on ? '100%' : '80%',
+            duration: d(0.8),
+            ...o,
+          });
+          gsap.to(s.querySelector('[data-tagwr]'), { y: on ? 0 : 82, duration: d(0.4), ...o });
+          gsap.to(s.querySelector('[data-tag-idle]'), {
+            opacity: on ? 0 : 1,
+            duration: d(0.5),
+            ...o,
+          });
+          gsap.to(s.querySelector('[data-tag-active]'), {
+            opacity: on ? 1 : 0,
+            duration: d(0.5),
+            ...o,
+          });
+          gsap.to(s.querySelector('[data-copy]'), { y: on ? 0 : 60, duration: d(0.4), ...o });
+          gsap.to(s.querySelector('[data-copy]'), { opacity: on ? 1 : 0, duration: d(0.5), ...o });
+          gsap.to(s.querySelector('[data-more]'), { opacity: on ? 1 : 0, duration: d(0.3), ...o });
+        };
+
+        // dynamic bullets: active 32px, +-1 8px, +-2 4px, rest hidden (no wrap, like Swiper's realIndex)
+        const paintDots = (active: number) =>
+          dots.forEach((dEl, i) => {
+            const k = Math.abs(i - active);
+            dEl.classList.toggle('is-active', k === 0);
+            dEl.classList.toggle('is-near', k === 1);
+            dEl.classList.toggle('is-far', k === 2);
+            if (k === 0) {
+              dEl.setAttribute('aria-current', 'true');
+              dEl.setAttribute('aria-label', `Current slide, slide ${i + 1}`);
+            } else {
+              dEl.removeAttribute('aria-current');
+              dEl.setAttribute('aria-label', `Go to slide ${i + 1}`);
+            }
+            gsap.to(dEl, {
+              width: k === 0 ? 32 : k === 1 ? 8 : 4,
+              duration: reducedMotion() ? 0 : 0.3,
+              ease: ease.css,
+              overwrite: true,
+            });
+          });
+
+        // Swiper: speed 800, autoplay.delay 9000, progress bar 0 -> 32px over the delay
+        createCarousel(
+          root,
+          {
+            speed: 0.8,
+            autoplay: 9,
+            dragClickables: true,
+            followActiveLink: true,
+            // < 568px slidesPerView 1.36 / spaceBetween -16; the pitch is the slide width minus the overlap
+            slot: () => {
+              if (window.innerWidth < 568)
+                root.style.setProperty('--w', `${(root.clientWidth + 16 * 0.36) / 1.36}px`);
+              else root.style.removeProperty('--w');
+              return (
+                slides[0].offsetWidth -
+                parseFloat(getComputedStyle(root).getPropertyValue('--overlap'))
+              );
+            },
+            paintSlide: paint,
+            bullets: { items: dots, bar: (d) => d.querySelector('[data-progress]') },
+            onChange: paintDots,
+          },
+          signal,
+        );
+      });
+  });
+</script>

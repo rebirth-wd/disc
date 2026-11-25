@@ -6,10 +6,10 @@ Measured by the orchestrator against the reference captures taken at a 1680×100
 | Page | Document height (build / reference) | Sections matched |
 |---|---|---|
 | `/` | 8125 / 8124 | 11 of 11 |
-| `/download` | 6376 / 6376 | 5 of 5 |
-| `/nitro` | 12660 / 12659 | 9 of 9 |
+| `/services` (was `/download`) | 6376 / 6376 | 5 of 5 |
+| `/plans` (was `/nitro`) | 12660 / 12659 | 9 of 9 |
 | `/careers` | 8826 / 8825 (reference minus the omitted 6718px job-listings block) | 10 of 10 (banner 3172/677 vs reference 3171/677, checked by hand; the script's cut-off excluded it) |
-| `/ads/quests` | 6689 / 6689 | 12 of 12 |
+| `/launch` (was `/ads/quests`) | 6689 / 6689 | 12 of 12 |
 
 No console or page errors and no horizontal overflow on any page at 1680, 1280, 768 or 390px.
 No reference brand text or reference-hosted asset URL in the built HTML.
@@ -25,3 +25,12 @@ No reference brand text or reference-hosted asset URL in the built HTML.
 - Additions not in the reference: idle float on home features 4–6 objects, idle motion on the closing-banner cast, seamless marquee loop (reference resets visibly).
 - Not reproduced: home "eyes" animation above feature 4, download-page nav background fade on scroll, closing-banner easter-egg audio, 31-language list (8 built), quests carousel has 8 slides (reference 22).
 - Content to review before publishing: six careers FAQ answers composed from feature copy; nav labels; placeholder prices/stats ("$XX", "XX%"); the `download-workspace.jpg` credit (two names shown on its Unsplash page); `featA-purple-setup.jpg` source file contains hardware brand logos outside the crop used.
+
+## Meta descriptions to review (added 2026-11-24, wave 7)
+
+Composed from copy already on each page; edit them in `src/data/pages.ts`. Careers and launch run past ~155 characters, so search results may cut them.
+
+- `/`: Rebirth Online builds fast, secure, static-first websites using a modern, production-grade web architecture. Websites in Bundaberg just got an upgrade.
+- `/services`: Rebirth Online builds fast, secure, static-first websites on a modern web architecture. Start on desktop, mobile or by phone.
+- `/careers`: Rebirth Online builds fast, secure, static-first websites on a modern, production-grade stack. You work with the person writing the code — not an account manager or an offshore team.
+- `/launch`: Rebirth builds fast, secure, static-first websites on a production-grade web stack. Full custom sites typically take 2–4 weeks, kickoff to launch.

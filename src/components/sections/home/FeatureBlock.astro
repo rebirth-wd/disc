@@ -1,0 +1,421 @@
+---
+/**
+ * Glass Feature Block shell (DESIGN.md › Glass Feature Block / Media Inset / Feature Text Column).
+ *
+ *   <FeatureBlock name="assistant" heading="Line one<br>line two<br>line three" sectionHeight={863} padTop={141} insetFill="fuchsia">
+ *     <MyLoop slot="media" />                      ← fills the 104px-radius inset (727×554 at ≥1440)
+ *     Paragraph copy                                ← default slot
+ *     <div slot="decor" class="feature-block__obj" …>…</div>    ← floating objects, absolutely positioned against the outer section
+ *   </FeatureBlock>
+ *
+ * Decor helpers (CSS vars available inside the decor slot):
+ *   --feature-block-cx  left edge of the 1240px container inside the section
+ *   --feature-block-cy  top edge of the slab inside the section (= current top padding)
+ *   --feature-block-cyb distance from the section bottom to the slab bottom (= current bottom padding), for bottom-anchored objects
+ *   e.g. style="left:calc(var(--feature-block-cx) + 80px); top:calc(var(--feature-block-cy) + 494px)"
+ * Decor children sit BEHIND the slab by default; add `data-decor-front` to put one in front of it.
+ *
+ * Scroll parallax for decor (≥768px only):
+ *   data-feature-block-parallax='{"from":-170,"to":75,"startOffset":0.8}'
+ *     from/to      translateY in px at the first / last keyframe
+ *     startOffset  fraction of the zone height that must have entered the viewport before progress starts (default 0)
+ *     zoneTop      px from the section top where the trigger zone starts (default 0); negative = measured from the section bottom
+ *     zoneHeight   px height of the trigger zone (default: section height)
+ *     kfStart/kfEnd  keyframe positions 0–1 inside the zone's progress (default 0 / 1)
+ *
+ * The slabs themselves have NO entrance animation (transform none / opacity 1 at every scroll
+ * position), so the shell does not animate slab, inset, heading or paragraph.
+ * The shell only drives decor parallax. Media loops pause themselves while the section is off screen.
+ */
+interface Props {
+  /** becomes data-section="home-<name>" on the outer section */
+  name: string;
+  /** heading text; may contain <br> for forced line breaks */
+  heading: string;
+  /** media on the right, text on the left */
+  reverse?: boolean;
+  /** total outer section height at ≥1440 (slab is 610). Bottom padding is derived from it. */
+  sectionHeight?: number;
+  /** top padding of the outer section at ≥1440 (141 for block 1, 95 for the others) */
+  padTop?: number;
+  /** explicit bottom padding at ≥1440; overrides sectionHeight */
+  padBottom?: number;
+  /** [top, bottom] section padding at 992–1439 / 768–991 / <768 */
+  padLg?: [number, number];
+  padMd?: [number, number];
+  padSm?: [number, number];
+  /** media inset fill: preset name or any CSS background value */
+  insetFill?: 'fuchsia' | 'green' | 'indigo' | string;
+  /** right padding of the paragraph inside the 384px text column (20 / 4 / 11.2 across the blocks) */
+  textPadRight?: number;
+  /** paragraph letter-spacing (0.32px on block 1, normal on the others at ≥1440) */
+  paragraphTracking?: string;
+  /** backdrop blur of the slab in px (default: DESIGN.md --blur-glass 10px; block 2 uses 80px) */
+  glassBlur?: number;
+  /** CSS background-image of the slab's glass texture; the default is a diagonal white sheen */
+  slabTexture?: string;
+  /** from 1440px, narrow the slab's padding and column gap so text and inset sit where the reference puts them */
+  tightGutter?: boolean;
+  class?: string;
+}
+const {
+  name,
+  heading,
+  reverse = false,
+  sectionHeight,
+  padTop = 95,
+  padBottom,
+  padLg = [112, 154],
+  padMd = [115, 130],
+  padSm = [115, 110],
+  insetFill = 'fuchsia',
+  textPadRight = 0,
+  paragraphTracking = 'normal',
+  glassBlur,
+  slabTexture,
+  tightGutter = false,
+  class: className = '',
+} = Astro.props;
+
+const SLAB_H = 610;
+const pb = padBottom ?? (sectionHeight ? Math.max(0, sectionHeight - SLAB_H - padTop) : 95);
+
+// Vivid inset fills: dark top, saturated glow rising from the bottom edge .
+const fills: Record<string, string> = {
+  fuchsia:
+    'radial-gradient(135% 78% at 50% 112%, #ff4fd8 0%, var(--color-fuchsia) 30%, rgba(190,52,128,0.72) 56%, rgba(70,32,56,0) 100%), linear-gradient(180deg, #3b2030 0%, #55263f 100%)',
+  green:
+    'radial-gradient(135% 70% at 50% 114%, var(--color-signal-green) 0%, #2ddf78 34%, rgba(22,128,72,0.7) 60%, rgba(2,38,26,0) 100%), linear-gradient(180deg, #02251b 0%, #053d29 100%)',
+  indigo:
+    'radial-gradient(135% 70% at 50% 116%, var(--color-blurple) 0%, #5560ee 32%, rgba(52,56,170,0.7) 60%, rgba(27,22,88,0) 100%), linear-gradient(180deg, #1c175c 0%, #221d6c 100%)',
+};
+const fill = fills[insetFill] ?? insetFill;
+const vars = [
+  `--feature-block-pt:${padTop}px`,
+  `--feature-block-pb:${pb}px`,
+  `--feature-block-pt-lg:${padLg[0]}px`,
+  `--feature-block-pb-lg:${padLg[1]}px`,
+  `--feature-block-pt-md:${padMd[0]}px`,
+  `--feature-block-pb-md:${padMd[1]}px`,
+  `--feature-block-pt-sm:${padSm[0]}px`,
+  `--feature-block-pb-sm:${padSm[1]}px`,
+  ...(glassBlur != null ? [`--feature-block-blur:${glassBlur}px`] : []),
+  `--feature-block-fill:${fill}`,
+  `--feature-block-text-pr:${textPadRight}px`,
+  `--feature-block-p-ls:${paragraphTracking}`,
+  ...(slabTexture ? [`--feature-block-slab-texture:${slabTexture}`] : []),
+].join(';');
+---
+
+<section
+  data-section={`home-${name}`}
+  data-feature-block
+  class:list={['feature-block', tightGutter && 'feature-block--tight-gutter', className]}
+  style={vars}
+>
+  <div class="feature-block__decor" aria-hidden="true">
+    <slot name="decor" />
+  </div>
+  <div class="feature-block__gutter">
+    <div class="feature-block__container">
+      <div
+        class:list={['feature-block__slab rounded-5xl', reverse && 'is-reverse']}
+        data-feature-block-slab
+      >
+        <div class="feature-block__media rounded-4xl" data-feature-block-media>
+          <slot name="media" />
+        </div>
+        <div class="feature-block__text" data-feature-block-text>
+          <h2
+            class="feature-block__heading font-display text-heading leading-heading tracking-heading font-extrabold uppercase text-white"
+            data-feature-block-heading
+            set:html={heading}
+          />
+          <p
+            class="feature-block__paragraph font-body text-body-xl leading-body-xl font-normal text-white"
+            data-feature-block-paragraph
+          >
+            <slot />
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .feature-block {
+    --feature-block-cur-pt: var(--feature-block-pt);
+    --feature-block-cx: max(var(--page-gutter), calc((100% - var(--page-max-width)) / 2));
+    --feature-block-cur-pb: var(--feature-block-pb);
+    --feature-block-cy: var(--feature-block-cur-pt);
+    --feature-block-cyb: var(--feature-block-cur-pb);
+    position: relative;
+    isolation: isolate;
+    margin-top: -1px;
+    padding: var(--feature-block-cur-pt) 0 var(--feature-block-cur-pb);
+  }
+  .feature-block__gutter {
+    padding: 0 var(--page-gutter);
+  }
+  .feature-block__container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: var(--page-max-width);
+    margin: 0 auto;
+  }
+
+  /* Decor layer: no z-index of its own, so children stack inside the section's context
+     (1 = behind the slab container, 3 = in front of it). */
+  .feature-block__decor {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow-x: clip; /* objects may poke past the viewport edge on narrow screens */
+  }
+  .feature-block__decor > :global(*) {
+    position: absolute;
+    z-index: 1;
+  }
+  .feature-block__decor > :global([data-decor-front]) {
+    z-index: 3;
+  }
+
+  /* ── Slab ─────────────────────────────────────────────────────────── */
+  .feature-block__slab {
+    display: flex;
+    align-items: center;
+    column-gap: 49px;
+    padding: var(--card-padding) 52px var(--card-padding) var(--card-padding);
+    background-image: var(
+      --feature-block-slab-texture,
+      linear-gradient(
+        135deg,
+        var(--surface-glass-block),
+        rgba(255, 255, 255, 0.12) 12%,
+        var(--color-white-4) 50%,
+        rgba(255, 255, 255, 0.08) 83%,
+        var(--surface-glass-block)
+      )
+    );
+    -webkit-backdrop-filter: blur(var(--feature-block-blur, var(--blur-glass)));
+    backdrop-filter: blur(var(--feature-block-blur, var(--blur-glass)));
+  }
+  .feature-block__slab.is-reverse {
+    flex-direction: row-reverse;
+    column-gap: 42px;
+    padding: var(--card-padding) 37px var(--card-padding) 50px;
+  }
+  @media (min-width: 1440px) {
+    /* measured: text x=273 / inset x=699 on the reversed blocks; inset x=248 / text x=1016 on the mirrored one */
+    .feature-block--tight-gutter .feature-block__slab.is-reverse {
+      padding-left: 53px;
+      padding-right: 34px;
+    }
+    .feature-block--tight-gutter .feature-block__slab:not(.is-reverse) {
+      column-gap: 41px;
+    }
+  }
+  .feature-block__media {
+    position: relative;
+    flex: none;
+    width: 727px;
+    height: 554px;
+    overflow: hidden;
+    background: var(--feature-block-fill);
+    isolation: isolate;
+  }
+  .feature-block__media > :global(*) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .feature-block__text {
+    flex: none;
+    width: 384px;
+    max-width: 384px;
+  }
+  .feature-block__heading {
+    position: relative;
+    margin: 0 0 10px;
+  }
+  .feature-block__paragraph {
+    margin: 0;
+    padding-right: var(--feature-block-text-pr);
+    letter-spacing: var(--feature-block-p-ls);
+  }
+
+  /* ── 992–1439: 88px slab, 72px inset, 5:4 inset that flexes ────────── */
+  @media (max-width: 1439px) {
+    .feature-block {
+      --feature-block-cur-pt: var(--feature-block-pt-lg);
+      --feature-block-cur-pb: var(--feature-block-pb-lg);
+    }
+    .feature-block__slab {
+      column-gap: 34.6px;
+      padding: 20px 60px 20px 20px;
+      border-radius: 88px;
+    }
+    .feature-block__slab.is-reverse {
+      column-gap: 42px;
+      padding: 20px 20px 20px 37px;
+    }
+    .feature-block__media {
+      flex: 1 1 0;
+      width: auto;
+      max-width: 760px;
+      height: auto;
+      aspect-ratio: 5 / 4;
+      border-radius: 72px;
+    }
+  }
+
+  /* ── 768–991: still two columns, 64px slab, 56px inset, 276px text ─── */
+  @media (max-width: 991px) {
+    .feature-block {
+      --feature-block-cur-pt: var(--feature-block-pt-md);
+      --feature-block-cur-pb: var(--feature-block-pb-md);
+    }
+    .feature-block__slab {
+      padding: 20px;
+      border-radius: 64px;
+    }
+    .feature-block__media {
+      aspect-ratio: 337.4 / 259.8;
+      border-radius: 56px;
+    }
+    .feature-block__text {
+      flex: 0 1 276px;
+      width: 276px;
+      max-width: 276px;
+    }
+    .feature-block__heading {
+      font-size: 1.6875rem;
+      letter-spacing: -0.27px;
+    }
+    .feature-block__paragraph {
+      font-size: 1.125rem;
+      line-height: 24px;
+      letter-spacing: 0.32px;
+      padding-right: 0;
+    }
+  }
+
+  /* ── <768: stacked, text first ───────────────────────────────────── */
+  @media (max-width: 767px) {
+    .feature-block {
+      --feature-block-cur-pt: var(--feature-block-pt-sm);
+      --feature-block-cur-pb: var(--feature-block-pb-sm);
+    }
+    .feature-block__slab,
+    .feature-block__slab.is-reverse {
+      flex-direction: column-reverse;
+      align-items: center;
+      row-gap: 40px;
+      padding: 28px 18px 18px;
+      border-radius: 56px;
+    }
+    .feature-block__media {
+      flex: none;
+      width: 100%;
+      max-width: 760px;
+      aspect-ratio: 306 / 233;
+      border-radius: 48px;
+    }
+    .feature-block__text {
+      flex: none;
+      width: auto;
+      max-width: none;
+      align-self: stretch;
+      margin: 0 15.6px;
+    }
+    .feature-block__heading {
+      line-height: 0.9;
+    }
+    .feature-block__paragraph {
+      font-size: var(--text-body);
+      line-height: 20.8px;
+    }
+  }
+  @media (max-width: 479px) {
+    .feature-block {
+      --feature-block-cx: 24px;
+    }
+    .feature-block__gutter {
+      padding: 0 24px;
+    }
+    /* The text box is 100vw - 115px wide and "SOMETHING" is 7.9em: the heading shrinks below 331px so the word fits. */
+    .feature-block__heading {
+      font-size: min(1.6875rem, calc((100vw - 116px) / 8));
+    }
+  }
+</style>
+
+<script>
+  import { gsap, motion, onPage, MQ } from '@lib/motion';
+
+  type Px = {
+    from: number;
+    to: number;
+    startOffset?: number;
+    zoneTop?: number;
+    zoneHeight?: number;
+    kfStart?: number;
+    kfEnd?: number;
+  };
+
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-feature-block]').forEach((section) => {
+      // decor parallax. Smoothing 80.
+      motion(
+        section,
+        () => {
+          section.querySelectorAll<HTMLElement>('[data-feature-block-parallax]').forEach((el) => {
+            let cfg: Px;
+            try {
+              cfg = JSON.parse(el.dataset.featureBlockParallax || '');
+            } catch {
+              return;
+            }
+            const { from, to, startOffset = 0, kfStart = 0, kfEnd = 1 } = cfg;
+            // progress p = (scrollY + vh − zoneTop − off) / (zoneH + vh − off), off = startOffset × zoneH
+            const zone = () => {
+              const top = section.getBoundingClientRect().top + window.scrollY;
+              const zt = cfg.zoneTop ?? 0;
+              const zoneTop = zt < 0 ? top + section.offsetHeight + zt : top + zt;
+              const zoneH = cfg.zoneHeight ?? section.offsetHeight;
+              const off = startOffset * zoneH;
+              const p0 = zoneTop + off - window.innerHeight; // scrollY where p = 0
+              const range = zoneH + window.innerHeight - off; // scroll distance for p 0 → 1
+              return { p0, range };
+            };
+            gsap.fromTo(
+              el,
+              { y: from },
+              {
+                y: to,
+                ease: 'none',
+                immediateRender: true,
+                scrollTrigger: {
+                  start: () => {
+                    const z = zone();
+                    return z.p0 + kfStart * z.range;
+                  },
+                  end: () => {
+                    const z = zone();
+                    return z.p0 + kfEnd * z.range;
+                  },
+                  scrub: 0.25,
+                  invalidateOnRefresh: true,
+                },
+              },
+            );
+          });
+        },
+        MQ.md,
+      );
+    });
+  });
+</script>

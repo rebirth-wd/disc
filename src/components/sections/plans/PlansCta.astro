@@ -1,0 +1,162 @@
+---
+import Section from '@components/layout/Section.astro';
+import Button from '@components/ui/Button.astro';
+import PlansObject from '@components/graphics/objects/PlansObject.astro';
+import Heading from '@components/ui/Heading.astro';
+---
+
+<Section section="plans-cta" class="plans-cta">
+  <div class="plans-cta__block">
+    <div class="plans-cta__inner">
+      <Heading level={2} size="xl" italic class="plans-cta__title">
+        <span>Why wait</span> <span>any longer?</span>
+      </Heading>
+      <Button href="#plans">Start now</Button>
+    </div>
+    <PlansObject name="rocket" par="flag" class="plans-cta__rocket" />
+    <PlansObject name="calendar" par="box" class="plans-cta__cal" />
+  </div>
+
+  <div slot="after" class="plans-cta__glow" aria-hidden="true"></div>
+</Section>
+
+<style>
+  .plans-cta {
+    position: relative;
+    z-index: 1;
+    padding: 120px 0 160px;
+    text-align: center;
+  }
+  .plans-cta__block {
+    position: relative;
+    max-width: 896px;
+    margin-inline: auto;
+  }
+  .plans-cta__inner {
+    max-width: 736px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .plans-cta__title {
+    margin-bottom: 44px;
+  }
+  .plans-cta__title span {
+    display: block;
+    white-space: nowrap;
+  }
+  .plans-cta__block :global(.plans-cta__rocket) {
+    top: -198.4px;
+    right: -223px;
+    width: 280px;
+    height: 280px;
+    z-index: 1;
+    mix-blend-mode: screen;
+  }
+  .plans-cta__block :global(.plans-cta__cal) {
+    top: 61.6px;
+    left: -208px;
+    width: 250px;
+    height: 250px;
+  }
+  .plans-cta__glow {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -20px;
+    height: 962px;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 62% 78% at 50% 100%,
+      #e646c9 0%,
+      rgba(214, 64, 196, 0.86) 16%,
+      rgba(150, 48, 160, 0.6) 40%,
+      rgba(74, 28, 104, 0.34) 64%,
+      rgba(24, 10, 46, 0.12) 84%,
+      var(--color-black-0) 100%
+    );
+  }
+  @media (max-width: 1439px) {
+    .plans-cta {
+      padding: 100px 0 120px;
+    }
+    .plans-cta__block {
+      max-width: 640px;
+    }
+    .plans-cta__title {
+      margin-bottom: var(--spacing-36);
+    }
+    .plans-cta__block :global(.plans-cta__rocket) {
+      top: -184px;
+      right: -150px;
+      width: 200px;
+      height: 200px;
+    }
+    .plans-cta__block :global(.plans-cta__cal) {
+      top: 53px;
+      left: -145px;
+      width: 212px;
+      height: 212px;
+    }
+  }
+  @media (max-width: 991px) {
+    .plans-cta__block :global(.plans-cta__rocket) {
+      right: -74px;
+      width: 160px;
+      height: 160px;
+    }
+    .plans-cta__block :global(.plans-cta__cal) {
+      top: 105px;
+      left: -64px;
+      width: 160px;
+      height: 160px;
+    }
+  }
+  @media (max-width: 767px) {
+    .plans-cta__title span {
+      white-space: normal;
+    }
+  }
+  @media (max-width: 479px) {
+    .plans-cta {
+      padding: var(--spacing-56) 0 100px;
+    }
+    .plans-cta__title {
+      margin-bottom: 32px;
+    }
+    .plans-cta__block :global(.plans-cta__rocket) {
+      top: -134px;
+      right: 4px;
+      width: 100px;
+      height: 100px;
+    }
+    .plans-cta__block :global(.plans-cta__cal) {
+      top: 161px;
+      left: -20px;
+      width: 120px;
+      height: 120px;
+    }
+    .plans-cta__glow {
+      height: 620px;
+    }
+  }
+</style>
+
+<script>
+  import { onPage } from '@lib/motion';
+  import { parallax } from '@lib/parallax';
+
+  // progress of the section (start offset 75%), 0 -> 100%: rocket y 0 -> 150, calendar y 0 -> -150
+  onPage(() => {
+    const root = document.querySelector<HTMLElement>('[data-section="plans-cta"]');
+    const options = {
+      trigger: root,
+      start: () => `top+=${(root?.offsetHeight ?? 0) * 0.75} bottom`,
+      scrub: 0.6,
+    };
+    parallax(root?.querySelector('[data-par="flag"]') ?? null, { ...options, to: 150 });
+    parallax(root?.querySelector('[data-par="box"]') ?? null, { ...options, to: -150 });
+  });
+</script>

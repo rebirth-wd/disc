@@ -1,4 +1,7 @@
-@theme {
+/* The single token source. Tailwind namespaces live in @theme (they also generate utilities); everything else
+   (layout, surfaces, effects, z-index layers) is a plain :root block. `static` keeps every token in the output
+   even when only a component's own <style> or inline style reads it. */
+@theme static {
   /* Colors */
   --color-blurple: #5865f2;
   --color-deep-indigo: #1a2081;
@@ -11,11 +14,23 @@
   --color-fuchsia: #eb459e;
   --color-yellow: #fee75c;
   --color-white-70: rgba(255, 255, 255, 0.7);
+  --color-white-30: rgba(255, 255, 255, 0.3);
   --color-white-10: rgba(255, 255, 255, 0.1);
+  --color-white-4: rgba(255, 255, 255, 0.04);
+  --color-black-8: rgba(0, 0, 0, 0.08);
+  --color-black-0: rgba(0, 0, 0, 0);
+  --color-blurple-0: rgba(88, 101, 242, 0);
+  --color-dusk-indigo: #1f1d5d;
+  --color-midnight-green: #012a20;
 
   /* Typography */
-  --font-abc-ginto-discord-nord: 'ABC Ginto Discord Nord', Arial, sans-serif;
-  --font-abc-ginto-discord: 'ABC Ginto Discord', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: 'Unbounded', Arial, sans-serif;
+  --font-body: 'DM Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
 
   /* Typography — Scale */
   --text-body: 1rem;
@@ -49,7 +64,6 @@
   --spacing-16: 16px;
   --spacing-20: 20px;
   --spacing-24: 24px;
-  --spacing-28: 28px;
   --spacing-36: 36px;
   --spacing-40: 40px;
   --spacing-48: 48px;
@@ -64,4 +78,53 @@
   --radius-lg: 16px;
   --radius-4xl: 104px;
   --radius-5xl: 120px;
+  --radius-buttons: 12px;
+  --radius-nav-controls: 16px;
+  --radius-inputs: 16px;
+
+  /* Effects */
+  --blur-glass: 10px;
+}
+
+/* The site's switch widths, all in px like the plain @media rules and scripts (mixing px and rem makes Tailwind sort
+   the variants wrongly). sm, md, lg, xl and 2xl are Tailwind's defaults restated in px; xs, desktop, wide and ultra
+   are the site's own. Scripts read the same numbers from src/lib/breakpoints.ts. */
+@theme {
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-desktop: 992px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-wide: 1440px;
+  --breakpoint-2xl: 1536px;
+  --breakpoint-ultra: 1920px;
+}
+
+:root {
+  /* Layout */
+  --page-max-width: 1240px;
+  --page-gutter: 40px;
+  --card-padding: 28px;
+
+  /* Effects */
+  --transition-control: 0.2s ease-in-out;
+
+  /* Surfaces */
+  --surface-deep-indigo-canvas: #1a2081;
+  --surface-glass-block: rgba(255, 255, 255, 0.2);
+  --surface-white-control: #ffffff;
+  --surface-blurple-action: #5865f2;
+
+  /* Page-level stacking layers (small local values stay as plain numbers) */
+  --z-footer-tablet: 10;
+  --z-footer-phone: 97;
+  --z-banner: 98;
+  --z-footer: 98;
+  --z-header: 99;
+  --z-menu: 100;
+  --z-skip-link: 100;
+  --z-above-banner: 100;
+  --z-header-fixed: 101;
+  --z-dropdown: 900;
 }

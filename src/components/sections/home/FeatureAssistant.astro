@@ -1,0 +1,55 @@
+---
+// Media left, text right, fuchsia inset.
+import FeatureBlock from './FeatureBlock.astro';
+import ChatLoop from '@components/graphics/loops/ChatLoop.astro';
+import FeatureObjects from '@components/graphics/objects/FeatureObjects.astro';
+import Twinkles from '@components/graphics/stars/Twinkles.astro';
+---
+
+<FeatureBlock
+  name="feature-1"
+  heading="A chatbot<br>that knows<br>your business"
+  sectionHeight={863}
+  padTop={141}
+  padLg={[98, 112]}
+  padMd={[98, 115]}
+  padSm={[98, 103]}
+  insetFill="fuchsia"
+  textPadRight={20}
+  paragraphTracking="0.32px"
+  class="z-[5]"
+>
+  <ChatLoop slot="media" />
+  Your services, your pricing, your suburbs, your FAQs — not a generic bot reading off a script. It
+  answers after hours, guides visitors to the right page, and works from your information, not the
+  internet's.
+  <Fragment slot="decor">
+    <Twinkles
+      origin="centre"
+      sparkle="straight"
+      play="always-md"
+      stars={[
+        [1200, 17, 20, 1],
+        [319, -17, 20, 2],
+        [845, -60, 6, 2],
+        [173, 129, 6, 2],
+        [476, -26, 6, 3],
+        [140, -26, 6, 3],
+        [1148, -78, 6, 2],
+        [290, 121, 8, 3],
+        [1502, 138, 4, 1],
+        [1476, 86, 4, 3],
+        [569, 86, 4, 3],
+      ]}
+    />
+    <div style="right:calc(var(--feature-block-cx) + 176px);top:calc(var(--feature-block-cy) - 80px)">
+      <FeatureObjects kind="peeker" />
+    </div>
+    <div
+      style="left:calc(var(--feature-block-cx) - 124px);bottom:calc(var(--feature-block-cyb) - 185.5px)"
+      data-feature-block-parallax='{"from":-170,"to":75,"startOffset":0.8}'
+    >
+      <FeatureObjects kind="orb" />
+    </div>
+  </Fragment>
+</FeatureBlock>

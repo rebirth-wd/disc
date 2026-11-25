@@ -1,0 +1,341 @@
+---
+/**
+ * Media loop for the content feature — original "content queue": a phone with a mosaic of drafted posts; suggestion
+ * cards pop out over its edge and tiles shuffle. 7.5s seamless GSAP loop.
+ */
+import { Image } from 'astro:assets';
+import LoopStage from './LoopStage.astro';
+import glow from '@assets/photos/home-content-glow-room.jpg';
+import violet from '@assets/photos/home-content-violet-room.jpg';
+import laptop from '@assets/photos/home-content-purple-laptop.jpg';
+---
+
+<LoopStage>
+  <div class="content-deck" data-content-deck>
+    <div class="content-deck__phone">
+      <div class="content-deck__top">
+        <svg viewBox="0 0 10 10" width="10" height="10">
+          <path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="#fff" stroke-width="1.4" />
+        </svg>
+        <span>Queue</span>
+        <i class="is-on"></i>
+        <i></i>
+        <i></i>
+      </div>
+      <div
+        class="content-deck__tile"
+        data-content-deck-tile="0"
+        style="left:11px;top:68px;height:243px;"
+      >
+        <Image src={glow} alt="" width={240} class="content-deck__img" />
+        <em>Blog</em>
+      </div>
+      <div
+        class="content-deck__tile"
+        data-content-deck-tile="1"
+        style="left:138px;top:66px;height:119px;"
+      >
+        <Image src={violet} alt="" width={240} class="content-deck__img" />
+        <em>Reel</em>
+        <b data-content-deck-ring></b>
+      </div>
+      <div
+        class="content-deck__tile"
+        data-content-deck-tile="2"
+        style="left:138px;top:195px;height:116px;"
+      >
+        <Image src={laptop} alt="" width={240} class="content-deck__img" />
+        <em>Post</em>
+      </div>
+      <div
+        class="content-deck__tile content-deck__tile--chart"
+        data-content-deck-tile="3"
+        style="left:10px;top:321px;height:119px;"
+      >
+        <svg viewBox="0 0 118 119" preserveAspectRatio="none">
+          <path d="M0 96 22 80 40 88 62 56 82 64 118 22V119H0Z" fill="#0d6b45" />
+          <path
+            d="M0 96 22 80 40 88 62 56 82 64 118 22"
+            fill="none"
+            stroke="#eafff3"
+            stroke-width="4"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <em class="is-light">+38% searches</em>
+      </div>
+      <div
+        class="content-deck__tile content-deck__tile--draft"
+        data-content-deck-tile="4"
+        style="left:139px;top:323px;height:117px;"
+      >
+        <span class="content-deck__face">
+          <i></i>
+          <i></i>
+        </span>
+        <em>Draft</em>
+      </div>
+      <div class="content-deck__bar">
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i class="is-go">
+          <svg viewBox="0 0 16 16" width="16" height="16">
+            <path
+              d="M3 8.5 6.5 12 13 4.5"
+              fill="none"
+              stroke="#06301f"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </i>
+      </div>
+    </div>
+    <div class="content-deck__card content-deck__card--a" data-content-deck-card>
+      <span class="content-deck__badge">
+        <svg viewBox="0 0 24 24" width="26" height="26">
+          <path d="M13 2 5 13h5l-1 9 8-11h-5z" fill="#fff" />
+        </svg>
+      </span>
+      <strong>Publish</strong>
+    </div>
+    <div class="content-deck__card content-deck__card--b" data-content-deck-card>
+      <svg viewBox="0 0 20 20" width="20" height="20">
+        <path
+          d="M4 12v4h12v-4M10 13V3m0 0L6 7m4-4 4 4"
+          fill="none"
+          stroke="#fff"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <span>Push to your socials</span>
+    </div>
+  </div>
+</LoopStage>
+
+<style>
+  .content-deck {
+    position: absolute;
+    inset: 0;
+    color: #fff;
+  }
+  .content-deck__phone {
+    position: absolute;
+    left: 184px;
+    top: 31px;
+    width: 270px;
+    height: 540px;
+    border-radius: 30px 30px 0 0;
+    background: #050507;
+  }
+  .content-deck__top {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    top: 16px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+  }
+  .content-deck__top span {
+    flex: 1;
+  }
+  .content-deck__top i {
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.14);
+  }
+  .content-deck__top i.is-on {
+    background: #fff;
+  }
+  .content-deck__tile {
+    position: absolute;
+    width: 118px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #1c1c26;
+  }
+  .content-deck__tile :global(.content-deck__img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .content-deck__tile em {
+    position: absolute;
+    left: 50%;
+    bottom: 8px;
+    transform: translateX(-50%);
+    font-style: normal;
+    font-size: 9.5px;
+    line-height: 1;
+    padding: 4px 7px;
+    border-radius: 5px;
+    background: rgba(20, 20, 28, 0.78);
+    white-space: nowrap;
+  }
+  .content-deck__tile em.is-light {
+    background: #fff;
+    color: #10321f;
+    bottom: auto;
+    top: 52px;
+  }
+  .content-deck__tile b {
+    position: absolute;
+    inset: 0;
+    border-radius: 6px;
+    outline: 3px solid var(--color-spring-green);
+    outline-offset: -3px;
+    opacity: 0;
+  }
+  .content-deck__tile--chart {
+    background: var(--color-signal-green);
+  }
+  .content-deck__tile--chart svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .content-deck__tile--draft {
+    background: #c7a6f5;
+  }
+  .content-deck__face {
+    position: absolute;
+    left: 50%;
+    top: 34px;
+    width: 44px;
+    height: 44px;
+    margin-left: -22px;
+    border-radius: 12px;
+    background: var(--color-fuchsia);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .content-deck__face i {
+    width: 7px;
+    height: 11px;
+    border-radius: 2px;
+    background: #fff;
+  }
+  .content-deck__bar {
+    position: absolute;
+    left: 22px;
+    right: 22px;
+    top: 458px;
+    height: 58px;
+    border-radius: 16px;
+    background: #1c1c22;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 12px;
+  }
+  .content-deck__bar i {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.85);
+    display: grid;
+    place-items: center;
+  }
+  .content-deck__bar i:nth-child(2n) {
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+  }
+  .content-deck__bar i.is-go {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--color-spring-green);
+  }
+  .content-deck__card {
+    position: absolute;
+    left: 414px;
+    border-radius: 14px;
+    background: #25252c;
+    display: flex;
+    align-items: center;
+  }
+  .content-deck__card--a {
+    top: 160px;
+    width: 230px;
+    height: 100px;
+    justify-content: center;
+    gap: 12px;
+  }
+  .content-deck__card--a strong {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+  .content-deck__badge {
+    width: 46px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--color-fuchsia);
+    display: grid;
+    place-items: center;
+  }
+  .content-deck__card--b {
+    top: 327px;
+    width: 202px;
+    height: 72px;
+    gap: 12px;
+    padding: 0 22px;
+    font-size: 13px;
+  }
+</style>
+
+<script>
+  import { gsap, motion, onPage, playWhileInView } from '@lib/motion';
+
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-content-deck]').forEach((root) => {
+      const cards = gsap.utils.toArray<HTMLElement>('[data-content-deck-card]', root);
+      const tile = (n: number) =>
+        root.querySelector<HTMLElement>(`[data-content-deck-tile="${n}"]`);
+      const ring = root.querySelector('[data-content-deck-ring]');
+      motion(root, () => {
+        gsap.set(cards, { scale: 0.5, opacity: 0, transformOrigin: '0% 50%' });
+        const tl = gsap.timeline({ repeat: -1, paused: true });
+        tl.to(ring, { opacity: 1, duration: 0.2, ease: 'none' }, 0.5)
+          .to(cards[0], { scale: 1, opacity: 1, duration: 0.45, ease: 'back.out(1.7)' }, 0.9)
+          .to(cards[1], { scale: 1, opacity: 1, duration: 0.45, ease: 'back.out(1.7)' }, 2.1)
+          // shuffle: right-column tiles swap vertically, bottom tiles swap sideways
+          .to(tile(1), { y: 126, duration: 0.6, ease: 'power2.inOut' }, 3.5)
+          .to(tile(2), { y: -129, duration: 0.6, ease: 'power2.inOut' }, 3.5)
+          .to(tile(3), { x: 129, y: 2, duration: 0.6, ease: 'power2.inOut' }, 3.7)
+          .to(tile(4), { x: -129, y: -2, duration: 0.6, ease: 'power2.inOut' }, 3.7)
+          .to(cards[1], { scale: 0.5, opacity: 0, duration: 0.28, ease: 'back.in(1.6)' }, 5.3)
+          .to(cards[0], { scale: 0.5, opacity: 0, duration: 0.28, ease: 'back.in(1.6)' }, 5.5)
+          .to(ring, { opacity: 0, duration: 0.2, ease: 'none' }, 5.8)
+          .to(
+            [tile(1), tile(2), tile(3), tile(4)],
+            { x: 0, y: 0, duration: 0.6, ease: 'power2.inOut' },
+            6.2,
+          )
+          .to({}, { duration: 0.01 }, 7.49);
+        const st = playWhileInView(root, tl);
+        return () => {
+          st.kill();
+          tl.kill();
+        };
+      });
+    });
+  });
+</script>

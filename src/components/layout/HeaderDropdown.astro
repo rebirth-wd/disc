@@ -1,0 +1,328 @@
+---
+// One desktop dropdown panel of the header link row. The trigger link is passed in the `trigger` slot so it
+// is styled with the other nav links; ui/Dropdown opens and closes it and the script below animates the decor.
+import Dropdown from '@components/ui/Dropdown.astro';
+import type { DropdownDecor, NavList } from '@data/navigation';
+interface Props {
+  id: string;
+  decor: DropdownDecor;
+  columns: readonly (readonly NavList[])[];
+}
+const { id, decor, columns } = Astro.props;
+---
+
+<Dropdown
+  as="li"
+  name={`header-dd-${id}`}
+  group="header"
+  opensOn="hover"
+  fade
+  class="header__dd"
+  listClass="header__dd-list"
+>
+  <slot name="trigger" slot="trigger" />
+  <div class="header__dd-card">
+    <div class:list={['header__dd-layout', columns.length > 1 && 'header__dd-layout--2']}>
+      {columns.map((col, ci) => (
+        <div
+          class:list={[
+            'header__dd-group',
+            columns.length > 1 && ci === 0 && 'header__dd-group--rule',
+          ]}
+        >
+          {col.map((list, li) => (
+            <>
+              {li > 0 && <div class="header__dd-line" />}
+              <div class="header__dd-links">
+                <div class="header__dd-title">{list.title}</div>
+                {list.links.map((l) => (
+                  <a href={l.href} class="header__dd-link">
+                    <span>{l.label}</span>
+                    {l.external && (
+                      <svg
+                        class="header__dd-ext"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M5 4H12M12 4V11M12 4L4 12"
+                          stroke="currentColor"
+                          stroke-opacity="0.5"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    )}
+                  </a>
+                ))}
+              </div>
+            </>
+          ))}
+        </div>
+      ))}
+    </div>
+    <div
+      class:list={['header__dd-decor', `header__dd-decor--${decor}`]}
+      data-dropdown-decor
+      aria-hidden="true"
+    >
+      {decor === 'plane' && (
+        <svg viewBox="0 0 140 140" fill="none">
+          <path d="M12 62 128 14 96 126 66 88 12 62Z" fill="#e0e3ff" />
+          <path d="M128 14 66 88l-6 34-14-44 82-64Z" fill="#b7bcff" />
+          <path d="M60 122 66 88l16 20-22 14Z" fill="#8b93ff" />
+          <path d="M128 14 46 78 12 62 128 14Z" fill="#fff" />
+          <rect x="18" y="104" width="8" height="8" fill="#57f287" />
+          <rect x="112" y="118" width="6" height="6" fill="#eb459e" />
+        </svg>
+      )}
+      {decor === 'shield' && (
+        <svg viewBox="0 0 200 200" fill="none">
+          <path d="M100 18 168 44v52c0 44-28 74-68 88-40-14-68-44-68-88V44l68-26Z" fill="#57f287" />
+          <path d="M100 18 168 44v52c0 44-28 74-68 88V18Z" fill="#35ed7e" />
+          <path d="M100 46 144 62v34c0 28-18 48-44 58-26-10-44-30-44-58V62l44-16Z" fill="#1a2081" />
+          <path d="m82 100 14 14 26-30" stroke="#fff" stroke-width="12" stroke-linecap="square" />
+          <rect
+            x="150"
+            y="150"
+            width="12"
+            height="12"
+            fill="#eb459e"
+            transform="rotate(20 156 156)"
+          />
+          <rect x="30" y="26" width="8" height="8" fill="#fee75c" />
+        </svg>
+      )}
+      {decor === 'rocket' && (
+        <svg viewBox="0 0 140 140" fill="none">
+          <path d="M96 12c18 2 30 14 32 32L92 96 44 48 96 12Z" fill="#fff" />
+          <path d="M128 44c-2-18-14-30-32-32l-10 7 35 35 7-10Z" fill="#eb459e" />
+          <circle cx="88" cy="52" r="12" fill="#1a2081" />
+          <circle cx="88" cy="52" r="6" fill="#57f287" />
+          <path d="M44 48 20 56l18 18 6-26Zm48 48-8 24-18-18 26-6Z" fill="#b7bcff" />
+          <path d="m40 82 18 18-34 24 16-42Z" fill="#fee75c" />
+          <path d="m44 90 6 6-16 12 10-18Z" fill="#eb459e" />
+        </svg>
+      )}
+      {decor === 'buoy' && (
+        <svg viewBox="0 0 150 150" fill="none">
+          <circle cx="75" cy="75" r="60" fill="#fff" />
+          <path
+            d="M75 15a60 60 0 0 1 42.4 17.6L91 59a22.6 22.6 0 0 0-16-6.6V15Zm60 60a60 60 0 0 1-17.6 42.4L91 91a22.6 22.6 0 0 0 6.6-16H135ZM75 135a60 60 0 0 1-42.4-17.6L59 91a22.6 22.6 0 0 0 16 6.6V135ZM15 75a60 60 0 0 1 17.6-42.4L59 59a22.6 22.6 0 0 0-6.6 16H15Z"
+            fill="#eb459e"
+          />
+          <circle cx="75" cy="75" r="24" fill="#5865f2" />
+          <rect x="118" y="10" width="10" height="10" fill="#57f287" />
+        </svg>
+      )}
+      {decor === 'pencil' && (
+        <svg viewBox="0 0 190 190" fill="none">
+          <path d="m138 22 30 30-98 98-30-30 98-98Z" fill="#fee75c" />
+          <path d="m153 37 15 15-98 98-15-15 98-98Z" fill="#f0b232" />
+          <path d="m138 22 12-12c6-6 16-6 22 0l8 8c6 6 6 16 0 22l-12 12-30-30Z" fill="#eb459e" />
+          <path d="m40 120 30 30-46 16 16-46Z" fill="#fff" />
+          <path d="m30 150 10 10-16 6 6-16Z" fill="#1a2081" />
+          <rect x="24" y="30" width="12" height="12" fill="#57f287" />
+          <rect x="150" y="150" width="8" height="8" fill="#fff" />
+        </svg>
+      )}
+      {decor === 'cube' && (
+        <svg viewBox="0 0 190 190" fill="none">
+          <path d="M95 16 166 56v80l-71 40-71-40V56l71-40Z" fill="#b7bcff" />
+          <path d="M95 96v80l-71-40V56l71 40Z" fill="#e0e3ff" />
+          <path d="M95 16 166 56 95 96 24 56 95 16Z" fill="#fff" />
+          <path d="m95 40 28 16-28 16-28-16 28-16Z" fill="#57f287" />
+          <path d="M44 84 76 102v34L44 118V84Z" fill="#eb459e" />
+          <path d="M114 110 146 92v14l-32 18v-14Zm0 28 32-18v14l-32 18v-14Z" fill="#1a2081" />
+          <rect x="160" y="160" width="10" height="10" fill="#fee75c" />
+        </svg>
+      )}
+    </div>
+  </div>
+</Dropdown>
+
+<style>
+  .header__dd {
+    position: relative;
+  }
+
+  /* ---------- dropdown panel ---------- */
+  :global(.header__dd-list) {
+    position: absolute;
+    top: 36px;
+    left: 50%;
+    width: 522px;
+    margin-left: -261px;
+    z-index: var(--z-dropdown);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .header__dd.is-open > :global(.header__dd-list) {
+    pointer-events: auto;
+  }
+  .header__dd-card {
+    position: relative;
+    margin-top: 7px;
+    padding: var(--spacing-40);
+    border-radius: 40px;
+    background: var(--color-blurple);
+  }
+  .header__dd-layout {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: auto;
+    gap: 30px;
+    max-width: 982px;
+  }
+  .header__dd-layout--2 {
+    grid-template-columns: auto 1fr;
+    gap: var(--spacing-40);
+  }
+  .header__dd-group {
+    position: relative;
+  }
+  .header__dd-group--rule {
+    min-width: 168px;
+    padding-right: 21px;
+  }
+  .header__dd-group--rule::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--color-white-10);
+  }
+  .header__dd-layout--2 .header__dd-group:last-child {
+    padding-right: var(--spacing-20);
+  }
+  .header__dd-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-12);
+  }
+  .header__dd-title {
+    margin-bottom: var(--spacing-4);
+    color: var(--color-white);
+    opacity: 0.5;
+    font-size: var(--text-nav);
+    line-height: 1.3;
+    font-weight: var(--font-weight-regular);
+    white-space: nowrap;
+  }
+  .header__dd-link {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    color: var(--color-white);
+    text-decoration: none;
+    white-space: nowrap;
+    font-size: var(--text-nav);
+    line-height: var(--leading-nav);
+    font-weight: var(--font-weight-medium);
+    transition: opacity 0.35s;
+  }
+  .header__dd-link:hover {
+    opacity: 0.65;
+  }
+  .header__dd-link:focus-visible {
+    outline: 2px solid var(--color-white);
+    outline-offset: 2px;
+  }
+  .header__dd-ext {
+    transition: transform 0.3s;
+  }
+  .header__dd-link:hover .header__dd-ext {
+    transform: translate(2px, -2px);
+  }
+  .header__dd-line {
+    height: 1px;
+    margin: var(--spacing-24) 0;
+    background: var(--color-white);
+    opacity: 0.1;
+  }
+  .header__dd-decor {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 140px;
+    margin: 0 -72px -98px 0;
+    pointer-events: none;
+    opacity: 0;
+  }
+  .header__dd-decor svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .header__dd-decor--plane {
+    margin: 0 -54px -46px 0;
+  }
+  .header__dd-decor--shield {
+    width: 200px;
+    margin: 0 -92px -122px 0;
+  }
+  .header__dd-decor--buoy {
+    width: 150px;
+    margin: 0 -94px -80px 0;
+  }
+  .header__dd-decor--pencil {
+    width: 190px;
+    margin: 0 -80px -100px 0;
+  }
+  .header__dd-decor--cube {
+    width: 190px;
+    margin: 0 -100px -120px 0;
+  }
+
+  /* ---------- 992–1279: compact desktop row (70px bar, 14px links) ---------- */
+  @media (max-width: 1279px) {
+    :global(.header__dd-list) {
+      width: 480px;
+      margin-left: -240px;
+      top: 37px;
+    }
+    .header__dd-card {
+      padding: 32px;
+    }
+    .header__dd-link,
+    .header__dd-title {
+      font-size: 0.875rem;
+    }
+  }
+</style>
+
+<script>
+  import { gsap, onPage, reducedMotion } from '@lib/motion';
+
+  // The corner illustration slides and fades in with the list (the list and arrow come from ui/Dropdown).
+  onPage((signal) => {
+    const inQuad = 'power1.in';
+    const swingTo = 'back.out(1.70158)';
+    const T = (s: number) => (reducedMotion() ? 0 : s);
+    document.querySelectorAll<HTMLElement>('.header__dd').forEach((dd) => {
+      const decor = dd.querySelector('[data-dropdown-decor]');
+      dd.addEventListener(
+        'dropdown-toggle',
+        (e) => {
+          gsap.killTweensOf(decor);
+          if ((e as CustomEvent<{ open: boolean }>).detail.open) {
+            gsap.fromTo(decor, { autoAlpha: 0 }, { autoAlpha: 1, duration: T(0.3), ease: inQuad });
+            gsap.fromTo(decor, { y: 50 }, { y: 0, duration: T(0.6), delay: T(0.1), ease: swingTo });
+          } else gsap.to(decor, { autoAlpha: 0, y: 50, duration: T(0.25), ease: 'none' });
+        },
+        { signal },
+      );
+    });
+  });
+</script>

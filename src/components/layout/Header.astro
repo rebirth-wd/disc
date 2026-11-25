@@ -1,0 +1,520 @@
+---
+// Global header: 80px transparent bar, fixed logo lockup left, centred link row with dropdown panels,
+// fixed white nav button right, scrolled pill state, burger menu under 992px.
+import Button from '@components/ui/Button.astro';
+import { navigation } from '@data/navigation';
+import { site } from '@data/site';
+import HeaderDropdown from './HeaderDropdown.astro';
+import LogoMark from './LogoMark.astro';
+import MobileMenu from './MobileMenu.astro';
+
+interface Props {
+  active?: string;
+}
+const { active = '' } = Astro.props;
+const isActive = (id: string) => active === id;
+---
+
+<header class="header" data-section="global-header" data-active={active}>
+  <div class="header__pad">
+    <div class="header__wrap">
+      <a href="#main" class="header__skip" data-skip>
+        Skip to main content
+      </a>
+
+      <a href="/" class="header__brand" data-brand aria-label={`${site.name} — home`}>
+        <span class="header__brand-light" data-brand-light>
+          <LogoMark size={28} />
+          <span class="header__brand-word">Rebirth</span>
+        </span>
+        <span class="header__brand-pill" data-brand-pill aria-hidden="true">
+          <LogoMark size={22} />
+          <span class="header__brand-word header__brand-word--sm">Rebirth</span>
+        </span>
+      </a>
+
+      <nav class="header__menu" aria-label="Primary">
+        <ul class="header__menu-list" role="list">
+          {navigation.map((it) =>
+            it.kind === 'link' ? (
+              <li>
+                <a
+                  href={it.href}
+                  class="header__link"
+                  aria-current={isActive(it.id) ? 'page' : undefined}
+                >
+                  {it.label}
+                </a>
+              </li>
+            ) : (
+              <HeaderDropdown id={it.id} decor={it.decor} columns={it.columns}>
+                <a
+                  slot="trigger"
+                  href={it.href}
+                  class="header__dd-trigger"
+                  data-dropdown-trigger
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  aria-controls={`header-dd-${it.id}-list`}
+                  aria-current={isActive(it.id) ? 'page' : undefined}
+                >
+                  <span>{it.label}</span>
+                  <span class="header__dd-arrow" data-dropdown-arrow>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path
+                        d="M12 6L8 10L4 6"
+                        stroke="currentColor"
+                        stroke-opacity="0.5"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </a>
+              </HeaderDropdown>
+            ),
+          )}
+        </ul>
+      </nav>
+
+      <div class="header__cta">
+        <Button size="nav" href="#">
+          Contact
+        </Button>
+      </div>
+
+      <button
+        class="header__burger-btn"
+        type="button"
+        aria-label="Menu"
+        aria-expanded="false"
+        aria-controls="header-burger"
+        data-burger-open
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M5 6h14M5 12h14M5 18h7"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="header__blur" data-nav-blur aria-hidden="true"></div>
+
+  <MobileMenu items={navigation} />
+</header>
+
+<style>
+  /* ---------- bar ---------- */
+  .header {
+    position: absolute;
+    inset: 0 0 auto 0;
+    z-index: var(--z-header);
+    font-family: var(--font-body);
+  }
+  .header__pad {
+    position: relative;
+    z-index: 2;
+    padding: 0 var(--page-gutter);
+  }
+  .header__wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 80px;
+    margin: 0 auto;
+  }
+  .header__skip {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: var(--z-skip-link);
+    padding: 13px var(--spacing-24);
+    border-radius: var(--radius-md);
+    background: var(--color-signal-green);
+    color: var(--color-black);
+    font-size: var(--text-body);
+    line-height: 22px;
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-20px);
+    transition:
+      transform 0.25s,
+      opacity 0.25s;
+  }
+  .header__skip:focus-visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(0);
+    outline: none;
+  }
+
+  /* ---------- brand lockup (146 x 40, fixed) ---------- */
+  .header__brand {
+    position: fixed;
+    left: var(--page-gutter);
+    top: 40px;
+    z-index: 3;
+    display: block;
+    width: 146px;
+    height: 40px;
+    color: var(--color-white);
+    text-decoration: none;
+  }
+  .header__brand:focus-visible {
+    outline: 2px solid var(--color-blurple);
+    outline-offset: 2px;
+    border-radius: var(--radius-lg);
+  }
+  .header__brand-light,
+  .header__brand-pill {
+    position: absolute;
+    display: flex;
+    align-items: center;
+  }
+  .header__brand-light {
+    inset: 0;
+    gap: var(--spacing-10);
+  }
+  .header__brand-pill {
+    inset: 1px 0;
+    justify-content: center;
+    gap: var(--spacing-8);
+    border-radius: var(--radius-nav-controls);
+    background: var(--surface-white-control);
+    color: var(--color-black);
+    opacity: 0;
+  }
+  .header__brand-word {
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-extrabold);
+    font-size: 1.21875rem;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .header__brand-word--sm {
+    font-size: 0.9375rem;
+  }
+
+  /* ---------- link row ---------- */
+  .header__menu {
+    margin: 0 auto;
+  }
+  .header__menu-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .header__menu-list > li {
+    position: relative;
+  }
+  .header__link,
+  .header__dd-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    box-sizing: border-box;
+    padding: var(--spacing-10) var(--spacing-16);
+    border-radius: var(--radius-md);
+    color: var(--color-white);
+    text-decoration: none;
+    white-space: nowrap;
+    font-size: var(--text-nav);
+    line-height: var(--leading-nav);
+    font-weight: var(--font-weight-medium);
+    transition: background-color 0.4s;
+  }
+  .header__link {
+    gap: var(--spacing-8);
+  }
+  .header__dd-trigger {
+    gap: var(--spacing-4);
+    position: relative;
+    cursor: pointer;
+  }
+  .header__link:hover,
+  .header__dd-trigger[aria-expanded='true'] {
+    background-color: var(--color-blurple);
+  }
+  .header__link:focus-visible,
+  .header__dd-trigger:focus-visible {
+    outline: 2px solid var(--color-white);
+    outline-offset: -2px;
+  }
+  .header__dd-arrow {
+    display: flex;
+    width: 16px;
+    height: 16px;
+  }
+  .header__blur {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 0.4s,
+      visibility 0.4s;
+  }
+  .header:has(.header__dd-trigger[aria-expanded='true']) .header__blur {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* ---------- right-hand button (fixed) ---------- */
+  .header__cta {
+    position: fixed;
+    right: var(--page-gutter);
+    top: 41px;
+    z-index: 3;
+  }
+
+  /* ---------- burger ---------- */
+  .header__burger-btn {
+    display: none;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: 14px;
+    background: var(--color-white-10);
+    color: var(--color-white);
+    cursor: pointer;
+    transition: background-color 0.5s;
+  }
+  .header__burger-btn:hover {
+    background: var(--color-white-30);
+  }
+  .header__burger-btn:focus-visible {
+    outline: 2px solid var(--color-white);
+    outline-offset: 2px;
+  }
+
+  /* ---------- 1280–1439: tighter link padding (0.75rem) ---------- */
+  @media (max-width: 1439px) {
+    .header__link {
+      padding-left: var(--spacing-12);
+      padding-right: var(--spacing-12);
+    }
+  }
+
+  /* ---------- 992–1279: compact desktop row (70px bar, 14px links) ---------- */
+  @media (max-width: 1279px) {
+    .header__pad {
+      padding: 0 32px;
+    }
+    .header__wrap {
+      height: 70px;
+    }
+    .header__brand {
+      top: 30px;
+    }
+    .header__cta {
+      top: 31px;
+      right: 32px;
+    }
+    .header__menu-list {
+      max-width: 660px;
+    }
+    .header__link,
+    .header__dd-trigger {
+      padding: var(--spacing-10) 7.2px;
+      font-size: 0.875rem;
+      line-height: 16px;
+      letter-spacing: -0.01em;
+    }
+    .header__dd-trigger {
+      padding-right: var(--spacing-4);
+      line-height: 19.2px;
+      max-height: 38px;
+    }
+    .header__dd-arrow,
+    .header__dd-arrow svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  /* ---------- <= 991: fixed bar + burger ---------- */
+  @media (max-width: 991px) {
+    .header {
+      position: fixed;
+      z-index: var(--z-header-fixed);
+    }
+    .header__wrap {
+      height: 100px;
+      align-items: center;
+    }
+    .header__menu {
+      display: none;
+    }
+    .header__brand {
+      position: relative;
+      left: auto;
+      top: auto;
+      flex: none;
+    }
+    .header__brand-pill {
+      display: none;
+    }
+    .header__cta {
+      position: relative;
+      right: auto;
+      top: auto;
+      margin: 0 var(--spacing-24) 0 auto;
+    }
+    .header__burger-btn {
+      display: flex;
+    }
+    .header__blur {
+      display: none;
+    }
+  }
+  @media (max-width: 767px) {
+    .header__cta {
+      display: none;
+    }
+    .header__burger-btn {
+      margin-left: auto;
+    }
+  }
+  @media (max-width: 479px) {
+    .header__pad {
+      padding: 0 var(--spacing-24);
+    }
+    .header__wrap {
+      height: 64px;
+    }
+  }
+</style>
+
+<script>
+  import { gsap, ScrollTrigger, media, onPage, reducedMotion, MQ } from '@lib/motion';
+
+  onPage((signal) => {
+    const root = document.querySelector<HTMLElement>('[data-section="global-header"]');
+    if (!root) return;
+    const T = (s: number) => (reducedMotion() ? 0 : s);
+    const desktop = window.matchMedia(MQ.lg);
+
+    /* ---- skip link: focus <main> ---- */
+    const main = document.querySelector<HTMLElement>('main');
+    if (main && !main.id) main.id = 'main';
+    root.querySelector('[data-skip]')?.addEventListener(
+      'click',
+      (e) => {
+        if (!main) return;
+        e.preventDefault();
+        main.setAttribute('tabindex', '-1');
+        main.focus();
+        main.addEventListener('blur', () => main.removeAttribute('tabindex'), {
+          once: true,
+          signal,
+        });
+      },
+      { signal },
+    );
+
+    /* ---- scrolled state ----
+     >= 992: the white lockup swaps to the white pill once the page's
+     `[data-nav-trigger]` section (the hero) has scrolled out; links scroll away
+     with the absolutely-positioned bar, logo + button stay fixed.
+     <= 991: fixed bar turns blurple after 0.1% scroll. */
+    const light = root.querySelector('[data-brand-light]');
+    const pill = root.querySelector('[data-brand-pill]');
+    const threshold = () => {
+      const t =
+        document.querySelector<HTMLElement>('[data-nav-trigger]') ||
+        (main?.firstElementChild as HTMLElement | null);
+      if (!t) return 870;
+      const r = t.getBoundingClientRect();
+      const y = r.bottom + window.scrollY;
+      return y > 200 ? y : 870;
+    };
+    let scrolled: boolean | null = null;
+    let tinted: boolean | null = null;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (desktop.matches) {
+        if (tinted) {
+          tinted = false;
+          gsap.set(root, { backgroundColor: 'rgba(88,101,242,0)' });
+        }
+        const s = y >= threshold();
+        if (s !== scrolled) {
+          const first = scrolled === null;
+          scrolled = s;
+          gsap.to(light, {
+            opacity: s ? 0 : 1,
+            duration: first ? 0 : T(0.2),
+            ease: 'none',
+            overwrite: true,
+          });
+          gsap.to(pill, {
+            opacity: s ? 1 : 0,
+            duration: first ? 0 : T(0.2),
+            ease: 'none',
+            overwrite: true,
+          });
+        }
+      } else {
+        if (scrolled) {
+          scrolled = null;
+          gsap.set(light, { opacity: 1 });
+          gsap.set(pill, { opacity: 0 });
+        }
+        const t = y > 0;
+        if (t !== tinted) {
+          const first = tinted === null;
+          tinted = t;
+          gsap.to(root, {
+            backgroundColor: t ? 'rgba(88,101,242,1)' : 'rgba(88,101,242,0)',
+            duration: first ? 0 : T(0.2),
+            ease: 'none',
+            overwrite: true,
+          });
+        }
+      }
+    };
+    media(
+      root,
+      () => {
+        ScrollTrigger.create({ start: 0, end: 'max', onUpdate: onScroll, onRefresh: onScroll });
+      },
+      MQ.always,
+    );
+    window.addEventListener('scroll', onScroll, { passive: true, signal });
+    desktop.addEventListener(
+      'change',
+      () => {
+        scrolled = null;
+        tinted = null;
+        onScroll();
+      },
+      { signal },
+    );
+    onScroll();
+  });
+</script>

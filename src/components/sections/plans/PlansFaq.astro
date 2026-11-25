@@ -1,0 +1,359 @@
+---
+import Section from '@components/layout/Section.astro';
+import PlansObject from '@components/graphics/objects/PlansObject.astro';
+import Accordion from '@components/ui/Accordion.astro';
+import Heading from '@components/ui/Heading.astro';
+import { plansFaq } from '@data/faqs';
+---
+
+<Section section="plans-faq" id="faq" class="plans-faq" container="wide">
+  <div class="plans-faq__head" data-par-trigger="faq">
+    <Heading level={2} size="lg" italic class="plans-faq__title text-center">
+      Questions?
+    </Heading>
+    <p class="font-body text-body leading-[22px] font-normal xs:text-body-xl xs:leading-[26px]">
+      Questions about Care? Check out our FAQ.
+    </p>
+    <PlansObject name="padlock" par="key" class="plans-faq__lock" />
+  </div>
+
+  <div class="plans-faq__tabs" role="tablist" data-faq-tabs>
+    {plansFaq.map((t, i) => (
+      <button
+        type="button"
+        role="tab"
+        id={`plans-faq-tab-${i}`}
+        aria-controls={`plans-faq-pane-${i}`}
+        aria-selected={i === 0 ? 'true' : 'false'}
+        tabindex={i === 0 ? 0 : -1}
+        class:list={['plans-faq__tab', i === 0 && 'is-current']}
+        data-faq-tab
+      >
+        <span>{t.name}</span>
+      </button>
+    ))}
+    <svg class="plans-faq__arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path
+        d="m4 6 4 4 4-4"
+        stroke="#fff"
+        stroke-opacity="0.5"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </div>
+
+  <div class="plans-faq__panes">
+    {plansFaq.map((t, i) => (
+      <div
+        class="plans-faq__pane"
+        role="tabpanel"
+        id={`plans-faq-pane-${i}`}
+        aria-labelledby={`plans-faq-tab-${i}`}
+        hidden={i !== 0}
+        data-faq-pane
+      >
+        <Accordion
+          name={`plans-faq-${i}`}
+          group="plans-faq"
+          items={t.items}
+          questionClass="font-body text-body leading-[22px] font-medium xs:text-body-xl xs:leading-[26px]"
+        >
+          <Fragment slot="icon">
+            <svg viewBox="0 0 16 16" fill="none">
+              <path d="M1 8h14" stroke="#fff" stroke-width="2" />
+            </svg>
+            <svg viewBox="0 0 16 16" fill="none" data-accordion-plus>
+              <path d="M1 8h14M8 1v14" stroke="#fff" stroke-width="2" />
+            </svg>
+          </Fragment>
+        </Accordion>
+      </div>
+    ))}
+  </div>
+</Section>
+
+<style>
+  .plans-faq {
+    position: relative;
+    padding-bottom: 160px;
+  }
+  .plans-faq__title {
+    margin-bottom: var(--spacing-24);
+  }
+  .plans-faq__head {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: var(--spacing-48);
+  }
+  .plans-faq__head :global(.plans-faq__lock) {
+    top: -25px;
+    right: -18px;
+    width: 250px;
+    height: 250px;
+    z-index: 0;
+  }
+  .plans-faq__tabs {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-8);
+  }
+  .plans-faq__tab {
+    appearance: none;
+    border: 0;
+    margin: 0;
+    cursor: pointer;
+    padding: 14px var(--spacing-24);
+    border-radius: var(--radius-md);
+    background: rgba(221, 221, 221, 0);
+    color: rgba(255, 255, 255, 0.5);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: 16px;
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+    transition:
+      background-color 0.35s,
+      color 0.35s;
+  }
+  .plans-faq__tab.is-current {
+    background: var(--color-white);
+    color: var(--color-black);
+  }
+  .plans-faq__tab:focus-visible,
+  .plans-faq :global(.accordion__toggle:focus-visible) {
+    outline: 2px solid var(--color-signal-green);
+    outline-offset: 2px;
+  }
+  @media (hover: hover) {
+    .plans-faq__tab:not(.is-current):hover {
+      background: var(--color-white-10);
+    }
+  }
+  .plans-faq__arrow {
+    display: none;
+  }
+  .plans-faq :global(.accordion__item) {
+    position: relative;
+    border-bottom: 2px solid var(--color-white-10);
+  }
+  .plans-faq :global(.accordion__toggle) {
+    appearance: none;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    position: relative;
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: var(--spacing-40) var(--spacing-40) var(--spacing-40) 0;
+  }
+  .plans-faq :global(.accordion__question) {
+    display: block;
+  }
+  .plans-faq :global(.accordion__icons) {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 16px;
+    display: flex;
+    align-items: center;
+  }
+  .plans-faq :global(.accordion__icons svg) {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+  }
+  .plans-faq :global(.accordion__panel) {
+    margin-top: calc(var(--spacing-8) * -1);
+    padding: 0 var(--spacing-16) var(--spacing-48) 0;
+  }
+  .plans-faq :global(.accordion__panel p) {
+    margin: 0;
+    font-size: var(--text-body-xl);
+    line-height: 28px;
+    color: #b2b2b2;
+  }
+  @media (max-width: 1439px) {
+    .plans-faq {
+      padding-bottom: 120px;
+    }
+    .plans-faq__title {
+      margin-bottom: var(--spacing-20);
+    }
+    .plans-faq__head :global(.plans-faq__lock) {
+      top: -33px;
+      right: -24px;
+      width: 194px;
+      height: 194px;
+    }
+  }
+  @media (max-width: 767px) {
+    /* the tab row is swapped for a click-to-expand list */
+    .plans-faq__tabs {
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 0;
+      height: 58px;
+      overflow: hidden;
+      border-radius: var(--radius-md);
+      background: var(--color-white-10);
+      margin-bottom: 2px;
+    }
+    .plans-faq__tab,
+    .plans-faq__tab.is-current {
+      flex: none;
+      height: 58px;
+      padding: 0 var(--spacing-24);
+      text-align: left;
+      background: transparent;
+      color: var(--color-white);
+      border-radius: 0;
+    }
+    .plans-faq__tab.is-current {
+      order: -1;
+    }
+    .plans-faq__arrow {
+      display: block;
+      position: absolute;
+      top: 21px;
+      right: 22px;
+      width: 16px;
+      height: 16px;
+      pointer-events: none;
+    }
+    .plans-faq__head :global(.plans-faq__lock) {
+      display: none;
+    }
+  }
+  @media (max-width: 479px) {
+    .plans-faq {
+      padding-bottom: 100px;
+    }
+    .plans-faq :global(.accordion__toggle) {
+      padding: 32px var(--spacing-40) 32px 0;
+    }
+    .plans-faq :global(.accordion__panel) {
+      padding-bottom: 32px;
+    }
+    .plans-faq :global(.accordion__panel p) {
+      font-size: var(--text-body);
+      line-height: 22.4px;
+    }
+  }
+</style>
+
+<script>
+  import { gsap, ScrollTrigger, onPage, reducedMotion, MQ } from '@lib/motion';
+  import { parallax } from '@lib/parallax';
+  import { closeAccordions } from '@lib/accordion';
+  onPage((signal) => {
+    const root = document.querySelector<HTMLElement>('[data-section="plans-faq"]');
+    if (root) {
+      const reduce = reducedMotion();
+      // Tabs: instant pane swap (duration 0); link colours cross-fade via the 0.35s CSS transition.
+      const tabsEl = root.querySelector<HTMLElement>('[data-faq-tabs]')!;
+      const tabs = Array.from(root.querySelectorAll<HTMLElement>('[data-faq-tab]')),
+        panes = Array.from(root.querySelectorAll<HTMLElement>('[data-faq-pane]'));
+      const arrow = root.querySelector('.plans-faq__arrow');
+      const mobile = matchMedia(MQ.sm);
+      let menuOpen = false;
+      // height 58 -> auto and arrow 0 -> -180deg, 100ms after 50ms delay. back to 58px / 0deg in 200ms.
+      const menu = (open: boolean) => {
+        if (!mobile.matches || open === menuOpen) return;
+        menuOpen = open;
+        if (open) {
+          gsap.to(tabsEl, {
+            height: 'auto',
+            duration: reduce ? 0 : 0.1,
+            delay: 0.05,
+            ease: 'none',
+            overwrite: true,
+          });
+          gsap.to(arrow, {
+            rotation: -180,
+            duration: reduce ? 0 : 0.1,
+            delay: 0.05,
+            ease: 'none',
+            overwrite: true,
+          });
+        } else {
+          gsap.to(tabsEl, {
+            height: 58,
+            duration: reduce ? 0 : 0.2,
+            ease: 'none',
+            overwrite: true,
+          });
+          gsap.to(arrow, {
+            rotation: 0,
+            duration: reduce ? 0 : 0.2,
+            ease: 'none',
+            overwrite: true,
+          });
+        }
+      };
+      mobile.addEventListener(
+        'change',
+        () => {
+          menuOpen = false;
+          gsap.set(tabsEl, { clearProps: 'height' });
+          gsap.set(arrow, { clearProps: 'transform' });
+        },
+        { signal },
+      );
+      const select = (i: number) => {
+        tabs.forEach((t, k) => {
+          t.classList.toggle('is-current', k === i);
+          t.setAttribute('aria-selected', String(k === i));
+          t.tabIndex = k === i ? 0 : -1;
+        });
+        panes.forEach((p, k) => (p.hidden = k !== i));
+        closeAccordions(root);
+        ScrollTrigger.refresh();
+      };
+      tabs.forEach((t, i) => {
+        t.addEventListener(
+          'click',
+          (e) => {
+            e.stopPropagation();
+            const wasOpen = menuOpen;
+            select(i);
+            menu(!wasOpen);
+          },
+          { signal },
+        );
+        t.addEventListener(
+          'keydown',
+          (e) => {
+            const d =
+              e.key === 'ArrowRight' || e.key === 'ArrowDown'
+                ? 1
+                : e.key === 'ArrowLeft' || e.key === 'ArrowUp'
+                  ? -1
+                  : 0;
+            if (d) {
+              e.preventDefault();
+              const n = (i + d + tabs.length) % tabs.length;
+              select(n);
+              tabs[n].focus();
+            }
+          },
+          { signal },
+        );
+      });
+
+      // progress of the FAQ heading block, 0 -> 100%: padlock y 0 -> -130
+      parallax(root.querySelector('[data-par="key"]'), {
+        to: -130,
+        trigger: root.querySelector('[data-par-trigger="faq"]'),
+        scrub: 0.6,
+      });
+    }
+  });
+</script>

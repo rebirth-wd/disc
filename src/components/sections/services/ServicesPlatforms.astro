@@ -1,0 +1,404 @@
+---
+// Four stacked text + gradient-media blocks
+// (desktop / mobile / console / VR), alternating sides. The blocks have no scroll reveals —
+// the only motion is button hover (bg → fog, 0.3s) and the click dropdowns (see ServicesDropdown).
+import Button from '@components/ui/Button.astro';
+import ServicesDropdown from './ServicesDropdown.astro';
+import PlatformMock from '@components/graphics/mocks/PlatformMock.astro';
+import Heading from '@components/ui/Heading.astro';
+---
+
+<section
+  data-section="services-platforms"
+  id="services-platforms"
+  class="services-platforms bg-black text-white"
+>
+  <div class="services-platforms__pad">
+    <div class="services-platforms__container">
+      <div class="services-platforms__group">
+        <div class="services-platforms__layout services-platforms__layout--a" data-block="desktop">
+          <div class="services-platforms__text">
+            <Heading level={2} size="lg" class="services-platforms__h2">
+              Built for
+              <br />
+              desktop
+            </Heading>
+            <p class="services-platforms__p">
+              Bold first impressions with stunning local imagery and clear messaging that grabs
+              attention the moment someone lands on your site, on any screen.
+            </p>
+            <div class="services-platforms__spacer"></div>
+            <div class="services-platforms__btns">
+              <ServicesDropdown
+                id="services-platforms-business"
+                label="Business"
+                z={4}
+                items={[{ label: 'Landing page' }, { label: 'Marketing site' }]}
+              >
+                <svg slot="icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 3h6a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H2V9a2 2 0 0 1 2-2h3V5a2 2 0 0 1 2-2Zm0 4h6V5H9v2ZM2 14h8v2h4v-2h8v5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5Z" />
+                </svg>
+              </ServicesDropdown>
+              <ServicesDropdown
+                id="services-platforms-portfolio"
+                label="Portfolio"
+                z={3}
+                items={[{ label: 'Personal brand' }, { label: 'Showcase' }]}
+              >
+                <svg slot="icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M3 3h8v8H3V3Zm10 0h8v8h-8V3ZM3 13h8v8H3v-8Zm10 0h8v8h-8v-8Z" />
+                </svg>
+              </ServicesDropdown>
+              <ServicesDropdown
+                id="services-platforms-docs"
+                label="Docs"
+                z={2}
+                items={[
+                  { label: 'Docs hub' },
+                  { label: 'Blog' },
+                  { label: 'FAQs' },
+                  { label: 'Search' },
+                ]}
+              >
+                <svg slot="icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M5 2h10l4 4v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm2 8v2h10v-2H7Zm0 4v2h10v-2H7Zm0-8v2h6V6H7Z" />
+                </svg>
+              </ServicesDropdown>
+            </div>
+          </div>
+          <div class="services-platforms__media services-platforms__media--green services-platforms__media--right">
+            <PlatformMock kind="desktop" />
+          </div>
+        </div>
+        <div class="services-platforms__layout services-platforms__layout--b" data-block="mobile">
+          <div class="services-platforms__media services-platforms__media--blue">
+            <PlatformMock kind="phone" />
+          </div>
+          <div class="services-platforms__text">
+            <Heading level={2} size="lg" class="services-platforms__h2">
+              Made for
+              <br />
+              mobile
+            </Heading>
+            <p class="services-platforms__p">
+              Over half of mobile visitors abandon a site that takes more than three seconds to
+              load. Ours are built to load in under a second.
+            </p>
+            <div class="services-platforms__spacer"></div>
+            <div class="services-platforms__btns">
+              <Button href="tel:+61488162040">
+                <svg slot="icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M6.6 2h3.2l1.6 5-2.3 1.7a12 12 0 0 0 6.2 6.2l1.7-2.3 5 1.6v3.2A2.6 2.6 0 0 1 19.400 20 C10.300 20 4 13.700 4 4.600 A2.6 2.6 0 0 1 6.600 2Z" />
+                </svg>
+                Call Us
+              </Button>
+              <Button href="#">
+                <svg slot="icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v.4l-10 6.2L2 6.400V6Zm0 2.800V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8.800l-10 6.200-10-6.200Z" />
+                </svg>
+                Email Us
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="services-platforms__layout services-platforms__layout--c" data-block="edge">
+        <div class="services-platforms__text">
+          <Heading level={2} size="lg" class="services-platforms__h2">
+            Edge-delivered
+          </Heading>
+          <p class="services-platforms__p">
+            Your site is distributed across Cloudflare's network and served from the node closest to
+            each visitor. Local customers get instant loads, and there is no origin server to fall
+            over under traffic.
+          </p>
+          <div class="services-platforms__spacer"></div>
+          <div class="services-platforms__btns">
+            <Button href="#">
+              <svg slot="icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="m12 2 10 5-10 5L2 7l10-5Zm-7.500 8.800L12 14.500l7.500-3.700L22 12l-10 5-10-5 2.500-1.200Zm0 5L12 19.500l7.500-3.700L22 17l-10 5-10-5 2.500-1.200Z" />
+              </svg>
+              The Stack
+            </Button>
+            <Button href="#">
+              <svg slot="icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20Zm-1 5v6.400l4.800 2.900 1-1.700-3.800-2.300V7h-2Z" />
+              </svg>
+              Process
+            </Button>
+          </div>
+        </div>
+        <div class="services-platforms__media services-platforms__media--pink services-platforms__media--right">
+          <PlatformMock kind="edge" />
+        </div>
+      </div>
+      <div class="services-platforms__layout services-platforms__layout--d" data-block="ai">
+        <div class="services-platforms__media services-platforms__media--indigo">
+          <PlatformMock kind="chat" />
+        </div>
+        <div class="services-platforms__text">
+          <Heading level={2} size="lg" class="services-platforms__h2">
+            AI-ready websites
+          </Heading>
+          <p class="services-platforms__p">
+            A chatbot that actually knows your business: your services, your pricing, your suburbs,
+            your FAQs. It answers after hours and guides visitors to the right page, every time.
+          </p>
+          <div class="services-platforms__spacer"></div>
+          <div class="services-platforms__btns">
+            <Button href="#">
+              <svg slot="icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="m10 2 2.200 5.800L18 10l-5.800 2.200L10 18l-2.200-5.800L2 10l5.800-2.200L10 2Zm8.500 11 1.100 2.900 2.900 1.100-2.900 1.100-1.100 2.900-1.100-2.900-2.900-1.100 2.900-1.100 1.100-2.900Z" />
+              </svg>
+              Ask Reb
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .services-platforms {
+    position: relative;
+    padding: 100px 0;
+  }
+  .services-platforms__pad {
+    padding: 0 6vw;
+  }
+  .services-platforms__container {
+    position: relative;
+    z-index: 2;
+    max-width: 944px;
+    margin: 0 auto;
+  }
+  .services-platforms__group {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .services-platforms__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacing-48);
+    align-items: center;
+    margin-bottom: 80px;
+  }
+  .services-platforms__layout--a {
+    margin-bottom: 100px;
+  }
+  .services-platforms__layout--d {
+    margin-bottom: 0;
+  }
+  .services-platforms__text {
+    text-align: center;
+  }
+  .services-platforms__h2 {
+    margin-bottom: var(--spacing-16);
+  }
+  .services-platforms__p {
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-white);
+    font-size: var(--text-body);
+    line-height: 22px;
+    margin: 0;
+  }
+  .services-platforms__spacer {
+    padding-bottom: 32px;
+  }
+  .services-platforms__btns {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: var(--spacing-8);
+  }
+
+  .services-platforms__media {
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 432px;
+    margin: 0 auto;
+    border-radius: 56px;
+    overflow: hidden;
+  }
+  .services-platforms__media :global(.platform-mock) {
+    max-width: 322px;
+    margin-left: auto;
+  }
+  .services-platforms__layout--a .services-platforms__media,
+  .services-platforms__layout--c .services-platforms__media {
+    order: -1;
+  }
+  .services-platforms__media--green {
+    background-image: linear-gradient(171deg, var(--color-signal-green), #c8ffef);
+    padding: 48px 0 0 48px;
+    align-items: flex-end;
+  }
+  .services-platforms__media--blue {
+    background-image: linear-gradient(var(--color-blurple), #e0e3ff);
+    padding: 52px 48px 0;
+    align-items: flex-end;
+  }
+  .services-platforms__media--blue :global(.platform-mock) {
+    margin: 0 auto;
+  }
+  .services-platforms__media--pink {
+    background-image: linear-gradient(#ff4cd2, #f5c9ff);
+    padding: 50px 0 50px 48px;
+  }
+  .services-platforms__media--indigo {
+    background-image: linear-gradient(#211f62, #2a2a7c 30%, var(--color-blurple) 88%);
+    padding: 81px 0 81px 30px;
+    height: 482px;
+  }
+  .services-platforms__media--indigo :global(.platform-mock) {
+    max-width: none;
+  }
+
+  @media (min-width: 768px) {
+    .services-platforms {
+      padding: 146px 0 0;
+      margin-bottom: var(--spacing-128);
+    }
+    .services-platforms__pad {
+      padding: 0 var(--spacing-40);
+    }
+    .services-platforms__layout {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 80px;
+    }
+    .services-platforms__layout--a {
+      margin-bottom: 80px;
+    }
+    .services-platforms__text {
+      text-align: left;
+    }
+    .services-platforms__h2 {
+      margin-bottom: var(--spacing-20);
+    }
+    .services-platforms__p {
+      font-size: var(--text-body-xl);
+      line-height: 26px;
+    }
+    .services-platforms__btns {
+      justify-content: flex-start;
+    }
+    .services-platforms__media {
+      display: block;
+      max-width: none;
+      border-radius: 64px;
+    }
+    .services-platforms__media :global(.platform-mock) {
+      max-width: none;
+    }
+    .services-platforms__media--green {
+      padding: 64px 0 0 64px;
+    }
+    .services-platforms__media--blue {
+      padding: 60px 60px 0;
+    }
+    .services-platforms__media--pink {
+      padding: 64px 0 64px 64px;
+    }
+    .services-platforms__media--indigo {
+      display: flex;
+      padding: 71px 0 72px 27px;
+      height: 427px;
+    }
+    .services-platforms__layout--b .services-platforms__text {
+      order: -1;
+    }
+    .services-platforms__layout--c .services-platforms__media {
+      order: 0;
+    }
+  }
+  @media (min-width: 992px) {
+    .services-platforms__pad {
+      padding: 0 80px;
+    }
+    .services-platforms__group {
+      flex-direction: column;
+    }
+    .services-platforms__spacer {
+      padding-bottom: var(--spacing-40);
+    }
+    .services-platforms__media--blue {
+      padding: 64px 64px 0;
+    }
+    .services-platforms__media--indigo {
+      height: 606.8px;
+      padding: 101px 0 102px 38px;
+    }
+    .services-platforms__layout--a .services-platforms__media,
+    .services-platforms__layout--b .services-platforms__text {
+      order: 0;
+    }
+  }
+  @media (min-width: 1440px) {
+    .services-platforms {
+      padding-top: 200px;
+      margin-bottom: 200px;
+    }
+    .services-platforms__pad {
+      padding: 0 120px;
+    }
+    .services-platforms__container {
+      max-width: 1360px;
+      padding: 0;
+    }
+    .services-platforms__layout {
+      gap: 100px;
+      margin-bottom: 120px;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    }
+    .services-platforms__layout--a {
+      margin-bottom: 120px;
+    }
+    .services-platforms__layout--b,
+    .services-platforms__layout--d {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    }
+    .services-platforms__layout--d {
+      margin-bottom: 0;
+    }
+    .services-platforms__h2 {
+      margin-bottom: var(--spacing-24);
+    }
+    .services-platforms__btns {
+      gap: var(--spacing-16);
+    }
+    .services-platforms__media {
+      border-radius: 72px;
+    }
+    .services-platforms__media--green {
+      padding: 80px 0 0 80px;
+    }
+    .services-platforms__media--blue {
+      padding: 80px 80px 0;
+    }
+    .services-platforms__media--pink {
+      padding: 80px 0 80px 80px;
+    }
+    .services-platforms__media--indigo {
+      padding: 115px 0 116px 43px;
+      height: 687.5px;
+    }
+  }
+  @media (min-width: 1640px) {
+    .services-platforms__media {
+      max-width: 82%;
+      margin: 0;
+    }
+    .services-platforms__media--right {
+      justify-self: end;
+    }
+  }
+  @media (min-width: 1920px) {
+    .services-platforms__media {
+      max-width: 100%;
+    }
+  }
+</style>

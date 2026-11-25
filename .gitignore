@@ -5,6 +5,10 @@ node_modules/
 dist/
 .astro/
 
+# QA gate: per-machine baseline screenshots and run output
+qa/baseline/
+qa/output/
+
 # Cloudflare / Wrangler
 .wrangler/
 .dev.vars*

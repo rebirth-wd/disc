@@ -1,0 +1,186 @@
+---
+import Section from '@components/layout/Section.astro';
+import Button from '@components/ui/Button.astro';
+import PlansObject from '@components/graphics/objects/PlansObject.astro';
+import Heading from '@components/ui/Heading.astro';
+---
+
+<Section section="plans-hero" data-nav-trigger class="plans-hero">
+  <div class="plans-hero__block" data-par-trigger="hero">
+    <PlansObject name="shield" par="bolt" class="plans-hero__shield" />
+    <Heading level={1} size="xl" italic class="plans-hero__title">
+      <span>Your site,</span> <span>looked after</span> <span>every month</span>
+    </Heading>
+    <p class="font-body text-body leading-[22px] font-normal xs:text-body-xl xs:leading-[26px] plans-hero__lead">
+      Tired of chasing updates, backups and patches? We get it. Join a care plan, and we manage the
+      lot for you, every month.
+    </p>
+    <Button href="#plans">Start now</Button>
+    <PlansObject name="bot" par="astro" class="plans-hero__bot" />
+  </div>
+
+  <div slot="after" class="plans-hero__bg" aria-hidden="true"></div>
+</Section>
+
+<style>
+  .plans-hero {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 240px 0 120px;
+    text-align: center;
+  }
+  .plans-hero__bg {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1500px;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        ellipse 46% 30% at 50% 0%,
+        #d94fd8 0%,
+        rgba(205, 84, 222, 0.75) 38%,
+        rgba(160, 84, 220, 0) 100%
+      ),
+      linear-gradient(
+        180deg,
+        #7550c8 0%,
+        #6a45c2 14%,
+        #4c2c98 30%,
+        #2c1767 44%,
+        #120a35 58%,
+        #05030f 70%,
+        var(--color-black) 80%
+      );
+  }
+  .plans-hero__block {
+    position: relative;
+    max-width: 788px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .plans-hero__title {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin-bottom: var(--spacing-24);
+  }
+  .plans-hero__title span {
+    display: block;
+    white-space: nowrap;
+  }
+  .plans-hero__lead {
+    max-width: 760px;
+    margin-bottom: 44px;
+  }
+  .plans-hero__block :global(.plans-hero__shield) {
+    top: -82px;
+    left: -258px;
+    width: 250px;
+    height: 250px;
+    z-index: 0;
+  }
+  .plans-hero__block :global(.plans-hero__bot) {
+    top: 123px;
+    left: 774px;
+    width: 289px;
+    height: 321px;
+  }
+  @media (max-width: 1439px) {
+    .plans-hero {
+      padding: 200px 0 100px;
+    }
+    .plans-hero__block {
+      max-width: 620px;
+    }
+    .plans-hero__title {
+      margin-bottom: var(--spacing-20);
+    }
+    .plans-hero__lead {
+      margin-bottom: var(--spacing-36);
+    }
+    .plans-hero__block :global(.plans-hero__shield) {
+      top: -77px;
+      left: -252px;
+      width: 200px;
+      height: 200px;
+    }
+    .plans-hero__block :global(.plans-hero__bot) {
+      top: 187px;
+      left: 621px;
+      width: 208px;
+      height: 208px;
+    }
+  }
+  @media (max-width: 991px) {
+    .plans-hero {
+      padding: 180px 0 100px;
+    }
+    .plans-hero__block :global(.plans-hero__shield) {
+      top: -103px;
+      left: -99px;
+      width: 156px;
+      height: 156px;
+    }
+    .plans-hero__block :global(.plans-hero__bot) {
+      top: 232px;
+      left: 502px;
+      width: 168px;
+      height: 168px;
+    }
+  }
+  @media (max-width: 767px) {
+    .plans-hero__title span {
+      white-space: normal;
+    }
+  }
+  @media (max-width: 479px) {
+    .plans-hero {
+      padding: 128px 0 100px;
+    }
+    .plans-hero__title {
+      margin-bottom: 16px;
+    }
+    .plans-hero__lead {
+      margin-bottom: 32px;
+    }
+    .plans-hero__block :global(.plans-hero__shield) {
+      display: none;
+    }
+    .plans-hero__block :global(.plans-hero__bot) {
+      position: relative;
+      top: auto;
+      left: auto;
+      width: 279px;
+      height: 279px;
+      margin: 13px 0 -200px;
+    }
+  }
+</style>
+
+<script>
+  import { gsap, motion, onPage, MQ } from '@lib/motion';
+
+  // scroll progress of the hero block, start offset 30%, 56% -> 100%: shield y 0->160, bot y 0->140, smoothing 75
+  onPage(() => {
+    motion(
+      document.querySelector<HTMLElement>('[data-section="plans-hero"]'),
+      (root) => {
+        const block = root.querySelector('[data-par-trigger="hero"]');
+        const tl = gsap.timeline({
+          defaults: { ease: 'none' },
+          scrollTrigger: { trigger: block, start: 'top 70%', end: 'bottom top', scrub: 0.6 },
+        });
+        tl.to({}, { duration: 0.56 })
+          .to(root.querySelector('[data-par="bolt"]'), { y: 160, duration: 0.44 }, 0.56)
+          .to(root.querySelector('[data-par="astro"]'), { y: 140, duration: 0.44 }, 0.56);
+      },
+      MQ.md,
+    );
+  });
+</script>

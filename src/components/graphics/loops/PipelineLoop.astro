@@ -1,0 +1,360 @@
+---
+// Original looping graphic for the monitoring feature: nightly maintenance checks tick off and the status tiles light up.
+const rows = [
+  { k: 'scan', y: 148, label: 'security-scan' },
+  { k: 'patch', y: 177, label: 'patch-dependencies' },
+  { k: 'backup', y: 206, label: 'nightly-backup' },
+];
+const nodes = [
+  { y: 305, label: 'Brisbane', ms: '21 ms', c: '#57f287' },
+  { y: 334, label: 'Sydney', ms: '38 ms', c: '#fee75c' },
+  { y: 363, label: 'Perth', ms: '54 ms', c: '#eb459e' },
+  { y: 392, label: 'Auckland', ms: '47 ms', c: '#b4c0ff' },
+];
+const tiles = [
+  { k: 'backup', x: 351, y: 234, fill: '#2b2f6b', ink: '#fff', label: 'Backup saved' },
+  { k: 'patch', x: 505, y: 234, fill: '#5865f2', ink: '#fff', label: 'Patched' },
+  { k: 'scan', x: 351, y: 329, fill: '#f3c4f7', ink: '#3b1f52', label: 'Scan clean' },
+  { k: 'uptime', x: 505, y: 329, fill: '#35ed7e', ink: '#06301c', label: 'Uptime 100%' },
+];
+---
+
+<div class="pipeline-loop" data-pipeline-loop="pipe">
+  <svg
+    viewBox="0 0 727 554"
+    preserveAspectRatio="xMidYMid slice"
+    role="img"
+    aria-label="Automated site maintenance: security scan, patching, backups and uptime checks completing one by one"
+  >
+    <!-- checks panel -->
+    <rect x="73" y="59" width="248" height="417" rx="10" fill="#111214" />
+    <text x="87" y="88" class="pipeline-loop__t pipeline-loop__t13 pipeline-loop__b" fill="#fff">
+      your-site.com.au
+    </text>
+    <path
+      d="M292 82l4.500 4.500 4.500-4.500"
+      fill="none"
+      stroke="#b5bac1"
+      stroke-width="1.800"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <rect x="73" y="104" width="248" height="1" fill="#fff" opacity="0.08" />
+    <text x="91" y="134" class="pipeline-loop__t pipeline-loop__t11" fill="#949ba4">
+      Nightly checks
+    </text>
+    {rows.map((r) => (
+      <g data-row={r.k}>
+        <rect
+          data-row-bg
+          x="80"
+          y={r.y - 14}
+          width="234"
+          height="27"
+          rx="5"
+          fill="#fff"
+          opacity="0"
+        />
+        <g transform={`translate(98 ${r.y})`}>
+          <circle r="7" fill="none" stroke="#4e5058" stroke-width="2" />
+          <path
+            data-spin
+            d="M0-7a7 7 0 0 1 7 7"
+            fill="none"
+            stroke="#fff"
+            stroke-width="2"
+            stroke-linecap="round"
+            opacity="0"
+          />
+          <g data-done opacity="0">
+            <circle r="8" fill="#23a55a" />
+            <path
+              d="M-3.500 0.300l2.500 2.500 4.500-5.200"
+              fill="none"
+              stroke="#fff"
+              stroke-width="1.900"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </g>
+        </g>
+        <text
+          data-row-label
+          x="116"
+          y={r.y + 4}
+          class="pipeline-loop__t pipeline-loop__t12"
+          fill="#949ba4"
+        >
+          {r.label}
+        </text>
+      </g>
+    ))}
+    <text x="91" y="250" class="pipeline-loop__t pipeline-loop__t11" fill="#949ba4">
+      Always on
+    </text>
+    <g data-row="uptime">
+      <rect data-row-bg x="80" y="262" width="234" height="27" rx="5" fill="#fff" opacity="0" />
+      <g transform="translate(98 276)">
+        <circle r="3.200" fill="#949ba4" data-pulse-core />
+        <circle data-pulse r="7" fill="none" stroke="#949ba4" stroke-width="1.600" />
+      </g>
+      <text
+        data-row-label
+        x="116"
+        y="280"
+        class="pipeline-loop__t pipeline-loop__t12"
+        fill="#949ba4"
+      >
+        uptime-monitor
+      </text>
+    </g>
+    {nodes.map((n) => (
+      <g data-node>
+        <circle cx="126" cy={n.y} r="9" fill={n.c} />
+        <rect x="122.500" y={n.y - 3.5} width="7" height="7" rx="1.500" fill="#111214" />
+        <text x="144" y={n.y + 4} class="pipeline-loop__t pipeline-loop__t12" fill="#b5bac1">
+          {n.label}
+        </text>
+        <text
+          x="304"
+          y={n.y + 4}
+          text-anchor="end"
+          class="pipeline-loop__t pipeline-loop__t10"
+          fill="#949ba4"
+        >
+          {n.ms}
+        </text>
+      </g>
+    ))}
+
+    <!-- status pill -->
+    <g data-pillbox>
+      <rect x="347" y="168" width="214" height="46" rx="12" fill="#fff" fill-opacity="0.16" />
+      <circle cx="371" cy="191" r="9" fill="#35ed7e" />
+      <path
+        d="M366.800 191.300l3 3 5-5.800"
+        fill="none"
+        stroke="#06301c"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <text x="389" y="198" class="pipeline-loop__t pipeline-loop__t20" fill="#fff">
+        all-systems-go
+      </text>
+    </g>
+
+    <!-- status tiles -->
+    {tiles.map((t) => (
+      <g data-tile={t.k}>
+        <rect x={t.x} y={t.y} width="148" height="84" rx="4" fill={t.fill} />
+        <g
+          transform={`translate(${t.x + 74} ${t.y + 36})`}
+          fill="none"
+          stroke={t.ink}
+          stroke-width="2.600"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          {t.k === 'backup' && (
+            <path d="M-11-6c0-3 5-5 11-5s11 2 11 5v12c0 3-5 5-11 5s-11-2-11-5zM-11-6c0 3 5 5 11 5s11-2 11-5M-11 0c0 3 5 5 11 5s11-2 11-5" />
+          )}
+          {t.k === 'patch' && (
+            <path d="M0-13l11 4v8c0 7-5 11-11 14-6-3-11-7-11-14v-8zM-4.500 0.500l3.200 3.200 6-7" />
+          )}
+          {t.k === 'scan' && (
+            <g>
+              <circle cx="-2" cy="-2" r="9" />
+              <path d="M5 5l7 7" />
+            </g>
+          )}
+          {t.k === 'uptime' && <path data-spark d="M-30 4h12l5-12 7 20 6-14 4 6h26" />}
+        </g>
+        <rect
+          x={t.x + 6}
+          y={t.y + 62}
+          width={t.label.length * 5.6 + 14}
+          height="16"
+          rx="4"
+          fill="#0d0b24"
+          opacity="0.28"
+        />
+        <text x={t.x + 13} y={t.y + 73.5} class="pipeline-loop__t pipeline-loop__t9" fill="#fff">
+          {t.label}
+        </text>
+      </g>
+    ))}
+
+    <!-- cursor -->
+    <g data-cursor>
+      <path
+        d="M0 0l26 11-11 4L11 26z"
+        fill="#fff"
+        stroke="#111"
+        stroke-width="2.400"
+        stroke-linejoin="round"
+        transform="rotate(-25)"
+      />
+    </g>
+  </svg>
+</div>
+
+<style>
+  .pipeline-loop svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .pipeline-loop__t {
+    font-family: var(--font-body);
+    font-weight: 400;
+  }
+  .pipeline-loop__b {
+    font-weight: 500;
+  }
+  .pipeline-loop__t20 {
+    font-size: 20px;
+  }
+  .pipeline-loop__t13 {
+    font-size: 13.5px;
+  }
+  .pipeline-loop__t12 {
+    font-size: 12.5px;
+  }
+  .pipeline-loop__t11 {
+    font-size: 11px;
+  }
+  .pipeline-loop__t10 {
+    font-size: 10px;
+  }
+  .pipeline-loop__t9 {
+    font-size: 9px;
+  }
+</style>
+
+<script>
+  import { gsap, media, motion, onPage, playWhileInView, MOTION_REDUCE } from '@lib/motion';
+
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-pipeline-loop="pipe"]').forEach((root) => {
+      const q = gsap.utils.selector(root);
+      const one = (s: string) => q<SVGElement>(s)[0];
+      const row = (k: string) => one(`[data-row="${k}"]`);
+      const tile = (k: string) => one(`[data-tile="${k}"]`);
+      const cursor = one('[data-cursor]');
+      const spark = one('[data-spark]') as unknown as SVGPathElement;
+      const sparkLen = spark.getTotalLength();
+      const tiles = q<SVGElement>('[data-tile]');
+      const origin = (el: SVGElement) => {
+        const b = (el as unknown as SVGGraphicsElement).getBBox();
+        return `${b.x + b.width / 2}px ${b.y + b.height / 2}px`;
+      };
+      tiles.forEach((t) => gsap.set(t, { svgOrigin: origin(t).replace(/px/g, '') }));
+      gsap.set(one('[data-pillbox]'), { svgOrigin: '454 191' });
+
+      media(
+        root,
+        () => {
+          gsap.set(q('[data-done]'), { autoAlpha: 1 });
+          gsap.set(q('[data-row-label]'), { fill: '#ffffff' });
+          gsap.set(cursor, { x: 60, y: 276 });
+        },
+        MOTION_REDUCE,
+      );
+
+      motion(root, () => {
+        const rowY: Record<string, number> = { scan: 148, patch: 177, backup: 206, uptime: 276 };
+        const tl = gsap.timeline({ repeat: -1, paused: true });
+        tl.set(cursor, { x: 40, y: 120 })
+          .set(tiles, { autoAlpha: 0, scale: 0.7 })
+          .set(one('[data-pillbox]'), { autoAlpha: 0, scale: 0.8 })
+          .set(q('[data-node]'), { autoAlpha: 0, x: -8 })
+          .set(q('[data-done]'), { autoAlpha: 0, scale: 0.4, transformOrigin: '50% 50%' })
+          .set(q('[data-spin]'), { autoAlpha: 0, rotation: 0 })
+          .set(q('[data-row-bg]'), { autoAlpha: 0 })
+          .set(q('[data-row-label]'), { fill: '#949ba4' })
+          .set(q('[data-pulse]'), { scale: 1, autoAlpha: 0, transformOrigin: '50% 50%' })
+          .set(q('[data-pulse-core]'), { fill: '#949ba4' })
+          .set(spark, { strokeDasharray: sparkLen, strokeDashoffset: sparkLen });
+
+        (['scan', 'patch', 'backup'] as const).forEach((k, i) => {
+          const t = 0.3 + i * 1.35;
+          const r = row(k);
+          tl.to(cursor, { x: 60, y: rowY[k], duration: 0.45, ease: 'power2.inOut' }, t)
+            .to(r.querySelector('[data-row-bg]'), { autoAlpha: 0.1, duration: 0.15 }, t + 0.4)
+            .to(r.querySelector('[data-row-label]'), { fill: '#ffffff', duration: 0.15 }, t + 0.4)
+            .set(r.querySelector('[data-spin]'), { autoAlpha: 1 }, t + 0.45)
+            .to(
+              r.querySelector('[data-spin]'),
+              { rotation: 720, svgOrigin: '0 0', duration: 0.7, ease: 'none' },
+              t + 0.45,
+            )
+            .set(r.querySelector('[data-spin]'), { autoAlpha: 0 }, t + 1.15)
+            .to(
+              r.querySelector('[data-done]'),
+              { autoAlpha: 1, scale: 1, duration: 0.3, ease: 'back.out(2.4)' },
+              t + 1.15,
+            )
+            .to(r.querySelector('[data-row-bg]'), { autoAlpha: 0, duration: 0.2 }, t + 1.3)
+            .to(
+              tile(k),
+              { autoAlpha: 1, scale: 1, duration: 0.4, ease: 'back.out(1.7)' },
+              t + 1.15,
+            );
+        });
+
+        const u = 0.3 + 3 * 1.35; // 4.35
+        const ur = row('uptime');
+        tl.to(cursor, { x: 60, y: rowY.uptime, duration: 0.5, ease: 'power2.inOut' }, u)
+          .to(ur.querySelector('[data-row-bg]'), { autoAlpha: 0.1, duration: 0.15 }, u + 0.45)
+          .to(ur.querySelector('[data-row-label]'), { fill: '#57f287', duration: 0.15 }, u + 0.45)
+          .to(q('[data-pulse-core]'), { fill: '#57f287', duration: 0.15 }, u + 0.45)
+          .fromTo(
+            q('[data-pulse]'),
+            { scale: 0.5, autoAlpha: 0.9, stroke: '#57f287' },
+            { scale: 1.9, autoAlpha: 0, duration: 0.8, ease: 'power1.out', repeat: 4 },
+            u + 0.5,
+          )
+          .to(
+            q('[data-node]'),
+            { autoAlpha: 1, x: 0, duration: 0.3, stagger: 0.14, ease: 'power2.out' },
+            u + 0.6,
+          )
+          .to(
+            tile('uptime'),
+            { autoAlpha: 1, scale: 1, duration: 0.4, ease: 'back.out(1.7)' },
+            u + 0.9,
+          )
+          .to(spark, { strokeDashoffset: 0, duration: 0.9, ease: 'power1.inOut' }, u + 1.1)
+          .to(
+            one('[data-pillbox]'),
+            { autoAlpha: 1, scale: 1, duration: 0.45, ease: 'back.out(1.8)' },
+            u + 1.9,
+          )
+          .to(
+            tiles,
+            { y: -4, duration: 0.22, stagger: 0.08, yoyo: true, repeat: 1, ease: 'sine.inOut' },
+            u + 2.4,
+          )
+          // reset to the opening state
+          .to(
+            [...tiles, one('[data-pillbox]'), ...q('[data-node]'), ...q('[data-done]')],
+            { autoAlpha: 0, duration: 0.45, ease: 'power1.in' },
+            u + 4.6,
+          )
+          .to(q('[data-row-label]'), { fill: '#949ba4', duration: 0.45 }, u + 4.6)
+          .to(q('[data-pulse-core]'), { fill: '#949ba4', duration: 0.45 }, u + 4.6)
+          .to(ur.querySelector('[data-row-bg]'), { autoAlpha: 0, duration: 0.45 }, u + 4.6)
+          .to(cursor, { x: 40, y: 120, duration: 0.6, ease: 'power2.inOut' }, u + 4.6)
+          .to({}, { duration: 0.2 });
+
+        const section = root.closest<HTMLElement>('[data-feature-block]');
+        if (!section) {
+          tl.play();
+          return;
+        }
+        playWhileInView(section, tl);
+      });
+    });
+  });
+</script>

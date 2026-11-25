@@ -1,0 +1,159 @@
+---
+// Original decorative objects for the careers page (chunky, angular, flat-shaded SVG).
+// All original artwork.
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'svg'> {
+  kind: 'gem' | 'bolt' | 'window' | 'orb' | 'cursor' | 'cube';
+  class?: string;
+  blur?: boolean;
+}
+const { kind, class: cls = '', blur = false, ...rest } = Astro.props;
+const uid = `co-${kind}-${Math.random().toString(36).slice(2, 7)}`;
+---
+
+<svg
+  class:list={['careers-object', cls]}
+  viewBox="0 0 200 200"
+  fill="none"
+  aria-hidden="true"
+  focusable="false"
+  style={blur ? 'filter:blur(6px);opacity:.35' : undefined}
+  {...rest}
+>
+  <defs>
+    <linearGradient
+      id={`${uid}-a`}
+      x1="30"
+      y1="20"
+      x2="170"
+      y2="180"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop stop-color="#ffffff" />
+      <stop offset="1" stop-color="#b9b4ff" />
+    </linearGradient>
+    <linearGradient
+      id={`${uid}-b`}
+      x1="40"
+      y1="30"
+      x2="160"
+      y2="180"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop stop-color="#ff7ad1" />
+      <stop offset="1" stop-color="#eb459e" />
+    </linearGradient>
+    <linearGradient
+      id={`${uid}-c`}
+      x1="40"
+      y1="20"
+      x2="150"
+      y2="190"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop stop-color="#8f99ff" />
+      <stop offset="1" stop-color="#5865f2" />
+    </linearGradient>
+    <linearGradient
+      id={`${uid}-d`}
+      x1="40"
+      y1="20"
+      x2="150"
+      y2="190"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop stop-color="#8dffb4" />
+      <stop offset="1" stop-color="#35ed7e" />
+    </linearGradient>
+  </defs>
+  {kind === 'gem' && (
+    <g transform="rotate(-14 100 100)">
+      <path d="M100 14 172 72 100 188 28 72Z" fill={`url(#${uid}-a)`} />
+      <path d="M100 14 172 72H28Z" fill="#fff" />
+      <path d="M100 14 128 72H72Z" fill={`url(#${uid}-b)`} />
+      <path d="M72 72h56l-28 116Z" fill={`url(#${uid}-c)`} />
+      <path d="M28 72h44l28 116Z" fill="#d9d5ff" />
+      <path d="M128 72h44l-72 116Z" fill="#9a93ee" />
+      <path d="m146 22 5 13 13 5-13 5-5 13-5-13-13-5 13-5Z" fill="#fff" />
+    </g>
+  )}
+  {kind === 'bolt' && (
+    <g transform="rotate(10 100 100)">
+      <path d="M118 10 38 112h46l-14 78 92-112h-50Z" fill={`url(#${uid}-d)`} />
+      <path d="M118 10 38 112h46l8-30Z" fill="#c9ffd9" />
+      <path d="m84 112-14 78 30-70Z" fill="#17b85a" />
+      <path d="M112 78h50l-62 42Z" fill="#22d36c" />
+    </g>
+  )}
+  {kind === 'window' && (
+    <g transform="rotate(8 100 100)">
+      <rect x="22" y="38" width="156" height="124" rx="22" fill={`url(#${uid}-a)`} />
+      <path d="M22 60a22 22 0 0 1 22-22h112a22 22 0 0 1 22 22v10H22Z" fill={`url(#${uid}-c)`} />
+      <rect x="38" y="48" width="12" height="12" rx="3" fill="#fff" />
+      <rect x="56" y="48" width="12" height="12" rx="3" fill="#ff7ad1" />
+      <rect x="74" y="48" width="12" height="12" rx="3" fill="#57f287" />
+      <rect x="40" y="88" width="56" height="56" rx="12" fill={`url(#${uid}-b)`} />
+      <rect x="108" y="90" width="52" height="12" rx="6" fill="#5865f2" />
+      <rect x="108" y="110" width="38" height="12" rx="6" fill="#9a93ee" />
+      <rect x="108" y="130" width="46" height="12" rx="6" fill="#9a93ee" />
+      <path d="m68 100 5 11 11 5-11 5-5 11-5-11-11-5 11-5Z" fill="#fff" />
+    </g>
+  )}
+  {kind === 'orb' && (
+    <g>
+      <ellipse
+        cx="100"
+        cy="104"
+        rx="88"
+        ry="26"
+        transform="rotate(-18 100 104)"
+        fill="none"
+        stroke={`url(#${uid}-b)`}
+        stroke-width="12"
+      />
+      <circle cx="100" cy="100" r="58" fill={`url(#${uid}-a)`} />
+      <path d="M100 42a58 58 0 0 1 0 116c20-22 28-40 28-58s-8-36-28-58Z" fill="#b9b4ff" />
+      <path d="M46 78c24 10 60 12 108 0-8-22-28-36-54-36S54 56 46 78Z" fill={`url(#${uid}-c)`} />
+      <path
+        d="M17 131a88 26 -18 0 0 166-54"
+        fill="none"
+        stroke={`url(#${uid}-b)`}
+        stroke-width="12"
+        stroke-linecap="round"
+      />
+      <rect x="150" y="30" width="14" height="14" fill="#57f287" />
+    </g>
+  )}
+  {kind === 'cursor' && (
+    <g transform="rotate(-8 100 100)">
+      <path d="M44 20 164 96l-52 14 34 58-26 14-34-58-36 38Z" fill={`url(#${uid}-a)`} />
+      <path d="M44 20 164 96l-52 14Z" fill="#fff" />
+      <path d="m112 110 34 58-26 14-34-58Z" fill={`url(#${uid}-b)`} />
+      <path d="M44 20 86 124l-36 38Z" fill="#b9b4ff" />
+    </g>
+  )}
+  {kind === 'cube' && (
+    <g transform="rotate(-10 100 100)">
+      <path d="M100 18 172 58v84l-72 40-72-40V58Z" fill={`url(#${uid}-c)`} />
+      <path d="M100 18 172 58l-72 40-72-40Z" fill={`url(#${uid}-a)`} />
+      <path d="M100 98v84l-72-40V58Z" fill="#7a84ff" />
+      <path d="m100 44 26 14-26 14-26-14Z" fill={`url(#${uid}-b)`} />
+      <rect
+        x="126"
+        y="100"
+        width="24"
+        height="24"
+        rx="4"
+        transform="skewY(-29) translate(0 74)"
+        fill="#57f287"
+      />
+    </g>
+  )}
+</svg>
+<style>
+  .careers-object {
+    display: block;
+    pointer-events: none;
+    overflow: visible;
+  }
+</style>

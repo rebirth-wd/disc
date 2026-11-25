@@ -1,0 +1,234 @@
+---
+// Click-to-open dropdown button.
+// variant "white": 48px white toggle + white list (platform block). variant "blurple": 52px blurple toggle + indigo list (banner).
+// The arrow and list behaviour come from ui/Dropdown; the list toggles instantly.
+import Dropdown from '@components/ui/Dropdown.astro';
+interface Item {
+  label: string;
+  href?: string;
+}
+interface Props {
+  label: string;
+  items: readonly Item[];
+  variant?: 'white' | 'blurple';
+  z?: number;
+  id: string;
+}
+const { label, items, variant = 'white', z = 1, id } = Astro.props;
+---
+
+<Dropdown
+  name={id}
+  group="services"
+  class:list={['services-dropdown', `services-dropdown--${variant}`]}
+  listAs="nav"
+  listClass="services-dropdown__list"
+  listLabelledby={`${id}-toggle`}
+  style={`z-index:${z}`}
+>
+  <button
+    slot="trigger"
+    type="button"
+    class="services-dropdown__toggle"
+    id={`${id}-toggle`}
+    data-dropdown-trigger
+    aria-expanded="false"
+    aria-controls={`${id}-list`}
+  >
+    {Astro.slots.has('icon') && (
+      <span class="services-dropdown__icon" aria-hidden="true">
+        <slot name="icon" />
+      </span>
+    )}
+    <span class="services-dropdown__label">{label}</span>
+    {variant === 'blurple' && <span class="services-dropdown__glow" aria-hidden="true"></span>}
+    <svg
+      class="services-dropdown__arrow"
+      data-dropdown-arrow
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M2.5 5.5 8 11l5.5-5.5"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </button>
+  {items.map((it) => (
+    <a class="services-dropdown__link" href={it.href ?? '#'}>
+      {it.label}
+    </a>
+  ))}
+</Dropdown>
+
+<style>
+  .services-dropdown {
+    position: relative;
+    display: inline-flex;
+  }
+  .services-dropdown__toggle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-8);
+    box-sizing: border-box;
+    margin: 0;
+    border: 0;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: var(--text-nav);
+    font-weight: var(--font-weight-medium);
+    line-height: 24px;
+    white-space: nowrap;
+  }
+  .services-dropdown__toggle:focus-visible {
+    outline: 2px solid var(--color-signal-green);
+    outline-offset: 3px;
+  }
+  .services-dropdown__icon {
+    display: flex;
+    width: 24px;
+    height: 24px;
+    flex: none;
+  }
+  .services-dropdown__icon :global(svg) {
+    width: 24px;
+    height: 24px;
+    display: block;
+  }
+  .services-dropdown__label {
+    position: relative;
+    z-index: 3;
+  }
+  .services-dropdown__arrow {
+    position: relative;
+    z-index: 1;
+    flex: none;
+  }
+  :global(.services-dropdown__list) {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--spacing-8);
+    text-align: left;
+  }
+  :global(.services-dropdown__list[hidden]) {
+    display: none;
+  }
+  .services-dropdown__link {
+    display: block;
+    padding: 13px var(--spacing-16);
+    font-size: var(--text-body);
+    line-height: 24px;
+    font-weight: var(--font-weight-regular);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  /* white (platform blocks) */
+  .services-dropdown--white .services-dropdown__toggle {
+    max-height: 48px;
+    padding: 13.5px var(--spacing-20);
+    border-radius: var(--radius-buttons);
+    background-color: var(--surface-white-control);
+    color: var(--color-black);
+    transition: all 0.3s;
+  }
+  .services-dropdown--white .services-dropdown__arrow {
+    width: 14px;
+    height: 14px;
+  }
+  .services-dropdown--white :global(.services-dropdown__list) {
+    top: 100%;
+    margin-top: 11px;
+    min-width: max-content;
+    border-radius: 8px;
+    background-color: var(--surface-white-control);
+  }
+  .services-dropdown--white .services-dropdown__link {
+    border-radius: 8px;
+    color: var(--color-black);
+  }
+  @media (hover: hover) {
+    .services-dropdown--white .services-dropdown__toggle:hover {
+      background-color: var(--color-fog);
+    }
+    .services-dropdown--white .services-dropdown__link:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+    .services-dropdown--blurple .services-dropdown__link:hover {
+      background-color: var(--color-white-10);
+    }
+    /* banner button: hover adds 0 2px 9px rgba(6,10,11,.42) */
+    .services-dropdown--blurple .services-dropdown__toggle:hover {
+      box-shadow: 0 2px 9px rgba(6, 10, 11, 0.42);
+    }
+  }
+  @media (min-width: 992px) {
+    .services-dropdown--white .services-dropdown__toggle {
+      padding: 13.5px var(--spacing-24);
+    }
+  }
+
+  /* blurple (banner) */
+  .services-dropdown--blurple .services-dropdown__toggle {
+    padding: 11px var(--spacing-16);
+    border-radius: 8px;
+    background-color: var(--surface-blurple-action);
+    color: var(--color-white);
+    font-size: 0.875rem;
+    line-height: 18px;
+    overflow: clip;
+    transition:
+      box-shadow 0.3s,
+      transform 0.3s,
+      background-color 0.3s;
+  }
+  .services-dropdown__glow {
+    position: absolute;
+    z-index: 1;
+    top: 45px;
+    left: -50%;
+    width: 200%;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--color-dusk-indigo);
+    filter: blur(30px);
+    pointer-events: none;
+  }
+  .services-dropdown--blurple .services-dropdown__arrow {
+    width: 16px;
+    height: 17px;
+  }
+  .services-dropdown--blurple :global(.services-dropdown__list) {
+    top: 0;
+    margin-top: 60px;
+    max-height: 260px;
+    overflow: auto;
+    border-radius: 12px;
+    background-color: #30305f;
+    box-shadow: 0 6px 10px var(--color-black-8);
+  }
+  .services-dropdown--blurple .services-dropdown__link {
+    border-radius: 12px;
+    color: var(--color-white);
+  }
+  @media (min-width: 480px) {
+    .services-dropdown--blurple .services-dropdown__toggle {
+      padding: 14.5px var(--spacing-20) 13.5px;
+      font-size: var(--text-nav);
+      line-height: 24px;
+    }
+  }
+  @media (min-width: 992px) {
+    .services-dropdown--blurple .services-dropdown__toggle {
+      padding: 14.5px var(--spacing-24) 13.5px;
+    }
+  }
+</style>

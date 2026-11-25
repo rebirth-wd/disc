@@ -1,0 +1,566 @@
+---
+// Global footer.
+// Motion: <=767px column accordions: height 0 -> auto 200ms + chevron 180deg / 200ms.
+import { footerColumns } from '@data/navigation';
+import { site, languages, socialLabels } from '@data/site';
+import Dropdown from '@components/ui/Dropdown.astro';
+import LogoMark from './LogoMark.astro';
+
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
+---
+
+<footer class:list={['footer', isHome && 'footer--home']} data-section="global-footer">
+  <div class="footer__container">
+    <div class="footer__grid">
+      <div class="footer__left">
+        <a href="/" class="footer__logo" aria-label={`${site.name} — home`}>
+          <LogoMark size={44} />
+        </a>
+        <div class="footer__label" id="footer-lang-label">
+          Language
+        </div>
+        <Dropdown
+          name="footer-lang"
+          class="footer__lang"
+          listAs="ul"
+          listClass="footer__lang-list"
+          listLabelledby="footer-lang-label"
+        >
+          <button
+            slot="trigger"
+            type="button"
+            class="footer__lang-btn"
+            data-dropdown-trigger
+            aria-expanded="false"
+            aria-controls="footer-lang-list"
+            aria-labelledby="footer-lang-label footer-lang-name"
+          >
+            <span id="footer-lang-name">English</span>
+            <svg
+              data-dropdown-arrow
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M18 9l-6 6-6-6"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          {languages.map((l) => (
+            <li class="footer__lang-item">{l}</li>
+          ))}
+        </Dropdown>
+        <div class="footer__social footer__social--desk">
+          <div class="footer__label">Social</div>
+          <div class="footer__icons">
+            {socialLabels.map((s, i) => (
+              <a href="#" class="footer__icon" aria-label={s}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  {i === 0 && (
+                    <path
+                      fill="currentColor"
+                      d="M5 3h14a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-6l-5 4v-4H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3Zm2 5v2h10V8H7Zm0 4v2h6v-2H7Z"
+                    />
+                  )}
+                  {i === 1 && (
+                    <path
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                      d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm5 5.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9Zm0 2.2a2.3 2.3 0 1 1 0 4.6 2.3 2.3 0 0 1 0-4.6ZM17.5 5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"
+                    />
+                  )}
+                  {i === 2 && (
+                    <path
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                      d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20Zm0 4a3.2 3.2 0 1 0 0 6.4A3.2 3.2 0 0 0 12 6Zm0 8c-2.6 0-4.8 1.2-6 3a8 8 0 0 0 12 0c-1.2-1.8-3.4-3-6-3Z"
+                    />
+                  )}
+                  {i === 3 && (
+                    <path
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                      d="M5 4h14a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4H5a4 4 0 0 1-4-4V8a4 4 0 0 1 4-4Zm5 4.5v7l6-3.5-6-3.5Z"
+                    />
+                  )}
+                  {i === 4 && (
+                    <path
+                      fill="currentColor"
+                      d="M4 3a17 17 0 0 1 17 17h-3.4A13.6 13.6 0 0 0 4 6.4V3Zm0 7a10 10 0 0 1 10 10h-3.4A6.6 6.6 0 0 0 4 13.4V10Zm2.5 5.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5Z"
+                    />
+                  )}
+                </svg>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div class="footer__menulabel">Menu</div>
+      {footerColumns.map((c, i) => (
+        <div class:list={['footer__col', `footer__col--${i + 1}`]} data-fcol>
+          <h3 class="footer__heading">{c.title}</h3>
+          <button
+            type="button"
+            class="footer__toggle"
+            data-fcol-toggle
+            aria-expanded="false"
+            aria-controls={`footer-col-${i}`}
+          >
+            <span>{c.title}</span>
+            <svg
+              data-fcol-arrow
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M18 9l-6 6-6-6"
+                stroke="currentColor"
+                stroke-opacity="0.5"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <nav class="footer__links" id={`footer-col-${i}`} data-fcol-list aria-label={c.title}>
+            {c.links.map(({ label, href }) => (
+              <a href={href} class="footer__link">
+                {label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      ))}
+
+      <div class="footer__social footer__social--mob">
+        <div class="footer__label">Social</div>
+        <div class="footer__icons" data-icons-clone></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer__word" aria-hidden="true">
+    <svg viewBox="0 0 1600 254" preserveAspectRatio="none" role="presentation">
+      <text x="-16" y="252" textLength="1632" lengthAdjust="spacingAndGlyphs">
+        REBIRTH
+      </text>
+    </svg>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    /* footer gradient: #1a185e (top) -> #5562ed (bottom), black base */
+    --footer-top: #1a185e;
+    position: relative;
+    z-index: var(--z-footer);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: var(--spacing-20);
+    background-color: var(--color-black);
+    background-image:
+      radial-gradient(120% 70% at 50% 45%, rgba(88, 101, 242, 0.12), var(--color-blurple-0) 70%),
+      linear-gradient(
+        180deg,
+        var(--footer-top) 0%,
+        #1f1e6a 23%,
+        #2b2e89 46%,
+        #3f46b7 70%,
+        #4e5adc 93%,
+        var(--color-blurple) 108%
+      );
+    color: var(--color-white);
+    font-family: var(--font-body);
+  }
+  .footer__container {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 80px;
+    padding: 0 var(--page-gutter);
+  }
+  .footer__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) repeat(8, 90px);
+    gap: var(--spacing-20);
+    align-items: start;
+  }
+  .footer__left {
+    grid-column: span 4;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .footer__col {
+    grid-column: span 2;
+  }
+  .footer__logo {
+    display: block;
+    width: 59px;
+    height: 51px;
+    margin-bottom: var(--spacing-40);
+    color: var(--color-white);
+  }
+  .footer__label,
+  .footer__heading,
+  .footer__menulabel {
+    margin: 0;
+    color: var(--color-white-70);
+    font-family: var(--font-body);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: var(--text-label);
+    line-height: var(--leading-label);
+    font-weight: var(--font-weight-regular);
+  }
+  .footer__menulabel,
+  .footer__toggle,
+  .footer__social--mob {
+    display: none;
+  }
+
+  .footer__lang {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    max-width: 314px;
+    margin-top: var(--spacing-16);
+  }
+  .footer__lang-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-8);
+    box-sizing: border-box;
+    width: 100%;
+    height: 56px;
+    padding: 17.5px var(--spacing-16) 17.5px var(--spacing-24);
+    border: 0;
+    border-radius: var(--radius-inputs);
+    background: var(--color-white-10);
+    color: var(--color-white);
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    font-size: var(--text-body);
+    line-height: 24px;
+    font-weight: var(--font-weight-regular);
+    transition: all 0.3s;
+  }
+  .footer__lang-btn:focus-visible {
+    outline: 2px solid var(--color-blurple);
+    outline-offset: 4px;
+  }
+  :global(.footer__lang-list) {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    margin: 11px 0 0;
+    padding: var(--spacing-8);
+    list-style: none;
+    max-height: 264px;
+    overflow-y: auto;
+    border-radius: 24px;
+    background: #5b62c7;
+  }
+  .footer__lang-item {
+    padding: 17.5px var(--spacing-16);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    font-size: var(--text-body);
+    line-height: 24px;
+  }
+  .footer__lang-item:hover {
+    background: var(--color-white-10);
+  }
+
+  .footer__social--desk {
+    margin-top: var(--spacing-48);
+  }
+  .footer__icons {
+    display: flex;
+    align-items: flex-start;
+    margin-top: var(--spacing-16);
+    height: 32px;
+  }
+  .footer__icon {
+    display: block;
+    width: 24px;
+    height: 32px;
+    margin-right: 29px;
+    color: var(--color-white);
+  }
+  .footer__icon:focus-visible,
+  .footer__link:focus-visible,
+  .footer__logo:focus-visible {
+    outline: 2px solid var(--color-white);
+    outline-offset: 2px;
+  }
+
+  .footer__links {
+    display: block;
+  }
+  .footer__link {
+    display: block;
+    margin-top: var(--spacing-12);
+    color: var(--color-white);
+    text-decoration: none;
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    font-weight: var(--font-weight-regular);
+    transition: all 0.3s;
+  }
+  .footer__link:hover {
+    text-decoration: underline;
+  }
+
+  /* oversized wordmark: 1600 x 254 box at 1680 (aspect 6.3:1), padding 76/40/40, pale lavender */
+  .footer__word {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1762px;
+    margin-top: var(--spacing-40);
+    padding: 76px var(--page-gutter) var(--spacing-40);
+  }
+  .footer--home .footer__word {
+    padding-bottom: 47px;
+  }
+  .footer__word svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1600 / 254;
+    overflow: visible;
+  }
+  .footer__word text {
+    fill: #e0e3ff;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 20.875rem;
+    letter-spacing: 0;
+  }
+
+  @media (min-width: 1920px) {
+    .footer__container,
+    .footer__word {
+      max-width: 1762px;
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+  @media (max-width: 1439px) {
+    .footer__grid {
+      grid-template-columns: repeat(12, 1fr);
+    }
+  }
+  @media (max-width: 991px) {
+    .footer {
+      z-index: var(--z-footer-tablet);
+      overflow: clip;
+    }
+    .footer__grid {
+      grid-template-columns: 269px 153px auto;
+      column-gap: 79px;
+      row-gap: 62px;
+      justify-content: start;
+      padding-bottom: 62px;
+    }
+    .footer__left {
+      grid-column: 1;
+      grid-row: 1 / span 3;
+      width: 269px;
+    }
+    .footer__lang {
+      max-width: 269px;
+    }
+    .footer__col {
+      grid-column: auto;
+    }
+    .footer__col--1,
+    .footer__col--3 {
+      grid-column: 2;
+    }
+    .footer__col--2,
+    .footer__col--4 {
+      grid-column: 3;
+    }
+    .footer__social--desk {
+      display: none;
+    }
+    .footer__social--mob {
+      display: block;
+      grid-column: 2 / span 2;
+    }
+    .footer__word,
+    .footer--home .footer__word {
+      margin-top: 0;
+      padding: var(--spacing-20);
+    }
+  }
+  @media (max-width: 767px) {
+    .footer {
+      z-index: var(--z-footer-phone);
+    }
+    .footer__container {
+      padding: 0 var(--spacing-24);
+    }
+    .footer__grid {
+      display: block;
+      padding-bottom: 0;
+    }
+    .footer__left {
+      width: auto;
+    }
+    .footer__logo {
+      width: 33px;
+      height: 24px;
+    }
+    .footer__logo :global(svg) {
+      width: 24px;
+      height: 24px;
+    }
+    .footer__label,
+    .footer__menulabel {
+      font-size: 0.875rem;
+      line-height: 18px;
+    }
+    .footer__lang {
+      max-width: 342px;
+      margin-top: var(--spacing-12);
+      margin-bottom: var(--spacing-56);
+    }
+    .footer__menulabel {
+      display: block;
+      margin-top: var(--spacing-24);
+    }
+    .footer__heading {
+      display: none;
+    }
+    .footer__col {
+      padding-bottom: var(--spacing-24);
+      background: linear-gradient(var(--color-white-10), var(--color-white-10)) bottom / 100% 2px
+        no-repeat;
+      overflow: clip;
+    }
+    .footer__col--4 {
+      background: none;
+    }
+    .footer__toggle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--spacing-24);
+      width: 100%;
+      padding: var(--spacing-24) 0 0;
+      border: 0;
+      background: none;
+      color: var(--color-white-70);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 1.125rem;
+      line-height: 20px;
+      font-weight: var(--font-weight-medium);
+      text-align: left;
+    }
+    .footer__toggle svg {
+      height: 20px;
+    }
+    .footer__toggle:focus-visible {
+      outline: 2px solid var(--color-white);
+      outline-offset: 2px;
+    }
+    .footer__links {
+      height: 0;
+      overflow: hidden;
+    }
+    .footer__links > :first-child {
+      margin-top: var(--spacing-12);
+    }
+    .footer__link {
+      margin: 0;
+      padding: var(--spacing-16) 0;
+      font-size: 0.875rem;
+      line-height: 18px;
+    }
+    .footer__social--mob {
+      margin-top: 80px;
+    }
+    .footer__icons {
+      height: 24px;
+    }
+    .footer__icon {
+      height: 24px;
+    }
+    .footer__word,
+    .footer--home .footer__word {
+      padding: 80px var(--spacing-24) var(--spacing-24);
+    }
+  }
+</style>
+
+<script>
+  import { gsap, media, onPage, reducedMotion, MQ } from '@lib/motion';
+
+  onPage(() => {
+    const root = document.querySelector<HTMLElement>('[data-section="global-footer"]');
+    if (root) {
+      const reduce = reducedMotion();
+      const T = (s: number) => (reduce ? 0 : s);
+
+      // one icon row in the markup, mirrored for the <=991 layout
+      const src = root.querySelector('.footer__social--desk .footer__icons');
+      const dst = root.querySelector('[data-icons-clone]');
+      if (src && dst) dst.innerHTML = src.innerHTML;
+
+      /* <=767: column accordions: height 0 -> auto 200ms, chevron 180deg 200ms */
+      media(
+        root,
+        (_root, _context, signal) => {
+          const offs: Array<() => void> = [];
+          root.querySelectorAll<HTMLElement>('[data-fcol]').forEach((col) => {
+            const toggle = col.querySelector<HTMLElement>('[data-fcol-toggle]')!;
+            const links = col.querySelector<HTMLElement>('[data-fcol-list]')!;
+            const chev = col.querySelector('[data-fcol-arrow]');
+            const on = () => {
+              const open = toggle.getAttribute('aria-expanded') !== 'true';
+              toggle.setAttribute('aria-expanded', String(open));
+              gsap.to(links, {
+                height: open ? 'auto' : 0,
+                duration: T(0.2),
+                ease: 'none',
+                overwrite: true,
+              });
+              gsap.to(chev, {
+                rotation: open ? 180 : 0,
+                transformOrigin: '50% 50%',
+                duration: T(0.2),
+                ease: 'none',
+                overwrite: true,
+              });
+            };
+            toggle.addEventListener('click', on, { signal });
+            offs.push(() => {
+              toggle.setAttribute('aria-expanded', 'false');
+              gsap.set([links, chev], { clearProps: 'all' });
+            });
+          });
+          return () => offs.forEach((f) => f());
+        },
+        MQ.sm,
+      );
+    }
+  });
+</script>

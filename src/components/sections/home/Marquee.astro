@@ -1,0 +1,137 @@
+---
+/**
+ * Marquee Band (DESIGN.md › Components › Marquee Band).
+ * 140px tall, full width, no tilt, four words in the Nord face 700 / 61px
+ * separated by a 36px white mark; track runs right-to-left at 2727.4px / 60s (0 → -50.2% of a
+ * 5433px track in 60 000ms, linear, looping) with no scroll coupling. Animated on ≥768 only
+ * the band is display:none below 768.
+ */
+import LogoMark from '@components/layout/LogoMark.astro';
+
+interface Props {
+  words?: string[];
+}
+const { words = ['Fast', 'Safe', 'Rank', 'Stay live'] } = Astro.props;
+const SETS = 4; // the word set is rendered four times
+---
+
+<div data-section="home-marquee" class="marquee relative z-[6] overflow-hidden" aria-hidden="true">
+  <div class="marquee__band relative flex h-full items-center">
+    <div class="marquee__track flex items-center gap-36" data-marquee-track>
+      {Array.from({ length: SETS }).map(() => (
+        <div class="marquee__set flex flex-none items-center gap-56" data-marquee-set>
+          {words.map((w) => (
+            <>
+              <span class="marquee__mark flex flex-none items-center justify-center text-white">
+                <LogoMark size={30} />
+              </span>
+              <span class="marquee__word font-display text-marquee leading-marquee tracking-marquee font-bold uppercase whitespace-nowrap text-white">
+                {w}
+              </span>
+            </>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .marquee {
+    height: 140px;
+  }
+  /* Band surface: periwinkle centre (top #43469c → bottom #5960c2)
+     falling off to deep navy (#272669) at both edges. */
+  .marquee__band {
+    background-image:
+      linear-gradient(
+        90deg,
+        rgba(36, 35, 102, 0.96) 0%,
+        rgba(36, 35, 102, 0.75) 6%,
+        rgba(36, 35, 102, 0.4) 18%,
+        rgba(36, 35, 102, 0.13) 30%,
+        rgba(36, 35, 102, 0) 42%,
+        rgba(36, 35, 102, 0) 58%,
+        rgba(36, 35, 102, 0.13) 70%,
+        rgba(36, 35, 102, 0.4) 82%,
+        rgba(36, 35, 102, 0.75) 94%,
+        rgba(36, 35, 102, 0.96) 100%
+      ),
+      linear-gradient(180deg, #43469c 0%, #5960c2 100%);
+  }
+  .marquee__track {
+    will-change: transform;
+  }
+  .marquee__mark {
+    width: 36px;
+    height: 27.5px;
+  }
+  .marquee__word {
+    display: block;
+    height: 25px;
+  }
+  @media (max-width: 991px) {
+    .marquee {
+      height: 105px;
+    }
+    .marquee__word {
+      font-size: 2.9375rem;
+      line-height: 20px;
+      height: 20px;
+      letter-spacing: -0.47px;
+    }
+  }
+  @media (max-width: 767px) {
+    .marquee {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  import { gsap, motion, onPage, disposeOn, MQ } from '@lib/motion';
+
+  const SPEED = 2727.4 / 60; // px per second
+
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-section="home-marquee"]').forEach((root) => {
+      const track = root.querySelector<HTMLElement>('[data-marquee-track]');
+      const sets = root.querySelectorAll<HTMLElement>('[data-marquee-set]');
+      if (!track || sets.length < 2) return;
+
+      motion(
+        root,
+        (_root, _context, signal) => {
+          let tween: gsap.core.Tween | undefined;
+          const build = () => {
+            const progress = tween ? tween.progress() : 0;
+            tween?.kill();
+            // distance between two consecutive sets = one seamless period
+            const period = sets[1].offsetLeft - sets[0].offsetLeft;
+            if (!period) return;
+            tween = gsap.fromTo(
+              track,
+              { x: 0 },
+              { x: -period, duration: period / SPEED, ease: 'none', repeat: -1 },
+            );
+            tween.progress(progress);
+          };
+          build();
+          // fonts change the word widths → rebuild with the same phase, unless this breakpoint context has
+          // already reverted (a late rebuild would leave a tween nobody kills)
+          document.fonts?.ready.then(() => {
+            if (!signal.aborted) build();
+          });
+          const ro = new ResizeObserver(build);
+          ro.observe(sets[0]);
+          disposeOn(signal, ro);
+          return () => {
+            tween?.kill();
+            gsap.set(track, { clearProps: 'transform' });
+          };
+        },
+        MQ.md,
+      );
+    });
+  });
+</script>

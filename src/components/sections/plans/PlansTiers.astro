@@ -1,0 +1,218 @@
+---
+import CheckItem from '@components/ui/CheckItem.astro';
+import Section from '@components/layout/Section.astro';
+import Button from '@components/ui/Button.astro';
+import PlansObject from '@components/graphics/objects/PlansObject.astro';
+import Heading from '@components/ui/Heading.astro';
+import { tierFeatures } from '@data/plans';
+
+const { basic, care } = tierFeatures;
+---
+
+<Section section="plans-tiers" id="plans" class="plans-tiers">
+  <div class="plans-tiers__grid">
+    <article class="plans-tiers__card plans-tiers__card--basic" data-plan="basic">
+      <Heading level={2} size="md" italic class="mb-16">
+        Care Basic
+      </Heading>
+      <p class="font-body text-body leading-[22px] font-normal xs:text-body-xl xs:leading-[26px]">
+        Keep your site online with some of our most-needed monthly essentials.
+      </p>
+      <div class="plans-tiers__gap"></div>
+      <Button variant="ghost" href="#compare" block data-btn="ghost">
+        Get Care Basic
+      </Button>
+      <div class="plans-tiers__gap"></div>
+      <div class="plans-tiers__rule"></div>
+      <div class="plans-tiers__gap"></div>
+      {basic.map((t, i) => (
+        <CheckItem last={i === basic.length - 1}>{t}</CheckItem>
+      ))}
+    </article>
+
+    <div class="plans-tiers__edge">
+      <article
+        class="plans-tiers__card plans-tiers__card--care"
+        data-plan="care"
+        data-par-trigger="apple"
+      >
+        <Heading level={2} size="md" italic class="mb-16">
+          Care
+        </Heading>
+        <p class="font-body text-body leading-[22px] font-normal xs:text-body-xl xs:leading-[26px]">
+          All the cover, all the AI. The best way to keep your whole site moving.
+        </p>
+        <div class="plans-tiers__gap"></div>
+        <Button href="#compare" block data-btn="white">
+          Get Care
+        </Button>
+        <div class="plans-tiers__gap"></div>
+        <div class="plans-tiers__rule"></div>
+        <div class="plans-tiers__gap"></div>
+        <p class="font-body text-body leading-[22px] font-medium xs:text-body-xl xs:leading-[26px]">
+          Everything in Basic, plus
+        </p>
+        <div class="plans-tiers__gap"></div>
+        {care.map((t, i) => (
+          <CheckItem glow={i === 0} last={i === care.length - 1}>
+            {t}
+          </CheckItem>
+        ))}
+        <div class="plans-tiers__gap plans-tiers__gap--40"></div>
+        <p class="plans-tiers__note" data-terms>
+          *Available on new builds.{' '}
+          <a
+            href="#faq"
+            class="text-inherit no-underline shadow-[0_1px_0_0_var(--color-fog)] transition-[opacity,box-shadow] duration-250 ease-[ease] hover:opacity-75 hover:shadow-[0_0_0_0_transparent]"
+          >
+            Terms and eligibility rules apply.
+          </a>
+        </p>
+      </article>
+    </div>
+
+    <PlansObject name="cog" par="apple" class="plans-tiers__cog" />
+  </div>
+</Section>
+
+<style>
+  .plans-tiers {
+    position: relative;
+    z-index: 1;
+    padding-bottom: 200px;
+  }
+  .plans-tiers__grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-20);
+    align-items: stretch;
+  }
+  .plans-tiers__card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--spacing-56);
+    border-radius: 56px;
+    backdrop-filter: blur(120px);
+    -webkit-backdrop-filter: blur(120px);
+  }
+  .plans-tiers__card--basic {
+    background: var(--color-white-10);
+  }
+  .plans-tiers__edge {
+    padding: 1px;
+    border-radius: 56px;
+    background: linear-gradient(180deg, #5969f4 2%, #68bdff 36%, #e0e4ff 100%);
+    display: flex;
+  }
+  .plans-tiers__card--care {
+    flex: 1;
+    overflow: clip;
+    background: var(--color-black)
+      linear-gradient(180deg, #4d2466 0%, #36185a 28%, #1c0e4a 60%, #090840 100%);
+  }
+  .plans-tiers__gap {
+    height: 44px;
+    flex: none;
+  }
+  .plans-tiers__gap--40 {
+    height: var(--spacing-40);
+  }
+  .plans-tiers__rule {
+    width: 100%;
+    height: 1px;
+    background: var(--color-white-10);
+    flex: none;
+  }
+  .plans-tiers__note {
+    margin: 0;
+    font-size: var(--text-body);
+    line-height: 21px;
+    color: var(--color-fog);
+  }
+  .plans-tiers__grid :global(.plans-tiers__cog) {
+    right: -31px;
+    bottom: -108px;
+    width: 191px;
+    height: 191px;
+    z-index: 2;
+  }
+  @media (max-width: 1439px) {
+    .plans-tiers {
+      padding-bottom: var(--spacing-144);
+    }
+    .plans-tiers__card {
+      padding: var(--spacing-48);
+      border-radius: 48px;
+    }
+    .plans-tiers__edge {
+      border-radius: 48px;
+    }
+    .plans-tiers__grid :global(.plans-tiers__cog) {
+      right: -9px;
+      bottom: -76px;
+      width: 150px;
+      height: 150px;
+    }
+  }
+  @media (max-width: 991px) {
+    .plans-tiers__grid {
+      grid-template-columns: 1fr;
+    }
+    .plans-tiers__grid :global(.plans-tiers__cog) {
+      right: -9px;
+      bottom: -12px;
+      width: 180px;
+      height: 180px;
+    }
+  }
+  @media (max-width: 479px) {
+    .plans-tiers {
+      padding-bottom: 130px;
+    }
+    .plans-tiers__card {
+      padding: var(--spacing-40);
+      border-radius: 40px;
+    }
+    .plans-tiers__edge {
+      border-radius: 40px;
+      order: -1;
+    }
+    .plans-tiers__gap {
+      height: var(--spacing-36);
+    }
+    .plans-tiers__grid :global(.plans-tiers__cog) {
+      right: -25px;
+      bottom: -49px;
+      width: 125px;
+      height: 125px;
+    }
+  }
+</style>
+
+<script>
+  import { gsap, motion, onPage, MQ } from '@lib/motion';
+
+  // progress of the premium card through the viewport, 55% -> 100%: y 0 -> 120
+  onPage(() => {
+    motion(
+      document.querySelector<HTMLElement>('[data-section="plans-tiers"]'),
+      (root) => {
+        gsap
+          .timeline({
+            defaults: { ease: 'none' },
+            scrollTrigger: {
+              trigger: root.querySelector('[data-par-trigger="apple"]'),
+              start: 'top+=200 bottom',
+              end: 'bottom top',
+              scrub: 0.6,
+            },
+          })
+          .to({}, { duration: 0.55 })
+          .to(root.querySelector('[data-par="apple"]'), { y: 120, duration: 0.45 }, 0.55);
+      },
+      MQ.md,
+    );
+  });
+</script>

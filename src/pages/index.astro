@@ -1,40 +1,45 @@
 ---
-// Home page assembly (owner: closing agent).
-// TODO (missing imports): none — all nine home components were on disk when this file was written.
+// Home page assembly.
 //
 // Stacking: HomeBackground is an absolutely positioned z-index:0 layer, first in the DOM. Every section root
 // is positioned (z-index auto or higher) so it paints above it in tree order. The wrapper itself must NOT
 // create a stacking context: the closing banner's character block (z-index 100) has to beat the footer
-// (z-index 98) in the root context, exactly like the reference (.relative-2025 100 > .footer_new 98).
-import BaseLayout from '../layouts/BaseLayout.astro';
-import HomeBackground from '../components/home/HomeBackground.astro';
-import Hero from '../components/home/Hero.astro';
-import Feature1 from '../components/home/Feature1.astro';
-import Feature2 from '../components/home/Feature2.astro';
-import Feature3 from '../components/home/Feature3.astro';
-import Marquee from '../components/home/Marquee.astro';
-import Feature4 from '../components/home/Feature4.astro';
-import Feature5 from '../components/home/Feature5.astro';
-import Feature6 from '../components/home/Feature6.astro';
-import ClosingBanner from '../components/home/ClosingBanner.astro';
+// (z-index 98) in the root context.
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { pages } from '@data/pages';
+import HomeBackground from '@components/sections/home/HomeBackground.astro';
+import Hero from '@components/sections/home/Hero.astro';
+import FeatureAssistant from '@components/sections/home/FeatureAssistant.astro';
+import FeatureSpeed from '@components/sections/home/FeatureSpeed.astro';
+import FeatureMonitoring from '@components/sections/home/FeatureMonitoring.astro';
+import Marquee from '@components/sections/home/Marquee.astro';
+import FeatureLeads from '@components/sections/home/FeatureLeads.astro';
+import FeatureContent from '@components/sections/home/FeatureContent.astro';
+import FeatureDevices from '@components/sections/home/FeatureDevices.astro';
+import ClosingBanner from '@components/sections/home/ClosingBanner.astro';
 ---
-<BaseLayout title="Rebirth Web Design — High-performance websites" active="index">
+
+<BaseLayout page={pages['/']} active="index">
   <div class="home-root">
     <HomeBackground />
     <Hero />
-    <Feature1 />
-    <Feature2 />
-    <Feature3 />
+    <FeatureAssistant />
+    <FeatureSpeed />
+    <FeatureMonitoring />
     <Marquee />
-    <Feature4 />
-    <Feature5 />
-    <Feature6 />
+    <FeatureLeads />
+    <FeatureContent />
+    <FeatureDevices />
     <ClosingBanner />
   </div>
 </BaseLayout>
 
 <style>
-  .home-root { position: relative; }
+  .home-root {
+    position: relative;
+  }
   /* guard: a non-positioned section would paint underneath the background layer */
-  .home-root > :global([data-section]) { position: relative; }
+  .home-root > :global([data-section]) {
+    position: relative;
+  }
 </style>

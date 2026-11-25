@@ -1,0 +1,169 @@
+---
+import Section from '@components/layout/Section.astro';
+// careers-faq: heading left, accordion right,
+// "See All" reveals the remaining questions.
+import Button from '@components/ui/Button.astro';
+import Accordion from '@components/ui/Accordion.astro';
+import Heading from '@components/ui/Heading.astro';
+import { careersFaq } from '@data/faqs';
+const first = careersFaq.slice(0, 4);
+const rest = careersFaq.slice(4);
+---
+
+<Section
+  section="careers-faq"
+  class="careers-faq relative mt-[30px] py-[100px] md:py-[120px] wide:py-[160px]"
+  container="wide"
+>
+  <div class="wide:flex wide:gap-[134px]">
+    <div class="mx-auto w-full max-w-[514px] text-center wide:mx-0 wide:flex-none wide:text-left">
+      <Heading level={2} size="lg" class="mb-16 xl:mb-24">
+        Questions?
+      </Heading>
+      <p class="font-body text-body leading-[22px] text-white md:text-body-xl md:leading-[26px]">
+        Questions about how Rebirth works? Check out the ones I hear most often.
+      </p>
+      <div class="h-40 xl:h-48"></div>
+    </div>
+    <div class="xl:mt-[-40px] wide:flex-1">
+      <Accordion name="careers-faq" group="careers-faq" items={first}>
+        <Fragment slot="icon">
+          <i class="careers-faq__minus"></i>
+          <i data-accordion-plus class="careers-faq__plus"></i>
+        </Fragment>
+      </Accordion>
+      <div data-faq-all class="careers-faq__all" style="height:0px">
+        <Accordion name="careers-faq-more" group="careers-faq" items={rest} focusable={false}>
+          <Fragment slot="icon">
+            <i class="careers-faq__minus"></i>
+            <i data-accordion-plus class="careers-faq__plus"></i>
+          </Fragment>
+        </Accordion>
+      </div>
+      <div data-faq-all-wrap class="flex justify-center pt-48 md:pt-[64px] wide:justify-start">
+        <Button data-faq-all-btn>See All</Button>
+      </div>
+    </div>
+  </div>
+</Section>
+<style>
+  /* 2px hairline (rgba(255,255,255,.1)) under each question — a divider the style docs did not sample */
+  .careers-faq :global(.accordion__item) {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    margin-bottom: -2px;
+    border-bottom: 2px solid var(--color-white-10);
+    font-family: var(--font-body);
+    text-align: left;
+  }
+  .careers-faq :global(.accordion__toggle) {
+    position: relative;
+    display: block;
+    width: 100%;
+    margin: 0 0 -2px;
+    padding: 32px 40px 32px 4px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    color: var(--color-white);
+    font: inherit;
+    font-size: var(--text-body);
+    line-height: 1.3;
+    font-weight: var(--font-weight-medium);
+    text-align: left;
+  }
+  .careers-faq :global(.accordion__toggle:focus-visible) {
+    outline: 2px solid var(--color-blurple);
+    outline-offset: 4px;
+    border-radius: 24px;
+  }
+  @media (min-width: 768px) {
+    .careers-faq :global(.accordion__toggle) {
+      font-size: var(--text-body-xl);
+      line-height: 1.4;
+    }
+  }
+  .careers-faq :global(.accordion__icons) {
+    position: absolute;
+    top: 34px;
+    right: 0;
+    width: 16px;
+    height: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  @media (min-width: 768px) {
+    .careers-faq :global(.accordion__icons) {
+      top: 36px;
+    }
+  }
+  .careers-faq__minus {
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 16px;
+    height: 3px;
+    background: var(--color-white);
+  }
+  .careers-faq__plus {
+    position: relative;
+    width: 16px;
+    height: 17px;
+  }
+  .careers-faq__plus::before {
+    content: '';
+    position: absolute;
+    left: 6.5px;
+    top: 0.5px;
+    width: 3px;
+    height: 16px;
+    background: var(--color-white);
+  }
+  .careers-faq :global(.accordion__panel) {
+    padding-right: 16px;
+    padding-bottom: 16px;
+  }
+  .careers-faq :global(.accordion__panel p) {
+    margin: -16px 0 0;
+    color: #b2b2b2;
+    font-size: var(--text-body);
+    line-height: 1.4;
+  }
+  @media (min-width: 768px) {
+    .careers-faq :global(.accordion__panel p) {
+      font-size: var(--text-body-xl);
+      line-height: 28px;
+    }
+  }
+  .careers-faq__all {
+    width: 100%;
+    padding: 1px 0;
+    overflow: hidden;
+  }
+</style>
+<script>
+  import { gsap, onPage, reducedMotion } from '@lib/motion';
+  onPage((signal) => {
+    const root = document.querySelector<HTMLElement>('[data-section="careers-faq"]');
+    if (root) {
+      // "See All" (click): the hidden list height 0 -> auto in 300ms, button wrapper display:none
+      const all = root.querySelector<HTMLElement>('[data-faq-all]')!;
+      const wrap = root.querySelector<HTMLElement>('[data-faq-all-wrap]')!;
+      root.querySelector('[data-faq-all-btn]')?.addEventListener(
+        'click',
+        (e) => {
+          e.stopPropagation();
+          wrap.style.display = 'none';
+          all
+            .querySelectorAll('[data-accordion-toggle]')
+            .forEach((t) => t.removeAttribute('tabindex'));
+          gsap.to(all, { height: 'auto', duration: reducedMotion() ? 0 : 0.3, ease: 'none' });
+        },
+        { signal },
+      );
+    }
+  });
+</script>

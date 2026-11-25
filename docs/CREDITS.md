@@ -1,10 +1,10 @@
 # Photo credits (Unsplash)
 
-- src/assets/photos/download-workspace.jpg — Chuck Fortner — https://unsplash.com/photos/gaming-workspace-with-neon-signs-LFVBohYmtgc
-- src/assets/photos/download-city.jpg — Eduardo Pastor — https://unsplash.com/photos/a-city-at-night-lit-up-with-neon-lights-gH3hDhmkdFo
-- src/assets/photos/download-room.jpg — KNXRT — https://unsplash.com/photos/a-person-standing-in-a-room-with-purple-lights-WtMHmc4a9YM
-- src/assets/photos/download-street.jpg — Abdullahi Mohamud — https://unsplash.com/photos/a-neon-lit-city-street-at-night-xmEupVYRQqw
-- src/assets/photos/download-neon.jpg — Damir Yakupov — https://unsplash.com/photos/purple-and-black-neon-light-yHB7xyXHHic
+- src/assets/photos/services-workspace.jpg — Chuck Fortner — https://unsplash.com/photos/gaming-workspace-with-neon-signs-LFVBohYmtgc
+- src/assets/photos/services-city.jpg — Eduardo Pastor — https://unsplash.com/photos/a-city-at-night-lit-up-with-neon-lights-gH3hDhmkdFo
+- src/assets/photos/services-room.jpg — KNXRT — https://unsplash.com/photos/a-person-standing-in-a-room-with-purple-lights-WtMHmc4a9YM
+- src/assets/photos/services-street.jpg — Abdullahi Mohamud — https://unsplash.com/photos/a-neon-lit-city-street-at-night-xmEupVYRQqw
+- src/assets/photos/services-neon.jpg — Damir Yakupov — https://unsplash.com/photos/purple-and-black-neon-light-yHB7xyXHHic
 - `src/assets/photos/hero-neon.jpg` — Jr Korpa — https://unsplash.com/photos/neon-pink-and-purple-light-particles-9XngoIpxcEo
 - src/assets/photos/careers-gallery-neon-studio.jpg — Chuck Fortner — https://unsplash.com/photos/gaming-workspace-with-neon-signs-LFVBohYmtgc
 - src/assets/photos/careers-gallery-neon-desk.jpg — ELLA DON — https://unsplash.com/photos/a-computer-desk-with-neon-lights-in-a-dark-room-cu7IyTs3hP0
@@ -15,24 +15,24 @@
 - src/assets/photos/careers-gallery-laptop-duo.jpg — Sandisk — https://unsplash.com/photos/two-colleagues-collaborating-on-a-laptop-in-a-modern-office-q-PLVUhxzbo
 - src/assets/photos/careers-values-developer.jpg — Vitaly Gariev — https://unsplash.com/photos/a-man-smiles-while-working-on-a-laptop-M9gGJqvAMGE
 - src/assets/photos/careers-values-collab.jpg — Vitaly Gariev — https://unsplash.com/photos/woman-working-on-laptop-in-a-modern-office-Lhg2NfwYd-w
-- src/assets/photos/quests-glow-laptop.jpg — Joshua Woroniecki — https://unsplash.com/photos/laptop-with-colorful-glowing-screen-lzh3hPtJz9c
-- src/assets/photos/quests-macbook.jpg — Ash Edmonds — https://unsplash.com/photos/macbook-pro-showing-pink-and-green-wallpaper-Koxa-GX_5zs
-- src/assets/photos/quests-violet-curve.jpg — Dima Solomin — https://unsplash.com/photos/a-close-up-of-a-cell-phone-on-a-black-background-q_zV6O2h9vs
-- src/assets/photos/quests-pink-laptop.jpg — Martin Sanchez — https://unsplash.com/photos/black-and-pink-laptop-computer-4PDPLw1flgE
-- src/assets/photos/quests-pyramid.jpg — Sandro Katalina — https://unsplash.com/photos/purple-and-black-pyramid-wallpaper-k1bO_VTiZSs
-- src/assets/photos/quests-room.jpg — Juliana Tanchak — https://unsplash.com/photos/a-room-with-purple-lighting-and-a-white-wall-5yKQ1pikvGg
-- src/assets/photos/quests-tubes.jpg — Amelia Noyes — https://unsplash.com/photos/turned-on-purple-neon-lights-3gHd4EkpNJI
-- src/assets/photos/quests-tower.jpg — Wes Hicks — https://unsplash.com/photos/purple-light-building-ZEZeFBLfiLs
-- src/assets/photos/featB-glow-room.jpg — Marek Piwnicki — https://unsplash.com/photos/purple-and-pink-lights-in-a-dark-room-Jb3YsmniwJ4
-- src/assets/photos/featB-violet-room.jpg — FlyD — https://unsplash.com/photos/purple-light-in-a-dark-room-hdemaIsyHjg
-- src/assets/photos/featB-purple-laptop.jpg — Shabeeba Ameen — https://unsplash.com/photos/a-laptop-computer-with-a-purple-keyboard-in-the-dark-NW6SxctRW-U
-- src/assets/photos/nitro-laptop-glow.jpg — Walling — https://unsplash.com/photos/purple-and-black-laptop-computer-qRyQWEAWaNY
-- src/assets/photos/nitro-keyboard-violet.jpg — Adrian Regeci — https://unsplash.com/photos/an-apple-laptop-with-a-glowing-keyboard-on-a-dark-surface-B9UKyWJ5l6k
-- src/assets/photos/nitro-laptop-magenta.jpg — AltumCode — https://unsplash.com/photos/a-laptop-computer-on-a-table-f63rtLk4eSw
-- src/assets/photos/nitro-servers-green.jpg — Tyler — https://unsplash.com/photos/a-close-up-of-a-server-in-a-server-room-vSprjjDbu60
-- src/assets/photos/nitro-rack-green.jpg — Tyler — https://unsplash.com/photos/a-close-up-of-a-green-light-in-a-server-zMrGQu21qcU
-- src/assets/photos/nitro-studio-desk.jpg — Dima Zimakov — https://unsplash.com/photos/computer-music-software-is-being-used-HnOW2ATIDTs
-- src/assets/photos/nitro-code-neon.jpg — Jakub Żerdzicki — https://unsplash.com/photos/computer-screens-displaying-code-with-neon-lighting-WD7S-Lz12Es
-- src/assets/photos/nitro-setup-rgb.jpg — Gavin Phillips — https://unsplash.com/photos/gaming-setup-with-laptop-keyboard-and-rgb-lighting-Y-05vRRw3ng
-- src/assets/photos/nitro-fans-datacenter.jpg — Winston Chen — https://unsplash.com/photos/close-up-of-server-cooling-fans-in-a-vibrant-data-center-iZe21DzHnUg
-- src/assets/photos/featA-purple-setup.jpg — sdl sanjaya — https://unsplash.com/photos/gaming-computer-setup-in-purple-light-2rQoMZLVXHc
+- src/assets/photos/launch-glow-laptop.jpg — Joshua Woroniecki — https://unsplash.com/photos/laptop-with-colorful-glowing-screen-lzh3hPtJz9c
+- src/assets/photos/launch-macbook.jpg — Ash Edmonds — https://unsplash.com/photos/macbook-pro-showing-pink-and-green-wallpaper-Koxa-GX_5zs
+- src/assets/photos/launch-violet-curve.jpg — Dima Solomin — https://unsplash.com/photos/a-close-up-of-a-cell-phone-on-a-black-background-q_zV6O2h9vs
+- src/assets/photos/launch-pink-laptop.jpg — Martin Sanchez — https://unsplash.com/photos/black-and-pink-laptop-computer-4PDPLw1flgE
+- src/assets/photos/launch-pyramid.jpg — Sandro Katalina — https://unsplash.com/photos/purple-and-black-pyramid-wallpaper-k1bO_VTiZSs
+- src/assets/photos/launch-room.jpg — Juliana Tanchak — https://unsplash.com/photos/a-room-with-purple-lighting-and-a-white-wall-5yKQ1pikvGg
+- src/assets/photos/launch-tubes.jpg — Amelia Noyes — https://unsplash.com/photos/turned-on-purple-neon-lights-3gHd4EkpNJI
+- src/assets/photos/launch-tower.jpg — Wes Hicks — https://unsplash.com/photos/purple-light-building-ZEZeFBLfiLs
+- src/assets/photos/home-content-glow-room.jpg — Marek Piwnicki — https://unsplash.com/photos/purple-and-pink-lights-in-a-dark-room-Jb3YsmniwJ4
+- src/assets/photos/home-content-violet-room.jpg — FlyD — https://unsplash.com/photos/purple-light-in-a-dark-room-hdemaIsyHjg
+- src/assets/photos/home-content-purple-laptop.jpg — Shabeeba Ameen — https://unsplash.com/photos/a-laptop-computer-with-a-purple-keyboard-in-the-dark-NW6SxctRW-U
+- src/assets/photos/plans-laptop-glow.jpg — Walling — https://unsplash.com/photos/purple-and-black-laptop-computer-qRyQWEAWaNY
+- src/assets/photos/plans-keyboard-violet.jpg — Adrian Regeci — https://unsplash.com/photos/an-apple-laptop-with-a-glowing-keyboard-on-a-dark-surface-B9UKyWJ5l6k
+- src/assets/photos/plans-laptop-magenta.jpg — AltumCode — https://unsplash.com/photos/a-laptop-computer-on-a-table-f63rtLk4eSw
+- src/assets/photos/plans-servers-green.jpg — Tyler — https://unsplash.com/photos/a-close-up-of-a-server-in-a-server-room-vSprjjDbu60
+- src/assets/photos/plans-rack-green.jpg — Tyler — https://unsplash.com/photos/a-close-up-of-a-green-light-in-a-server-zMrGQu21qcU
+- src/assets/photos/plans-studio-desk.jpg — Dima Zimakov — https://unsplash.com/photos/computer-music-software-is-being-used-HnOW2ATIDTs
+- src/assets/photos/plans-code-neon.jpg — Jakub Żerdzicki — https://unsplash.com/photos/computer-screens-displaying-code-with-neon-lighting-WD7S-Lz12Es
+- src/assets/photos/plans-setup-rgb.jpg — Gavin Phillips — https://unsplash.com/photos/gaming-setup-with-laptop-keyboard-and-rgb-lighting-Y-05vRRw3ng
+- src/assets/photos/plans-fans-datacenter.jpg — Winston Chen — https://unsplash.com/photos/close-up-of-server-cooling-fans-in-a-vibrant-data-center-iZe21DzHnUg
+- src/assets/photos/home-speed-purple-setup.jpg — sdl sanjaya — https://unsplash.com/photos/gaming-computer-setup-in-purple-light-2rQoMZLVXHc

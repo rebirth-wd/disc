@@ -1,0 +1,636 @@
+---
+// Original UI mock-ups that sit inside the gradient media frames.
+// kind 'desktop' 1096×1544 crop of a window · 'phone' 329×605 handset · 'edge' 409×506 panel over a photo · 'chat' assistant panel.
+import { Image } from 'astro:assets';
+import workspace from '@assets/photos/services-workspace.jpg';
+import street from '@assets/photos/services-street.jpg';
+import city from '@assets/photos/services-city.jpg';
+import room from '@assets/photos/services-room.jpg';
+import neon from '@assets/photos/services-neon.jpg';
+import LogoMark from '@components/layout/LogoMark.astro';
+interface Props {
+  kind: 'desktop' | 'phone' | 'edge' | 'chat';
+}
+const { kind } = Astro.props;
+const sections = [
+  'Headers',
+  'Heros',
+  'Features',
+  'Content',
+  'Call-to-Action',
+  'Pricing',
+  'Testimonial',
+  'Contact',
+  'Footers',
+];
+const tones = ['#eb459e', '#5865f2', '#57f287', '#fee75c', '#eb459e', '#5865f2'];
+---
+
+{kind === 'desktop' && (
+  <div class="platform-mock platform-mock__desktop" aria-hidden="true">
+    <div class="platform-mock__rail">
+      <b class="is-on">
+        <LogoMark size={20} />
+      </b>
+      {tones.map((t) => (
+        <b style={`background:${t}`}></b>
+      ))}
+    </div>
+    <div class="platform-mock__list">
+      <div class="platform-mock__list-photo">
+        <Image src={neon} alt="" widths={[200, 400]} sizes="160px" />
+        <span>The Stack</span>
+      </div>
+      <ul>
+        {sections.map((s, i) => (
+          <li class:list={[i === 2 && 'is-on']}>
+            <em>#</em>
+            {s}
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div class="platform-mock__feed">
+      <div class="platform-mock__feed-head">
+        <em>#</em> features <span>Showcase your services</span>
+      </div>
+      <div class="platform-mock__msg">
+        <i style="background:#eb459e"></i>
+        <p>
+          <strong>Astro</strong>Zero unnecessary JavaScript
+        </p>
+      </div>
+      <div class="platform-mock__feed-photo">
+        <Image src={workspace} alt="" widths={[400, 800]} sizes="260px" />
+      </div>
+      <div class="platform-mock__msg">
+        <i style="background:#57f287"></i>
+        <p>
+          <strong>GitHub</strong>Every change tracked
+        </p>
+      </div>
+      <div class="platform-mock__score">
+        <b>100</b>
+        <span>Performance</span>
+      </div>
+      <div class="platform-mock__msg">
+        <i style="background:#5865f2"></i>
+        <p>
+          <strong>Cloudflare</strong>Served from the edge
+        </p>
+      </div>
+      <div class="platform-mock__msg">
+        <i style="background:#fee75c"></i>
+        <p>
+          <strong>Reb</strong>Loads in under a second
+        </p>
+      </div>
+      <div class="platform-mock__msg">
+        <i style="background:#eb459e"></i>
+        <p>
+          <strong>Astro</strong>Scores 90-100 by default
+        </p>
+      </div>
+    </div>
+  </div>
+)}
+{kind === 'phone' && (
+  <div class="platform-mock platform-mock__phone" aria-hidden="true">
+    <div class="platform-mock__phone-in">
+      <div class="platform-mock__phone-head">
+        <span>←</span>
+        <p>
+          <strong># rebirth</strong>
+          <small>
+            <i></i>Loads in under a second
+          </small>
+        </p>
+      </div>
+      <div class="platform-mock__phone-photo">
+        <Image src={street} alt="" widths={[320, 640]} sizes="300px" />
+      </div>
+      <div class="platform-mock__msg">
+        <i style="background:#eb459e"></i>
+        <p>
+          <strong>Heros</strong>Bold first impressions
+        </p>
+      </div>
+      <div class="platform-mock__msg">
+        <i style="background:#57f287"></i>
+        <p>
+          <strong>Call-to-Action</strong>Bookings, enquiries, calls
+        </p>
+      </div>
+      <div class="platform-mock__input">+ Message Reb</div>
+      <div class="platform-mock__tabs">
+        <span class="is-on">Pages</span>
+        <span>Blog</span>
+        <span>Contact</span>
+      </div>
+      <div class="platform-mock__swatches">
+        {[...tones, ...tones].map((t) => (
+          <i style={`background:${t}`}></i>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+{kind === 'edge' && (
+  <div class="platform-mock platform-mock__edge" aria-hidden="true">
+    <Image src={city} alt="" widths={[420, 840]} sizes="410px" class="platform-mock__edge-photo" />
+    <div class="platform-mock__edge-panel">
+      <div class="platform-mock__edge-head">
+        <LogoMark size={26} />
+        <p>
+          <strong>Rebirth</strong>
+          <small>Edge / Cloudflare network</small>
+        </p>
+      </div>
+      <ul>
+        <li class="is-title">Delivery</li>
+        <li>
+          <i style="background:#57f287"></i>Static pages
+        </li>
+        <li>
+          <i style="background:#eb459e"></i>Nearest node
+        </li>
+        <li>
+          <i style="background:#5865f2"></i>Backups<small>Automatic</small>
+        </li>
+        <li class="is-bar">
+          <b></b>
+          <span>100</span>
+        </li>
+        <li>Security scanning</li>
+        <li>Uptime monitoring</li>
+        <li>Instant alerts</li>
+        <li>
+          <i style="background:#fee75c"></i>Updates
+        </li>
+        <li>
+          <i style="background:#57f287"></i>Preview deploy
+        </li>
+      </ul>
+    </div>
+  </div>
+)}
+{kind === 'chat' && (
+  <div class="platform-mock platform-mock__chat" aria-hidden="true">
+    <div class="platform-mock__chat-head">
+      ⌄ <strong>ask reb</strong>
+    </div>
+    <div class="platform-mock__chat-grid">
+      <div class="is-ghost">
+        <span>Ask Reb</span>
+      </div>
+      <div class="is-photo is-on">
+        <Image src={room} alt="" widths={[240, 480]} sizes="160px" />
+      </div>
+      <div style="background:#f5c9ff"></div>
+      <div class="is-photo">
+        <Image src={neon} alt="" widths={[240, 480]} sizes="160px" />
+      </div>
+      <div style="background:#a259ff">
+        <LogoMark size={40} />
+      </div>
+    </div>
+    <div class="platform-mock__chat-tools">
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+      <i class="is-hot"></i>
+    </div>
+  </div>
+)}
+
+<style>
+  .platform-mock {
+    container-type: inline-size;
+    width: 100%;
+    font-family: var(--font-body);
+    color: var(--color-white);
+    text-align: left;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  .platform-mock :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .platform-mock__msg {
+    display: flex;
+    gap: 2.6cqw;
+    align-items: flex-start;
+  }
+  .platform-mock__msg i {
+    width: 7cqw;
+    height: 7cqw;
+    border-radius: 50%;
+    flex: none;
+  }
+  .platform-mock__msg p {
+    margin: 0;
+    font-size: 2.9cqw;
+    line-height: 1.35;
+    color: rgba(255, 255, 255, 0.85);
+    white-space: nowrap;
+  }
+  .platform-mock__msg strong {
+    display: block;
+    font-weight: 500;
+    color: #f47fff;
+  }
+
+  /* desktop window crop: 409×577 at 1680, radius 24 0 0 0, bleeds right + bottom */
+  .platform-mock__desktop {
+    aspect-ratio: 1096 / 1544;
+    background: #0b0b10;
+    border-radius: 24px 0 0 0;
+    display: flex;
+    position: relative;
+    bottom: -1px;
+    right: -1px;
+  }
+  .platform-mock__rail {
+    width: 12cqw;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.4cqw;
+    padding-top: 4.5cqw;
+  }
+  .platform-mock__rail b {
+    width: 7.4cqw;
+    height: 7.4cqw;
+    border-radius: 2.2cqw;
+    background: #1c1d26;
+    display: grid;
+    place-items: center;
+  }
+  .platform-mock__rail b.is-on {
+    background: var(--color-blurple);
+  }
+  .platform-mock__rail b :global(svg) {
+    width: 4.6cqw;
+    height: 4.6cqw;
+  }
+  .platform-mock__list {
+    width: 38cqw;
+    flex: none;
+    background: #121218;
+    margin-top: 4.5cqw;
+    border-radius: 2.4cqw 0 0 0;
+    overflow: hidden;
+  }
+  .platform-mock__list-photo {
+    position: relative;
+    height: 20cqw;
+  }
+  .platform-mock__list-photo span {
+    position: absolute;
+    left: 2.6cqw;
+    top: 2.6cqw;
+    font-size: 2.6cqw;
+    font-weight: 500;
+  }
+  .platform-mock__list ul,
+  .platform-mock__edge ul {
+    list-style: none;
+    margin: 0;
+    padding: 3cqw 2cqw;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8cqw;
+  }
+  .platform-mock__list li {
+    font-size: 2.5cqw;
+    line-height: 1;
+    padding: 1.7cqw 2cqw;
+    border-radius: 1.4cqw;
+    color: rgba(255, 255, 255, 0.55);
+    display: flex;
+    gap: 1.6cqw;
+    white-space: nowrap;
+  }
+  .platform-mock__list li em,
+  .platform-mock__feed-head em {
+    font-style: normal;
+    opacity: 0.6;
+  }
+  .platform-mock__list li.is-on {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-white);
+  }
+  .platform-mock__feed {
+    flex: 1;
+    min-width: 0;
+    margin-top: 4.5cqw;
+    background: #17171f;
+    display: flex;
+    flex-direction: column;
+    gap: 3.4cqw;
+    padding: 0 0 0 3cqw;
+  }
+  .platform-mock__feed-head {
+    height: 9cqw;
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 1.6cqw;
+    font-size: 2.6cqw;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .platform-mock__feed-head span {
+    font-weight: 400;
+    opacity: 0.5;
+    font-size: 2.2cqw;
+  }
+  .platform-mock__feed-photo {
+    height: 24cqw;
+    flex: none;
+    margin-left: 9.6cqw;
+    border-radius: 2cqw 0 0 2cqw;
+    overflow: hidden;
+  }
+  .platform-mock__score {
+    margin-left: 9.6cqw;
+    display: flex;
+    align-items: center;
+    gap: 2.4cqw;
+    font-size: 2.6cqw;
+  }
+  .platform-mock__score b {
+    width: 13cqw;
+    height: 13cqw;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 3.4cqw;
+    color: var(--color-spring-green);
+    box-shadow: inset 0 0 0 1.2cqw var(--color-spring-green);
+  }
+
+  /* phone: 329×605 at 1680, bleeds past the frame bottom */
+  .platform-mock__phone {
+    aspect-ratio: 329.4 / 605.2;
+    background: #050507;
+    border-radius: 12% 12% 0 0 / 6.5% 6.5% 0 0;
+    padding: 2.4% 2.4% 0;
+  }
+  .platform-mock__phone-in {
+    height: 100%;
+    background: #17171f;
+    border-radius: 9.8cqw 9.8cqw 0 0;
+    padding: 7cqw 5cqw 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 5cqw;
+    overflow: hidden;
+  }
+  .platform-mock__phone .platform-mock__msg {
+    gap: 4cqw;
+  }
+  .platform-mock__phone .platform-mock__msg i {
+    width: 10.5cqw;
+    height: 10.5cqw;
+  }
+  .platform-mock__phone .platform-mock__msg p {
+    font-size: 4cqw;
+  }
+  .platform-mock__phone-head {
+    display: flex;
+    gap: 4cqw;
+    align-items: center;
+    font-size: 4.6cqw;
+    padding-bottom: 4cqw;
+  }
+  .platform-mock__phone-head p {
+    margin: 0;
+    line-height: 1.3;
+  }
+  .platform-mock__phone-head strong {
+    display: block;
+    font-weight: 500;
+  }
+  .platform-mock__phone-head small {
+    font-size: 3.4cqw;
+    opacity: 0.7;
+    display: flex;
+    align-items: center;
+    gap: 1.4cqw;
+  }
+  .platform-mock__phone-head small i {
+    width: 2cqw;
+    height: 2cqw;
+    border-radius: 50%;
+    background: var(--color-spring-green);
+  }
+  .platform-mock__phone-photo {
+    height: 34cqw;
+    flex: none;
+    border-radius: 3cqw;
+    overflow: hidden;
+  }
+  .platform-mock__input {
+    background: #23232c;
+    border-radius: 6cqw;
+    padding: 4cqw 5cqw;
+    font-size: 4cqw;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .platform-mock__tabs {
+    display: flex;
+    background: #101016;
+    border-radius: 3cqw;
+    padding: 1cqw;
+    font-size: 3.4cqw;
+    text-align: center;
+    margin-top: 3cqw;
+  }
+  .platform-mock__tabs span {
+    flex: 1;
+    padding: 2.4cqw 0;
+    border-radius: 2.4cqw;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .platform-mock__tabs .is-on {
+    background: #2c2c36;
+    color: #fff;
+  }
+  .platform-mock__swatches {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 3cqw;
+  }
+  .platform-mock__swatches i {
+    aspect-ratio: 1;
+    border-radius: 2.4cqw;
+  }
+
+  /* edge panel: 409×506 at 1680, bleeds right */
+  .platform-mock__edge {
+    aspect-ratio: 409.4 / 505.8;
+    position: relative;
+    border-radius: 16px 0 0 16px;
+  }
+  .platform-mock__edge :global(.platform-mock__edge-photo) {
+    position: absolute;
+    inset: 0;
+  }
+  .platform-mock__edge-panel {
+    position: absolute;
+    left: 7cqw;
+    top: 4cqw;
+    bottom: 0;
+    width: 65cqw;
+    background: rgba(24, 24, 28, 0.94);
+    border-radius: 1.4cqw 1.4cqw 0 0;
+    overflow: hidden;
+  }
+  .platform-mock__edge-head {
+    display: flex;
+    gap: 3cqw;
+    align-items: center;
+    padding: 3.6cqw 3.6cqw;
+    background: #26262c;
+  }
+  .platform-mock__edge-head p {
+    margin: 0;
+    line-height: 1.25;
+    font-size: 3cqw;
+  }
+  .platform-mock__edge-head strong {
+    display: block;
+    font-size: 3.8cqw;
+    font-weight: 500;
+  }
+  .platform-mock__edge-head small {
+    font-size: 2.8cqw;
+    opacity: 0.75;
+  }
+  .platform-mock__edge-head :global(svg) {
+    width: 7cqw;
+    height: 7cqw;
+    flex: none;
+  }
+  .platform-mock__edge ul {
+    padding: 4cqw 3.6cqw;
+    gap: 4.6cqw;
+  }
+  .platform-mock__edge li {
+    font-size: 3cqw;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    gap: 2.4cqw;
+    white-space: nowrap;
+  }
+  .platform-mock__edge li i {
+    width: 7.6cqw;
+    height: 7.6cqw;
+    border-radius: 50%;
+    flex: none;
+    margin: -1.4cqw 0;
+  }
+  .platform-mock__edge li small {
+    opacity: 0.6;
+    font-size: 2.6cqw;
+  }
+  .platform-mock__edge li.is-title {
+    padding-bottom: 3cqw;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  .platform-mock__edge li.is-bar b {
+    flex: 1;
+    height: 0.8cqw;
+    border-radius: 1cqw;
+    background: var(--color-spring-green);
+  }
+  .platform-mock__edge li.is-bar span {
+    font-size: 2.2cqw;
+    opacity: 0.7;
+  }
+
+  /* assistant panel inside the indigo frame */
+  .platform-mock__chat {
+    height: 100%;
+    background: #000;
+    border-radius: 24px 0 0 24px;
+    padding: 5.4% 0 0 10%;
+    display: flex;
+    flex-direction: column;
+  }
+  .platform-mock__chat-head {
+    font-size: 2.4cqw;
+    display: flex;
+    gap: 3cqw;
+    opacity: 0.9;
+  }
+  .platform-mock__chat-head strong {
+    font-weight: 500;
+  }
+  .platform-mock__chat-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 18.2cqw);
+    grid-auto-rows: 35cqw;
+    gap: 1.6cqw;
+    margin: 5cqw 0 0 12cqw;
+  }
+  .platform-mock__chat-grid > div {
+    grid-column: span 2;
+    border-radius: 1.6cqw;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+  }
+  .platform-mock__chat-grid > div:nth-child(4) {
+    grid-column: 2 / span 2;
+  }
+  .platform-mock__chat-grid > div:nth-child(5) {
+    grid-column: 4 / span 2;
+  }
+  .platform-mock__chat-grid .is-ghost {
+    background: #6b6b76;
+  }
+  .platform-mock__chat-grid .is-ghost span {
+    background: #fff;
+    color: #000;
+    font-size: 2cqw;
+    font-weight: 500;
+    padding: 1.2cqw 2cqw;
+    border-radius: 1cqw;
+  }
+  .platform-mock__chat-grid .is-on {
+    box-shadow: inset 0 0 0 0.6cqw var(--color-spring-green);
+    padding: 0.6cqw;
+  }
+  .platform-mock__chat-grid .is-on :global(img) {
+    border-radius: 1.2cqw;
+  }
+  .platform-mock__chat-tools {
+    margin: 3cqw 4cqw 0 auto;
+    display: flex;
+    gap: 2.2cqw;
+    background: #17171d;
+    padding: 1.6cqw 3cqw;
+    border-radius: 2cqw;
+  }
+  .platform-mock__chat-tools i {
+    width: 5.6cqw;
+    height: 5.6cqw;
+    border-radius: 1.6cqw;
+    background: #2a2a33;
+  }
+  .platform-mock__chat-tools i.is-hot {
+    background: #f23f42;
+  }
+</style>

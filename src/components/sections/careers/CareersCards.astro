@@ -1,0 +1,33 @@
+---
+import Section from '@components/layout/Section.astro';
+// careers-cards: .
+import CareersGlyph from '@components/graphics/icons/CareersGlyph.astro';
+import { careersCards } from '@data/careers';
+---
+
+<Section section="careers-cards" class="relative" container="narrow">
+  <ul class="m-0 grid list-none grid-cols-1 gap-20 p-0 md:grid-cols-2">
+    {careersCards.map((c) => (
+      <li
+        data-card
+        class="flex flex-col items-start rounded-[48px] bg-white-10 p-48 text-left md:rounded-[56px] md:p-56"
+      >
+        <div class="mb-48 flex items-center">
+          <CareersGlyph name={c.icon} size={72} />
+        </div>
+        <h3 class="font-body text-body-xl leading-[24px] font-medium tracking-normal text-white normal-case xl:text-[1.5rem] xl:leading-[28.8px]">
+          {c.title}
+        </h3>
+        <p class="mt-8 font-body text-[0.875rem] leading-[18.2px] text-white opacity-50 md:text-body md:leading-[20.8px] wide:leading-[22.4px]">
+          {c.text}
+        </p>
+      </li>
+    ))}
+  </ul>
+  <div class="pt-40 text-center md:pt-[80px]">
+    <p class="font-body text-body leading-[20.8px] tracking-[0.02em] text-white opacity-50 md:text-body-xl md:leading-[26px]">
+      Hosting, backups, security, and updates — managed for you, every month. Scope varies by
+      project and plan.
+    </p>
+  </div>
+</Section>

@@ -1,0 +1,237 @@
+---
+import Section from '@components/layout/Section.astro';
+// careers-party:
+// centred intro + looping, centred card carousel (26 slides) with dynamic progress bullets.
+import CareersGlyph from '@components/graphics/icons/CareersGlyph.astro';
+import Carousel from '@components/ui/Carousel.astro';
+import Heading from '@components/ui/Heading.astro';
+import { careersParty } from '@data/slides';
+---
+
+<Section
+  section="careers-party"
+  class="relative pt-[100px] md:pt-[120px] wide:pt-[160px]"
+  container="ultra"
+>
+  <div class="relative mx-auto flex max-w-[697px] flex-col items-center wide:max-w-[897px]">
+    <Heading level={2} size="lg" class="mb-16 text-center md:mb-24">
+      Time to build? Find your stack here
+    </Heading>
+    <p class="text-center font-body text-body leading-[22px] text-white md:text-body-xl md:leading-[26px]">
+      High-performance, mobile-first components powered by Astro and Tailwind CSS – designed to
+      convert local visitors into customers, and to highlight what makes your business stand out
+      from the crowd.
+    </p>
+  </div>
+  <div class="hidden h-40 md:block xl:h-48"></div>
+  <Carousel
+    slot="after"
+    label="What we build"
+    class="careers-party relative mt-[32px] md:mt-0"
+    viewportClass="careers-party__viewport relative w-full overflow-hidden"
+    arrows={{
+      prev: 'Previous',
+      next: 'Next',
+      class:
+        'pointer-events-none absolute inset-x-[2vw] inset-y-0 z-3 hidden items-center justify-between md:flex',
+    }}
+    probe
+  >
+    {careersParty.map(({ label, icon }, i) => (
+      <div
+        data-slide
+        class="careers-party__slide"
+        role="group"
+        aria-roledescription="slide"
+        aria-label={`${i + 1} / ${careersParty.length}`}
+      >
+        <div data-slide-card class="careers-party__card">
+          <div class="careers-party__content">
+            <div data-slide-icon class="careers-party__icon">
+              <CareersGlyph name={icon} badge={i % 6} size={120} class="h-full w-full" />
+            </div>
+            <h3 class="font-body text-body-xl leading-[24px] font-medium tracking-normal text-white normal-case md:text-[1.5rem] md:leading-[28.8px]">
+              {label}
+            </h3>
+          </div>
+        </div>
+      </div>
+    ))}
+    <div
+      slot="after"
+      data-bullets
+      class="absolute inset-x-0 bottom-[-30px] mx-auto flex h-[8px] w-[160px] items-center justify-center gap-8"
+    >
+      {careersParty.map((_, i) => (
+        <button
+          type="button"
+          data-bullet
+          class="careers-party__bullet"
+          aria-label={`Go to slide ${i + 1}`}
+        >
+          <span data-bullet-progress class="careers-party__progress"></span>
+        </button>
+      ))}
+    </div>
+  </Carousel>
+</Section>
+<style>
+  /* slot sizes 342x240 (mobile, max 87.7vw) / 460x280 (tablet) / 540x352 (>=1280) */
+  :global(.careers-party) {
+    --slot-w: min(342px, 87.7vw);
+    --slot-h: 240px;
+    --pad: 24px;
+    --inset: 48px;
+    --pull: 0px;
+  }
+  @media (min-width: 569px) {
+    :global(.careers-party) {
+      --pull: 48px;
+    }
+  }
+  @media (min-width: 768px) {
+    :global(.careers-party) {
+      --slot-w: 460px;
+      --slot-h: 280px;
+      --pad: 36px;
+    }
+  }
+  @media (min-width: 1280px) {
+    :global(.careers-party) {
+      --slot-w: 540px;
+      --slot-h: 352px;
+      --pad: 40px;
+      --inset: 64px;
+    }
+  }
+  :global(.careers-party__viewport) {
+    height: calc(var(--slot-h) + var(--pad) * 2);
+  }
+  .careers-party__slide {
+    position: absolute;
+    top: var(--pad);
+    left: 50%;
+    width: var(--slot-w);
+    height: var(--slot-h);
+    margin-left: calc(var(--slot-w) / -2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: transform, opacity;
+  }
+  .careers-party__card {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 48px;
+    background: var(--color-white-10);
+    display: flex;
+    align-items: flex-start;
+  }
+  @media (min-width: 1440px) {
+    .careers-party__card {
+      border-radius: 56px;
+    }
+  }
+  .careers-party__content {
+    margin: var(--inset);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    text-align: left;
+  }
+  .careers-party__icon {
+    width: 96px;
+    height: 96px;
+    transform-origin: 50% 50%;
+  }
+  @media (min-width: 768px) {
+    .careers-party__icon {
+      width: 120px;
+      height: 120px;
+    }
+  }
+  .careers-party__bullet {
+    display: none;
+    flex: none;
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background: var(--color-white-10);
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .careers-party__progress {
+    display: block;
+    width: 0;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--color-white);
+  }
+</style>
+<script>
+  import { gsap, ease, onPage } from '@lib/motion';
+  import { createCarousel, tweenSlideState } from '@lib/carousel';
+  onPage((signal) => {
+    const root = document.querySelector<HTMLElement>(
+      '[data-section="careers-party"] [data-carousel]',
+    );
+    if (root) {
+      const slides = gsap.utils.toArray<HTMLElement>('[data-slide]', root);
+      const bullets = gsap.utils.toArray<HTMLElement>('[data-bullet]', root);
+      createCarousel(
+        root,
+        {
+          // slidesPerView auto, spaceBetween 0, speed 600, loop, centred, autoplay 9000 (paused while
+          // hovered, keeps running after interaction)
+          speed: 0.6,
+          autoplay: 9,
+          hideOffscreen: true,
+          pull: () => parseFloat(getComputedStyle(root).getPropertyValue('--pull')) || 0,
+          // slide opacity and card scale .8s ease
+          paintSlide: tweenSlideState((slide, a) => {
+            slide.style.opacity = String(0.7 + 0.3 * a);
+            gsap.set(slide.querySelector('[data-slide-card]'), { scale: 0.8 + 0.2 * a });
+          }, 0.8),
+          bullets: { items: bullets, bar: (b) => b.querySelector('[data-bullet-progress]') },
+          onChange: (index) => {
+            // icon: transform .5s ease (0.8 <-> 1)
+            slides.forEach((s, i) => {
+              gsap.to(s.querySelector('[data-slide-icon]'), {
+                scale: i === index ? 1 : 0.8,
+                duration: 0.5,
+                ease: ease.css,
+                overwrite: true,
+              });
+            });
+            // dynamic bullets (dynamicMainBullets 1): active 32x8, +-1 8x8, +-2 4x4, rest hidden; width transition .3s
+            bullets.forEach((b, i) => {
+              const d = Math.abs(i - index);
+              b.classList.toggle('is-active', d === 0);
+              b.setAttribute('aria-current', d === 0 ? 'true' : 'false');
+              if (d > 2) {
+                b.style.display = 'none';
+                return;
+              }
+              b.style.display = 'block';
+              gsap.to(b, {
+                width: d === 0 ? 32 : d === 1 ? 8 : 4,
+                height: d === 2 ? 4 : 8,
+                duration: 0.3,
+                ease: ease.css,
+                overwrite: true,
+              });
+            });
+          },
+        },
+        signal,
+      );
+      slides.forEach((s, i) =>
+        gsap.set(s.querySelector('[data-slide-icon]'), { scale: i === 0 ? 1 : 0.8 }),
+      );
+    }
+  });
+</script>

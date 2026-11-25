@@ -1,0 +1,497 @@
+---
+import Section from '@components/layout/Section.astro';
+import Button from '@components/ui/Button.astro';
+import PlansObject from '@components/graphics/objects/PlansObject.astro';
+import Heading from '@components/ui/Heading.astro';
+import { compareGroups } from '@data/plans';
+---
+
+<Section section="plans-compare" id="compare" class="plans-compare" container="wide">
+  <PlansObject name="cloud" par="windy" class="plans-compare__cloud" />
+  <Heading
+    level={2}
+    size="lg"
+    italic
+    class="plans-compare__title text-center"
+    data-par-trigger="plan"
+  >
+    Pick your plan
+  </Heading>
+  <PlansObject name="disks" par="battery" class="plans-compare__disks" />
+
+  <div class="plans-compare__table" role="table" aria-label="Care plan comparison">
+    <div class="plans-compare__head" role="row">
+      <div class="plans-compare__features" role="columnheader">
+        Features
+      </div>
+      <div class="plans-compare__plan" role="columnheader">
+        <h3 class="plans-compare__name">
+          Care
+          <br />
+          <span>Basic</span>
+        </h3>
+        <Button variant="ghost" size="sm" href="#">
+          Subscribe
+        </Button>
+      </div>
+      <div class="plans-compare__plan plans-compare__plan--care" role="columnheader">
+        <h3 class="plans-compare__name">
+          Care
+          <br />
+          <span aria-hidden="true" style="opacity:0">
+            -
+          </span>
+        </h3>
+        <Button size="sm" href="#">
+          Subscribe
+        </Button>
+      </div>
+    </div>
+
+    {compareGroups.map((g) => (
+      <>
+        <div class="plans-compare__group" role="row">
+          <div class="plans-compare__grouptitle" role="cell">
+            <Heading level={4} size="sm" italic>
+              {g.title}
+            </Heading>
+            {g.link && (
+              <div class="plans-compare__terms">
+                <a
+                  href="#faq"
+                  class="text-inherit no-underline shadow-[0_1px_0_0_var(--color-fog)] transition-[opacity,box-shadow] duration-250 ease-[ease] hover:opacity-75 hover:shadow-[0_0_0_0_transparent]"
+                >
+                  Terms and eligibility rules apply.
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+        {g.rows.map((r) => (
+          <div class:list={['plans-compare__row', g.tall && 'plans-compare__row--tall']} role="row">
+            <div class="plans-compare__label" role="cell">
+              <p class="break-words max-[389px]:hyphens-auto font-body text-body leading-[22px] font-normal xs:text-body-xl xs:leading-[26px]">
+                {r[0]}
+              </p>
+            </div>
+            {[r[1], r[2]].map((c, i) => (
+              <div class="plans-compare__cell" role="cell">
+                {typeof c === 'string' ? (
+                  <span class="font-body text-body leading-[22px] font-normal xs:text-body-xl xs:leading-[26px]">
+                    {c}
+                  </span>
+                ) : c ? (
+                  <svg
+                    class="plans-compare__yes"
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    role="img"
+                    aria-label="Included"
+                  >
+                    <path
+                      d="m6.5 14.5 5 5 10-11.5"
+                      stroke={i ? '#ff5ae0' : '#4aa3ff'}
+                      stroke-width="2.3"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    class="plans-compare__no"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    role="img"
+                    aria-label="Not included"
+                  >
+                    <path
+                      d="m5.5 5.5 13 13m0-13-13 13"
+                      stroke="#e3e4e8"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                )}
+              </div>
+            ))}
+          </div>
+        ))}
+      </>
+    ))}
+
+    <div class="plans-compare__col plans-compare__col--basic" aria-hidden="true">
+      <div></div>
+    </div>
+    <div class="plans-compare__col plans-compare__col--care" aria-hidden="true">
+      <div>
+        <i class="plans-compare__pop">POPULAR</i>
+        <b class="plans-compare__glowtop"></b>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .plans-compare {
+    position: relative;
+    padding-bottom: 226px;
+    --col: 251px;
+  }
+  .plans-compare__title {
+    margin-bottom: 0;
+  }
+  .plans-compare__cloud {
+    top: -246px;
+    right: -50px;
+    width: 250px;
+    height: 250px;
+  }
+  .plans-compare__disks {
+    top: -25px;
+    left: -26px;
+    width: 250px;
+    height: 250px;
+  }
+  .plans-compare__table {
+    position: relative;
+    margin-top: 231px;
+  }
+  .plans-compare__head,
+  .plans-compare__row,
+  .plans-compare__group {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--col) var(--col);
+    column-gap: var(--spacing-16);
+  }
+  .plans-compare__head {
+    align-items: end;
+    padding-bottom: 19px;
+  }
+  .plans-compare__features {
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-bold);
+    font-style: italic;
+    font-size: 1.5rem;
+    line-height: 28px;
+    letter-spacing: 0.24px;
+    text-transform: uppercase;
+    margin-bottom: 23px;
+  }
+  .plans-compare__features {
+    grid-column: 1;
+  }
+  .plans-compare__plan {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .plans-compare__plan--care {
+    grid-column: 3;
+  }
+  .plans-compare__plan--care {
+    position: relative;
+    top: 1px;
+    z-index: 3;
+  }
+  .plans-compare__name {
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-bold);
+    font-style: italic;
+    font-size: 2rem;
+    line-height: 32px;
+    letter-spacing: normal;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0 0 30px;
+  }
+  .plans-compare__name span {
+    display: block;
+    font-size: 0.875rem;
+    line-height: 18.2px;
+  }
+  .plans-compare__group {
+    margin-left: -37px;
+    padding: var(--spacing-8) 0 var(--spacing-8) 37px;
+    min-height: 111px;
+    align-items: center;
+    overflow: clip;
+    border-radius: 20px 0 0 20px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-right: 0;
+    background: linear-gradient(90deg, #5a2a7c 0%, #2c1a5c 14%, #100c38 30%, rgba(8, 6, 30, 0) 48%);
+  }
+  .plans-compare__grouptitle {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+  }
+  .plans-compare__terms {
+    font-size: var(--text-body);
+    line-height: 21px;
+    color: var(--color-white);
+  }
+  .plans-compare__row {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  }
+  .plans-compare__label {
+    padding: var(--spacing-48) 0;
+  }
+  .plans-compare__row--tall .plans-compare__label {
+    padding: var(--spacing-56) 0 var(--spacing-48);
+  }
+  .plans-compare__cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .plans-compare__row--tall .plans-compare__cell {
+    padding-top: var(--spacing-10);
+  }
+  .plans-compare__yes {
+    width: 28px;
+    height: 28px;
+  }
+  .plans-compare__no {
+    width: 24px;
+    height: 24px;
+  }
+  .plans-compare__col {
+    position: absolute;
+    z-index: 0;
+    top: -65.6px;
+    bottom: -66.4px;
+    width: var(--col);
+    padding: 1px;
+    border-radius: 40px;
+    pointer-events: none;
+  }
+  .plans-compare__col > div {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 39px;
+  }
+  .plans-compare__col--basic {
+    right: calc(var(--col) + var(--spacing-16));
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 20%, rgba(255, 255, 255, 0.15));
+  }
+  .plans-compare__col--basic > div {
+    background: linear-gradient(180deg, #131314 0%, #0d0d0e 50%, #080808 100%);
+  }
+  .plans-compare__col--care {
+    right: 0;
+    background: linear-gradient(180deg, #5969f4 2%, #68bdff 36%, #e0e4ff 100%);
+  }
+  .plans-compare__col--care > div {
+    background: var(--color-black)
+      linear-gradient(
+        180deg,
+        rgba(255, 112, 249, 0.2),
+        rgba(156, 89, 233, 0.2) 49%,
+        rgba(52, 66, 217, 0.2)
+      );
+  }
+  .plans-compare__glowtop {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 395px;
+    border-radius: 39px 39px 0 0;
+    background: linear-gradient(
+      180deg,
+      rgba(196, 104, 214, 0.9) 0%,
+      rgba(150, 84, 214, 0.75) 30%,
+      rgba(74, 70, 205, 0.5) 58%,
+      rgba(52, 40, 120, 0) 100%
+    );
+  }
+  .plans-compare__pop {
+    position: absolute;
+    z-index: 1;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 82px;
+    height: 33.75px;
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-style: normal;
+    font-size: 0.75rem;
+    line-height: 12px;
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.24px;
+    color: var(--color-white);
+    background:
+      linear-gradient(86deg, var(--surface-glass-block) 11%, var(--color-white-4)),
+      rgba(120, 90, 150, 0.9);
+    backdrop-filter: blur(120px);
+    -webkit-backdrop-filter: blur(120px);
+  }
+  @media (max-width: 1439px) {
+    .plans-compare {
+      padding-bottom: 200px;
+      --col: 200px;
+    }
+    .plans-compare__cloud {
+      top: -167px;
+      right: -56px;
+      width: 212px;
+      height: 212px;
+    }
+    .plans-compare__disks {
+      top: 204px;
+      left: -17px;
+      width: 212px;
+      height: 212px;
+    }
+    .plans-compare__table {
+      margin-top: 227px;
+    }
+    .plans-compare__head {
+      padding-bottom: 32px;
+      min-height: 242px;
+    }
+    .plans-compare__plan {
+      align-self: start;
+    }
+    .plans-compare__features {
+      line-height: 31.2px;
+      letter-spacing: normal;
+      margin-bottom: 0;
+    }
+    .plans-compare__group {
+      min-height: 90px;
+    }
+  }
+  @media (max-width: 991px) {
+    .plans-compare {
+      --col: 192px;
+    }
+    .plans-compare__cloud {
+      top: -191px;
+      right: -56px;
+      width: 180px;
+      height: 180px;
+    }
+    .plans-compare__disks {
+      top: 159px;
+      left: -17px;
+      width: 180px;
+      height: 180px;
+    }
+  }
+  @media (max-width: 767px) {
+    .plans-compare {
+      --col: 108px;
+    }
+    .plans-compare__head,
+    .plans-compare__row,
+    .plans-compare__group {
+      column-gap: var(--spacing-4);
+    }
+    .plans-compare__head {
+      min-height: 208px;
+      padding-bottom: 0;
+    }
+    .plans-compare__features {
+      position: absolute;
+      top: 168px;
+      font-size: var(--text-label);
+      line-height: 20px;
+    }
+    .plans-compare__name {
+      font-size: 1.125rem;
+      line-height: 19.5px;
+      margin-bottom: 52px;
+    }
+    .plans-compare__name span {
+      font-size: 0.5625rem;
+      line-height: 12px;
+    }
+    .plans-compare__col {
+      top: -29px;
+      bottom: -36px;
+      border-radius: 25px;
+    }
+    .plans-compare__col > div,
+    .plans-compare__glowtop {
+      border-radius: 24px;
+    }
+    .plans-compare__col--basic {
+      right: calc(var(--col) + var(--spacing-4));
+    }
+    .plans-compare__pop {
+      top: -12px;
+      width: 72px;
+      height: 27px;
+      border-radius: 8px;
+    }
+  }
+  /* The Subscribe buttons are 98-100px wide, so the plan columns cannot go narrower; below 360px this gives
+     the labels 74px instead of 58px at 320px. */
+  @media (max-width: 359px) {
+    .plans-compare {
+      --col: 100px;
+    }
+  }
+  @media (max-width: 479px) {
+    .plans-compare {
+      padding-bottom: 86px;
+    }
+    .plans-compare__cloud {
+      display: none;
+    }
+    .plans-compare__disks {
+      top: 66px;
+      left: -16px;
+      width: 127px;
+      height: 127px;
+    }
+    .plans-compare__table {
+      margin-top: 124px;
+    }
+    .plans-compare__group {
+      margin-left: -11px;
+      padding: var(--spacing-16) 0 var(--spacing-16) 11px;
+      min-height: 0;
+    }
+    .plans-compare__terms {
+      font-size: 0.875rem;
+      line-height: 18px;
+      margin-top: var(--spacing-8);
+    }
+    .plans-compare__row {
+      padding: var(--spacing-20) 0;
+    }
+    .plans-compare__label,
+    .plans-compare__row--tall .plans-compare__label {
+      padding: 0;
+    }
+    .plans-compare__row--tall .plans-compare__cell {
+      padding-top: 0;
+    }
+  }
+</style>
+
+<script>
+  import { onPage } from '@lib/motion';
+  import { parallax } from '@lib/parallax';
+
+  // progress of the h2 through the viewport, 0 -> 100%: cloud y 0 -> 180, disks y 0 -> -200
+  onPage(() => {
+    const root = document.querySelector<HTMLElement>('[data-section="plans-compare"]');
+    const trigger = root?.querySelector('[data-par-trigger="plan"]') ?? null;
+    parallax(root?.querySelector('[data-par="windy"]') ?? null, { to: 180, trigger, scrub: 0.6 });
+    parallax(root?.querySelector('[data-par="battery"]') ?? null, {
+      to: -200,
+      trigger,
+      scrub: 0.6,
+    });
+  });
+</script>

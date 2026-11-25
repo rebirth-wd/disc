@@ -1,0 +1,79 @@
+---
+import Section from '@components/layout/Section.astro';
+// careers-cta:
+// closing headline + CTA with two objects that drift in opposite directions on scroll.
+import Button from '@components/ui/Button.astro';
+import CareersObject from '@components/graphics/objects/CareersObject.astro';
+import Starfield from '@components/graphics/stars/Starfield.astro';
+import Heading from '@components/ui/Heading.astro';
+---
+
+<Section
+  section="careers-cta"
+  class="careers-cta relative overflow-clip py-[150px] text-center md:py-[140px] wide:py-[160px]"
+  container="ultra"
+>
+  <Starfield slot="before" density={0.5} seed={41} class="careers-cta__stars" />
+  <div class="relative mx-auto flex max-w-full flex-col items-center md:max-w-[550px] wide:max-w-[582px]">
+    <Heading level={2} size="xl" class="mb-16 md:mb-24">
+      Start your project
+    </Heading>
+    <p class="font-body text-body leading-[22px] text-white md:text-body-xl md:leading-[26px]">
+      Modern websites, built to last. Start your project and see what makes Rebirth a special place
+      to build!
+    </p>
+    <div class="h-[32px] md:h-40"></div>
+    <div
+      data-careers-float="cta-a"
+      class="pointer-events-none absolute top-[-140px] left-[-8px] w-[120px] md:top-[-160px] md:left-[-101px] md:w-[144px] xl:top-[-100px] xl:left-[-259px] xl:w-[180px] wide:left-[-334px] wide:w-[200px]"
+    >
+      <CareersObject kind="cursor" class="h-auto w-full" />
+    </div>
+    <div
+      data-careers-float="cta-b"
+      class="pointer-events-none absolute top-[232px] right-[-16px] w-[120px] md:top-[228px] md:right-[-101px] md:w-[144px] xl:top-[200px] xl:right-[-207px] xl:w-[180px] wide:top-[198px] wide:right-[-300px] wide:w-[200px]"
+    >
+      <CareersObject kind="cube" class="h-auto w-full" />
+    </div>
+    <Button variant="blurple" href="#" glow>
+      Learn More
+    </Button>
+  </div>
+</Section>
+<style>
+  .careers-cta {
+    background: linear-gradient(
+      180deg,
+      var(--color-black) 0%,
+      #020208 22%,
+      #0a0a22 62%,
+      #11112e 100%
+    );
+  }
+  .careers-cta :global(.careers-cta__stars) {
+    opacity: 0.25;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, var(--color-black) 60%);
+    mask-image: linear-gradient(180deg, transparent 0%, var(--color-black) 60%);
+  }
+</style>
+<script>
+  import { gsap, motion, onPage } from '@lib/motion';
+
+  onPage(() => {
+    // Scroll parallax on the banner (smoothing 50), 0% -> 100%:
+    // left object y -45 -> 150px, right object y -150 -> 30px.
+    motion(document.querySelector<HTMLElement>('[data-section="careers-cta"]'), (root) => {
+      const st = { trigger: root, start: 'top bottom', end: 'bottom top', scrub: 0.5 };
+      gsap.fromTo(
+        root.querySelector('[data-careers-float="cta-a"]'),
+        { y: -45 },
+        { y: 150, ease: 'none', scrollTrigger: st },
+      );
+      gsap.fromTo(
+        root.querySelector('[data-careers-float="cta-b"]'),
+        { y: -150 },
+        { y: 30, ease: 'none', scrollTrigger: { ...st } },
+      );
+    });
+  });
+</script>

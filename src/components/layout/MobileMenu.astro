@@ -1,0 +1,408 @@
+---
+// Mobile menu: the full-height dialog opened by the burger button in the header bar (under 992px).
+import Dropdown from '@components/ui/Dropdown.astro';
+import LogoMark from './LogoMark.astro';
+import type { NavItem } from '@data/navigation';
+interface Props {
+  items: readonly NavItem[];
+}
+const { items } = Astro.props;
+---
+
+<div
+  class="header__burger"
+  id="header-burger"
+  data-burger
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menu"
+>
+  <div class="header__burger-panel" data-burger-panel>
+    <div class="header__burger-top">
+      <a href="/" class="header__burger-brand" aria-label="Rebirth Web Design — home">
+        <LogoMark size={32} />
+      </a>
+      <button class="header__burger-close" type="button" aria-label="Close menu" data-burger-close>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M18 6 6 18M6 6l12 12"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+      </button>
+    </div>
+    <ul class="header__burger-list" role="list">
+      {items.map((it) =>
+        it.kind === 'link' ? (
+          <li class="header__burger-item">
+            <a href={it.href} class="header__burger-link">
+              {it.label}
+            </a>
+          </li>
+        ) : (
+          <Dropdown
+            as="li"
+            name={`header-acc-${it.id}`}
+            group="burger"
+            class="header__burger-item"
+            listClass="header__burger-sub"
+          >
+            <button
+              slot="trigger"
+              type="button"
+              class="header__burger-trigger"
+              data-dropdown-trigger
+              aria-expanded="false"
+              aria-controls={`header-acc-${it.id}-list`}
+            >
+              <span>{it.label}</span>
+              <span class="header__burger-arrow" data-dropdown-arrow>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path
+                    d="M12 6L8 10L4 6"
+                    stroke="currentColor"
+                    stroke-opacity="0.5"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </button>
+            {it.columns.flat().map((list, gi) => (
+              <div class="header__burger-group">
+                {gi === 0 && (
+                  <a href={it.href} class="header__burger-grouptitle">
+                    {it.label}
+                  </a>
+                )}
+                <div class="header__burger-sublinks">
+                  <div class="header__burger-subtitle">{list.title}</div>
+                  {list.links.map((l) => (
+                    <a href={l.href} class="header__burger-sublink">
+                      {l.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </Dropdown>
+        ),
+      )}
+    </ul>
+    <div class="header__burger-bottom">
+      <div class="header__burger-grad"></div>
+      <a href="#" class="header__burger-cta header__burger-cta--ghost">
+        Contact
+      </a>
+      <a href="/services" class="header__burger-cta">
+        Start your website
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ---------- burger ---------- */
+  .header__burger-close {
+    display: none;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: 14px;
+    background: var(--color-white-10);
+    color: var(--color-white);
+    cursor: pointer;
+    transition: background-color 0.5s;
+  }
+  .header__burger-close:hover {
+    background: var(--color-white-30);
+  }
+  .header__burger-close {
+    display: flex;
+    background: var(--color-white-30);
+    transition-duration: 0.4s;
+  }
+  .header__burger-close:focus-visible,
+  .header__burger-trigger:focus-visible,
+  .header__burger-link:focus-visible {
+    outline: 2px solid var(--color-white);
+    outline-offset: 2px;
+  }
+  .header__burger {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-menu);
+    height: 100dvh;
+    opacity: 0;
+    background: rgba(0, 0, 0, 0.8);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+  }
+  .header__burger-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 50%;
+    height: 100%;
+    margin-left: auto;
+    padding: 32px;
+    border-radius: 40px 0 0 40px;
+    background: var(--color-blurple);
+    color: var(--color-white);
+  }
+  .header__burger-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-48);
+  }
+  .header__burger-brand {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    color: var(--color-white);
+  }
+  .header__burger-list {
+    flex: 1;
+    min-height: 0;
+    margin: 0 0 var(--spacing-128);
+    padding: 0;
+    list-style: none;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .header__burger-list::-webkit-scrollbar {
+    width: 0;
+  }
+  .header__burger-item {
+    background: linear-gradient(rgba(255, 255, 255, 0.063), rgba(255, 255, 255, 0.063)) bottom /
+      100% 1px no-repeat;
+    padding-bottom: 1px;
+  }
+  .header__burger-link,
+  .header__burger-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    width: 100%;
+    padding: var(--spacing-24) 0;
+    border: 0;
+    background: none;
+    color: var(--color-white);
+    text-decoration: none;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: var(--text-nav);
+    line-height: 1;
+    font-weight: var(--font-weight-medium);
+  }
+  .header__burger-trigger {
+    padding-right: var(--spacing-16);
+    line-height: var(--leading-nav);
+  }
+  .header__burger-arrow {
+    display: flex;
+    width: 16px;
+    height: 16px;
+  }
+  :global(.header__burger-sub) {
+    padding-top: var(--spacing-8);
+  }
+  .header__burger-group {
+    padding-bottom: var(--spacing-40);
+  }
+  .header__burger-group + .header__burger-group {
+    padding-top: var(--spacing-40);
+    background: linear-gradient(var(--color-white-10), var(--color-white-10)) top / 100% 1px
+      no-repeat;
+  }
+  .header__burger-grouptitle {
+    display: inline-block;
+    margin-bottom: var(--spacing-24);
+    color: var(--color-white);
+    text-decoration: none;
+    font-size: 1.125rem;
+    line-height: 1.3;
+    font-weight: var(--font-weight-medium);
+  }
+  .header__burger-sublinks {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-12);
+  }
+  .header__burger-subtitle {
+    margin-bottom: var(--spacing-4);
+    opacity: 0.5;
+    font-size: 1.125rem;
+    line-height: 1.3;
+    font-weight: var(--font-weight-medium);
+  }
+  .header__burger-sublink {
+    color: var(--color-white);
+    text-decoration: none;
+    font-size: 1.125rem;
+    line-height: 1.2;
+    font-weight: var(--font-weight-medium);
+  }
+  .header__burger-bottom {
+    position: absolute;
+    inset: auto 0 0 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-12);
+    padding: 0 32px 32px;
+  }
+  .header__burger-grad {
+    position: absolute;
+    inset: -48px 0 auto 0;
+    height: 32px;
+    pointer-events: none;
+    background: linear-gradient(180deg, var(--color-blurple-0) 43%, var(--color-blurple) 77%);
+  }
+  .header__burger-cta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-12) var(--spacing-16);
+    border-radius: var(--radius-nav-controls);
+    background: var(--surface-white-control);
+    color: var(--color-black);
+    text-decoration: none;
+    font-size: 0.875rem;
+    line-height: 1.3;
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--tracking-button);
+    transition: background-color 0.4s;
+  }
+  .header__burger-cta:hover {
+    background: var(--color-fog);
+  }
+
+  /* 2px ring tablet "ghost" menu button */
+  .header__burger-cta--ghost {
+    background: transparent;
+    color: var(--color-white);
+    border: 2px solid var(--color-white-10);
+  }
+  .header__burger-cta--ghost:hover {
+    background: transparent;
+  }
+  @media (max-width: 767px) {
+    .header__burger-panel {
+      width: 100%;
+      border-radius: 0;
+    }
+    .header__burger-cta--ghost {
+      display: none;
+    }
+  }
+  @media (max-width: 479px) {
+    .header__burger-panel {
+      padding: var(--spacing-24);
+    }
+    .header__burger-top {
+      margin-bottom: 39px;
+    }
+    .header__burger-list {
+      margin-bottom: 117px;
+    }
+    .header__burger-link,
+    .header__burger-trigger {
+      font-size: 1.125rem;
+      line-height: 31.2px;
+    }
+    .header__burger-bottom {
+      padding: 0 35px var(--spacing-24);
+    }
+    .header__burger-cta {
+      font-size: 0.975rem;
+    }
+  }
+</style>
+
+<script>
+  import { gsap, ease, MQ, onPage, reducedMotion } from '@lib/motion';
+
+  onPage((signal) => {
+    const burger = document.querySelector<HTMLElement>('[data-burger]');
+    const panel = document.querySelector<HTMLElement>('[data-burger-panel]');
+    const openBtn = document.querySelector<HTMLElement>('[data-burger-open]');
+    const closeBtn = document.querySelector<HTMLElement>('[data-burger-close]');
+    if (!burger || !panel || !openBtn || !closeBtn) return;
+    const inSine = 'sine.in';
+    const T = (s: number) => (reducedMotion() ? 0 : s);
+    const desktop = window.matchMedia(MQ.lg);
+
+    let burgerOpen = false;
+    function toggleBurger(open: boolean, instant = false) {
+      burgerOpen = open;
+      const phone = window.matchMedia(MQ.sm).matches;
+      const d = (s: number) => (instant ? 0 : T(s));
+      openBtn!.setAttribute('aria-expanded', String(open));
+      document.documentElement.style.overflow = open ? 'hidden' : '';
+      gsap.killTweensOf([burger, panel]);
+      if (open) {
+        gsap.set(burger, { display: 'block' });
+        gsap.fromTo(burger, { opacity: 0 }, { opacity: 1, duration: d(0.2), ease: inSine });
+        gsap.fromTo(panel, { xPercent: 100 }, { xPercent: 0, duration: d(0.35), ease: ease.css });
+        if (phone)
+          gsap.fromTo(
+            panel,
+            { opacity: 0 },
+            { opacity: 1, duration: d(0.35), delay: d(0.1), ease: 'none' },
+          );
+        else gsap.set(panel, { opacity: 1 });
+        closeBtn!.focus({ preventScroll: true });
+      } else {
+        gsap.to(panel, { xPercent: 100, duration: d(0.25), ease: ease.css });
+        if (phone) gsap.to(panel, { opacity: 0, duration: d(0.25), ease: ease.css });
+        gsap.to(burger, {
+          opacity: 0,
+          duration: d(phone ? 0.25 : 0.35),
+          delay: d(phone ? 0.2 : 0),
+          ease: 'none',
+          onComplete: () => gsap.set(burger, { display: 'none' }),
+        });
+        if (!instant) openBtn!.focus({ preventScroll: true });
+      }
+    }
+    openBtn.addEventListener('click', () => toggleBurger(true), { signal });
+    closeBtn.addEventListener('click', () => toggleBurger(false), { signal });
+    burger.addEventListener(
+      'click',
+      (e) => {
+        if (e.target === burger) toggleBurger(false);
+      },
+      { signal },
+    );
+    burger
+      .querySelectorAll('a[href]')
+      .forEach((a) => a.addEventListener('click', () => toggleBurger(false, true), { signal }));
+    document.addEventListener(
+      'keydown',
+      (e) => {
+        if (e.key === 'Escape' && burgerOpen) toggleBurger(false);
+      },
+      { signal },
+    );
+    desktop.addEventListener(
+      'change',
+      () => {
+        if (burgerOpen) toggleBurger(false, true);
+      },
+      { signal },
+    );
+  });
+</script>

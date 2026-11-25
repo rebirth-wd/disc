@@ -1,0 +1,61 @@
+---
+// Question/answer list: one item opens at a time (per `group`), the answer shows instantly and the plus
+// icon fades. The icon goes in the `icon` slot and must contain the element with data-accordion-plus that
+// fades; the page styles the parts through .accordion__item, __toggle, __question, __icons and __panel.
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'div'> {
+  /** Prefix of the answer ids the toggles point at with aria-controls. */
+  name: string;
+  items: readonly { question: string; answer: string }[];
+  /** Accordions with the same group open one item at a time together (a tabbed FAQ, a revealed list). */
+  group?: string;
+  /** False takes the toggles out of the tab order (an accordion that is not revealed yet). */
+  focusable?: boolean;
+  /** Classes for the question text. */
+  questionClass?: string;
+}
+const {
+  name,
+  items,
+  group,
+  focusable = true,
+  questionClass,
+  class: className,
+  ...rest
+} = Astro.props;
+---
+
+<div class={className} data-accordion data-accordion-group={group} {...rest}>
+  {items.map(({ question, answer }, i) => (
+    <div class="accordion__item" data-accordion-item>
+      <button
+        type="button"
+        class="accordion__toggle"
+        data-accordion-toggle
+        aria-expanded="false"
+        aria-controls={`${name}-panel-${i}`}
+        tabindex={focusable ? undefined : -1}
+      >
+        <span class:list={['accordion__question', questionClass]}>{question}</span>
+        <span class="accordion__icons" aria-hidden="true">
+          <slot name="icon" />
+        </span>
+      </button>
+      <div class="accordion__panel" id={`${name}-panel-${i}`} data-accordion-panel hidden>
+        <p>{answer}</p>
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .accordion__panel[hidden] {
+    display: none;
+  }
+</style>
+
+<script>
+  import { onPage } from '@lib/motion';
+  import { initAccordions } from '@lib/accordion';
+  onPage(initAccordions);
+</script>

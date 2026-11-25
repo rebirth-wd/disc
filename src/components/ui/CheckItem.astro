@@ -1,0 +1,64 @@
+---
+// A list row with a white check mark; the text goes in the default slot.
+interface Props {
+  /** Drops the bottom margin on the last row of a list. */
+  last?: boolean;
+  /** Highlights the row with a green glow behind it. */
+  glow?: boolean;
+}
+const { last = false, glow = false } = Astro.props;
+---
+
+<div class:list={['check-item', last && 'check-item--last', glow && 'check-item--glow']}>
+  <svg viewBox="0 0 24 25" fill="none" aria-hidden="true">
+    <path
+      d="m5.5 13 4.2 4.2L18.5 8"
+      stroke="#fff"
+      stroke-width="2.2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+  <span class="font-body text-body leading-[22px] font-normal xs:text-body-xl xs:leading-[26px]">
+    <slot />
+  </span>
+  {glow && <i class="check-item__glow" />}
+</div>
+
+<style>
+  .check-item {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    margin: 0 0 var(--spacing-20);
+  }
+  .check-item--last {
+    margin-bottom: 0;
+  }
+  .check-item--glow {
+    min-height: 27px;
+  }
+  .check-item__glow {
+    position: absolute;
+    inset: 0;
+    margin: -10px -16px;
+    border-radius: 24px;
+    background: #002920;
+    z-index: 0;
+    box-shadow:
+      0 0 80px 0 rgba(53, 237, 126, 0.3),
+      0 0 23px 0 rgba(53, 237, 126, 0.7);
+  }
+  .check-item > svg {
+    flex: none;
+    width: 24px;
+    height: 25px;
+    margin: 0.5px var(--spacing-16) 0.5px 0;
+    position: relative;
+    z-index: 1;
+  }
+  .check-item > span {
+    position: relative;
+    z-index: 1;
+  }
+</style>

@@ -1,0 +1,298 @@
+---
+import CheckItem from '@components/ui/CheckItem.astro';
+import Section from '@components/layout/Section.astro';
+import { Image } from 'astro:assets';
+import PlansDemo from '@components/graphics/loops/PlansDemo.astro';
+import Heading from '@components/ui/Heading.astro';
+import { whatsNewCards, whatsNewPoints, whatsNewTiles } from '@data/plans';
+---
+
+<Section section="plans-whats-new" class="plans-whats-new">
+  <Heading level={2} size="lg" italic class="plans-whats-new__title text-center">
+    What’s new
+  </Heading>
+  <div class="plans-whats-new__grid">
+    <div class="plans-whats-new__banner">
+      <div class="plans-whats-new__collage" aria-hidden="true">
+        <div class="plans-whats-new__tiles">
+          {whatsNewTiles.map((t) => (
+            <Image
+              src={t}
+              alt=""
+              width={420}
+              height={520}
+              class="plans-whats-new__tile"
+              loading="lazy"
+            />
+          ))}
+        </div>
+      </div>
+      <div class="plans-whats-new__body">
+        <div class="plans-whats-new__logo">
+          <svg viewBox="0 0 72 72" fill="none" aria-hidden="true">
+            <circle cx="36" cy="36" r="36" fill="#fff" />
+            <rect x="17" y="22" width="38" height="28" rx="11" fill="#012a20" />
+            <rect x="26" y="30" width="6" height="12" rx="3" fill="#57f287" />
+            <rect x="40" y="30" width="6" height="12" rx="3" fill="#57f287" />
+            <path d="M36 22v-8" stroke="#012a20" stroke-width="4" stroke-linecap="round" />
+            <circle cx="36" cy="12" r="4" fill="#012a20" />
+          </svg>
+          <span>AI Site Assistant</span>
+        </div>
+        {whatsNewPoints.map((t, i) => (
+          <CheckItem last={i === whatsNewPoints.length - 1}>{t}</CheckItem>
+        ))}
+        <a href="#faq" class="plans-whats-new__terms">
+          Terms and eligibility rules apply.
+        </a>
+      </div>
+    </div>
+    {whatsNewCards.map((c) => (
+      <article class="plans-whats-new__card">
+        <div class="plans-whats-new__media">
+          <PlansDemo kind={c.kind} />
+        </div>
+        <div class="plans-whats-new__text">
+          <Heading level={3} size="md" italic class="plans-whats-new__heading">
+            {c.title}
+          </Heading>
+          <p class="font-body text-body leading-[22px] font-normal xs:text-body-xl xs:leading-[26px]">
+            {c.text}
+          </p>
+        </div>
+      </article>
+    ))}
+  </div>
+</Section>
+
+<style>
+  .plans-whats-new {
+    position: relative;
+    padding-bottom: 160px;
+  }
+  .plans-whats-new__title {
+    margin-bottom: 72px;
+  }
+  .plans-whats-new__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-20);
+  }
+  .plans-whats-new__banner {
+    grid-column: 1 / -1;
+    position: relative;
+    overflow: clip;
+    border-radius: 96px;
+    padding: 190px 120px;
+    background: var(--color-midnight-green);
+  }
+  .plans-whats-new__collage {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .plans-whats-new__tiles {
+    position: absolute;
+    top: 50%;
+    right: -150px;
+    width: 860px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-24);
+    transform: translateY(-50%) rotate(-14deg);
+  }
+  .plans-whats-new__tiles :global(.plans-whats-new__tile) {
+    width: 100%;
+    height: 330px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+  .plans-whats-new__collage::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        var(--color-midnight-green) 0%,
+        var(--color-midnight-green) 34%,
+        rgba(1, 42, 32, 0.78) 52%,
+        rgba(1, 42, 32, 0.25) 72%,
+        rgba(1, 42, 32, 0) 88%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.25),
+        var(--color-black-0) 30%,
+        var(--color-black-0) 70%,
+        rgba(0, 0, 0, 0.35)
+      );
+  }
+  .plans-whats-new__body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 576px;
+  }
+  .plans-whats-new__logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    height: 71.6px;
+    margin-bottom: var(--spacing-36);
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-medium);
+    font-size: 3.125rem;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .plans-whats-new__logo svg {
+    width: 72px;
+    height: 72px;
+    flex: none;
+  }
+  .plans-whats-new__terms {
+    margin-top: var(--spacing-40);
+    font-size: var(--text-body);
+    line-height: 24px;
+    color: var(--color-white);
+    text-decoration: underline;
+  }
+  .plans-whats-new__card {
+    background: #1a1a1e;
+    border-radius: 96px;
+    padding: 32px 32px var(--spacing-56);
+    box-shadow: 0 2px 32px 0 rgba(69, 42, 124, 0.1);
+  }
+  .plans-whats-new__media {
+    position: relative;
+    z-index: 1;
+    aspect-ratio: 526 / 459.375;
+    border-radius: 96px;
+    overflow: hidden;
+    margin-bottom: var(--spacing-24);
+  }
+  .plans-whats-new__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-8);
+    padding: 0 var(--spacing-24);
+  }
+  .plans-whats-new__heading {
+    margin-bottom: var(--spacing-16);
+    white-space: nowrap;
+  }
+  @media (max-width: 1439px) {
+    .plans-whats-new {
+      padding-bottom: 120px;
+    }
+    .plans-whats-new__title {
+      margin-bottom: 60px;
+    }
+    .plans-whats-new__banner {
+      border-radius: 56px;
+      padding: 162px 64px;
+    }
+    .plans-whats-new__tiles {
+      right: -260px;
+    }
+    .plans-whats-new__logo {
+      font-size: 2.875rem;
+      height: 56px;
+    }
+    .plans-whats-new__logo svg {
+      width: 56px;
+      height: 56px;
+    }
+    .plans-whats-new__card {
+      border-radius: 56px;
+      padding: var(--spacing-24) var(--spacing-24) var(--spacing-40);
+    }
+    .plans-whats-new__media {
+      border-radius: 56px;
+    }
+    .plans-whats-new__text {
+      padding: 0 var(--spacing-16);
+    }
+    .plans-whats-new__heading {
+      white-space: normal;
+    }
+  }
+  @media (max-width: 991px) {
+    .plans-whats-new__banner {
+      padding: 162px var(--spacing-56);
+    }
+    .plans-whats-new__tiles {
+      right: -420px;
+      opacity: 0.8;
+    }
+  }
+  /* Two card columns share 100vw - 100px; "REPAIRS" is 5.3em and the text box is 80px narrower than its card, so
+     below 600px the heading shrinks until the word fits and the grid stops growing past the viewport (the extra
+     selector outranks Heading's own size rule). */
+  @media (min-width: 480px) and (max-width: 599px) {
+    .plans-whats-new__text .plans-whats-new__heading {
+      font-size: min(2rem, calc((100vw - 260px) / 11));
+    }
+  }
+  @media (max-width: 479px) {
+    .plans-whats-new {
+      padding-bottom: 100px;
+    }
+    .plans-whats-new__title {
+      margin-bottom: var(--spacing-56);
+    }
+    .plans-whats-new__grid {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-16);
+    }
+    .plans-whats-new__banner {
+      border-radius: 40px;
+      padding: 190px var(--spacing-24) var(--spacing-24);
+    }
+    .plans-whats-new__tiles {
+      top: 60px;
+      right: -180px;
+      width: 560px;
+      gap: var(--spacing-12);
+    }
+    .plans-whats-new__tiles :global(.plans-whats-new__tile) {
+      height: 200px;
+    }
+    .plans-whats-new__collage::after {
+      background: linear-gradient(
+        180deg,
+        rgba(1, 42, 32, 0) 0%,
+        rgba(1, 42, 32, 0.55) 22%,
+        var(--color-midnight-green) 40%
+      );
+    }
+    .plans-whats-new__logo {
+      font-size: 1.625rem;
+      height: 37px;
+      gap: var(--spacing-8);
+      margin-bottom: var(--spacing-24);
+    }
+    .plans-whats-new__logo svg {
+      width: 36px;
+      height: 36px;
+    }
+    .plans-whats-new__terms {
+      margin-top: var(--spacing-24);
+    }
+    .plans-whats-new__card {
+      border-radius: 40px;
+      padding: var(--spacing-16) var(--spacing-16) var(--spacing-24);
+    }
+    .plans-whats-new__media {
+      border-radius: 40px;
+    }
+    .plans-whats-new__text {
+      padding: 0 var(--spacing-8);
+      text-align: center;
+    }
+  }
+</style>

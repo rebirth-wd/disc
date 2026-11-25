@@ -1,0 +1,419 @@
+---
+// Original hero illustration (stage 832×480).
+// One fluid SVG: a tilted browser window showing a site/performance dashboard, a phone mock,
+// an origami phoenix, a cactus buddy, a hovering bolt, a keyboard slab and a rocket.
+// Animated parts carry data-hero hooks (driven from Hero.astro): bob, bob-shadow, wobble.
+import { getImage } from 'astro:assets';
+import neon from '@assets/photos/hero-neon.jpg';
+
+const shotSite = await getImage({
+  src: neon,
+  width: 760,
+  height: 400,
+  fit: 'cover',
+  position: 'centre',
+  format: 'webp',
+  quality: 72,
+});
+const shotPhone = await getImage({
+  src: neon,
+  width: 280,
+  height: 260,
+  fit: 'cover',
+  position: 'right top',
+  format: 'webp',
+  quality: 72,
+});
+
+// keyboard slab: keys laid out on the parallelogram A→B (long edge) / A→D (short edge)
+const A = [172, 424],
+  B = [292, 396],
+  D = [202, 450];
+const P = (u: number, v: number) => [
+  A[0] + u * (B[0] - A[0]) + v * (D[0] - A[0]),
+  A[1] + u * (B[1] - A[1]) + v * (D[1] - A[1]),
+];
+const keyFills = [
+  '#c9c2ff',
+  '#8c95ff',
+  '#8c95ff',
+  '#c9c2ff',
+  '#8c95ff',
+  '#eb459e',
+  '#8c95ff',
+  '#c9c2ff',
+  '#57f287',
+];
+const keys: { pts: string; fill: string }[] = [];
+for (let r = 0; r < 3; r++)
+  for (let c = 0; c < 9; c++) {
+    const u0 = 0.04 + c * 0.104,
+      u1 = u0 + 0.082,
+      v0 = 0.1 + r * 0.29,
+      v1 = v0 + 0.21;
+    keys.push({
+      pts: [P(u0, v0), P(u1, v0), P(u1, v1), P(u0, v1)]
+        .map((p) => p.map((n) => n.toFixed(1)).join(','))
+        .join(' '),
+      fill: keyFills[(c + r * 4) % keyFills.length],
+    });
+  }
+const bars = [22, 30, 26, 38, 44, 40, 54];
+---
+
+<svg
+  class="hero-illustration"
+  viewBox="0 0 832 480"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label="Illustration: a browser window showing a website scoring 100 for performance, with a phone, a paper phoenix, a cactus and a rocket"
+>
+  <defs>
+    <clipPath id="hero-illustration-site">
+      <path d="M22 34h230a10 10 0 0 1 10 10v120H12V44a10 10 0 0 1 10-10Z" />
+    </clipPath>
+    <clipPath id="hero-illustration-phone">
+      <path d="M17 8h62a9 9 0 0 1 9 9v67H8V17a9 9 0 0 1 9-9Z" />
+    </clipPath>
+    <linearGradient id="hero-illustration-fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0.35" stop-color="#12133a" stop-opacity="0" />
+      <stop offset="1" stop-color="#12133a" stop-opacity="0.92" />
+    </linearGradient>
+    <linearGradient id="hero-illustration-side" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6d78ff" />
+      <stop offset="1" stop-color="#2c2fa0" />
+    </linearGradient>
+  </defs>
+
+  <!-- ground shadows -->
+  <g fill="#070838" opacity="0.45">
+    <ellipse cx="392" cy="486" rx="250" ry="11" />
+    <ellipse cx="58" cy="514" rx="62" ry="6" />
+    <ellipse cx="604" cy="462" rx="92" ry="8" />
+  </g>
+
+  <g transform="translate(-25 0)">
+    <!-- monitor stand -->
+    <path d="M330 360l96-14 10 96-116 10Z" fill="#2c2fa0" />
+    <path d="M426 346l22 8 8 90-20-2Z" fill="#1f2185" />
+    <path d="M262 452l196-14 44 22-204 20Z" fill="#3a3fc4" />
+    <path d="M298 480l204-20v8l-204 20Z" fill="#23257f" />
+    <path d="M262 452l36 28v8l-36-28Z" fill="#2c2fa0" />
+
+    <!-- browser window: side slab (depth) + tilted face -->
+    <path d="M616.6 21.2l26 12-41 304-25.3-12.6Z" fill="url(#hero-illustration-side)" />
+    <path d="M624 92l10 4.6-12 90-10-4.8Z" fill="#8c95ff" opacity="0.7" />
+    <path d="M164.7 383.8l410.6-58.8 25.3 12.6-412 60Z" fill="#23257f" />
+    <g transform="matrix(0.98 -0.14 -0.13 0.98 205 80)">
+      <rect width="420" height="310" rx="16" fill="#12133a" />
+      <!-- chrome -->
+      <rect x="15" y="12" width="9" height="9" rx="2" fill="#eb459e" />
+      <rect x="29" y="12" width="9" height="9" rx="2" fill="#fee75c" />
+      <rect x="43" y="12" width="9" height="9" rx="2" fill="#57f287" />
+      <rect x="76" y="8" width="226" height="17" rx="8.5" fill="#23256a" />
+      <rect x="85" y="13" width="7" height="7" rx="1.5" fill="#57f287" />
+      <text x="98" y="20" class="hero-illustration__t hero-illustration__t--url">
+        rebirthwebdesign.com.au
+      </text>
+      <rect x="362" y="8" width="46" height="17" rx="8.5" fill="#57f287" />
+      <text
+        x="385"
+        y="20"
+        class="hero-illustration__t hero-illustration__t--live"
+        text-anchor="middle"
+      >
+        LIVE
+      </text>
+
+      <!-- site preview -->
+      <rect x="12" y="34" width="250" height="264" rx="10" fill="#1b1d55" />
+      <image
+        href={shotSite.src}
+        x="12"
+        y="34"
+        width="250"
+        height="131.6"
+        preserveAspectRatio="xMidYMid slice"
+        clip-path="url(#hero-illustration-site)"
+      />
+      <rect
+        x="12"
+        y="34"
+        width="250"
+        height="131"
+        fill="url(#hero-illustration-fade)"
+        clip-path="url(#hero-illustration-site)"
+      />
+      <rect x="24" y="45" width="16" height="6" rx="3" fill="#fff" />
+      <rect x="192" y="45" width="16" height="5" rx="2.5" fill="#fff" opacity="0.7" />
+      <rect x="213" y="45" width="16" height="5" rx="2.5" fill="#fff" opacity="0.7" />
+      <rect x="234" y="45" width="16" height="5" rx="2.5" fill="#fff" opacity="0.7" />
+      <rect x="24" y="96" width="132" height="12" rx="3" fill="#fff" />
+      <rect x="24" y="113" width="96" height="12" rx="3" fill="#fff" />
+      <rect x="24" y="135" width="58" height="17" rx="5" fill="#57f287" />
+      <rect x="88" y="135" width="58" height="17" rx="5" fill="#5865f2" />
+      <g>
+        <rect x="22" y="176" width="72" height="58" rx="8" fill="#262a78" />
+        <rect x="31" y="185" width="16" height="16" rx="4" fill="#eb459e" />
+        <rect x="31" y="208" width="52" height="5" rx="2.5" fill="#8c95ff" />
+        <rect x="31" y="218" width="36" height="5" rx="2.5" fill="#5865f2" />
+        <rect x="101" y="176" width="72" height="58" rx="8" fill="#262a78" />
+        <rect x="110" y="185" width="16" height="16" rx="4" fill="#57f287" />
+        <rect x="110" y="208" width="52" height="5" rx="2.5" fill="#8c95ff" />
+        <rect x="110" y="218" width="30" height="5" rx="2.5" fill="#5865f2" />
+        <rect x="180" y="176" width="72" height="58" rx="8" fill="#262a78" />
+        <rect x="189" y="185" width="16" height="16" rx="4" fill="#fee75c" />
+        <rect x="189" y="208" width="52" height="5" rx="2.5" fill="#8c95ff" />
+        <rect x="189" y="218" width="42" height="5" rx="2.5" fill="#5865f2" />
+      </g>
+      <rect x="22" y="246" width="230" height="6" rx="3" fill="#2f3391" />
+      <rect x="22" y="259" width="188" height="6" rx="3" fill="#2f3391" />
+      <rect x="22" y="272" width="210" height="6" rx="3" fill="#2f3391" />
+
+      <!-- performance column -->
+      <rect x="272" y="34" width="136" height="132" rx="10" fill="#1b1d55" />
+      <text x="284" y="52" class="hero-illustration__t hero-illustration__t--label">
+        PERFORMANCE
+      </text>
+      <circle cx="340" cy="104" r="36" fill="none" stroke="#262a78" stroke-width="10" />
+      <circle
+        cx="340"
+        cy="104"
+        r="36"
+        fill="none"
+        stroke="#57f287"
+        stroke-width="10"
+        stroke-dasharray="214 226.2"
+        transform="rotate(-90 340 104)"
+      />
+      <text
+        x="340"
+        y="112"
+        class="hero-illustration__t hero-illustration__t--score"
+        text-anchor="middle"
+      >
+        100
+      </text>
+      <rect x="272" y="174" width="136" height="124" rx="10" fill="#1b1d55" />
+      {['LCP', 'INP', 'CLS'].map((l, i) => (
+        <g transform={`translate(0 ${i * 15})`}>
+          <text x="284" y="193" class="hero-illustration__t hero-illustration__t--label">
+            {l}
+          </text>
+          <rect x="308" y="187" width="62" height="6" rx="3" fill="#262a78" />
+          <rect
+            x="308"
+            y="187"
+            width={[56, 50, 60][i]}
+            height="6"
+            rx="3"
+            fill={['#57f287', '#57f287', '#35ed7e'][i]}
+          />
+          <text
+            x="398"
+            y="193"
+            class="hero-illustration__t hero-illustration__t--val"
+            text-anchor="end"
+          >
+            {['0.8s', '48ms', '0.00'][i]}
+          </text>
+        </g>
+      ))}
+      {bars.map((h, i) => (
+        <rect
+          x={284 + i * 16.5}
+          y={290 - h}
+          width="11"
+          height={h}
+          rx="2.5"
+          fill={i === 6 ? '#eb459e' : i > 3 ? '#8c95ff' : '#5865f2'}
+        />
+      ))}
+    </g>
+  </g>
+  <!-- floating chips on the window -->
+  <g transform="rotate(-11 150 236)">
+    <rect x="120" y="218" width="62" height="36" rx="9" fill="#eb459e" />
+    <path
+      d="M140 228l-9 8 9 8M162 228l9 8-9 8M154 226l-6 20"
+      fill="none"
+      stroke="#fff"
+      stroke-width="3.4"
+      stroke-linecap="square"
+    />
+  </g>
+  <g transform="rotate(9 590 66)">
+    <path d="M566 50h50v34h-50z" fill="#fee75c" />
+    <path d="M566 84l10 10v-10z" fill="#d9bc2e" />
+    <text
+      x="591"
+      y="74"
+      class="hero-illustration__t hero-illustration__t--chip"
+      text-anchor="middle"
+    >
+      A+
+    </text>
+  </g>
+
+  <!-- phoenix (origami bird) -->
+  <g data-art="phoenix" transform="translate(-24 0)">
+    <path d="M60 440L8 502l34-46Z" fill="#b02d7c" />
+    <path d="M64 448l-38 66 32-42Z" fill="#eb459e" />
+    <path d="M70 452l-20 66 26-42Z" fill="#fee75c" />
+    <path d="M78 468l-7 40M96 468l5 40" stroke="#fee75c" stroke-width="5" fill="none" />
+    <path d="M71 508l-14 6h18ZM101 508l14 6H97Z" fill="#f5c93a" />
+    <path d="M70 402L18 296l36 36-14-54 46 62 12 54Z" fill="#9b5cf6" />
+    <path d="M70 402L18 296l44 56Z" fill="#7b3fe4" />
+    <path d="M40 278l46 62-24 12Z" fill="#b48cff" />
+    <path d="M56 400l56-20 6 70-34 28-26-26Z" fill="#eb459e" />
+    <path d="M84 478l34-28-18-30Z" fill="#f47fbf" />
+    <path d="M56 400l28 18 28-38Z" fill="#c9307f" />
+    <path d="M100 396l48-98-18 62 28-16-34 68Z" fill="#fee75c" />
+    <path d="M100 396l30-36-6 52Z" fill="#f5c93a" />
+    <path d="M104 384l14-56 22 12-12 52Z" fill="#eb459e" />
+    <path d="M116 334l16-28 18 18-10 20Z" fill="#f47fbf" />
+    <path d="M148 321l22 9-26 8Z" fill="#fee75c" />
+    <path d="M124 312l-6-26 16 18Z" fill="#57f287" />
+    <path d="M131 306l3-27 10 30Z" fill="#35ed7e" />
+    <rect x="135" y="319" width="5.5" height="5.5" fill="#14164a" />
+  </g>
+
+  <!-- keyboard slab -->
+  <g data-art="keyboard">
+    <path d="M172 424l120-28 32 22-122 32Z" fill="#5865f2" />
+    <path d="M172 424l30 26v11l-30-26Z" fill="#3a3fc4" />
+    <path d="M202 450l122-32v11l-122 32Z" fill="#2c2fa0" />
+    {keys.map((k) => (
+      <polygon points={k.pts} fill={k.fill} />
+    ))}
+  </g>
+
+  <!-- cactus buddy + wobbling flower -->
+  <g data-art="cactus">
+    <path
+      d="M336 402l-18-4-4-22 10-4 2 16 10 2ZM384 410l18-6 4-18-10-4-2 14-10 2Z"
+      fill="#2bc267"
+    />
+    <path d="M340 432l-4-52 12-22h24l12 22-4 52Z" fill="#57f287" />
+    <path d="M360 358h12l12 22-4 52h-20Z" fill="#35ed7e" />
+    <rect x="348" y="392" width="6" height="6" fill="#14164a" />
+    <rect x="366" y="392" width="6" height="6" fill="#14164a" />
+    <path d="M352 406h16v4h-16z" fill="#14164a" />
+    <path d="M310 428h100l-6 14h-88Z" fill="#b48cff" />
+    <path d="M316 442h88l-10 40h-68Z" fill="#7b5cf0" />
+    <path d="M360 442h44l-10 40h-34Z" fill="#6344d6" />
+  </g>
+  <g data-hero="wobble">
+    <path d="M360 322l8 18 18-5-11 14 10 14-25-6-25 6 10-14-11-14 18 5Z" fill="#eb459e" />
+    <path d="M360 322l8 18 18-5-11 14-15 1Z" fill="#f47fbf" />
+    <path d="M360 342l8 8-8 8-8-8Z" fill="#fee75c" />
+  </g>
+
+  <!-- hovering bolt + its ground shadow -->
+  <ellipse data-hero="bob-shadow" cx="140" cy="484" rx="21" ry="3" fill="#070838" opacity="0.7" />
+  <g data-hero="bob">
+    <path d="M150 414l-34 40h20l-12 26 42-42h-22l14-24Z" fill="#fee75c" />
+    <path d="M150 414l-34 40h20l8-14Z" fill="#fff3a6" />
+    <path d="M124 480l42-42h-12Z" fill="#f5c93a" />
+    <path d="M168 416h4v4h4v4h-4v4h-4v-4h-4v-4h4Z" fill="#fff" />
+  </g>
+
+  <!-- phone -->
+  <path d="M606 226l12 7 8 198-12 9Z" fill="#23257f" />
+  <g transform="matrix(0.995 0.045 -0.03 1 520 218)">
+    <rect width="96" height="220" rx="17" fill="#3a2fa8" />
+    <rect x="5" y="5" width="86" height="210" rx="12" fill="#0f1036" />
+    <image
+      href={shotPhone.src}
+      x="8"
+      y="8"
+      width="80"
+      height="76"
+      preserveAspectRatio="xMidYMid slice"
+      clip-path="url(#hero-illustration-phone)"
+    />
+    <rect x="34" y="12" width="28" height="6" rx="3" fill="#0f1036" />
+    <rect x="14" y="62" width="44" height="7" rx="2" fill="#fff" />
+    <rect x="14" y="73" width="28" height="5" rx="2" fill="#fff" opacity="0.75" />
+    <rect x="12" y="92" width="72" height="34" rx="7" fill="#262a78" />
+    <rect x="18" y="98" width="14" height="14" rx="4" fill="#eb459e" />
+    <rect x="37" y="99" width="38" height="5" rx="2.5" fill="#c9c2ff" />
+    <rect x="37" y="108" width="26" height="4" rx="2" fill="#5865f2" />
+    <rect x="18" y="117" width="24" height="4" rx="2" fill="#5865f2" />
+    <rect x="12" y="132" width="72" height="34" rx="7" fill="#262a78" />
+    <rect x="18" y="138" width="14" height="14" rx="4" fill="#57f287" />
+    <rect x="37" y="139" width="32" height="5" rx="2.5" fill="#c9c2ff" />
+    <rect x="37" y="148" width="40" height="4" rx="2" fill="#5865f2" />
+    <rect x="18" y="157" width="30" height="4" rx="2" fill="#5865f2" />
+    <rect x="12" y="174" width="72" height="20" rx="7" fill="#57f287" />
+    <rect x="30" y="181.5" width="36" height="5" rx="2.5" fill="#14164a" />
+    <rect x="36" y="203" width="24" height="4" rx="2" fill="#5865f2" />
+  </g>
+
+  <!-- rocket -->
+  <g data-art="rocket">
+    <path d="M656 414l12 40 12-40Z" fill="#fee75c" />
+    <path d="M662 414l6 22 6-22Z" fill="#eb459e" />
+    <path d="M648 362l-22 50 22-10ZM688 362l22 50-22-10Z" fill="#eb459e" />
+    <path d="M688 362l22 50-22-10Z" fill="#b02d7c" />
+    <path d="M648 302l20-52 20 52v100h-40Z" fill="#edeaff" />
+    <path d="M668 250l20 52v100h-20Z" fill="#c9c2ff" />
+    <path d="M658 276l10-26 10 26Z" fill="#eb459e" />
+    <path d="M668 250l10 26h-10Z" fill="#b02d7c" />
+    <path d="M668 316l12 7v14l-12 7-12-7v-14Z" fill="#5865f2" />
+    <path d="M668 316l12 7v14l-12 7Z" fill="#3a3fc4" />
+    <path d="M656 402h24l4 12h-32Z" fill="#3a3fc4" />
+  </g>
+
+  <!-- sparkles -->
+  <g fill="#fff">
+    <path d="M704 196h5v8h8v5h-8v8h-5v-8h-8v-5h8Z" />
+    <path d="M118 150h4v6h6v4h-6v6h-4v-6h-6v-4h6Z" opacity="0.8" />
+    <rect x="742" y="298" width="5" height="5" opacity="0.8" />
+    <rect x="96" y="246" width="4" height="4" opacity="0.7" />
+  </g>
+</svg>
+
+<style>
+  .hero-illustration {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .hero-illustration__t {
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-medium);
+    fill: var(--color-white);
+  }
+  .hero-illustration__t--url {
+    font-size: 8.5px;
+    fill: #c9c2ff;
+    letter-spacing: 0.1px;
+  }
+  .hero-illustration__t--live {
+    font-size: 8px;
+    fill: #14164a;
+    letter-spacing: 0.6px;
+  }
+  .hero-illustration__t--label {
+    font-size: 7.5px;
+    fill: #c9c2ff;
+    letter-spacing: 0.5px;
+  }
+  .hero-illustration__t--val {
+    font-size: 7.5px;
+  }
+  .hero-illustration__t--score {
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-bold);
+    font-size: 21px;
+    letter-spacing: -0.2px;
+  }
+  .hero-illustration__t--chip {
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-extrabold);
+    font-size: 17px;
+    fill: #14164a;
+  }
+</style>

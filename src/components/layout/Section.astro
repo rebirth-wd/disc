@@ -1,0 +1,94 @@
+---
+// Page section root: carries the required data-section, the page gutters and an optional centred container.
+// Gutters are 6vw, 40px from 480px, 80px from 992px and 120px from 1440px. The container is 944px wide, or
+// 1200px (narrow), 1538px (wide) or 1800px (ultra) from 1440px. Sections with their own geometry keep their own markup.
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'section'> {
+  /** Value of `data-section` (the regression gate keys on it). */
+  section: string;
+  id?: string;
+  as?: 'section' | 'div';
+  /** `none` leaves the content to span the gutters. `before`/`after` slots hold decor that sits beside the gutters. */
+  container?: 'narrow' | 'wide' | 'ultra' | 'none';
+  /** Vertical padding of 50px, 60px from 480px and 80px from 1440px. */
+  padding?: 'none' | 'section';
+  class?: string;
+}
+const {
+  section,
+  as: Tag = 'section',
+  container = 'narrow',
+  padding = 'none',
+  class: cls = '',
+  ...rest
+} = Astro.props;
+---
+
+<Tag
+  data-section={section}
+  class:list={['section', padding === 'section' && 'section--spaced', cls]}
+  {...rest}
+>
+  <slot name="before" />
+  <div class="section__gutter">
+    {container === 'none' ? (
+      <slot />
+    ) : (
+      <div class:list={['section__container', `section__container--${container}`]}>
+        <slot />
+      </div>
+    )}
+  </div>
+  <slot name="after" />
+</Tag>
+
+<style>
+  .section {
+    position: relative;
+  }
+  .section--spaced {
+    padding: 50px 0;
+  }
+  .section__gutter {
+    box-sizing: border-box;
+    width: 100%;
+    padding-inline: 6vw;
+  }
+  /* Above the section's decor layers */
+  .section__container {
+    position: relative;
+    z-index: 2;
+    max-width: 944px;
+    margin-inline: auto;
+  }
+  @media (min-width: 480px) {
+    .section--spaced {
+      padding: 60px 0;
+    }
+    .section__gutter {
+      padding-inline: var(--spacing-40);
+    }
+  }
+  @media (min-width: 992px) {
+    .section__gutter {
+      padding-inline: 80px;
+    }
+  }
+  @media (min-width: 1440px) {
+    .section--spaced {
+      padding: 80px 0;
+    }
+    .section__gutter {
+      padding-inline: 120px;
+    }
+    .section__container--narrow {
+      max-width: 1200px;
+    }
+    .section__container--wide {
+      max-width: 1538px;
+    }
+    .section__container--ultra {
+      max-width: 1800px;
+    }
+  }
+</style>

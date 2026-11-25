@@ -1,0 +1,123 @@
+---
+// Markup shared by every carousel: the labelled region, the viewport the engine in @lib/carousel moves the
+// slides in, and optionally prev/next arrow buttons. Slides go in the default slot (each needs data-slide,
+// role="group", aria-roledescription="slide" and an "n / N" label); `before` and `after` slots sit before
+// the viewport and after it (bullets, extra controls).
+interface Props {
+  label: string;
+  class?: string;
+  viewportClass?: string;
+  /** Adds the element the engine moves along with the track, for scroll-linked effects to read. */
+  probe?: boolean;
+  /** Prev/next buttons; `class` positions their wrapper. */
+  arrows?: { prev: string; next: string; class: string };
+}
+const { label, class: className, viewportClass, probe = false, arrows } = Astro.props;
+---
+
+<div
+  data-carousel
+  class={className}
+  role="region"
+  aria-roledescription="carousel"
+  aria-label={label}
+>
+  <slot name="before" />
+  <div data-carousel-viewport class:list={['carousel__viewport', viewportClass]}>
+    {probe && <i data-carousel-probe class="absolute h-0 w-0" aria-hidden="true"></i>}
+    <slot />
+  </div>
+  <slot name="after" />
+  {arrows && (
+    <div class={arrows.class}>
+      <button type="button" data-carousel-prev class="carousel__arrow" aria-label={arrows.prev}>
+        <span class="carousel__arrow-bg" aria-hidden="true"></span>
+        <svg
+          class="relative"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M14.5 6 8.5 12l6 6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+      <button type="button" data-carousel-next class="carousel__arrow" aria-label={arrows.next}>
+        <span class="carousel__arrow-bg" aria-hidden="true"></span>
+        <svg
+          class="relative"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="m9.5 6 6 6-6 6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+  )}
+</div>
+
+<style>
+  .carousel__viewport {
+    touch-action: pan-y;
+  }
+  .carousel__arrow {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-nav-controls);
+    background: transparent;
+    color: var(--color-white);
+    cursor: pointer;
+    pointer-events: auto;
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+  }
+  .carousel__arrow-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-nav-controls);
+    background: var(--color-white);
+    opacity: 0.1;
+  }
+  .carousel__arrow:focus-visible {
+    outline: 2px solid var(--color-signal-green);
+    outline-offset: 3px;
+  }
+</style>
+
+<script>
+  import { gsap, ease, onPage } from '@lib/motion';
+
+  // arrow hover: background opacity .1 -> .3, 300ms ease
+  onPage((signal) => {
+    document.querySelectorAll<HTMLElement>('.carousel__arrow').forEach((arrow) => {
+      const bg = arrow.querySelector('.carousel__arrow-bg');
+      const fade = (opacity: number) =>
+        gsap.to(bg, { opacity, duration: 0.3, ease: ease.css, overwrite: true });
+      arrow.addEventListener('mouseenter', () => fade(0.3), { signal });
+      arrow.addEventListener('mouseleave', () => fade(0.1), { signal });
+    });
+  });
+</script>

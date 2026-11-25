@@ -1,0 +1,326 @@
+---
+import Section from '@components/layout/Section.astro';
+// "Explore our…" accordion-style tabs + media pane
+import LaunchMock from '@components/graphics/mocks/LaunchMock.astro';
+import Heading from '@components/ui/Heading.astro';
+import { launchSolutions } from '@data/launch';
+---
+
+<Section section="launch-solutions" class="launch-solutions" padding="section" container="none">
+  <div class="launch-solutions__head">
+    <Heading level={2} size="lg" class="launch-solutions__title text-center">
+      Explore our AI tools
+    </Heading>
+    <p class="mx-auto text-center text-body leading-[22px] text-white xs:text-body-xl xs:leading-[26px] launch-solutions__lead">
+      Whether you need answers after hours, upkeep, or fresh content, our AI integrations keep your
+      site working at scale.
+    </p>
+  </div>
+  <div class="launch-solutions__tabs" data-tabs>
+    <div
+      class="launch-solutions__menu"
+      role="tablist"
+      aria-label="AI tools"
+      aria-orientation="vertical"
+    >
+      {launchSolutions.map((tab, i) => (
+        <div
+          class:list={['launch-solutions__tab', i === 0 && 'is-current']}
+          data-tab
+          role="tab"
+          tabindex={i === 0 ? 0 : -1}
+          id={`launch-solutions-tab-${i}`}
+          aria-controls={`launch-solutions-pane-${i}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+        >
+          <div class="launch-solutions__toggle">
+            <span>{tab.title}</span>
+            <span class="launch-solutions__icon" aria-hidden="true">
+              <i class="launch-solutions__minus" data-minus></i>
+              <i class="launch-solutions__plus" data-plus></i>
+            </span>
+          </div>
+          <div class="launch-solutions__content" data-content>
+            <p>{tab.text}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="launch-solutions__panes">
+      {launchSolutions.map((tab, i) => (
+        <div
+          class:list={['launch-solutions__pane', i === 0 && 'is-active']}
+          data-pane
+          role="tabpanel"
+          id={`launch-solutions-pane-${i}`}
+          aria-labelledby={`launch-solutions-tab-${i}`}
+        >
+          <LaunchMock variant={tab.mock} size="pane" />
+        </div>
+      ))}
+    </div>
+  </div>
+</Section>
+
+<style>
+  .launch-solutions__title {
+    margin-bottom: var(--spacing-16);
+  }
+  @media (min-width: 992px) {
+    .launch-solutions__title {
+      margin-bottom: var(--spacing-20);
+    }
+  }
+  @media (min-width: 1440px) {
+    .launch-solutions__title {
+      margin-bottom: var(--spacing-24);
+    }
+  }
+  .launch-solutions__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  .launch-solutions__lead {
+    max-width: 600px;
+  }
+  .launch-solutions__tabs {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-16);
+    max-width: 944px;
+    margin: 8px auto 0;
+  }
+  .launch-solutions__menu {
+    display: flex;
+    flex-direction: column;
+    order: 2;
+  }
+  .launch-solutions__tab {
+    position: relative;
+    cursor: pointer;
+    color: var(--color-white);
+  }
+  /* 2px divider (2px, rgba(255,255,255,.1)) drawn as a rule, not a border */
+  .launch-solutions__tab::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--color-white-10);
+  }
+  .launch-solutions__tab:not(:first-child) {
+    margin-top: -2px;
+  }
+  .launch-solutions__tab:focus-visible {
+    outline: 2px solid var(--color-white);
+    outline-offset: 4px;
+  }
+  .launch-solutions__toggle {
+    position: relative;
+    padding: 26px 40px 26px 0;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--text-body);
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+  .launch-solutions__tab:first-child .launch-solutions__toggle {
+    padding-top: 0;
+  }
+  .launch-solutions__icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .launch-solutions__tab:first-child .launch-solutions__icon {
+    bottom: auto;
+    height: 16px;
+  }
+  .launch-solutions__minus,
+  .launch-solutions__plus {
+    position: absolute;
+    display: none;
+    width: 16px;
+    height: 16px;
+  }
+  .launch-solutions__minus::before,
+  .launch-solutions__plus::before,
+  .launch-solutions__plus::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 16px;
+    height: 2px;
+    background: var(--color-white);
+  }
+  .launch-solutions__plus::after {
+    transform: rotate(90deg);
+  }
+  .launch-solutions__plus {
+    display: block;
+  }
+  .launch-solutions__tab.is-current .launch-solutions__plus {
+    display: none;
+  }
+  .launch-solutions__tab.is-current .launch-solutions__minus {
+    display: block;
+  }
+  .launch-solutions__content {
+    display: none;
+    margin-top: -16px;
+    padding-bottom: 32px;
+  }
+  .launch-solutions__tab.is-current .launch-solutions__content {
+    display: block;
+  }
+  .launch-solutions__content p {
+    margin: 0;
+    font-size: var(--text-body);
+    line-height: 22px;
+    color: var(--color-white-70);
+  }
+  .launch-solutions__panes {
+    position: relative;
+    order: 1;
+  }
+  .launch-solutions__pane {
+    position: relative;
+    display: none;
+    aspect-ratio: 343.2 / 263.9;
+    border-radius: 40px;
+    overflow: hidden;
+  }
+  .launch-solutions__pane.is-active {
+    display: block;
+  }
+  @media (min-width: 480px) {
+    .launch-solutions__head {
+      margin-bottom: var(--spacing-40);
+    }
+    .launch-solutions__toggle {
+      font-size: var(--text-body-xl);
+      line-height: 24px;
+    }
+    .launch-solutions__content p {
+      font-size: var(--text-body-xl);
+      line-height: 26px;
+    }
+  }
+  @media (min-width: 768px) {
+    .launch-solutions__head {
+      margin-bottom: 0;
+    }
+    .launch-solutions__tabs {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--spacing-56);
+      align-items: start;
+      margin-top: var(--spacing-40);
+    }
+    .launch-solutions__menu,
+    .launch-solutions__panes {
+      order: 0;
+    }
+    .launch-solutions__toggle {
+      padding: 32px 40px 32px 0;
+    }
+    .launch-solutions__pane {
+      aspect-ratio: 692 / 388.5;
+      border-radius: 64px;
+    }
+  }
+  @media (min-width: 992px) {
+    .launch-solutions__tabs {
+      margin-top: var(--spacing-48);
+    }
+    .launch-solutions__toggle {
+      padding: 40px 40px 40px 0;
+    }
+    .launch-solutions__tab:first-child .launch-solutions__icon {
+      margin-top: 4px;
+    }
+    .launch-solutions__content {
+      padding-bottom: var(--spacing-40);
+    }
+  }
+  @media (min-width: 1440px) {
+    .launch-solutions__tabs {
+      max-width: 1538px;
+      margin-top: var(--spacing-64);
+    }
+    .launch-solutions__toggle {
+      padding: 48px 40px 48px 0;
+    }
+    .launch-solutions__content {
+      padding-bottom: var(--spacing-48);
+    }
+  }
+</style>
+
+<script>
+  import { gsap, ScrollTrigger, ease, onPage, reducedMotion } from '@lib/motion';
+
+  onPage((signal) => {
+    document.querySelectorAll<HTMLElement>('[data-section="launch-solutions"]').forEach((root) => {
+      const tabs = [...root.querySelectorAll<HTMLElement>('[data-tab]')];
+      const panes = [...root.querySelectorAll<HTMLElement>('[data-pane]')];
+      const reduce = reducedMotion();
+      let current = 0;
+      // Tabs swap instantly; the plus icon fades:
+      // -> 0 in 250ms ease when a row opens, -> 1 in 500ms ease when it closes.
+      const select = (i: number, focus = false) => {
+        if (i === current) return;
+        const prev = current;
+        current = i;
+        tabs.forEach((t, k) => {
+          t.classList.toggle('is-current', k === i);
+          t.setAttribute('aria-selected', String(k === i));
+          t.tabIndex = k === i ? 0 : -1;
+        });
+        panes.forEach((p, k) => p.classList.toggle('is-active', k === i));
+        const plusPrev = tabs[prev].querySelector('[data-plus]');
+        const plusNow = tabs[i].querySelector('[data-plus]');
+        if (!reduce) {
+          gsap.fromTo(
+            plusPrev,
+            { opacity: 0 },
+            { opacity: 1, duration: 0.5, ease: ease.css, overwrite: true },
+          );
+          gsap.to(plusNow, { opacity: 0, duration: 0.25, ease: ease.css, overwrite: true });
+        }
+        if (focus) tabs[i].focus();
+        ScrollTrigger.refresh();
+      };
+      tabs.forEach((t, i) => {
+        t.addEventListener('click', () => select(i), { signal });
+        t.addEventListener(
+          'keydown',
+          (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              select(i);
+            }
+            if (e.key === 'ArrowDown') {
+              e.preventDefault();
+              select((i + 1) % tabs.length, true);
+            }
+            if (e.key === 'ArrowUp') {
+              e.preventDefault();
+              select((i - 1 + tabs.length) % tabs.length, true);
+            }
+          },
+          { signal },
+        );
+      });
+    });
+  });
+</script>

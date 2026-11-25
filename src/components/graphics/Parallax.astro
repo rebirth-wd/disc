@@ -1,0 +1,105 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+/**
+ * A floating decor object with scroll parallax (smoothing 80):
+ * translateY goes `from` → `to` while an invisible 2000px-tall trigger travels through the viewport
+ * (progress 0 when the trigger's top meets the viewport bottom, 1 when its bottom leaves the top).
+ * The inner element carries an idle float loop (the parallax itself only moves with scroll).
+ *
+ * Position the object with `class` (styles live in the Feature component). `triggerTop` is a CSS length for the
+ * trigger's offset from the section top (the decor layer spans the section).
+ */
+interface Props extends HTMLAttributes<'div'> {
+  class?: string;
+  from: number;
+  to: number;
+  ease?: 'none' | 'ease';
+  triggerTop: string;
+  triggerHeight?: number;
+  front?: boolean;
+  floatY?: number;
+  floatRot?: number;
+  floatDur?: number;
+}
+const {
+  class: cls = '',
+  from,
+  to,
+  ease = 'none',
+  triggerTop,
+  triggerHeight = 2000,
+  front = false,
+  floatY = 8,
+  floatRot = 3,
+  floatDur = 3.6,
+  ...rest
+} = Astro.props;
+---
+
+<div
+  class="parallax-float__trigger"
+  data-parallax-float-trigger
+  style={`top:${triggerTop};height:${triggerHeight}px;`}
+></div>
+<div
+  class:list={['parallax-float', cls]}
+  data-parallax-float
+  data-from={from}
+  data-to={to}
+  data-ease={ease}
+  data-float-y={floatY}
+  data-float-rot={floatRot}
+  data-float-dur={floatDur}
+  {...(front ? { 'data-decor-front': '' } : {})}
+  {...rest}
+>
+  <div class="parallax-float__inner" data-parallax-float-inner>
+    <slot />
+  </div>
+</div>
+
+<style>
+  .parallax-float__trigger {
+    position: absolute;
+    left: 0;
+    width: 0;
+    pointer-events: none;
+  }
+  .parallax-float {
+    will-change: transform;
+  }
+  .parallax-float__inner {
+    width: 100%;
+    height: 100%;
+  }
+  .parallax-float__inner :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+</style>
+
+<script>
+  import { ease, onPage } from '@lib/motion';
+  import { parallax } from '@lib/parallax';
+
+  onPage(() => {
+    document.querySelectorAll<HTMLElement>('[data-parallax-float]').forEach((el, i) => {
+      parallax(el, {
+        from: Number(el.dataset.from),
+        to: Number(el.dataset.to),
+        // CSS `ease`: the easing between the coin's two keyframes
+        ease: el.dataset.ease === 'ease' ? ease.css : 'none',
+        trigger: el.previousElementSibling,
+        float: {
+          target: el.querySelector('[data-parallax-float-inner]'),
+          y: Number(el.dataset.floatY) || 0,
+          rotation: Number(el.dataset.floatRot) || 0,
+          duration: Number(el.dataset.floatDur) || 3.6,
+          delay: -i * 0.9,
+        },
+      });
+    });
+  });
+</script>

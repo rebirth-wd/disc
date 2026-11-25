@@ -1,0 +1,425 @@
+---
+// Services hero: h1 + copy + CTA + device visual, with three floating objects.
+// Motion:
+//  Scroll parallax — while the title layout scrolls through the viewport, progress 65%→100%:
+//        token y 0→150px, rocket y 0→120px (linear, smoothing 50). Desktop (≥992px) only.
+//  Tuft wobble — looping: skewY 0→10deg, rotate 0→10deg, scale 1→1.1 over 2000ms, back over 2000ms (linear),
+//        started when the visual scrolls into view. ≥768px.
+//  CSS  — CTA glow: opacity 0→1, 0.5s ease on hover/focus/active.
+import ServicesHeroMock from '@components/graphics/mocks/ServicesHeroMock.astro';
+import ServicesObject from '@components/graphics/objects/ServicesObject.astro';
+import Heading from '@components/ui/Heading.astro';
+---
+
+<section data-section="services-hero" data-nav-trigger class="services-hero bg-black text-white">
+  <div class="services-hero__bg" aria-hidden="true"></div>
+  <div class="services-hero__pad">
+    <div class="services-hero__container">
+      <div class="services-hero__layout" data-services-hero-layout>
+        <div class="services-hero__title-wr">
+          <ServicesObject kind="token" class="services-hero__token" data-services-hero-token />
+          <div class="services-hero__title">
+            <Heading level={1} size="xl" class="services-hero__h1 text-center">
+              Start your
+              <br class="services-hero__br" /> <span class="services-hero__web">web</span>site
+              wherever
+              <br class="services-hero__br" /> you work
+            </Heading>
+          </div>
+          <div class="services-hero__copy">
+            <p class="services-hero__p font-body font-normal text-white">
+              Rebirth Online builds fast, secure, static-first websites on a modern web
+              architecture. Start on desktop, mobile or by phone.
+            </p>
+            <div class="services-hero__spacer"></div>
+          </div>
+          <div class="services-hero__btn-wr">
+            <a href="#services-platforms" class="services-hero__btn">
+              <svg
+                class="services-hero__btn-icon"
+                viewBox="0 0 20 20"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M10 2.5v10m0 0 4-4m-4 4-4-4M3.5 16.5h13"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span class="services-hero__btn-text">Start Your Project</span>
+            </a>
+            <span class="services-hero__btn-hover"></span>
+            <span class="services-hero__btn-bg"></span>
+          </div>
+        </div>
+      </div>
+      <div class="services-hero__visual" data-services-hero-visual>
+        <ServicesObject kind="rocket" class="services-hero__rocket" data-services-hero-rocket />
+        <ServicesHeroMock />
+        <div class="services-hero__egg-wr">
+          <ServicesObject kind="tuft" class="services-hero__tuft" data-services-hero-tuft />
+          <ServicesObject kind="egg" class="services-hero__egg" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .services-hero {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 112px;
+    text-align: center;
+  }
+  /* blurple glow at the top centre falling to black by ~1000px */
+  .services-hero__bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.32) 0%,
+        var(--color-black-8) 28%,
+        var(--color-black-0) 50%,
+        var(--color-black-8) 72%,
+        rgba(0, 0, 0, 0.32) 100%
+      ),
+      linear-gradient(
+        180deg,
+        #4b57d1 0px,
+        #4551c2 100px,
+        #3e49b0 200px,
+        #37409a 300px,
+        #2e3682 400px,
+        #252b68 500px,
+        #1b1f4d 600px,
+        #121534 700px,
+        #0b0d22 800px,
+        #030308 1000px,
+        var(--color-black) 1100px
+      );
+  }
+  .services-hero__pad {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    padding: 0 6vw;
+    box-sizing: border-box;
+  }
+  .services-hero__container {
+    position: relative;
+    z-index: 2;
+    max-width: 944px;
+    margin: 0 auto;
+  }
+  .services-hero__layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .services-hero__title-wr {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 710px;
+  }
+  .services-hero__title {
+    width: 100%;
+    max-width: 710px;
+    margin: 0 auto;
+  }
+  .services-hero__h1 {
+    margin-bottom: 16px;
+  }
+  .services-hero__br {
+    display: none;
+  }
+  .services-hero__p {
+    font-size: var(--text-body);
+    line-height: 22px;
+    margin: 0;
+  }
+  .services-hero__spacer {
+    padding-bottom: 32px;
+  }
+
+  .services-hero__btn-wr {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 2px;
+    border-radius: var(--radius-buttons);
+    color: var(--color-white);
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+  .services-hero__btn {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    height: 48px;
+    padding: 15px var(--spacing-24) 14px;
+    border-radius: var(--radius-buttons);
+    color: inherit;
+    text-decoration: none;
+  }
+  .services-hero__btn:focus-visible {
+    outline: 2px solid var(--color-signal-green);
+    outline-offset: -2px;
+  }
+  .services-hero__btn-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 7px;
+    flex: none;
+  }
+  .services-hero__btn-text {
+    position: relative;
+    z-index: 3;
+  }
+  .services-hero__btn-hover {
+    position: absolute;
+    z-index: 1;
+    top: 85%;
+    width: 150%;
+    height: 71px;
+    border-radius: 100%;
+    background-color: var(--color-dusk-indigo);
+    filter: blur(30px);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+  .services-hero__btn-wr:hover .services-hero__btn-hover,
+  .services-hero__btn-wr:active .services-hero__btn-hover,
+  .services-hero__btn-wr:focus-within .services-hero__btn-hover {
+    opacity: 1;
+  }
+  .services-hero__btn-bg {
+    position: absolute;
+    inset: 0;
+    margin: 2px;
+    border-radius: var(--radius-buttons);
+    background-color: var(--surface-blurple-action);
+  }
+
+  .services-hero__visual {
+    position: relative;
+    margin-top: 56px;
+  }
+  .services-hero :global(.services-hero__token) {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    will-change: transform;
+  }
+  .services-hero :global(.services-hero__rocket) {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: -22.4px;
+    width: 89px;
+    height: 89px;
+    margin-top: -46.4px;
+    will-change: transform;
+  }
+  .services-hero__egg-wr {
+    display: none;
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    bottom: 0;
+    text-align: left;
+  }
+  .services-hero :global(.services-hero__tuft) {
+    display: block;
+    position: relative;
+    top: 19px;
+    left: 11px;
+    width: 41%;
+    height: auto;
+    margin-bottom: -16px;
+    will-change: transform;
+  }
+  .services-hero :global(.services-hero__egg) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  @media (min-width: 768px) {
+    .services-hero {
+      padding-top: 160px;
+    }
+    .services-hero__pad {
+      padding: 0 var(--spacing-40);
+    }
+    .services-hero__h1 {
+      margin-bottom: 20px;
+    }
+    .services-hero__p {
+      font-size: var(--text-body-xl);
+      line-height: 26px;
+    }
+    .services-hero__btn-wr {
+      font-size: var(--text-nav);
+    }
+    .services-hero__btn-icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 8.5px;
+    }
+    .services-hero__visual {
+      margin-top: 87px;
+    }
+    .services-hero :global(.services-hero__token) {
+      display: block;
+      width: 128px;
+      height: 128px;
+      margin: -93.8px 0 0 -59.2px;
+    }
+    .services-hero :global(.services-hero__rocket) {
+      right: -30px;
+      width: 150px;
+      height: 150px;
+      margin-top: -160px;
+    }
+    .services-hero__egg-wr {
+      display: block;
+      width: 192px;
+      margin: 0 0 -51.2px -41.4px;
+    }
+  }
+  @media (min-width: 992px) {
+    .services-hero__pad {
+      padding: 0 80px;
+    }
+    .services-hero__title-wr {
+      max-width: 774px;
+    }
+    .services-hero__br {
+      display: inline;
+    }
+    .services-hero__web {
+      display: none;
+    }
+    .services-hero__spacer {
+      padding-bottom: var(--spacing-40);
+    }
+    .services-hero :global(.services-hero__token) {
+      width: 137px;
+      height: 137px;
+      margin: -73px 0 0 -93.2px;
+    }
+    .services-hero :global(.services-hero__rocket) {
+      margin-top: -201.2px;
+    }
+    .services-hero__egg-wr {
+      margin-bottom: -33.6px;
+    }
+  }
+  @media (min-width: 1440px) {
+    .services-hero {
+      padding-top: var(--spacing-176);
+    }
+    .services-hero__pad {
+      padding: 0 120px;
+    }
+    .services-hero__container {
+      max-width: 1538px;
+    }
+    .services-hero__title-wr,
+    .services-hero__title {
+      max-width: 924px;
+    }
+    .services-hero__h1 {
+      margin-bottom: var(--spacing-24);
+    }
+    .services-hero__btn-icon {
+      margin-right: 13.5px;
+    }
+    .services-hero__visual {
+      max-width: 961px;
+      margin: 120px auto 0;
+    }
+    .services-hero :global(.services-hero__token) {
+      width: 170px;
+      height: 170px;
+      margin: -68px 0 0 -186px;
+    }
+    .services-hero :global(.services-hero__rocket) {
+      right: -82px;
+      width: 170px;
+      height: 170px;
+      margin-top: -169.6px;
+    }
+    .services-hero__egg-wr {
+      width: 282px;
+      margin: 0 0 -73.6px -78px;
+    }
+  }
+</style>
+
+<script>
+  import { gsap, ScrollTrigger, motion, onPage, MQ } from '@lib/motion';
+
+  onPage(() => {
+    const root = document.querySelector<HTMLElement>('[data-section="services-hero"]');
+    // Scroll parallax on the title layout: progress runs from start "top bottom" to end "bottom top". Keyframes: 65% → y 0, 100% → y 150 / 120 (linear).
+    motion(
+      root,
+      (root) => {
+        const layout = root.querySelector('[data-services-hero-layout]');
+        const tl = gsap.timeline({
+          defaults: { ease: 'none' },
+          scrollTrigger: { trigger: layout, start: 'top bottom', end: 'bottom top', scrub: 0.5 },
+        });
+        tl.to({}, { duration: 0.65 })
+          .fromTo('[data-services-hero-token]', { y: 0 }, { y: 150, duration: 0.35 }, 0.65)
+          .fromTo('[data-services-hero-rocket]', { y: 0 }, { y: 120, duration: 0.35 }, 0.65);
+      },
+      MQ.lg,
+    );
+    // looping tuft wobble, 2s out + 2s back, linear; starts when the visual enters the viewport.
+    motion(
+      root,
+      (root) => {
+        const tuft = root.querySelector('[data-services-hero-tuft]');
+        gsap.set(tuft, { transformOrigin: '50% 50%' });
+        const loop = gsap
+          .timeline({ repeat: -1, paused: true, defaults: { ease: 'none', duration: 2 } })
+          .fromTo(
+            tuft,
+            { skewY: 0, rotation: 0, scale: 1 },
+            { skewY: 10, rotation: 10, scale: 1.1 },
+          )
+          .to(tuft, { skewY: 0, rotation: 0, scale: 1 });
+        ScrollTrigger.create({
+          trigger: root.querySelector('[data-services-hero-visual]'),
+          start: 'top bottom',
+          end: 'bottom top',
+          onEnter: () => loop.play(),
+          onEnterBack: () => loop.play(),
+          onLeave: () => loop.pause(),
+          onLeaveBack: () => loop.pause(),
+        });
+      },
+      MQ.md,
+    );
+  });
+</script>

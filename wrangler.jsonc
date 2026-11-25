@@ -1,13 +1,16 @@
 {
-  // Cloudflare Workers static-assets deployment of the Astro build.
-  // Deploy: npm run build && npx wrangler deploy
+  // Astro on Cloudflare Workers: the adapter's server entrypoint handles on-demand routes,
+  // prerendered pages are served from the static-assets binding.
   "$schema": "node_modules/wrangler/config-schema.json",
+  "main": "@astrojs/cloudflare/entrypoints/server",
   "name": "disc",
   "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
+    "binding": "ASSETS",
     "directory": "./dist"
   },
-  // Worker Previews (branch builds via `npx wrangler preview`). Static assets only,
-  // no bindings, so nothing to isolate; block is required but can be empty.
+  "observability": { "enabled": true },
+  // Worker Previews: branch builds via `npx wrangler preview`. The block is required but can stay empty.
   "previews": {}
 }
